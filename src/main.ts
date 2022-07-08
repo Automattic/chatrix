@@ -101,6 +101,7 @@ function allowsChild(parent, child) {
 }
 
 function hideOnError() {
+    return;
     // When an error occurs, log it and then hide everything!
     const handler = e => {
         Sentry.captureException(e, { tags: {

@@ -54,7 +54,7 @@ function createNotificationBadge() {
 function loadCSS() {
     const linkElement = document.createElement("link") as HTMLLinkElement;
     linkElement.rel = "stylesheet";
-    linkElement.href = new URL("CSS_FILE_NAME", parentHostRoot).href;
+    linkElement.href = new URL("parent-style.css", parentHostRoot).href;
     document.head.appendChild(linkElement);
 }
 
