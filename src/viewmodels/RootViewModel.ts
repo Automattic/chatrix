@@ -71,7 +71,7 @@ export class RootViewModel extends ViewModel {
             this.navigation.push("timeline");
             return;
         }
-        this.navigation.push("account-setup");
+        this.navigation.push("login");
     }
 
     private async _showTimeline(loginPromise: Promise<void>) {
