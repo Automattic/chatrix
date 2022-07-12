@@ -20,11 +20,6 @@ export interface IChatterboxConfig {
 	password: string;
     // Internal room-id of the room to which chatterbox should join
 	auto_join_room: string;
-    // String that is to be prepended to the generated random usernames
-    username_prefix: string;
-    // If specified, chatterbox will create a dm with this user
-    // This option takes precedence over 'auto_join_room'
-    invite_user: string;
     // Configurations for header on chatterbox (containing title, avatar, minimize button)
     header: IHeader;
     // Configurations for footer on chatterbox (containing what links to use)
