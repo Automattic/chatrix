@@ -69,9 +69,7 @@ async function main() {
         });
         Sentry.setTag("homeserver", config.homeserver);
 
-        if (config.invite_user) {
-            Sentry.setTag("mode", "invite_user");
-        } else if (config.auto_join_room) {
+        if (config.auto_join_room) {
             Sentry.setTag("mode", "auto_join_room");
         } else {
             Sentry.setTag("mode", "unknown");
