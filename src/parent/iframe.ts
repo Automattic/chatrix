@@ -18,10 +18,12 @@ import { isMobile } from "./common";
 
 const sizeCollection = {
     "desktop": {
+        "login": { height: "334px", width: "375px" },
         "account-setup": { height: "334px", width: "375px" },
         "timeline": {height: "595px", width: "375px"}
     },
     "mobile": {
+        "login": { height: "100vh", width: "100vw" },
         "account-setup": { height: "100vh", width: "100vw" },
         "timeline": {height: "100vh", width: "100vw"}
     }
