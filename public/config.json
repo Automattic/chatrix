@@ -1,7 +1,8 @@
 {
     "homeserver": "https://your-homeserver.com",
     "auto_join_room": "Internal matrix id of the room",
-    "username_prefix": "foobar",
+    "username": "foo",
+    "password": "bar",
     "header": {
         "title": "Your Fancy Title",
         "avatar": "https://link_to_avatar/awesome.png"
