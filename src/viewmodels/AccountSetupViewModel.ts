@@ -24,6 +24,7 @@ export class AccountSetupViewModel extends ViewModel {
     private _config: IChatterboxConfig;
     private _client: typeof Client;
     private _startStage?: any;
+    private _username: string;
     private _password: string;
     private _registration: any;
     private _privacyPolicyLink: string;
@@ -33,6 +34,10 @@ export class AccountSetupViewModel extends ViewModel {
         super(options);
         this._client = options.client;
         this._config = options.config;
+        // temporarily get username and password of the user we are working with from the config
+        this._username = options.config.username;
+        this._password = options.config.password;
+
         this._startRegistration();
     }
 

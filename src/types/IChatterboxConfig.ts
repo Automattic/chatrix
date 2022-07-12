@@ -16,6 +16,8 @@ limitations under the License.
 
 export interface IChatterboxConfig {
 	homeserver: string;
+	username: string;
+	password: string;
     // Internal room-id of the room to which chatterbox should join
 	auto_join_room: string;
     // String that is to be prepended to the generated random usernames
@@ -24,7 +26,7 @@ export interface IChatterboxConfig {
     // This option takes precedence over 'auto_join_room'
     invite_user: string;
     // If set to true, chatterbox will not let the user send any messages until the operator has joined
-    // Only applicable when invite_user is configured 
+    // Only applicable when invite_user is configured
     disable_composer_until_operator_join: boolean;
     // If set to true, the room created for DM is encrypted
     encrypt_room: boolean;
