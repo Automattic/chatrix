@@ -20,8 +20,6 @@ import { RootViewModel } from "./viewmodels/RootViewModel";
 import { RootView } from "./ui/views/RootView";
 import downloadSandboxPath from "hydrogen-view-sdk/download-sandbox.html?url";
 import workerPath from "hydrogen-view-sdk/main.js?url";
-import * as Sentry from "@sentry/browser";
-import { BrowserTracing } from "@sentry/tracing";
 
 const assetPaths = {
     downloadSandbox: downloadSandboxPath,
@@ -53,21 +51,6 @@ async function main() {
     root.className = "hydrogen";
     const config = await fetchConfig();
 
-    if (config.sentry) {
-        Sentry.init({
-            dsn: config.sentry.dsn,
-            environment: config.sentry.environment,
-            integrations: [new BrowserTracing()],
-        });
-        Sentry.setTag("homeserver", config.homeserver);
-
-        if (config.auto_join_room) {
-            Sentry.setTag("mode", "auto_join_room");
-        } else {
-            Sentry.setTag("mode", "unknown");
-        }
-    }
-
     const platform = new Platform({container: root, assetPaths, config: {}, options: { development: import.meta.env.DEV }});
     const navigation = new Navigation(allowsChild);
     platform.setNavigation(navigation);
@@ -92,9 +75,6 @@ function allowsChild(parent, child) {
 function hideOnError() {
     // When an error occurs, log it and then hide everything!
     const handler = e => {
-        Sentry.captureException(e, { tags: {
-            "fatalError": true
-        }});
         if (e.message === "ResizeObserver loop completed with undelivered notifications." ||
             e.message === "ResizeObserver loop limit exceeded" ||
             // hydrogen renders an <img> with src = undefined while the image is being decrypted
