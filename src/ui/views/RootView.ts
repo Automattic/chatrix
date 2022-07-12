@@ -18,6 +18,7 @@ import { TemplateView } from "hydrogen-view-sdk";
 import { RootViewModel } from "../../viewmodels/RootViewModel";
 import { AccountSetupView } from "./AccountSetupView";
 import { ChatterboxView } from "./ChatterboxView";
+import { LoginView } from "./LoginView";
 
 export class RootView extends TemplateView<RootViewModel> {
     constructor(value) {
@@ -28,6 +29,8 @@ export class RootView extends TemplateView<RootViewModel> {
         return t.mapView(vm => vm.activeSection, section => {
             (window as any).sendViewChangeToParent(section);
             switch(section) {
+                case "login":
+                    return new LoginView(vm.loginViewModel);
                 case "account-setup":
                     return new AccountSetupView(vm.accountSetupViewModel);
                 case "timeline":
