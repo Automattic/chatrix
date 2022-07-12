@@ -20,20 +20,12 @@ import { RootViewModel } from "./viewmodels/RootViewModel";
 import { RootView } from "./ui/views/RootView";
 import downloadSandboxPath from "hydrogen-view-sdk/download-sandbox.html?url";
 import workerPath from "hydrogen-view-sdk/main.js?url";
-import olmWasmPath from "@matrix-org/olm/olm.wasm?url";
-import olmJsPath from "@matrix-org/olm/olm.js?url";
-import olmLegacyJsPath from "@matrix-org/olm/olm_legacy.js?url";
 import * as Sentry from "@sentry/browser";
 import { BrowserTracing } from "@sentry/tracing";
 
 const assetPaths = {
     downloadSandbox: downloadSandboxPath,
     worker: workerPath,
-    olm: {
-        wasm: olmWasmPath,
-        legacyBundle: olmLegacyJsPath,
-        wasmBundle: olmJsPath,
-    },
 };
 
 const rootDivId = "#chatterbox";
