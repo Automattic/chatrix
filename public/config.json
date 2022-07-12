@@ -12,8 +12,5 @@
         "matrix_link": "https://matrix.org"
     },
     "token": "Valid Token to be used with Token Authenticated Registration",
-    "invite_user": "@botuser:your-homeserver.com",
-    "encrypt_room": false,
-    "avatar": "https://bitcoin.org/img/icons/opengraph.png?1656252469",
-    "disable_composer_until_operator_join": false
+    "avatar": "https://bitcoin.org/img/icons/opengraph.png?1656252469"
 }

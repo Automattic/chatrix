@@ -68,7 +68,6 @@ async function main() {
             integrations: [new BrowserTracing()],
         });
         Sentry.setTag("homeserver", config.homeserver);
-        Sentry.setTag("encrypt_room", config.encrypt_room);
 
         if (config.invite_user) {
             Sentry.setTag("mode", "invite_user");
