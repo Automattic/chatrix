@@ -28,13 +28,17 @@ export class PasswordLoginView extends TemplateView<LoginViewModel> {
             id: "username",
             type: "text",
             placeholder: vm.i18n`Username`,
-            disabled: "disabled"
+            // Field is Hardcoded to the value from config for now.
+            // TODO: Remove the following line to remove hardcoded default username.
+            value: vm.username,
         });
         const password = t.input({
             id: "password",
             type: "password",
             placeholder: vm.i18n`Password`,
-            disabled: "disabled"
+            // Field is Hardcoded to the value from config for now.
+            // TODO: Remove the following line to remove hardcoded default password.
+            value: vm.password,
         });
         const submit = t.button({
             className: "button-action primary",
