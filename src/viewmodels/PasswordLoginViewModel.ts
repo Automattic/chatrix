@@ -37,4 +37,8 @@ export class PasswordLoginViewModel extends ViewModel {
     get password() {
         return this._password;
     }
+
+    async login(username: string, password: string) {
+        console.log(username, password);
+    }
 }
