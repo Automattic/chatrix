@@ -14,17 +14,33 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { ViewModel } from "hydrogen-view-sdk";
+import {ViewModel} from "hydrogen-view-sdk";
 import "hydrogen-view-sdk/style.css";
+import {PasswordLoginViewModel} from "./PasswordLoginViewModel";
+import {IChatterboxConfig} from "../types/IChatterboxConfig";
 
 export class LoginViewModel extends ViewModel {
+    private readonly _config: IChatterboxConfig;
+    private readonly _passwordLoginViewModel: PasswordLoginViewModel;
+
     constructor(options) {
         super(options);
+        this._config = options.config;
+        this._passwordLoginViewModel = this.track(new PasswordLoginViewModel(
+            this.childOptions({
+                config: this._config,
+                state: this._state,
+            })
+        ));
     }
 
     minimize(): void {
         (window as any).sendMinimizeToParent();
         this.navigation.push("minimize");
+    }
+
+    get passwordLoginViewModel() {
+        return this._passwordLoginViewModel
     }
 
     get footerViewModel() {

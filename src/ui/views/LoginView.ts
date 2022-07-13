@@ -16,8 +16,8 @@ limitations under the License.
 
 import { TemplateView } from "hydrogen-view-sdk";
 import { LoginViewModel } from "../../viewmodels/LoginViewModel";
-import { LoadingView } from "./LoadingView";
 import { FooterView } from "./FooterView";
+import {PasswordLoginView} from "./PasswordLoginView";
 
 export class LoginView extends TemplateView<LoginViewModel> {
     constructor(value) {
@@ -25,12 +25,9 @@ export class LoginView extends TemplateView<LoginViewModel> {
     }
 
     render(t, vm: LoginViewModel) {
-        return t.div(
-            { className: "LoginView" },
-            [
-                t.view(new LoadingView()),
-                t.view(new FooterView(vm.footerViewModel)),
-            ]
-        );
+        return t.div({ className: "LoginView" }, [
+            t.view(new PasswordLoginView(vm.passwordLoginViewModel)),
+            t.view(new FooterView(vm.footerViewModel)),
+        ]);
     }
 }
