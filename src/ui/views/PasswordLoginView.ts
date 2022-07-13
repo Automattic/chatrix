@@ -43,14 +43,13 @@ export class PasswordLoginView extends TemplateView<LoginViewModel> {
         const submit = t.button({
             className: "button-action primary",
             type: "submit",
-            disabled: "disabled"
         }, vm.i18n`Log In`);
 
         return t.div({ className: "PasswordLoginView" }, [
             t.form({
                 onSubmit: evnt => {
                     evnt.preventDefault();
-                    // TODO
+                    vm.login(username.value, password.value);
                 }
             }, [
                 t.if(vm => vm.errorMessage, (t, vm) => t.p({className: "error"}, vm.i18n(vm.errorMessage))),
