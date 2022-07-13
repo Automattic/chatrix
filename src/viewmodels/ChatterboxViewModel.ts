@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { RoomViewModel, ViewModel, RoomStatus } from "hydrogen-view-sdk";
+import { RoomViewModel, ViewModel } from "hydrogen-view-sdk";
 import { createCustomTileClassForEntry } from "./tiles";
 
 export class ChatterboxViewModel extends ViewModel {
@@ -32,13 +32,10 @@ export class ChatterboxViewModel extends ViewModel {
         // wait until login is completed
         await this._loginPromise;
         let room;
-        if (this._options.config["invite_user"]) {
-            room = await this.createRoomWithUserSpecifiedInConfig();
-        } else if(this._options.config["auto_join_room"]) {
+        if(this._options.config["auto_join_room"]) {
             room = await this.joinRoomSpecifiedInConfig();
-        }
-        else {
-            throw new Error("ConfigError: You must either specify 'invite_user' or 'auto_join_room'");
+        } else {
+            throw new Error("ConfigError: You must specify 'auto_join_room'");
         }
         this._roomViewModel = this.track(new RoomViewModel(this.childOptions({
             room,
@@ -57,44 +54,6 @@ export class ChatterboxViewModel extends ViewModel {
         this.emitChange("roomViewModel");
     }
 
-    private async createRoomWithUserSpecifiedInConfig() {
-        const userId = this._options.config["invite_user"];
-        const ownUserId = this._session.userId;
-        let room = await this.findPreviouslyCreatedRoom();
-        if (room) {
-            // we already have a room with this user
-            return room;
-        }
-        const powerLevelContent = this._options.config["disable_composer_until_operator_join"] ? {
-            users: {
-                [userId]: 100,
-                [ownUserId]: 60
-            },
-            events: {
-                "m.room.message": 80,
-            },
-            redact: 90
-        } : null;    
-        const roomBeingCreated = this._session.createRoom({
-            type: 1, //todo: use enum from hydrogen-sdk here
-            name: undefined,
-            topic: undefined,
-            isEncrypted: this._options.config["encrypt_room"] ?? false,
-            isFederationDisabled: false,
-            alias: undefined,
-            avatar: undefined,
-            invites: [userId],
-            powerLevelContentOverride: powerLevelContent,
-        });
-        const roomStatusObservable = await this._session.observeRoomStatus(roomBeingCreated.id);
-        await roomStatusObservable.waitFor(status => status === (RoomStatus.BeingCreated | RoomStatus.Replaced)).promise;
-        const roomId = roomBeingCreated.roomId;
-        await this.platform.settingsStorage.setString("created-room-id", roomId);
-        await this.platform.settingsStorage.setString("invite-user", userId);
-        room = this._session.rooms.get(roomId);
-        return room;
-    }
-
     private async joinRoomSpecifiedInConfig() {
         const roomId = this._options.config["auto_join_room"];
         let room = this._session.rooms.get(roomId);
@@ -103,7 +62,7 @@ export class ChatterboxViewModel extends ViewModel {
             await this._session.joinRoom(roomId);
             // even though we've joined the room, we need to wait till the next sync to get the room
             await this._waitForRoomFromSync(roomId);
-            room = this._session.rooms.get(roomId); 
+            room = this._session.rooms.get(roomId);
         }
         return room;
     }
@@ -124,16 +83,6 @@ export class ChatterboxViewModel extends ViewModel {
         this._session.rooms.subscribe(subscription);
         return promise;
     }
-    
-    private async findPreviouslyCreatedRoom(): Promise<any | null> {
-        const createdRoomId = await this.platform.settingsStorage.getString("created-room-id");
-        const lastKnownInviteUserId = await this.platform.settingsStorage.getString("invite-user");
-        const currentInviteUserId = this._options.config["invite_user"];
-        if (createdRoomId && lastKnownInviteUserId === currentInviteUserId) {
-            return this._session.rooms.get(createdRoomId);
-        }
-        return null;
-    }
 
     dispose() {
         super.dispose();
@@ -152,7 +101,7 @@ export class ChatterboxViewModel extends ViewModel {
     get messageComposerViewModel() {
         return this._roomViewModel?.composerViewModel;
     }
-    
+
     get roomViewModel() {
         return this._roomViewModel;
     }

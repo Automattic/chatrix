@@ -16,18 +16,10 @@ limitations under the License.
 
 export interface IChatterboxConfig {
 	homeserver: string;
+	username: string;
+	password: string;
     // Internal room-id of the room to which chatterbox should join
 	auto_join_room: string;
-    // String that is to be prepended to the generated random usernames
-    username_prefix: string;
-    // If specified, chatterbox will create a dm with this user
-    // This option takes precedence over 'auto_join_room'
-    invite_user: string;
-    // If set to true, chatterbox will not let the user send any messages until the operator has joined
-    // Only applicable when invite_user is configured 
-    disable_composer_until_operator_join: boolean;
-    // If set to true, the room created for DM is encrypted
-    encrypt_room: boolean;
     // Configurations for header on chatterbox (containing title, avatar, minimize button)
     header: IHeader;
     // Configurations for footer on chatterbox (containing what links to use)
@@ -36,13 +28,6 @@ export interface IChatterboxConfig {
     token: string;
     // URL of the image that should be used as the users avatar
     avatar: string;
-    // Configure this to enable Sentry (sentry.io) tracing.
-    sentry?: {
-        // The DSN URL where Sentry reports will be sent.
-        dsn: string;
-        // The environment to report to Sentry. E.g. "staging", "production"
-        environment: string;
-    }
 }
 
 interface IHeader {
