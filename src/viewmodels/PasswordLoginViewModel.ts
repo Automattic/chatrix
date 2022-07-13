@@ -22,12 +22,14 @@ export class PasswordLoginViewModel extends ViewModel {
     private readonly _config: IChatterboxConfig;
     private _username: string;
     private _password: string;
+    private _errorMessage: string;
 
     constructor(options) {
         super(options);
         this._config = options.config;
         this._username = this._config.username;
         this._password = this._config.password;
+        this._errorMessage = "";
     }
 
     get username() {
@@ -38,7 +40,16 @@ export class PasswordLoginViewModel extends ViewModel {
         return this._password;
     }
 
+    get errorMessage() {
+        return this._errorMessage;
+    }
+
+    _showError(message) {
+        this._errorMessage = message;
+        this.emitChange("errorMessage");
+    }
+
     async login(username: string, password: string) {
-        console.log(username, password);
+        this._showError("")
     }
 }
