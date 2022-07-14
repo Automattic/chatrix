@@ -34,40 +34,45 @@ function a8c_orbit_chatrix_settings() {
         'default-matrix-room',
         'Default Matrix room',
 		function() {
-			$settings = get_option( 'a8c_orbit_chatrix_settings' );
+			$settings = get_option( 'a8c_orbit_chatrix_settings', [] );
 
 			// cleanup, since we are hacking Settings API to work for ourselves in a certain way
-			$modified = false;
-			foreach ( $settings['overrides'] as $key => $override ) {
-				if ( empty( trim( $override['room'] ) ) || empty( $override['pages'] ) ) {
-					unset( $settings['overrides'][$key] );
-					$modified = true;
+			if ( isset( $settings['overrides' ] ) ) {
+				$modified = false;
+				foreach ( $settings['overrides'] as $key => $override ) {
+					if ( empty( trim( $override['room'] ) ) || empty( $override['pages'] ) ) {
+						unset( $settings['overrides'][$key] );
+						$modified = true;
+					}
+				}
+				if ( $modified ) {
+					update_option( 'a8c_orbit_chatrix_settings', $settings );
 				}
 			}
-			if ( $modified ) {
-				update_option( 'a8c_orbit_chatrix_settings', $settings );
-			}
 
+			// Show form fields
 			?>
 			<input type="text" name="a8c_orbit_chatrix_settings[default_matrix_room]" value="<?php echo isset( $settings['default_matrix_room'] ) ? esc_attr( $settings['default_matrix_room'] ) : ''; ?>" class="regular-text">
 			<p class="description">Enter default matrix room to embed on all pages on your website.</p>
 			<p class="description">If you only want to embed Matrix chat room on certain pages, leave this field empty and only fill out overrides below.</p>
 			<h3>Overrides</h3>
 			<?php $key = 0; ?>
-			<?php foreach ( $settings['overrides'] as $key => $override ) { ?>
-				<div class="a8c-orbit-chatrix-overrides">
-					<p class="description">Embed this room
-						<input type="text" name="a8c_orbit_chatrix_settings[overrides][<?php echo $key ?>][room]" value="<?php echo isset( $override['room'] ) ? esc_attr( $override['room'] ) : ''; ?>" class="regular-text">
-						on these pages:
+			<?php if ( isset( $settings['overrides'] ) ) { ?>
+				<?php foreach ( $settings['overrides'] as $key => $override ) { ?>
+					<div class="a8c-orbit-chatrix-overrides">
+						<p class="description">Embed this room
+							<input type="text" name="a8c_orbit_chatrix_settings[overrides][<?php echo $key ?>][room]" value="<?php echo isset( $override['room'] ) ? esc_attr( $override['room'] ) : ''; ?>" class="regular-text">
+							on these pages:
 
-						<select multiple name="a8c_orbit_chatrix_settings[overrides][<?php echo $key ?>][pages][]">
-						<?php foreach ( get_pages() as $page ) { ?>
-								<option value="<?php echo $page->ID ?>" <?php echo in_array( $page->ID, $override['pages'] ) ? 'selected' : ''; ?>><?php echo $page->post_title ?></option>
-							<?php } ?>
-						</select>
-					</p>
-				</div>
-				<br />
+							<select multiple name="a8c_orbit_chatrix_settings[overrides][<?php echo $key ?>][pages][]">
+							<?php foreach ( get_pages() as $page ) { ?>
+									<option value="<?php echo $page->ID ?>" <?php echo in_array( $page->ID, $override['pages'] ) ? 'selected' : ''; ?>><?php echo $page->post_title ?></option>
+								<?php } ?>
+							</select>
+						</p>
+					</div>
+					<br />
+				<?php } ?>
 			<?php } ?>
 			<?php
 			// Show additional set of fields to add new entry for overrides
