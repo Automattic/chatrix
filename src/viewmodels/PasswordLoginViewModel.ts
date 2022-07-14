@@ -49,7 +49,9 @@ export class PasswordLoginViewModel extends ViewModel {
         this.emitChange("errorMessage");
     }
 
+    // @ts-ignore remove this line once method is implemented
     async login(username: string, password: string) {
         this._showError("")
+        // TODO: Implement me
     }
 }
