@@ -18,6 +18,7 @@ import { TemplateView } from "hydrogen-view-sdk";
 import { LoginViewModel } from "../../viewmodels/LoginViewModel";
 import { FooterView } from "./FooterView";
 import {PasswordLoginView} from "./PasswordLoginView";
+import {SSOBeginView} from "./SSOBeginView";
 
 export class LoginView extends TemplateView<LoginViewModel> {
     constructor(value) {
@@ -27,6 +28,7 @@ export class LoginView extends TemplateView<LoginViewModel> {
     render(t, vm: LoginViewModel) {
         return t.div({ className: "LoginView" }, [
             t.view(new PasswordLoginView(vm.passwordLoginViewModel)),
+            t.view(new SSOBeginView(vm.ssoBeginViewModel)),
             t.view(new FooterView(vm.footerViewModel)),
         ]);
     }

@@ -18,15 +18,23 @@ import {ViewModel} from "hydrogen-view-sdk";
 import "hydrogen-view-sdk/style.css";
 import {PasswordLoginViewModel} from "./PasswordLoginViewModel";
 import {IChatterboxConfig} from "../types/IChatterboxConfig";
+import {SSOBeginViewModel} from "./SSOBeginViewModel";
 
 export class LoginViewModel extends ViewModel {
     private readonly _config: IChatterboxConfig;
     private readonly _passwordLoginViewModel: PasswordLoginViewModel;
+    private readonly _ssoBeginViewModel: SSOBeginViewModel;
 
     constructor(options) {
         super(options);
         this._config = options.config;
         this._passwordLoginViewModel = this.track(new PasswordLoginViewModel(
+            this.childOptions({
+                config: this._config,
+                state: this._state,
+            })
+        ));
+        this._ssoBeginViewModel = this.track(new SSOBeginViewModel(
             this.childOptions({
                 config: this._config,
                 state: this._state,
@@ -41,6 +49,10 @@ export class LoginViewModel extends ViewModel {
 
     get passwordLoginViewModel() {
         return this._passwordLoginViewModel
+    }
+
+    get ssoBeginViewModel() {
+        return this._ssoBeginViewModel
     }
 
     get footerViewModel() {
