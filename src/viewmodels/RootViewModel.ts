@@ -102,6 +102,7 @@ export class RootViewModel extends ViewModel {
                 client: this._client,
                 config: this._config,
                 state: this._state,
+                platform: this.platform,
                 footerVM: this._footerViewModel,
             })
         ));
