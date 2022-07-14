@@ -27,7 +27,7 @@ export class SSOBeginView extends TemplateView<SSOBeginViewModel> {
             t.button({
                 className: "SSOBeginView_button button-action secondary",
                 type: "button",
-                onClick: () => vm.startSSOLogin(),
+                onClick: () => vm.beginSSO(),
                 disabled: vm => vm.isBusy
             }, vm.i18n`Log in with SSO`)
         );

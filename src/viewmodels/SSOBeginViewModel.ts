@@ -29,4 +29,14 @@ export class SSOBeginViewModel extends ViewModel {
     get homeserver() {
         return this._config.homeserver
     }
+
+    async beginSSO() {
+        await this.platform.settingsStorage.setString("sso_ongoing_login_homeserver", this.homeserver);
+        this.redirect()
+    }
+
+    private redirect() {
+        const returnURL = window.location.origin
+        document.location.href = `${this.homeserver}/_matrix/client/r0/login/sso/redirect?redirectUrl=${returnURL}`;
+    }
 }
