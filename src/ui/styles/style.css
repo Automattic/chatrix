@@ -242,3 +242,14 @@ body {
     margin-left: 20px;
     color: #737D8C;
 }
+
+.SSOBeginView {
+    display: flex;
+    flex-direction: column;
+    padding: 0 0.4em 0;
+}
+
+.SSOBeginView_button {
+    flex: 1;
+    margin-top: 12px;
+}
