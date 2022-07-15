@@ -24,6 +24,7 @@ export class PasswordLoginViewModel extends ViewModel {
     private _username: string;
     private _password: string;
     private _errorMessage: string;
+    private _isBusy: boolean;
 
     constructor(options) {
         super(options);
@@ -32,6 +33,7 @@ export class PasswordLoginViewModel extends ViewModel {
         this._username = this._config.username;
         this._password = this._config.password;
         this._errorMessage = "";
+        this._isBusy = false;
     }
 
     get username() {
@@ -46,13 +48,23 @@ export class PasswordLoginViewModel extends ViewModel {
         return this._errorMessage;
     }
 
+    get isBusy() {
+        return this._isBusy;
+    }
+
     _showError(message) {
         this._errorMessage = message;
         this.emitChange("errorMessage");
     }
 
+    _setBusy(status) {
+        this._isBusy = status;
+        this.emitChange("isBusy");
+    }
+
     async login(username: string, password: string) {
         this._showError("")
+        this._setBusy(true);
 
         const loginOptions = await this._client.queryLogin(this._config.homeserver).result;
         this._client.startWithLogin(loginOptions.password(username, password));
@@ -60,6 +72,8 @@ export class PasswordLoginViewModel extends ViewModel {
         const loadStatus = this._client.loadStatus;
         const handle = loadStatus.waitFor(status => status !== LoadStatus.Login);
         await handle.promise;
+
+        this._setBusy(false);
 
         const status = loadStatus.get();
         if (status === LoadStatus.LoginFailed) {
