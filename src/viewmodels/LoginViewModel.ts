@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import {ViewModel} from "hydrogen-view-sdk";
+import {Client, ViewModel} from "hydrogen-view-sdk";
 import "hydrogen-view-sdk/style.css";
 import {PasswordLoginViewModel} from "./PasswordLoginViewModel";
 import {IChatterboxConfig} from "../types/IChatterboxConfig";
@@ -22,15 +22,18 @@ import {SSOBeginViewModel} from "./SSOBeginViewModel";
 
 export class LoginViewModel extends ViewModel {
     private readonly _config: IChatterboxConfig;
+    private _client: typeof Client;
     private readonly _passwordLoginViewModel: PasswordLoginViewModel;
     private readonly _ssoBeginViewModel: SSOBeginViewModel;
 
     constructor(options) {
         super(options);
         this._config = options.config;
+        this._client = options.client;
         this._passwordLoginViewModel = this.track(new PasswordLoginViewModel(
             this.childOptions({
                 config: this._config,
+                client: this._client,
                 state: this._state,
             })
         ));
