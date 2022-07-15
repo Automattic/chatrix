@@ -24,6 +24,8 @@ export class PasswordLoginView extends TemplateView<LoginViewModel> {
     }
 
     render(t, vm: PasswordLoginViewModel) {
+        const disabled = vm => vm.isBusy;
+
         const username = t.input({
             id: "username",
             type: "text",
@@ -43,6 +45,7 @@ export class PasswordLoginView extends TemplateView<LoginViewModel> {
         const submit = t.button({
             className: "button-action primary",
             type: "submit",
+            disabled: disabled,
         }, vm.i18n`Log In`);
 
         return t.div({ className: "PasswordLoginView" }, [
