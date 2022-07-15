@@ -25,7 +25,7 @@ export class SSOBeginView extends TemplateView<SSOBeginViewModel> {
     render(t, vm: SSOBeginViewModel) {
         return t.div({ className: "SSOBeginView" },
             t.button({
-                className: "SSOBeginView_button button-action secondary",
+                className: "SSOBeginView_button button-action primary",
                 type: "button",
                 onClick: () => vm.beginSSO(),
                 disabled: vm => vm.isBusy
