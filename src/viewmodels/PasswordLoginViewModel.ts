@@ -66,34 +66,41 @@ export class PasswordLoginViewModel extends ViewModel {
         this._showError("")
         this._setBusy(true);
 
+        const loginPromise = this.doLogin(username, password)
+        loginPromise.then(() => {
+            this._showError("")
+            this.navigation.push("timeline", loginPromise);
+        }).catch(() => {
+            switch (this._client.loginFailure) {
+                case "Credentials":
+                    this._showError(this.i18n`Your username and/or password don't seem to be correct.`);
+                    break;
+                case "Connection":
+                    this._showError(this.i18n`Can't connect to ${this._config.homeserver}.`);
+                    break;
+                default:
+                    this._showError(this.i18n`Something went wrong while checking your login and password.`);
+                    break;
+            }
+        }).finally(() => {
+            this._setBusy(false)
+        });
+    }
+
+    private async doLogin(username: string, password: string): Promise<void> {
         const loginOptions = await this._client.queryLogin(this._config.homeserver).result;
         this._client.startWithLogin(loginOptions.password(username, password));
 
-        const loadStatus = this._client.loadStatus;
-        const handle = loadStatus.waitFor(status => status !== LoadStatus.Login);
-        await handle.promise;
+        await this._client.loadStatus.waitFor((status: string) => {
+            return status === LoadStatus.Ready ||
+                status === LoadStatus.Error ||
+                status === LoadStatus.LoginFailed;
+        }).promise;
 
-        this._setBusy(false);
-
-        const status = loadStatus.get();
-        if (status === LoadStatus.LoginFailed) {
-            let error = "";
-            switch (this._client.loginFailure) {
-                case "Credentials":
-                    error = this.i18n`Your username and/or password don't seem to be correct.`;
-                    break;
-                case "Connection":
-                    error = this.i18n`Can't connect to ${this._config.homeserver}.`;
-                    break;
-                default:
-                    error = this.i18n`Something went wrong while checking your login and password.`;
-                    break;
-            }
-
-            this._showError(error);
-            return;
+        if (this._client.loginFailure) {
+            throw new Error(this._client.loginFailure);
+        } else if (this._client.loadError) {
+            throw new Error(this._client.loadError.message);
         }
-
-        this.navigation.push("timeline");
     }
 }
