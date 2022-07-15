@@ -54,8 +54,4 @@ export class LoginViewModel extends ViewModel {
     get ssoBeginViewModel() {
         return this._ssoBeginViewModel
     }
-
-    get footerViewModel() {
-        return this.options.footerVM;
-    }
 }
