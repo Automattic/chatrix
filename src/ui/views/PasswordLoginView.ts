@@ -52,9 +52,9 @@ export class PasswordLoginView extends TemplateView<LoginViewModel> {
                     vm.login(username.value, password.value);
                 }
             }, [
-                t.if(vm => vm.errorMessage, (t, vm) => t.p({className: "error"}, vm.i18n(vm.errorMessage))),
                 t.div({ className: "form-row text" }, [t.label({ for: "username" }, vm.i18n`Username`), username]),
                 t.div({ className: "form-row text" }, [t.label({ for: "password" }, vm.i18n`Password`), password]),
+                t.if(vm => vm.errorMessage, (t, vm) => t.p({className: "error"}, vm.i18n(vm.errorMessage))),
                 t.div({ className: "button-row" }, [submit]),
             ])
         ]);
