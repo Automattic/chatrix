@@ -28,6 +28,10 @@ export class LoginView extends TemplateView<LoginViewModel> {
     render(t, vm: LoginViewModel) {
         return t.div({ className: "LoginView" }, [
             t.mapView(vm => vm.passwordLoginViewModel, vm => vm ? new PasswordLoginView(vm): null),
+            t.if(
+                vm => vm.passwordLoginViewModel && vm.ssoBeginViewModel,
+                t => t.p({className: "LoginView_separator"}, vm.i18n`or`)
+            ),
             t.mapView(vm => vm.ssoBeginViewModel, vm => vm ? new SSOBeginView(vm): null),
             t.if(vm => vm.errorMessage, (t, vm) => t.p({className: "error"}, vm.i18n(vm.errorMessage))),
         ]);
