@@ -23,6 +23,8 @@ import {SSOBeginViewModel} from "./SSOBeginViewModel";
 export class LoginViewModel extends ViewModel {
     private readonly _config: IChatterboxConfig;
     private _client: typeof Client;
+    private _welcomeMessageHeading: string;
+    private _welcomeMessageText: string;
     private _errorMessage: string;
     private readonly _passwordLoginViewModel: PasswordLoginViewModel;
     private readonly _ssoBeginViewModel: SSOBeginViewModel;
@@ -32,6 +34,8 @@ export class LoginViewModel extends ViewModel {
         const {config, client} = options;
         this._config = config;
         this._client = client;
+        this._welcomeMessageHeading = config.welcome_message_heading;
+        this._welcomeMessageText = config.welcome_message_text;
 
         if (config.login_methods.length === 0) {
             this._errorMessage = "No login methods are configured. Please contact the site's administrator."
@@ -61,14 +65,22 @@ export class LoginViewModel extends ViewModel {
     }
 
     get passwordLoginViewModel() {
-        return this._passwordLoginViewModel
+        return this._passwordLoginViewModel;
     }
 
     get ssoBeginViewModel() {
-        return this._ssoBeginViewModel
+        return this._ssoBeginViewModel;
+    }
+
+    get welcomeMessageHeading() {
+        return this._welcomeMessageHeading;
+    }
+
+    get welcomeMessageText() {
+        return this._welcomeMessageText;
     }
 
     get errorMessage() {
-        return this._errorMessage
+        return this._errorMessage;
     }
 }

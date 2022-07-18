@@ -247,6 +247,11 @@ body {
     margin: 10px;
 }
 
+.LoginView_welcome {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
 .LoginView_separator {
     margin: 20px !important;
 }
