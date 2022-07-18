@@ -23,6 +23,7 @@ import {SSOBeginViewModel} from "./SSOBeginViewModel";
 export class LoginViewModel extends ViewModel {
     private readonly _config: IChatterboxConfig;
     private _client: typeof Client;
+    private _errorMessage: string;
     private readonly _passwordLoginViewModel: PasswordLoginViewModel;
     private readonly _ssoBeginViewModel: SSOBeginViewModel;
 
@@ -31,6 +32,10 @@ export class LoginViewModel extends ViewModel {
         const {config, client} = options;
         this._config = config;
         this._client = client;
+
+        if (config.login_methods.length === 0) {
+            this._errorMessage = "No login methods are configured. Please contact the site's administrator."
+        }
 
         if (config.login_methods.includes("password")) {
             this._passwordLoginViewModel = this.track(new PasswordLoginViewModel(
@@ -61,5 +66,9 @@ export class LoginViewModel extends ViewModel {
 
     get ssoBeginViewModel() {
         return this._ssoBeginViewModel
+    }
+
+    get errorMessage() {
+        return this._errorMessage
     }
 }
