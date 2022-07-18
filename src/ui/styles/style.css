@@ -243,6 +243,10 @@ body {
     color: #737D8C;
 }
 
+.LoginView {
+    margin: 10px;
+}
+
 .SSOBeginView {
     display: flex;
     flex-direction: column;
