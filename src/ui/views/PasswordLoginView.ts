@@ -43,10 +43,10 @@ export class PasswordLoginView extends TemplateView<LoginViewModel> {
             value: vm.password,
         });
         const submit = t.button({
-            className: "button-action primary",
+            className: "button-action secondary",
             type: "submit",
             disabled: disabled,
-        }, vm.i18n`Log In`);
+        }, vm.i18n`Log in`);
 
         return t.div({ className: "PasswordLoginView" }, [
             t.form({
