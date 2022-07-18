@@ -16,6 +16,7 @@ limitations under the License.
 
 export interface IChatterboxConfig {
 	homeserver: string;
+	login_methods: Array<string>,
 	username: string;
 	password: string;
     // Internal room-id of the room to which chatterbox should join

@@ -1,5 +1,6 @@
 {
     "homeserver": "https://orbit-sandbox.ems.host",
+    "login_methods": ["password", "sso"],
     "auto_join_room": "!OTrhRALmywAzyMUeaj:orbit-sandbox.ems.host",
     "username": "chatterbox",
     "password": "DsqC0Oe6j1",

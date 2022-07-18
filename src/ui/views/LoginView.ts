@@ -24,10 +24,11 @@ export class LoginView extends TemplateView<LoginViewModel> {
         super(value);
     }
 
+    // @ts-ignore
     render(t, vm: LoginViewModel) {
         return t.div({ className: "LoginView" }, [
-            t.view(new PasswordLoginView(vm.passwordLoginViewModel)),
-            t.view(new SSOBeginView(vm.ssoBeginViewModel)),
+            t.mapView(vm => vm.passwordLoginViewModel, vm => vm ? new PasswordLoginView(vm): null),
+            t.mapView(vm => vm.ssoBeginViewModel, vm => vm ? new SSOBeginView(vm): null),
         ]);
     }
 }

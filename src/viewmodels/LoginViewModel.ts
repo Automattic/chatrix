@@ -28,21 +28,26 @@ export class LoginViewModel extends ViewModel {
 
     constructor(options) {
         super(options);
-        this._config = options.config;
-        this._client = options.client;
-        this._passwordLoginViewModel = this.track(new PasswordLoginViewModel(
-            this.childOptions({
-                config: this._config,
-                client: this._client,
-                state: this._state,
-            })
-        ));
-        this._ssoBeginViewModel = this.track(new SSOBeginViewModel(
-            this.childOptions({
-                config: this._config,
-                state: this._state,
-            })
-        ));
+        const {config, client} = options;
+        this._config = config;
+        this._client = client;
+
+        if (config.login_methods.includes("password")) {
+            this._passwordLoginViewModel = this.track(new PasswordLoginViewModel(
+                this.childOptions({
+                    config: this._config,
+                    client: this._client,
+                })
+            ));
+        }
+
+        if (config.login_methods.includes("sso")) {
+            this._ssoBeginViewModel = this.track(new SSOBeginViewModel(
+                this.childOptions({
+                    config: this._config,
+                })
+            ));
+        }
     }
 
     minimize(): void {
