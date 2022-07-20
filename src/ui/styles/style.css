@@ -243,6 +243,19 @@ body {
     color: #737D8C;
 }
 
+.LoginView {
+    margin: 10px;
+}
+
+.LoginView_welcome {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.LoginView_separator {
+    margin: 20px !important;
+}
+
 .SSOBeginView {
     display: flex;
     flex-direction: column;
@@ -252,4 +265,9 @@ body {
 .SSOBeginView_button {
     flex: 1;
     margin-top: 12px;
+}
+
+.PasswordLoginView .button-action.secondary {
+    border: 1px solid var(--accent-color);
+    border-radius: 8px;
 }

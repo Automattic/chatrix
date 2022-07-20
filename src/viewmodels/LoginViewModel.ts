@@ -23,26 +23,40 @@ import {SSOBeginViewModel} from "./SSOBeginViewModel";
 export class LoginViewModel extends ViewModel {
     private readonly _config: IChatterboxConfig;
     private _client: typeof Client;
+    private _welcomeMessageHeading: string;
+    private _welcomeMessageText: string;
+    private _errorMessage: string;
     private readonly _passwordLoginViewModel: PasswordLoginViewModel;
     private readonly _ssoBeginViewModel: SSOBeginViewModel;
 
     constructor(options) {
         super(options);
-        this._config = options.config;
-        this._client = options.client;
-        this._passwordLoginViewModel = this.track(new PasswordLoginViewModel(
-            this.childOptions({
-                config: this._config,
-                client: this._client,
-                state: this._state,
-            })
-        ));
-        this._ssoBeginViewModel = this.track(new SSOBeginViewModel(
-            this.childOptions({
-                config: this._config,
-                state: this._state,
-            })
-        ));
+        const {config, client} = options;
+        this._config = config;
+        this._client = client;
+        this._welcomeMessageHeading = config.welcome_message_heading;
+        this._welcomeMessageText = config.welcome_message_text;
+
+        if (config.login_methods.length === 0) {
+            this._errorMessage = "No login methods are configured. Please contact the site's administrator."
+        }
+
+        if (config.login_methods.includes("password")) {
+            this._passwordLoginViewModel = this.track(new PasswordLoginViewModel(
+                this.childOptions({
+                    config: this._config,
+                    client: this._client,
+                })
+            ));
+        }
+
+        if (config.login_methods.includes("sso")) {
+            this._ssoBeginViewModel = this.track(new SSOBeginViewModel(
+                this.childOptions({
+                    config: this._config,
+                })
+            ));
+        }
     }
 
     minimize(): void {
@@ -51,10 +65,22 @@ export class LoginViewModel extends ViewModel {
     }
 
     get passwordLoginViewModel() {
-        return this._passwordLoginViewModel
+        return this._passwordLoginViewModel;
     }
 
     get ssoBeginViewModel() {
-        return this._ssoBeginViewModel
+        return this._ssoBeginViewModel;
+    }
+
+    get welcomeMessageHeading() {
+        return this._welcomeMessageHeading;
+    }
+
+    get welcomeMessageText() {
+        return this._welcomeMessageText;
+    }
+
+    get errorMessage() {
+        return this._errorMessage;
     }
 }
