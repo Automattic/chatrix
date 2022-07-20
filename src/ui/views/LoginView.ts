@@ -24,7 +24,6 @@ export class LoginView extends TemplateView<LoginViewModel> {
         super(value);
     }
 
-    // @ts-ignore
     render(t, vm: LoginViewModel) {
         return t.div({ className: "LoginView" }, [
             t.div({ className: "LoginView_welcome"}, [
