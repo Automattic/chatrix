@@ -21,7 +21,6 @@ import {IChatterboxConfig} from "../types/IChatterboxConfig";
 export class SettingsViewModel extends ViewModel {
     // @ts-ignore
     private readonly _config: IChatterboxConfig;
-    // @ts-ignore
     private _client: typeof Client;
 
     constructor(options) {
