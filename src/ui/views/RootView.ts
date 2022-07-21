@@ -19,6 +19,7 @@ import { RootViewModel } from "../../viewmodels/RootViewModel";
 import { AccountSetupView } from "./AccountSetupView";
 import { ChatterboxView } from "./ChatterboxView";
 import { LoginView } from "./LoginView";
+import {SettingsView} from "./SettingsView";
 
 export class RootView extends TemplateView<RootViewModel> {
     constructor(value) {
@@ -31,6 +32,8 @@ export class RootView extends TemplateView<RootViewModel> {
             switch(section) {
                 case "login":
                     return new LoginView(vm.loginViewModel);
+                case "settings":
+                    return new SettingsView(vm.settingsViewModel);
                 case "account-setup":
                     return new AccountSetupView(vm.accountSetupViewModel);
                 case "timeline":
