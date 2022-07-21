@@ -34,4 +34,9 @@ export class SettingsViewModel extends ViewModel {
     close() {
         this.navigation.push("timeline");
     }
+
+    async logout() {
+        await this._client.startLogout(this._client.sessionId);
+        this.navigation.push("login");
+    }
 }

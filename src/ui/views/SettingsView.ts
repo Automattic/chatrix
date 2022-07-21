@@ -30,6 +30,9 @@ export class SettingsView extends TemplateView<SettingsViewModel> {
                     t.button({
                         className: "button-action secondary",
                         type: "submit",
+                        onClick: () => {
+                            vm.logout();
+                        }
                     }, vm.i18n`Log out`),
                 ]),
             ]),
