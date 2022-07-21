@@ -145,6 +145,15 @@ body {
     justify-content: end;
 }
 
+.RoomHeaderView_menu_settings {
+    background: url("../res/settings-gear.svg") no-repeat center;
+    height: 20px;
+    width: 20px;
+    border: none;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
 .RoomHeaderView_menu_minimize {
     background: url("../res/chevron-down.svg") no-repeat center;
     height: 20px;
