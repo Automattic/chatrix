@@ -30,4 +30,8 @@ export class SettingsViewModel extends ViewModel {
         this._config = config;
         this._client = client;
     }
+
+    close() {
+        this.navigation.push("timeline");
+    }
 }

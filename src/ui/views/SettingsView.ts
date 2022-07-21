@@ -46,6 +46,7 @@ class SettingsHeaderView extends TemplateView<SettingsViewModel> {
             t.div({ className: "SettingsHeaderView_menu" }, [
                 t.button({
                     className: "SettingsHeaderView_menu_close", onClick: () => {
+                        vm.close();
                     }
                 }),
             ]),
