@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { TemplateView } from "hydrogen-view-sdk";
+import {TemplateView} from "hydrogen-view-sdk";
 import {SettingsViewModel} from "../../viewmodels/SettingsViewModel";
 
 export class SettingsView extends TemplateView<SettingsViewModel> {
@@ -22,10 +22,33 @@ export class SettingsView extends TemplateView<SettingsViewModel> {
         super(value);
     }
 
-    // @ts-ignore
     render(t, vm: SettingsViewModel) {
         return t.div({ className: "SettingsView" }, [
+            t.view(new SettingsHeaderView(vm)),
+            t.div({ className: "button-row" }, [
+                t.button({
+                    className: "button-action secondary",
+                    type: "submit",
+                }, vm.i18n`Log out`),
+            ]),
+        ]);
+    }
+}
 
+class SettingsHeaderView extends TemplateView<SettingsViewModel> {
+    constructor(value) {
+        super(value);
+    }
+
+    render(t, vm: SettingsViewModel) {
+        return t.div({ className: "SettingsHeaderView" }, [
+            t.div({ className: "SettingsHeaderView_name" }, vm.i18n`Settings`),
+            t.div({ className: "SettingsHeaderView_menu" }, [
+                t.button({
+                    className: "SettingsHeaderView_menu_close", onClick: () => {
+                    }
+                }),
+            ]),
         ]);
     }
 }
