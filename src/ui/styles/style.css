@@ -309,7 +309,11 @@ body {
     cursor: pointer;
 }
 
-.SettingsView .button-action.secondary {
+.SettingsView_content {
+    margin: 10px;
+}
+
+.SettingsView_content .button-action.secondary {
     border: 1px solid var(--accent-color);
     border-radius: 8px;
 }

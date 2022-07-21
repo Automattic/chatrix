@@ -25,11 +25,13 @@ export class SettingsView extends TemplateView<SettingsViewModel> {
     render(t, vm: SettingsViewModel) {
         return t.div({ className: "SettingsView" }, [
             t.view(new SettingsHeaderView(vm)),
-            t.div({ className: "button-row" }, [
-                t.button({
-                    className: "button-action secondary",
-                    type: "submit",
-                }, vm.i18n`Log out`),
+            t.div({ className: "SettingsView_content" }, [
+                t.div({ className: "button-row" }, [
+                    t.button({
+                        className: "button-action secondary",
+                        type: "submit",
+                    }, vm.i18n`Log out`),
+                ]),
             ]),
         ]);
     }
