@@ -57,10 +57,15 @@ class RoomHeaderView extends TemplateView<ChatterboxViewModel> {
             t.div({ className: "RoomHeaderView_name" }, vm => vm.roomName),
             t.div({ className: "RoomHeaderView_menu" }, [
                 t.button({
+                    className: "RoomHeaderView_menu_settings", onClick: () => {
+                        vm.showSettings();
+                    }
+                }),
+                t.button({
                     className: "RoomHeaderView_menu_minimize", onClick: () => {
                         vm.minimize();
                     }
-                })
+                }),
             ]),
         ]);
     }

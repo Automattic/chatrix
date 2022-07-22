@@ -94,6 +94,10 @@ export class ChatterboxViewModel extends ViewModel {
         this.navigation.push("minimize");
     }
 
+    showSettings() {
+        this.navigation.push("settings");
+    }
+
     get timelineViewModel() {
         return this._roomViewModel?.timelineViewModel;
     }
