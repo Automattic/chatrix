@@ -49,8 +49,15 @@ class Rest {
 			exit;
 		}
 
+		// The initial OIDC request will come without a nonce, thus unauthenticated.
 		if ( ! is_user_logged_in() ) {
+			// This is handled in the main plugin file and will display a form asking the user to confirm.
 			wp_safe_redirect( add_query_arg( $request->getAllQueryParameters(), home_url( '?openid-connect-authenticate' ) ) );
+			exit;
+		}
+
+		if ( ! isset( $_POST['authorize'] ) || $_POST['authorize'] !== 'Authorize' ) {
+			$response->send();
 			exit;
 		}
 

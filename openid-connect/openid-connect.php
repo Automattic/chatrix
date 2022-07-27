@@ -20,12 +20,12 @@ add_action( 'template_redirect', function() {
 	<html><body>
 		<h1>OpenID Connect</h1>
 		<form method="post" action="<?php echo esc_url( rest_url( Rest::NAMESPACE . '/authorize' ) ); ?>">
-			<?php wp_nonce_field( 'wp_rest' ); ?>
+			<?php wp_nonce_field( 'wp_rest' ); /* The nonce will give the REST call the userdata. */ ?>
 			<?php foreach ( $request->getAllQueryParameters() as $key => $value ) : ?>
 				<input type="hidden" name="<?php echo esc_attr( $key ); ?>" value="<?php echo esc_attr( $value ); ?>" />
 			<?php endforeach; ?>
 			<label>Authorize Matrix?</label><br />
-			<button>Authorize</button>
+			<input type="submit" name="authorize" value="Authorize" />
 			<a href="<?php echo esc_url( home_url() ); ?>" target="_top">Go back</a>
 		</form>
 	</body></html>
