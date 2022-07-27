@@ -38,7 +38,7 @@ class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\OpenID\St
 			    "client_id"    => 'oYgRVPEzqRAzXGOyABKuWjOXeKGoTbIo',      // REQUIRED Stored client identifier
 			    "user_id"      => 'USER_ID',        // REQUIRED Stored user identifier
 			    "expires"      => 'EXPIRES',        // REQUIRED Stored expiration in unix timestamp
-			    "redirect_uri" => 'https://wordpress.org',   // REQUIRED Stored redirect URI
+			    "redirect_uri" => 'https://orbit-sandbox.ems.host/_synapse/client/oidc/callback',   // REQUIRED Stored redirect URI
 			    "scope"        => 'openid profile',          // OPTIONAL Stored scope values in space-separated string
 			);
 	}

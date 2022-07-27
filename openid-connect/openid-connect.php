@@ -13,7 +13,7 @@ require_once __DIR__ . '/class-oauth2-storage.php';
 add_action( 'plugins_loaded', function() {
 	$config = array(
 		'use_openid_connect' => true,
-		'issuer' => 'wordpress.org',
+		'issuer' => 'https://labs.ashfame.com/wp/',
 	);
 
 	$server = new OAuth2\Server( new OAuth2_Storage(), $config );
