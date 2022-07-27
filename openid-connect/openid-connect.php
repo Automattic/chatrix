@@ -36,7 +36,7 @@ add_action( 'template_redirect', function() {
 add_action( 'plugins_loaded', function() {
 	$config = array(
 		'use_openid_connect' => true,
-		'issuer' => 'https://labs.ashfame.com/wp/',
+		'issuer' => home_url(),
 	);
 
 	$server = new OAuth2\Server( new OAuth2_Storage(), $config );

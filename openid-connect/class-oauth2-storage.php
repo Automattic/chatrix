@@ -4,6 +4,15 @@ use OAuth2;
 
 class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\OpenID\Storage\AuthorizationCodeInterface, OAuth2\OpenID\Storage\UserClaimsInterface {
 	const OPTION_PREFIX = 'oauth2_code_';
+
+	private $clients = array(
+		'oYgRVPEzqRAzXGOyABKuWjOXeKGoTbIo' => array(
+			'redirect_uri' => 'https://orbit-sandbox.ems.host/_synapse/client/oidc/callback',
+			'grant_types' => array( 'authorization_code' ),
+			'scope' => 'openid profile',
+		)
+	);
+
 	public function __construct() {
 		// TODO: Initialize storage, likely a taxonomy.
 	}
@@ -112,13 +121,8 @@ class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\OpenID\St
 	 * @ingroup oauth2_section_4
 	 */
 	public function getClientDetails( $client_id ) {
-
-		switch ( $client_id ) {
-			case 'oYgRVPEzqRAzXGOyABKuWjOXeKGoTbIo':
-				return array(
-					'redirect_uri' => 'https://orbit-sandbox.ems.host/_synapse/client/oidc/callback',
-					'scope' => $this->getClientScope( $client_id ),
-				);
+		if ( isset( $this->clients[ $client_id ] ) ) {
+			return $this->clients[ $client_id ];
 		}
 
 		return false;
@@ -131,9 +135,8 @@ class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\OpenID\St
 	 * STRING the space-delineated scope list for the specified client_id
 	 */
 	public function getClientScope( $client_id ) {
-		switch ( $client_id ) {
-			case 'oYgRVPEzqRAzXGOyABKuWjOXeKGoTbIo':
-				return 'openid profile';
+		if ( isset( $this->clients[ $client_id ]['scope'] ) ) {
+			return $this->clients[ $client_id ]['scope'];
 		}
 
 		return '';
@@ -157,10 +160,8 @@ class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\OpenID\St
 	 * @ingroup oauth2_section_4
 	 */
 	public function checkRestrictedGrantType( $client_id, $grant_type ) {
-
-		switch ( $client_id ) {
-			case 'oYgRVPEzqRAzXGOyABKuWjOXeKGoTbIo':
-				return 'authorization_code' === $grant_type;
+		if ( isset( $this->clients[ $client_id ]['grant_types'] ) ) {
+			return in_array( $grant_type, $this->clients[ $client_id ]['grant_types'] );
 		}
 
 		return false;
