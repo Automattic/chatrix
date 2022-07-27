@@ -1,0 +1,5 @@
+{
+    "require": {
+        "bshaffer/oauth2-server-php": "^1.12"
+    }
+}
