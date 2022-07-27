@@ -10,6 +10,29 @@ require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/class-rest.php';
 require_once __DIR__ . '/class-oauth2-storage.php';
 
+add_action( 'template_redirect', function() {
+	if ( ! isset( $_GET['openid-connect-authenticate'] ) ) {
+		return;
+	}
+	$request = OAuth2\Request::createFromGlobals();
+
+	?>
+	<html><body>
+		<h1>OpenID Connect</h1>
+		<form method="post" action="<?php echo esc_url( rest_url( Rest::NAMESPACE . '/authorize' ) ); ?>">
+			<?php wp_nonce_field( 'wp_rest' ); ?>
+			<?php foreach ( $request->getAllQueryParameters() as $key => $value ) : ?>
+				<input type="hidden" name="<?php echo esc_attr( $key ); ?>" value="<?php echo esc_attr( $value ); ?>" />
+			<?php endforeach; ?>
+			<label>Authorize Matrix?</label><br />
+			<button>Authorize</button>
+			<a href="<?php echo esc_url( home_url() ); ?>" target="_top">Go back</a>
+		</form>
+	</body></html>
+	<?php
+	exit;
+});
+
 add_action( 'plugins_loaded', function() {
 	$config = array(
 		'use_openid_connect' => true,

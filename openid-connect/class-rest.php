@@ -4,27 +4,37 @@ use OAuth2;
 
 class Rest {
 	private $server;
+	const NAMESPACE = 'openid-connect';
 	public function __construct( $server ) {
 		$this->server = $server;
 		add_action( 'rest_api_init', array( $this, 'add_rest_routes' ) );
 	}
 
 	public function add_rest_routes() {
-		// register_rest_route(
-		// 	'openid-connect',
-		// 	'token',
-		// 	array(
-		// 		'methods'             => 'POST',
-		// 		'callback'            => array( $this, 'token' ),
-		// 		'permission_callback' => '__return_true',
-		// 	)
-		// );
 		register_rest_route(
 			'openid-connect',
+			'token',
+			array(
+				'methods'             => 'GET,POST',
+				'callback'            => array( $this, 'token' ),
+				'permission_callback' => '__return_true',
+			)
+		);
+		register_rest_route(
+			self::NAMESPACE,
 			'authorize',
 			array(
 				'methods'             => 'GET,POST',
 				'callback'            => array( $this, 'authorize' ),
+				'permission_callback' => '__return_true',
+			)
+		);
+		register_rest_route(
+			self::NAMESPACE,
+			'userinfo',
+			array(
+				'methods'             => 'GET,POST',
+				'callback'            => array( $this, 'userinfo' ),
 				'permission_callback' => '__return_true',
 			)
 		);
@@ -39,31 +49,22 @@ class Rest {
 			exit;
 		}
 
-		if (empty($_POST)) {
-			header('Content-type: text/html');
-			echo '
-			<form method="post">
-			<label>Authorize Chatrix?</label><br />
-			<input type="submit" name="authorized" value="yes">
-			<input type="submit" name="authorized" value="no">
-			</form>';
+		if ( ! is_user_logged_in() ) {
+			wp_safe_redirect( add_query_arg( $request->getAllQueryParameters(), home_url( '?openid-connect-authenticate' ) ) );
 			exit;
 		}
 
-		// print the authorization code if the user has authorized your client
-		$is_authorized = ($_POST['authorized'] === 'yes'); // @TODO Add a nonce check
-
-		$this->server->handleAuthorizeRequest($request, $response, $is_authorized);
-
-		// // parse the returned URL to get the authorization code
-		// $parts = parse_url($response->getHttpHeader('Location'));
-		// parse_str($parts['query'], $query);
-
-		// // pull the code from storage and verify an "id_token" was added
-		// $code = $this->server->getStorage('authorization_code')
-		// ->getAuthorizationCode($query['code']);
+		$this->server->handleAuthorizeRequest( $request, $response, true, get_current_user_id() );
 
 		$response->send();
 		exit;
+	}
+
+	public function token() {
+		$this->server->handleTokenRequest(OAuth2\Request::createFromGlobals())->send();
+	}
+
+	public function userinfo() {
+		$this->server->handleUserInfoRequest(OAuth2\Request::createFromGlobals())->send();
 	}
 }

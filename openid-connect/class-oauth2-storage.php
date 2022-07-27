@@ -3,7 +3,11 @@ namespace OpenIDConnectServer;
 use OAuth2;
 
 class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\OpenID\Storage\AuthorizationCodeInterface, OAuth2\OpenID\Storage\UserClaimsInterface {
-	private $debug_output = false;
+	const OPTION_PREFIX = 'oauth2_code_';
+	public function __construct() {
+		// TODO: Initialize storage, likely a taxonomy.
+	}
+
 	/**
 	 * Fetch authorization code data (probably the most common grant type).
 	 *
@@ -31,16 +35,11 @@ class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\OpenID\St
 	 * @ingroup oauth2_section_4
 	 */
 	public function getAuthorizationCode( $code ) {
-		if ( $this->debug_output ) {
-			echo 'getAuthorizationCode'; var_dump( compact( 'code' ) );
+		if ( $code && get_option( self::OPTION_PREFIX . $code ) ) { // TODO: this is not a viable storage, just for testing!
+			return get_option( self::OPTION_PREFIX . $code );
 		}
-		return array(
-			    "client_id"    => 'oYgRVPEzqRAzXGOyABKuWjOXeKGoTbIo',      // REQUIRED Stored client identifier
-			    "user_id"      => 'USER_ID',        // REQUIRED Stored user identifier
-			    "expires"      => 'EXPIRES',        // REQUIRED Stored expiration in unix timestamp
-			    "redirect_uri" => 'https://orbit-sandbox.ems.host/_synapse/client/oidc/callback',   // REQUIRED Stored redirect URI
-			    "scope"        => 'openid profile',          // OPTIONAL Stored scope values in space-separated string
-			);
+
+		return null;
 	}
 
 	/**
@@ -65,8 +64,9 @@ class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\OpenID\St
 	 * @ingroup oauth2_section_4
 	 */
 	public function setAuthorizationCode( $code, $client_id, $user_id, $redirect_uri, $expires, $scope = null, $id_token = null ) {
-		if ( $this->debug_output ) {
-			echo 'setAuthorizationCode'; var_dump( compact( 'code', 'client_id', 'user_id', 'redirect_uri', 'expires', 'scope', 'id_token' ) );
+		if ( $code ) {
+			// TODO: store the user_id more sustainably.
+			update_option( self::OPTION_PREFIX . $code, compact( 'code', 'client_id', 'user_id', 'redirect_uri', 'expires', 'scope', 'id_token' ) );
 		}
 	}
 
@@ -83,10 +83,7 @@ class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\OpenID\St
 	 *
 	 */
 	public function expireAuthorizationCode( $code ) {
-		if ( $this->debug_output ) {
-			echo 'expireAuthorizationCode'; var_dump( compact( 'code' ) );
-		}
-
+		delete_option( self::OPTION_PREFIX . $code );
 	}
 
 	/**
@@ -115,15 +112,12 @@ class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\OpenID\St
 	 * @ingroup oauth2_section_4
 	 */
 	public function getClientDetails( $client_id ) {
-		if ( $this->debug_output ) {
-			echo 'getClientDetails'; var_dump( compact( 'client_id' ) );
-		}
 
 		switch ( $client_id ) {
 			case 'oYgRVPEzqRAzXGOyABKuWjOXeKGoTbIo':
 				return array(
 					'redirect_uri' => 'https://orbit-sandbox.ems.host/_synapse/client/oidc/callback',
-					'scope' => 'openid profile'
+					'scope' => $this->getClientScope( $client_id ),
 				);
 		}
 
@@ -137,9 +131,6 @@ class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\OpenID\St
 	 * STRING the space-delineated scope list for the specified client_id
 	 */
 	public function getClientScope( $client_id ) {
-		if ( $this->debug_output ) {
-			echo 'getClientScope'; var_dump( compact( 'client_id' ) );
-		}
 		switch ( $client_id ) {
 			case 'oYgRVPEzqRAzXGOyABKuWjOXeKGoTbIo':
 				return 'openid profile';
@@ -166,10 +157,13 @@ class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\OpenID\St
 	 * @ingroup oauth2_section_4
 	 */
 	public function checkRestrictedGrantType( $client_id, $grant_type ) {
-		if ( $this->debug_output ) {
-			echo 'checkRestrictedGrantType'; var_dump( compact( 'client_id', 'grant_type' ) );
+
+		switch ( $client_id ) {
+			case 'oYgRVPEzqRAzXGOyABKuWjOXeKGoTbIo':
+				return 'authorization_code' === $grant_type;
 		}
-		return true;
+
+		return false;
 	}
 
 
@@ -188,9 +182,18 @@ class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\OpenID\St
 	 * @see http://openid.net/specs/openid-connect-core-1_0.html#ScopeClaims
 	 */
 	public function getUserClaims( $user_id, $scope ) {
-		if ( $this->debug_output ) {
-			echo 'getUserClaims'; var_dump( compact( 'user_id', 'scope' ) );
+		$user = \WP_User::get_data_by( 'id', $user_id );
+		if ( $user ) {
+			switch ( $scope ) {
+				case 'profile':
+					return array(
+						'username' => $user->user_login,
+						'firstname' => $user->first_name,
+						'lastname' => $user->last_name,
+					);
+			}
 		}
+
 		return array();
 	}
 }
