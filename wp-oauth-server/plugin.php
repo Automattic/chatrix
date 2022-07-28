@@ -103,14 +103,31 @@ class A8C_DotOrg_OAuth {
 		ini_set('display_errors',1);error_reporting(E_ALL);
 
 		// Autoloading (composer is preferred, but for this example let's just do this)
-		require_once('oauth2-server/src/OAuth2/Autoloader.php');
+		require_once( __DIR__ . '/oauth2-server/src/OAuth2/Autoloader.php' );
 		OAuth2\Autoloader::register();
 
 		// $dsn is the Data Source Name for your database, for exmaple "mysql:dbname=my_oauth2_db;host=localhost"
 		$storage = new OAuth2\Storage\Pdo(array('dsn' => $dsn, 'username' => $username, 'password' => $password));
 
+		$config = array(
+			'use_openid_connect' => true,
+			'issuer'             => home_url(),
+		);
+
 		// Pass a storage object or array of storage objects to the OAuth2 server class
-		$this->server = new OAuth2\Server($storage);
+		$this->server = new OAuth2\Server($storage, $config);
+
+		$this->server->addStorage(
+			new OAuth2\Storage\Memory(
+				array(
+					'keys' => array(
+						'private_key' => file_get_contents( __DIR__ . '/oidc.key' ), // generate using: openssl genrsa -out oidc.key 4096
+						'public_key'  => file_get_contents( __DIR__ . '/public.key' ), // generate using: openssl rsa -in oidc.key -pubout -out public.key
+					)
+				)
+			),
+			'public_key'
+		);
 
 		// Add the "Client Credentials" grant type (it is the simplest of the grant types)
 		$this->server->addGrantType(new OAuth2\GrantType\ClientCredentials($storage));
@@ -127,8 +144,11 @@ class A8C_DotOrg_OAuth {
 			case 'token':
 				$this->token_controller();
 				break;
-			case 'resource':
-				$this->resource_controller();
+			case 'userinfo':
+				$this->userinfo_controller();
+				break;
+			case 'jwks':
+				$this->jwks_controller();
 				break;
 			default:
 				wp_die( 'Lost?' );
@@ -140,7 +160,7 @@ class A8C_DotOrg_OAuth {
 		$response = new OAuth2\Response();
 
 		// validate the authorize request
-		if (!$this->server->validateAuthorizeRequest($request, $response)) {
+		if ( ! $this->server->validateAuthorizeRequest( $request, $response ) ) {
 			$response->send();
 			die;
 		}
@@ -156,12 +176,7 @@ class A8C_DotOrg_OAuth {
 
 		// print the authorization code if the user has authorized your client
 		$is_authorized = ($_POST['authorized'] === 'yes'); // @TODO Add a nonce check
-		$this->server->handleAuthorizeRequest($request, $response, $is_authorized);
-		if ($is_authorized) {
-		  // this is only here so that you get to see your code in the cURL request. Otherwise, we'd redirect back to the client
-		  $code = substr($response->getHttpHeader('Location'), strpos($response->getHttpHeader('Location'), 'code=')+5, 40);
-		  exit("SUCCESS! Authorization Code: $code");
-		}
+		$this->server->handleAuthorizeRequest($request, $response, $is_authorized, get_current_user_id());
 		$response->send();
 	}
 
@@ -170,13 +185,45 @@ class A8C_DotOrg_OAuth {
 		$this->server->handleTokenRequest(OAuth2\Request::createFromGlobals())->send();
 	}
 
-	public function resource_controller() {
+	public function userinfo_controller() {
 		// Handle a request to a resource and authenticate the access token
-		if ( ! $this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
-			$this->server->getResponse()->send();
-			die;
-		}
-		echo json_encode(array('success' => true, 'message' => 'You accessed my APIs!'));
+		$this->server->handleUserInfoRequest(OAuth2\Request::createFromGlobals())->send();
+
+		// @TODO pretty sure we have to ensure data about user can be returned from here
+	}
+
+	public function jwks_controller() {
+		// @TODO setup its autoloader, unsure how to work with multiples of them
+		require_once( __DIR__ . '/jwk/src/Key/KeyInterface.php' );
+		require_once( __DIR__ . '/jwk/src/Key/AbstractKey.php' );
+		require_once( __DIR__ . '/jwk/src/Key/Rsa.php' );
+
+		require_once( __DIR__ . '/jwk/src/Util/Base64UrlConverterInterface.php' );
+		require_once( __DIR__ . '/jwk/src/Util/Base64UrlConverter.php' );
+
+		require_once( __DIR__ . '/jwk/src/KeyConverter.php' );
+		require_once( __DIR__ . '/jwk/src/KeyFactory.php' );
+		require_once( __DIR__ . '/jwk/src/KeySetFactory.php' );
+		require_once( __DIR__ . '/jwk/src/KeySet.php' );
+
+		$keyFactory = new Strobotti\JWK\KeyFactory();
+		$keySet = new \Strobotti\JWK\KeySet();
+
+		$key = $keyFactory->createFromPem(
+			file_get_contents( __DIR__ . '/public.key' ),
+			array(
+				'use' => 'sig',
+				'alg' => 'RS256',
+				'kid' => 'eXaunmL',
+			)
+		);
+
+		$keySet->addKey($key);
+
+		$response = new OAuth2\Response();
+		$response->setParameter( 'keys', $keySet->getKeys() );
+		$response->send();
+		exit;
 	}
 }
 
