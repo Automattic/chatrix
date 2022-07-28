@@ -41,7 +41,7 @@ add_action( 'template_redirect', function() {
 	header( 'Content-type: application/json' );
 	header( 'Access-Control-Allow-Origin: *' );
 	echo json_encode( array(
-		'issuer' => home_url(),
+		'issuer' => home_url( '/' ),
 		'authorization_endpoint' => rest_url( 'openid-connect/authorize' ),
 		'token_endpoint' => rest_url( 'openid-connect/token' ),
 		'userinfo_endpoint' => rest_url( 'openid-connect/userinfo' ),
@@ -67,6 +67,7 @@ add_action( 'template_redirect', function() {
 			<?php foreach ( $request->getAllQueryParameters() as $key => $value ) : ?>
 				<input type="hidden" name="<?php echo esc_attr( $key ); ?>" value="<?php echo esc_attr( $value ); ?>" />
 			<?php endforeach; ?>
+			<p>Hi <?php echo esc_html( wp_get_current_user()->user_nicename ); ?>!</p>
 			<label>Authorize Matrix?</label><br />
 			<input type="submit" name="authorize" value="Authorize" />
 			<a href="<?php echo esc_url( home_url() ); ?>" target="_top">Go back</a>
@@ -80,7 +81,7 @@ add_action( 'plugins_loaded', function() {
 	$config = array(
 		'use_jwt_access_tokens' => true,
 		'use_openid_connect' => true,
-		'issuer' => home_url(),
+		'issuer' => home_url( '/' ),
 	);
 
 	$server = new OAuth2\Server( new OAuth2_Storage(), $config );

@@ -13,6 +13,7 @@ class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\Storage\C
 			'scope' => 'openid profile',
 		),
 		'oYgRVPEzqRAzXGOyABKuWjOXeKGoTbIo' => array(
+			'secret' => 'VkOcvPMfdUtqNvLmNPWiFDuPFWnxRtrP',
 			'redirect_uri' => 'https://orbit-sandbox.ems.host/_synapse/client/oidc/callback',
 			'grant_types' => array( 'authorization_code' ),
 			'scope' => 'openid profile',
@@ -197,15 +198,19 @@ class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\Storage\C
 			// We expose the scope here so that it's in the token (unclear from the specs but the userinfo endpoint reads the scope from the token).
 			'scope' => $scope,
 		);
+		if ( ! empty( $_REQUEST['nonce'] ) ) {
+			$claims['nonce'] = $_REQUEST['nonce'];
+		}
 
 		foreach ( explode( ' ', $scope ) as $s ) {
 			if ( $s === 'profile') {
-				$user = \WP_User::get_data_by( 'id', $user_id );
+				$user = \get_user_by( 'id', $user_id );
 				if ( $user ) {
 					foreach ( array(
 						'username' => 'user_login',
-						'firstname' => 'first_name',
-						'lastname' => 'last_name',
+						'given_name' => 'first_name',
+						'family_name' => 'last_name',
+						'nickname' => 'user_nicename',
 					) as $key => $value ) {
 						if ( $user->$value ) {
 							$claims[ $key ] = $user->$value;
