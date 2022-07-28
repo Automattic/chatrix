@@ -18,10 +18,6 @@ class A8C_DotOrg_OAuth {
 	}
 
 	public function ajax_handler() {
-		if ( ! is_user_logged_in() ) {
-			auth_redirect();
-		}
-
 		$this->ensure_db_schema();
 		$this->bootstrap_server();
 		$this->summon_controller();
@@ -153,9 +149,14 @@ class A8C_DotOrg_OAuth {
 			default:
 				wp_die( 'Lost?' );
 		}
+		exit;
 	}
 
 	public function authorize_controller() {
+		if ( ! is_user_logged_in() ) {
+			auth_redirect();
+		}
+
 		$request = OAuth2\Request::createFromGlobals();
 		$response = new OAuth2\Response();
 
@@ -223,7 +224,6 @@ class A8C_DotOrg_OAuth {
 		$response = new OAuth2\Response();
 		$response->setParameter( 'keys', $keySet->getKeys() );
 		$response->send();
-		exit;
 	}
 }
 
