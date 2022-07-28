@@ -1,5 +1,6 @@
 {
     "require": {
-        "bshaffer/oauth2-server-php": "^1.12"
+        "bshaffer/oauth2-server-php": "^1.12",
+        "strobotti/php-jwk": "^1.3"
     }
 }

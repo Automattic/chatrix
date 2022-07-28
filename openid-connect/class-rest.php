@@ -38,6 +38,15 @@ class Rest {
 				'permission_callback' => '__return_true',
 			)
 		);
+		register_rest_route(
+			self::NAMESPACE,
+			'jwks',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'jwks' ),
+				'permission_callback' => '__return_true',
+			)
+		);
 	}
 
 	public function authorize() {
@@ -73,5 +82,16 @@ class Rest {
 
 	public function userinfo() {
 		$this->server->handleUserInfoRequest(OAuth2\Request::createFromGlobals())->send();
+	}
+
+	public function jwks() {
+		$options = array(
+		    'use' => 'sig',
+		    'alg' => 'RS256',
+		    'kid' => 'eXaunmL',
+		);
+
+		$keyFactory = new \Strobotti\JWK\KeyFactory();
+		return $keyFactory->createFromPem( file_get_contents( __DIR__ . '/public.key' ), $options );
 	}
 }
