@@ -58,9 +58,25 @@ add_action( 'template_redirect', function() {
 		return;
 	}
 	$request = OAuth2\Request::createFromGlobals();
-
+	if ( ! is_user_logged_in() ) {
+		auth_redirect();
+	}
 	?>
-	<html><body>
+	<html>
+	<style>
+		html {
+			background: #eee;
+		}
+		body {
+			padding: 4em;
+			background: #fff;
+			font-family: sans-serif;
+		}
+		p {
+			margin-bottom: 2em;
+		}
+	</style>
+	<body>
 		<h1>OpenID Connect</h1>
 		<form method="post" action="<?php echo esc_url( rest_url( Rest::NAMESPACE . '/authorize' ) ); ?>">
 			<?php wp_nonce_field( 'wp_rest' ); /* The nonce will give the REST call the userdata. */ ?>
@@ -68,7 +84,7 @@ add_action( 'template_redirect', function() {
 				<input type="hidden" name="<?php echo esc_attr( $key ); ?>" value="<?php echo esc_attr( $value ); ?>" />
 			<?php endforeach; ?>
 			<p>Hi <?php echo esc_html( wp_get_current_user()->user_nicename ); ?>!</p>
-			<label>Authorize Matrix?</label><br />
+			<p><label>Login to Matrix with your <em><?php echo esc_html( get_bloginfo( 'name' ) ); ?></em> account?</label></p>
 			<input type="submit" name="authorize" value="Authorize" />
 			<a href="<?php echo esc_url( home_url() ); ?>" target="_top">Go back</a>
 		</form>
