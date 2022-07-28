@@ -14,7 +14,9 @@ add_action( 'template_redirect', function() {
 	if ( $_SERVER['REQUEST_URI'] !== '/.well-known/jwks.json' ) {
 		return;
 	}
+	status_header( 200 );
 	header( 'Content-type: application/json' );
+	header( 'Access-Control-Allow-Origin: *' );
 
 	$options = array(
 		'use' => 'sig',
@@ -22,7 +24,9 @@ add_action( 'template_redirect', function() {
 	);
 
 	$keyFactory = new \Strobotti\JWK\KeyFactory();
+	echo '{"keys":[';
 	echo $keyFactory->createFromPem( file_get_contents( __DIR__ . '/public.key' ), $options );
+	echo ']}';
 	exit;
 } );
 
@@ -30,7 +34,9 @@ add_action( 'template_redirect', function() {
 	if ( $_SERVER['REQUEST_URI'] !== '/.well-known/openid-configuration' ) {
 		return;
 	}
+	status_header( 200 );
 	header( 'Content-type: application/json' );
+	header( 'Access-Control-Allow-Origin: *' );
 	echo json_encode( array(
 		'issuer' => home_url(),
 		'authorization_endpoint' => rest_url( 'openid-connect/authorize' ),
