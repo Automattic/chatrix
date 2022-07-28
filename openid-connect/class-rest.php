@@ -38,15 +38,6 @@ class Rest {
 				'permission_callback' => '__return_true',
 			)
 		);
-		register_rest_route(
-			self::NAMESPACE,
-			'jwks',
-			array(
-				'methods'             => 'GET',
-				'callback'            => array( $this, 'jwks' ),
-				'permission_callback' => '__return_true',
-			)
-		);
 	}
 
 	public function authorize() {
@@ -61,7 +52,7 @@ class Rest {
 		// The initial OIDC request will come without a nonce, thus unauthenticated.
 		if ( ! is_user_logged_in() ) {
 			// This is handled in the main plugin file and will display a form asking the user to confirm.
-			wp_safe_redirect( add_query_arg( $request->getAllQueryParameters(), home_url( '?openid-connect-authenticate' ) ) );
+			wp_safe_redirect( add_query_arg( $request->getAllQueryParameters(), home_url( '/openid-connect/authenticate' ) ) );
 			exit;
 		}
 
@@ -78,20 +69,10 @@ class Rest {
 
 	public function token() {
 		$this->server->handleTokenRequest(OAuth2\Request::createFromGlobals())->send();
+		exit;
 	}
 
 	public function userinfo() {
 		$this->server->handleUserInfoRequest(OAuth2\Request::createFromGlobals())->send();
-	}
-
-	public function jwks() {
-		$options = array(
-		    'use' => 'sig',
-		    'alg' => 'RS256',
-		    'kid' => 'eXaunmL',
-		);
-
-		$keyFactory = new \Strobotti\JWK\KeyFactory();
-		return $keyFactory->createFromPem( file_get_contents( __DIR__ . '/public.key' ), $options );
 	}
 }

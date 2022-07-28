@@ -2,10 +2,16 @@
 namespace OpenIDConnectServer;
 use OAuth2;
 
-class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\OpenID\Storage\AuthorizationCodeInterface, OAuth2\OpenID\Storage\UserClaimsInterface {
+class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\Storage\ClientCredentialsInterface, OAuth2\OpenID\Storage\AuthorizationCodeInterface, OAuth2\OpenID\Storage\UserClaimsInterface {
 	const OPTION_PREFIX = 'oauth2_code_';
 
 	private $clients = array(
+		'kbyuFDidLLm280LIwVFiazOqjO3ty8KH' => array(
+			'secret' => '60Op4HFM0I8ajz0WdiStAbziZ-VFQttXuxixHHs2R7r7-CW8GR79l-mmLqMhc-Sa',
+			'redirect_uri' => 'https://openidconnect.net/callback',
+			'grant_types' => array( 'authorization_code' ),
+			'scope' => 'openid profile',
+		),
 		'oYgRVPEzqRAzXGOyABKuWjOXeKGoTbIo' => array(
 			'redirect_uri' => 'https://orbit-sandbox.ems.host/_synapse/client/oidc/callback',
 			'grant_types' => array( 'authorization_code' ),
@@ -122,7 +128,10 @@ class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\OpenID\St
 	 */
 	public function getClientDetails( $client_id ) {
 		if ( isset( $this->clients[ $client_id ] ) ) {
-			return $this->clients[ $client_id ];
+			return array(
+				'redirect_uri' => $this->clients[ $client_id ]['redirect_uri'],
+				'client_id' => $client_id,
+			);
 		}
 
 		return false;
@@ -196,5 +205,54 @@ class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\OpenID\St
 		}
 
 		return array();
+	}
+
+
+	/**
+	 * Make sure that the client credentials is valid.
+	 *
+	 * @param $client_id
+	 * Client identifier to be check with.
+	 * @param $client_secret
+	 * (optional) If a secret is required, check that they've given the right one.
+	 *
+	 * @return
+	 * TRUE if the client credentials are valid, and MUST return FALSE if it isn't.
+	 * @endcode
+	 *
+	 * @see http://tools.ietf.org/html/rfc6749#section-3.1
+	 *
+	 * @ingroup oauth2_section_3
+	 */
+	public function checkClientCredentials( $client_id, $client_secret = null ) {
+		if ( isset( $this->clients[ $client_id ] ) ) {
+			if ( ! isset( $this->clients[ $client_id ]['secret'] ) ) {
+				return true;
+			}
+			return $client_secret === $this->clients[ $client_id ]['secret'];
+		}
+
+		return false;
+	}
+
+	/**
+	 * Determine if the client is a "public" client, and therefore
+	 * does not require passing credentials for certain grant types
+	 *
+	 * @param $client_id
+	 * Client identifier to be check with.
+	 *
+	 * @return
+	 * TRUE if the client is public, and FALSE if it isn't.
+	 * @endcode
+	 *
+	 * @see http://tools.ietf.org/html/rfc6749#section-2.3
+	 * @see https://github.com/bshaffer/oauth2-server-php/issues/257
+	 *
+	 * @ingroup oauth2_section_2
+	 */
+	public function isPublicClient($client_id) {
+		return isset( $this->clients[ $client_id ] ) && ! isset( $this->clients[ $client_id ]['secret'] );
+
 	}
 }

@@ -11,7 +11,39 @@ require_once __DIR__ . '/class-rest.php';
 require_once __DIR__ . '/class-oauth2-storage.php';
 
 add_action( 'template_redirect', function() {
-	if ( ! isset( $_GET['openid-connect-authenticate'] ) ) {
+	if ( $_SERVER['REQUEST_URI'] !== '/.well-known/jwks.json' ) {
+		return;
+	}
+	header( 'Content-type: application/json' );
+
+	$options = array(
+		'use' => 'sig',
+		'alg' => 'RS256',
+	);
+
+	$keyFactory = new \Strobotti\JWK\KeyFactory();
+	echo $keyFactory->createFromPem( file_get_contents( __DIR__ . '/public.key' ), $options );
+	exit;
+} );
+
+add_action( 'template_redirect', function() {
+	if ( $_SERVER['REQUEST_URI'] !== '/.well-known/openid-configuration' ) {
+		return;
+	}
+	header( 'Content-type: application/json' );
+	echo json_encode( array(
+		'issuer' => home_url(),
+		'authorization_endpoint' => rest_url( 'openid-connect/authorize' ),
+		'token_endpoint' => rest_url( 'openid-connect/token' ),
+		'userinfo_endpoint' => rest_url( 'openid-connect/userinfo' ),
+		'jwks_uri' => home_url( '/.well-known/jwks.json' ),
+		'scopes_supported' => array( 'openid', 'profile' ),
+	) );
+	exit;
+} );
+
+add_action( 'template_redirect', function() {
+	if ( 0 !== strpos( $_SERVER['REQUEST_URI'], '/openid-connect/authenticate' ) ) {
 		return;
 	}
 	$request = OAuth2\Request::createFromGlobals();
@@ -31,10 +63,11 @@ add_action( 'template_redirect', function() {
 	</body></html>
 	<?php
 	exit;
-});
+} );
 
 add_action( 'plugins_loaded', function() {
 	$config = array(
+		'use_jwt_access_tokens' => true,
 		'use_openid_connect' => true,
 		'issuer' => home_url(),
 	);
@@ -53,7 +86,7 @@ add_action( 'plugins_loaded', function() {
 		'public_key'
 	);
 
-    new Rest( $server );
+	new Rest( $server );
 } );
 
 
