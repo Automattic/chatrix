@@ -7,6 +7,9 @@ namespace OpenIDConnectServer;
 use OAuth2;
 
 require_once __DIR__ . '/vendor/autoload.php';
+// Override to incorporate this fix: https://github.com/bshaffer/oauth2-server-php/issues/449#issuecomment-227531175
+require_once __DIR__ . '/class-authorization-controller.php';
+
 require_once __DIR__ . '/class-rest.php';
 require_once __DIR__ . '/class-oauth2-storage.php';
 
@@ -44,6 +47,8 @@ add_action( 'template_redirect', function() {
 		'userinfo_endpoint' => rest_url( 'openid-connect/userinfo' ),
 		'jwks_uri' => home_url( '/.well-known/jwks.json' ),
 		'scopes_supported' => array( 'openid', 'profile' ),
+		'response_types_supported' => array( 'code' ),
+		'id_token_signing_alg_values_supported' => array( 'RS256' ),
 	) );
 	exit;
 } );

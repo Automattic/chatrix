@@ -131,6 +131,7 @@ class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\Storage\C
 			return array(
 				'redirect_uri' => $this->clients[ $client_id ]['redirect_uri'],
 				'client_id' => $client_id,
+				'scope' => $this->clients[ $client_id ]['scope'],
 			);
 		}
 
@@ -192,19 +193,29 @@ class OAuth2_Storage implements OAuth2\Storage\ClientInterface, OAuth2\Storage\C
 	 * @see http://openid.net/specs/openid-connect-core-1_0.html#ScopeClaims
 	 */
 	public function getUserClaims( $user_id, $scope ) {
-		$user = \WP_User::get_data_by( 'id', $user_id );
-		if ( $user ) {
-			switch ( $scope ) {
-				case 'profile':
-					return array(
-						'username' => $user->user_login,
-						'firstname' => $user->first_name,
-						'lastname' => $user->last_name,
-					);
+		$claims = array(
+			// We expose the scope here so that it's in the token (unclear from the specs but the userinfo endpoint reads the scope from the token).
+			'scope' => $scope,
+		);
+
+		foreach ( explode( ' ', $scope ) as $s ) {
+			if ( $s === 'profile') {
+				$user = \WP_User::get_data_by( 'id', $user_id );
+				if ( $user ) {
+					foreach ( array(
+						'username' => 'user_login',
+						'firstname' => 'first_name',
+						'lastname' => 'last_name',
+					) as $key => $value ) {
+						if ( $user->$value ) {
+							$claims[ $key ] = $user->$value;
+						}
+					}
+				}
 			}
 		}
 
-		return array();
+		return $claims;
 	}
 
 

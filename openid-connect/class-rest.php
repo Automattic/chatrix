@@ -74,5 +74,6 @@ class Rest {
 
 	public function userinfo() {
 		$this->server->handleUserInfoRequest(OAuth2\Request::createFromGlobals())->send();
+		exit;
 	}
 }
