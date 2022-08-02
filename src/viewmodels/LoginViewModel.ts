@@ -17,6 +17,7 @@ limitations under the License.
 import {Client, ViewModel} from "hydrogen-view-sdk";
 import "hydrogen-view-sdk/style.css";
 import {PasswordLoginViewModel} from "./PasswordLoginViewModel";
+import {CompleteSSOLoginViewModel} from "./CompleteSSOLoginViewModel";
 import {IChatterboxConfig} from "../types/IChatterboxConfig";
 import {SSOBeginViewModel} from "./SSOBeginViewModel";
 
@@ -28,6 +29,7 @@ export class LoginViewModel extends ViewModel {
     private _errorMessage: string;
     private readonly _passwordLoginViewModel: PasswordLoginViewModel;
     private readonly _ssoBeginViewModel: SSOBeginViewModel;
+    private readonly _completeSSOLoginViewModel: CompleteSSOLoginViewModel;
 
     constructor(options) {
         super(options);
@@ -36,6 +38,15 @@ export class LoginViewModel extends ViewModel {
         this._client = client;
         this._welcomeMessageHeading = config.welcome_message_heading;
         this._welcomeMessageText = config.welcome_message_text;
+
+        if (config.token) {
+           return  this._completeSSOLoginViewModel = this.track(new CompleteSSOLoginViewModel(
+                this.childOptions( {
+                    client: this._client,
+                    loginToken: config.token
+                })
+            ));
+        }
 
         if (config.login_methods.length === 0) {
             this._errorMessage = "No login methods are configured. Please contact the site's administrator."

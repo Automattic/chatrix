@@ -36,7 +36,7 @@ export class SSOBeginViewModel extends ViewModel {
     }
 
     private redirect() {
-        const returnURL = window.location.origin
-        document.location.href = `${this.homeserver}/_matrix/client/r0/login/sso/redirect?redirectUrl=${returnURL}`;
+        const returnURL = parent.location.origin
+        parent.location.href = `${this.homeserver}/_matrix/client/r0/login/sso/redirect?redirectUrl=${returnURL}`;
     }
 }
