@@ -27,26 +27,19 @@ export class LoginViewModel extends ViewModel {
     private _welcomeMessageHeading: string;
     private _welcomeMessageText: string;
     private _errorMessage: string;
+    private _loginToken: string;
     private readonly _passwordLoginViewModel: PasswordLoginViewModel;
     private readonly _ssoBeginViewModel: SSOBeginViewModel;
     private readonly _completeSSOLoginViewModel: CompleteSSOLoginViewModel;
 
     constructor(options) {
         super(options);
-        const {config, client} = options;
+        const {config, client, loginToken} = options;
         this._config = config;
+        this._loginToken = loginToken;
         this._client = client;
         this._welcomeMessageHeading = config.welcome_message_heading;
         this._welcomeMessageText = config.welcome_message_text;
-
-        if (config.token) {
-           return  this._completeSSOLoginViewModel = this.track(new CompleteSSOLoginViewModel(
-                this.childOptions( {
-                    client: this._client,
-                    loginToken: config.token
-                })
-            ));
-        }
 
         if (config.login_methods.length === 0) {
             this._errorMessage = "No login methods are configured. Please contact the site's administrator."
@@ -62,11 +55,20 @@ export class LoginViewModel extends ViewModel {
         }
 
         if (config.login_methods.includes("sso")) {
-            this._ssoBeginViewModel = this.track(new SSOBeginViewModel(
-                this.childOptions({
-                    config: this._config,
-                })
-            ));
+            if (this._loginToken) {
+                this._completeSSOLoginViewModel = this.track(new CompleteSSOLoginViewModel(
+                    this.childOptions( {
+                        client: this._client,
+                        loginToken: this._loginToken
+                    })
+                ));
+            } else {
+                this._ssoBeginViewModel = this.track(new SSOBeginViewModel(
+                    this.childOptions({
+                        config: this._config,
+                    })
+                ));
+            }
         }
     }
 

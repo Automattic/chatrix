@@ -61,10 +61,13 @@ export class CompleteSSOLoginViewModel extends ViewModel {
         }).catch(() => {
             switch (this._client.loginFailure) {
                 case "Credentials":
-                this._showError(this.i18n`Your username and/or password don't seem to be correct.`);
+                this._showError(this.i18n`Your login token is invalid.`);
                 break;
                 case "Connection":
                 this._showError(this.i18n`Can't connect to ${this._config.homeserver}.`);
+                break;
+                case "Unknown":
+                this._showError(this.i18n`Something went wrong while checking your login token.`);
                 break;
                 default:
                 this._showError(this._client.loginFailure);
@@ -75,9 +78,9 @@ export class CompleteSSOLoginViewModel extends ViewModel {
         });
     }
 
-    private async doLogin(homeserver: string, token: string): Promise<void> {
+    private async doLogin(homeserver: string, loginToken: string): Promise<void> {
         const loginOptions = await this._client.queryLogin(homeserver).result;
-        this._client.startWithLogin(loginOptions.token(token));
+        this._client.startWithLogin(loginOptions.token(loginToken));
 
         await this._client.loadStatus.waitFor((status: string) => {
             return status === LoadStatus.Ready ||
