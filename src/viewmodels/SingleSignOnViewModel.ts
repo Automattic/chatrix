@@ -1,5 +1,5 @@
 /*
-Copyright 2021 The Matrix.org Foundation C.I.C.
+Copyright 2022 The Matrix.org Foundation C.I.C.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,22 +15,46 @@ limitations under the License.
 */
 
 import {Client, ViewModel, LoadStatus} from "hydrogen-view-sdk";
+import "hydrogen-view-sdk/style.css";
+import {IChatterboxConfig} from "../types/IChatterboxConfig";
 
-export class CompleteSSOLoginViewModel extends ViewModel {
+export class SingleSignOnViewModel extends ViewModel {
+    private readonly _config: IChatterboxConfig;
     private _client: typeof Client;
-    private _loginToken: string;
     private _isBusy: boolean;
 
     constructor(options) {
         super(options);
         const {
             loginToken,
+            config,
             client
         } = options;
-        this._loginToken = loginToken;
         this._client = client;
+        this._config = config;
         this._isBusy = false;
-        this.performSSOLoginCompletion();
+
+        if ( loginToken ) {
+            this.performSSOLoginCompletion( loginToken );
+        }
+    }
+
+    get homeserver() {
+        return this._config.homeserver
+    }
+
+    async beginSSO() {
+        await this.platform.settingsStorage.setString("sso_ongoing_login_homeserver", this.homeserver);
+        this.redirect()
+    }
+
+    private redirect() {
+        const returnURL = parent.location.origin
+        parent.location.href = `${this.homeserver}/_matrix/client/r0/login/sso/redirect?redirectUrl=${returnURL}`;
+    }
+
+    get isBusy() {
+        return this._isBusy;
     }
 
     get errorMessage() { return this._errorMessage; }
@@ -45,18 +69,15 @@ export class CompleteSSOLoginViewModel extends ViewModel {
         this.emitChange("isBusy");
     }
 
-    async performSSOLoginCompletion() {
-        if (!this._loginToken) {
-            return;
-        }
+    async performSSOLoginCompletion(loginToken) {
         const homeserver = await this.platform.settingsStorage.getString("sso_ongoing_login_homeserver");
 
         this._showError("")
         this._setBusy(true);
 
-        const loginPromise = this.doLogin(homeserver, this._loginToken)
+        const loginPromise = this.doLogin(homeserver, loginToken)
         loginPromise.then(() => {
-            this._showError("")
+            this._showError("");
             this.navigation.push("timeline", loginPromise);
         }).catch(() => {
             switch (this._client.loginFailure) {

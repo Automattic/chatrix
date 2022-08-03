@@ -265,13 +265,13 @@ body {
     margin: 20px !important;
 }
 
-.SSOBeginView {
+.SingleSignOnView {
     display: flex;
     flex-direction: column;
     padding: 0 0.4em 0;
 }
 
-.SSOBeginView_button {
+.SingleSignOnView_button {
     flex: 1;
     margin-top: 12px;
 }

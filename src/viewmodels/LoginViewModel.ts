@@ -17,9 +17,9 @@ limitations under the License.
 import {Client, ViewModel} from "hydrogen-view-sdk";
 import "hydrogen-view-sdk/style.css";
 import {PasswordLoginViewModel} from "./PasswordLoginViewModel";
-import {CompleteSSOLoginViewModel} from "./CompleteSSOLoginViewModel";
+import {SSOCompleteViewModel} from "./SSOCompleteViewModel";
 import {IChatterboxConfig} from "../types/IChatterboxConfig";
-import {SSOBeginViewModel} from "./SSOBeginViewModel";
+import {SingleSignOnViewModel} from "./SingleSignOnViewModel";
 
 export class LoginViewModel extends ViewModel {
     private readonly _config: IChatterboxConfig;
@@ -27,16 +27,14 @@ export class LoginViewModel extends ViewModel {
     private _welcomeMessageHeading: string;
     private _welcomeMessageText: string;
     private _errorMessage: string;
-    private _loginToken: string;
     private readonly _passwordLoginViewModel: PasswordLoginViewModel;
-    private readonly _ssoBeginViewModel: SSOBeginViewModel;
-    private readonly _completeSSOLoginViewModel: CompleteSSOLoginViewModel;
+    private readonly _singleSignOnViewModel: SingleSignOnViewModel;
+    private readonly _ssoCompleteViewModel: SSOCompleteViewModel;
 
     constructor(options) {
         super(options);
-        const {config, client, loginToken} = options;
+        const {config, client} = options;
         this._config = config;
-        this._loginToken = loginToken;
         this._client = client;
         this._welcomeMessageHeading = config.welcome_message_heading;
         this._welcomeMessageText = config.welcome_message_text;
@@ -55,20 +53,9 @@ export class LoginViewModel extends ViewModel {
         }
 
         if (config.login_methods.includes("sso")) {
-            if (this._loginToken) {
-                this._completeSSOLoginViewModel = this.track(new CompleteSSOLoginViewModel(
-                    this.childOptions( {
-                        client: this._client,
-                        loginToken: this._loginToken
-                    })
-                ));
-            } else {
-                this._ssoBeginViewModel = this.track(new SSOBeginViewModel(
-                    this.childOptions({
-                        config: this._config,
-                    })
-                ));
-            }
+            this._singleSignOnViewModel = this.track(new SingleSignOnViewModel(
+                this.childOptions(options)
+            ));
         }
     }
 
@@ -81,8 +68,12 @@ export class LoginViewModel extends ViewModel {
         return this._passwordLoginViewModel;
     }
 
-    get ssoBeginViewModel() {
-        return this._ssoBeginViewModel;
+    get singleSignOnViewModel() {
+        return this._singleSignOnViewModel;
+    }
+
+    get ssoCompleteViewModel() {
+        return this._ssoCompleteViewModel;
     }
 
     get welcomeMessageHeading() {

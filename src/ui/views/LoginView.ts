@@ -17,7 +17,7 @@ limitations under the License.
 import { TemplateView } from "hydrogen-view-sdk";
 import { LoginViewModel } from "../../viewmodels/LoginViewModel";
 import {PasswordLoginView} from "./PasswordLoginView";
-import {SSOBeginView} from "./SSOBeginView";
+import {SingleSignOnView} from "./SingleSignOnView";
 
 export class LoginView extends TemplateView<LoginViewModel> {
     constructor(value) {
@@ -31,9 +31,9 @@ export class LoginView extends TemplateView<LoginViewModel> {
                 t.p({}, vm.welcomeMessageText),
             ]),
             t.if(vm => vm.errorMessage, (t, vm) => t.p({className: "error"}, vm.i18n(vm.errorMessage))),
-            t.mapView(vm => vm.ssoBeginViewModel, vm => vm ? new SSOBeginView(vm): null),
+            t.mapView(vm => vm.singleSignOnViewModel, vm => vm ? new SingleSignOnView(vm): null),
             t.if(
-                vm => vm.passwordLoginViewModel && vm.ssoBeginViewModel,
+                vm => vm.passwordLoginViewModel && vm.singleSignOnViewModel,
                 t => t.p({className: "LoginView_separator"}, vm.i18n`or`)
             ),
             t.mapView(vm => vm.passwordLoginViewModel, vm => vm ? new PasswordLoginView(vm): null),
