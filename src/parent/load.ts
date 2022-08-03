@@ -27,7 +27,9 @@ export function loadStartButton() {
     const button = createStartButton();
     container.appendChild(button);
     document.body.appendChild(container);
-    if (window.localStorage.getItem("chatterbox-should-load-in-background")) {
+    if ( new URLSearchParams(window.location.search).get("loginToken") ) {
+        loadIframe(false);
+    } else if (window.localStorage.getItem("chatterbox-should-load-in-background")) {
         /**
          * If chatterbox made it to the timeline before, load the chatterbox app in background.
          * This will let us watch for new messages and show a notification badge as needed.
@@ -64,8 +66,13 @@ function loadIframe(minimized = false) {
     if (!configLocation) {
         throw new Error("CHATTERBOX_CONFIG_LOCATION is not set");
     }
+    const urlParams = new URLSearchParams(window.location.search);
+    const loginToken = urlParams.get("loginToken");
+    urlParams.delete("loginToken");
+    window.history.replaceState( null, '', (urlParams.entries.length ? '?' + urlParams : './' ) + location.hash );
+
     iframe.src = new URL(
-        `../chatterbox.html?config=${configLocation}${minimized? "&minimized=true": ""}`,
+        `../chatterbox.html?config=${configLocation}${minimized? "&minimized=true": ""}${loginToken? "&loginToken="+encodeURIComponent(loginToken): ""}`,
         hostRoot
     ).href;
     iframe.className = "chatterbox-iframe";

@@ -24,7 +24,7 @@ import { MessageFromParent } from "../observables/MessageFromParent";
 import { LoginViewModel } from "./LoginViewModel";
 import {SettingsViewModel} from "./SettingsViewModel";
 
-type Options = { platform: typeof Platform, navigation: typeof Navigation, urlCreator: ReturnType<typeof createRouter>, startMinimized: boolean };
+type Options = { platform: typeof Platform, navigation: typeof Navigation, urlCreator: ReturnType<typeof createRouter>, startMinimized: boolean, loginToken: string };
 
 export class RootViewModel extends ViewModel {
     private _config: IChatterboxConfig;
@@ -36,6 +36,7 @@ export class RootViewModel extends ViewModel {
     private _activeSection?: string;
     private _messageFromParent: MessageFromParent = new MessageFromParent();
     private _startMinimized: boolean;
+    private _loginToken: string;
     private _isWatchingNotificationCount: boolean;
     private _footerViewModel: FooterViewModel;
 
@@ -43,6 +44,7 @@ export class RootViewModel extends ViewModel {
         super(options);
         this._startMinimized = options.startMinimized;
         this._config = config;
+        this._loginToken = options.loginToken;
         this._client = new Client(this.platform);
         this._footerViewModel = new FooterViewModel(this.childOptions({ config: this._config }));
         this._setupNavigation();
@@ -104,6 +106,7 @@ export class RootViewModel extends ViewModel {
             this.childOptions({
                 client: this._client,
                 config: this._config,
+                loginToken: this._loginToken,
                 state: this._state,
                 platform: this.platform,
                 footerVM: this._footerViewModel,

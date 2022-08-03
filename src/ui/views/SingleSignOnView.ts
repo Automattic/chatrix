@@ -15,21 +15,22 @@ limitations under the License.
 */
 
 import { TemplateView } from "hydrogen-view-sdk";
-import {SSOBeginViewModel} from "../../viewmodels/SSOBeginViewModel";
+import {SingleSignOnViewModel} from "../../viewmodels/SingleSignOnViewModel";
 
-export class SSOBeginView extends TemplateView<SSOBeginViewModel> {
+export class SingleSignOnView extends TemplateView<SingleSignOnViewModel> {
     constructor(value) {
         super(value);
     }
 
-    render(t, vm: SSOBeginViewModel) {
-        return t.div({ className: "SSOBeginView" },
+    render(t, vm: SingleSignOnViewModel) {
+       return t.div({ className: "SingleSignOnView" }, [
+            t.if(vm => vm.errorMessage, (t, vm) => t.p({className: "error"}, vm.i18n(vm.errorMessage))),
             t.button({
-                className: "SSOBeginView_button button-action primary",
+                className: "SingleSignOnView_button button-action primary",
                 type: "button",
                 onClick: () => vm.beginSSO(),
                 disabled: vm => vm.isBusy
             }, vm.i18n`Log in with SSO`)
-        );
+        ] );
     }
 }

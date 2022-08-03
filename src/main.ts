@@ -42,6 +42,10 @@ function shouldStartMinimized(): boolean {
     return !!new URLSearchParams(window.location.search).get("minimized");
 }
 
+function getLoginToken(): string | null {
+    return new URLSearchParams(window.location.search).get("loginToken");
+}
+
 async function main() {
     hideOnError();
     const root = document.querySelector(rootDivId) as HTMLDivElement;
@@ -56,7 +60,8 @@ async function main() {
     platform.setNavigation(navigation);
     const urlRouter = createRouter({ navigation, history: platform.history });
     const startMinimized = shouldStartMinimized();
-    const rootViewModel = new RootViewModel(config, {platform, navigation, urlCreator: urlRouter, startMinimized});
+    const loginToken = getLoginToken();
+    const rootViewModel = new RootViewModel(config, {platform, navigation, urlCreator: urlRouter, startMinimized, loginToken});
     rootViewModel.start();
     const rootView = new RootView(rootViewModel);
     root.appendChild(rootView.mount());

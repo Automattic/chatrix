@@ -18,7 +18,7 @@ import { isMobile } from "./common";
 
 const sizeCollection = {
     "desktop": {
-        "login": { height: "450px", width: "375px" },
+        "login": { height: "480px", width: "375px" },
         "settings": { height: "595px", width: "375px" },
         "account-setup": { height: "334px", width: "375px" },
         "timeline": {height: "595px", width: "375px"}
@@ -37,13 +37,13 @@ export function toggleIframe() {
     if (iframeElement.style.display !== "none") {
         iframeElement.style.display = "none";
         document.querySelector(".start-chat-btn").classList.remove("start-background-minimized");
-        iframeElement.contentWindow.postMessage({ action: "minimize" }, "*");;
+        iframeElement.contentWindow.postMessage({ action: "minimize" }, "*");
         if (isMobile()) {
             startButtonDiv.style.display = "block";
         }
     }
     else {
-        iframeElement.contentWindow.postMessage({ action: "maximize" }, "*");;
+        iframeElement.contentWindow.postMessage({ action: "maximize" }, "*");
         iframeElement.style.display = "block";
         document.querySelector(".start-chat-btn").classList.add("start-background-minimized");
         if (isMobile()) {
