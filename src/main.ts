@@ -42,7 +42,7 @@ function shouldStartMinimized(): boolean {
     return !!new URLSearchParams(window.location.search).get("minimized");
 }
 
-function getLoginToken(): string {
+function getLoginToken(): string | null {
     return new URLSearchParams(window.location.search).get("loginToken");
 }
 
