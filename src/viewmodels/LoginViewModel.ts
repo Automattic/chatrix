@@ -17,7 +17,6 @@ limitations under the License.
 import {Client, ViewModel} from "hydrogen-view-sdk";
 import "hydrogen-view-sdk/style.css";
 import {PasswordLoginViewModel} from "./PasswordLoginViewModel";
-import {SSOCompleteViewModel} from "./SSOCompleteViewModel";
 import {IChatterboxConfig} from "../types/IChatterboxConfig";
 import {SingleSignOnViewModel} from "./SingleSignOnViewModel";
 
@@ -29,7 +28,6 @@ export class LoginViewModel extends ViewModel {
     private _errorMessage: string;
     private readonly _passwordLoginViewModel: PasswordLoginViewModel;
     private readonly _singleSignOnViewModel: SingleSignOnViewModel;
-    private readonly _ssoCompleteViewModel: SSOCompleteViewModel;
 
     constructor(options) {
         super(options);
@@ -70,10 +68,6 @@ export class LoginViewModel extends ViewModel {
 
     get singleSignOnViewModel() {
         return this._singleSignOnViewModel;
-    }
-
-    get ssoCompleteViewModel() {
-        return this._ssoCompleteViewModel;
     }
 
     get welcomeMessageHeading() {
