@@ -110,8 +110,9 @@ export class ChatterboxViewModel extends ViewModel {
         return this._roomViewModel;
     }
 
-    get roomName() {
-        return this._options.config["header"]?.["title"] ?? "";
+    get roomName(): string | null{
+        const title = this._options.config["header"]?.["title"];
+        return title && title !== "" ? title : this._roomViewModel.name;
     }
 
     get customAvatarURL() {
