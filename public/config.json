@@ -7,8 +7,8 @@
     "username": "chatterbox",
     "password": "DsqC0Oe6j1",
     "header": {
-        "title": "Awesome Community",
-        "avatar": "https://ems.element.io/EMS-logo.svg"
+        "title": "",
+        "avatar": ""
     },
     "footer": {
         "chatterbox_link": "https://element.io/solutions/chatterbox-embedded-live-chat-for-customer-service",
