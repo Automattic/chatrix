@@ -1,11 +1,9 @@
 {
     "homeserver": "https://orbit-sandbox.ems.host",
-    "login_methods": ["password", "sso"],
-    "welcome_message_heading": "Welcome to chatrix!",
-    "welcome_message_text": "To start chatting, log in with one of the options below.",
-    "auto_join_room": "!OTrhRALmywAzyMUeaj:orbit-sandbox.ems.host",
-    "username": "chatterbox",
-    "password": "DsqC0Oe6j1",
+    "login_methods": ["sso"],
+    "welcome_message_heading": "Welcome to the Making WordPress Matrix chat!",
+    "welcome_message_text": "To join the #make-polyglots room, please log in with SSO to use your WordPress.org account.",
+    "auto_join_room": "!TGeMnSOaImTtdkfeLq:orbit-sandbox.ems.host",
     "header": {
         "title": "",
         "avatar": ""
