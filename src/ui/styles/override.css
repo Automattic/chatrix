@@ -9,6 +9,10 @@
     pointer-events: none;
 }
 
+#chatterbox .Timeline_messageBody.statusMessage {
+    display: none;
+}
+
 /*
 todo: this style should actually be in hydrogen-web
 */
