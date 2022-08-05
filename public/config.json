@@ -7,13 +7,13 @@
     "username": "chatterbox",
     "password": "DsqC0Oe6j1",
     "header": {
-        "title": "Awesome Community",
-        "avatar": "https://ems.element.io/EMS-logo.svg"
+        "title": "",
+        "avatar": ""
     },
     "footer": {
         "chatterbox_link": "https://element.io/solutions/chatterbox-embedded-live-chat-for-customer-service",
         "matrix_link": "https://matrix.org"
     },
     "token": "Valid Token to be used with Token Authenticated Registration",
-    "avatar": "https://bitcoin.org/img/icons/opengraph.png?1656252469"
+    "avatar": ""
 }
