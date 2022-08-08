@@ -46,9 +46,10 @@ add_action( 'rest_api_init', function () {
 // Return the configuration for the current page, if any.
 add_filter( "chatrix_configuration", function () {
 	$instances = apply_filters( "chatrix_instances", false );
+	$page_uri  = str_replace( home_url() . '/', '', get_permalink() );
 
-	// TODO: Retrieve actual instance
-	$instance_id = "polyglots";
+	// The instance id is the $uri without the trailing '/'.
+	$instance_id = rtrim( $page_uri, '/' );
 
 	return array(
 		"url"    => rest_url( "chatrix/config/$instance_id" ),
