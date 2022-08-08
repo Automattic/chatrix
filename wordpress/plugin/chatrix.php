@@ -36,8 +36,7 @@ add_action( 'wp_head', function () {
 
 // Enqueue the script only when chatrix_configuration filter is set.
 add_action( 'wp_enqueue_scripts', function () {
-	$chatrix_configuration = apply_filters( 'chatrix_configuration', false );
-	if ( $chatrix_configuration ) {
+	if ( apply_filters( 'chatrix_configuration', false ) ) {
 		$url = "http://localhost:3000/src/parent/parent.ts";
 		wp_enqueue_script( 'chatrix-script', $url, array(), null, true );
 	}
