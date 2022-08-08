@@ -37,10 +37,9 @@ add_action( 'rest_api_init', function () {
 // So to work around this, we instead hook to wp_head and set it explicitly.
 add_action( 'wp_head', function () {
 	if ( apply_filters( 'chatrix_configuration', false ) ) {
-		$config_url = rest_url( 'chatrix/config' );
 		?>
         <script type="text/javascript">
-            window.CHATTERBOX_CONFIG_LOCATION = "<?php echo $config_url ?>";
+            window.CHATTERBOX_CONFIG_LOCATION = "<?php echo rest_url( 'chatrix/config' ) ?>";
         </script>
 		<?php
 	}
