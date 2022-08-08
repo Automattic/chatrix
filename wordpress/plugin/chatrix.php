@@ -12,21 +12,23 @@ namespace Chatrix;
 
 add_filter( "chatrix_configuration", function () {
 	return array(
-		"homeserver"              => "https://orbit-sandbox.ems.host",
-		"login_methods"           => array( "sso" ),
-		"welcome_message_heading" => "Welcome to chatrix!",
-		"welcome_message_text"    => "To start chatting, log in with one of the options below.",
-		"auto_join_room"          => "!OTrhRALmywAzyMUeaj:orbit-sandbox.ems.host",
+		"url"    => rest_url( 'chatrix/config' ),
+		"config" => array(
+			"homeserver"              => "https://orbit-sandbox.ems.host",
+			"login_methods"           => array( "sso" ),
+			"welcome_message_heading" => "Welcome to chatrix!",
+			"welcome_message_text"    => "To start chatting, log in with one of the options below.",
+			"auto_join_room"          => "!OTrhRALmywAzyMUeaj:orbit-sandbox.ems.host",
+		)
 	);
 } );
 
 add_action( 'rest_api_init', function () {
-	$chatrix_configuration = apply_filters( 'chatrix_configuration', false );
-	if ( $chatrix_configuration ) {
+	if ( $config = apply_filters( 'chatrix_configuration', false ) ) {
 		register_rest_route( 'chatrix', 'config', array(
 			'methods'  => 'GET',
-			'callback' => function () use ( $chatrix_configuration ) {
-				return $chatrix_configuration;
+			'callback' => function () use ( $config ) {
+				return $config["config"];
 			}
 		) );
 	}
@@ -36,10 +38,10 @@ add_action( 'rest_api_init', function () {
 // However, we can't use wp_localize_script() since it cannot write to the `window` object.
 // So to work around this, we instead hook to wp_head and set it explicitly.
 add_action( 'wp_head', function () {
-	if ( apply_filters( 'chatrix_configuration', false ) ) {
+	if ( $config = apply_filters( 'chatrix_configuration', false ) ) {
 		?>
         <script type="text/javascript">
-            window.CHATTERBOX_CONFIG_LOCATION = "<?php echo rest_url( 'chatrix/config' ) ?>";
+            window.CHATTERBOX_CONFIG_LOCATION = "<?php echo $config["url"] ?>";
         </script>
 		<?php
 	}
