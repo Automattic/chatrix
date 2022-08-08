@@ -13,6 +13,13 @@ namespace Chatrix;
 // Declare all instances of chatrix.
 add_filter( "chatrix_instances", function () {
 	return array(
+		"core"      => array(
+			"homeserver"              => "https://orbit-sandbox.ems.host",
+			"login_methods"           => array( "sso" ),
+			"welcome_message_heading" => "Welcome to chatrix!",
+			"welcome_message_text"    => "To start chatting, log in with one of the options below.",
+			"auto_join_room"          => "!IhfwGaWMASGLWVjkWJ:orbit-sandbox.ems.host",
+		),
 		"polyglots" => array(
 			"homeserver"              => "https://orbit-sandbox.ems.host",
 			"login_methods"           => array( "sso" ),
