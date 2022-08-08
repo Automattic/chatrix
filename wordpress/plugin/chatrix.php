@@ -20,6 +20,18 @@ add_filter( "chatrix_configuration", function () {
 	);
 } );
 
+add_action( 'rest_api_init', function () {
+	$chatrix_configuration = apply_filters( 'chatrix_configuration', false );
+	if ( $chatrix_configuration ) {
+		register_rest_route( 'chatrix', 'config', array(
+			'methods'  => 'GET',
+			'callback' => function () use ( $chatrix_configuration ) {
+				return $chatrix_configuration;
+			}
+		) );
+	}
+} );
+
 // We need to set window.CHATTERBOX_CONFIG_LOCATION.
 // However, we can't use wp_localize_script() since it cannot write to the `window` object.
 // So to work around this, we instead hook to wp_head and set it explicitly.
