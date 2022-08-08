@@ -51,6 +51,10 @@ add_filter( "chatrix_configuration", function () {
 	// The instance id is the $uri without the trailing '/'.
 	$instance_id = rtrim( $page_uri, '/' );
 
+	if ( ! array_key_exists( $instance_id, $instances ) ) {
+		return null;
+	}
+
 	return array(
 		"url"    => rest_url( "chatrix/config/$instance_id" ),
 		"config" => $instances[ $instance_id ],
