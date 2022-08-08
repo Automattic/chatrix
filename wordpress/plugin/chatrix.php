@@ -10,6 +10,10 @@
 
 namespace Chatrix;
 
+function chatrix_config() {
+	return apply_filters( 'chatrix_configuration', false );
+}
+
 add_filter( "chatrix_configuration", function () {
 	return array(
 		"url"    => rest_url( 'chatrix/config' ),
@@ -24,7 +28,7 @@ add_filter( "chatrix_configuration", function () {
 } );
 
 add_action( 'rest_api_init', function () {
-	if ( $config = apply_filters( 'chatrix_configuration', false ) ) {
+	if ( $config = chatrix_config() ) {
 		register_rest_route( 'chatrix', 'config', array(
 			'methods'  => 'GET',
 			'callback' => function () use ( $config ) {
@@ -38,7 +42,7 @@ add_action( 'rest_api_init', function () {
 // However, we can't use wp_localize_script() since it cannot write to the `window` object.
 // So to work around this, we instead hook to wp_head and set it explicitly.
 add_action( 'wp_head', function () {
-	if ( $config = apply_filters( 'chatrix_configuration', false ) ) {
+	if ( $config = chatrix_config() ) {
 		?>
         <script type="text/javascript">
             window.CHATTERBOX_CONFIG_LOCATION = "<?php echo $config["url"] ?>";
@@ -49,7 +53,7 @@ add_action( 'wp_head', function () {
 
 // Enqueue the script only when chatrix_configuration filter is set.
 add_action( 'wp_enqueue_scripts', function () {
-	if ( apply_filters( 'chatrix_configuration', false ) ) {
+	if ( chatrix_config() ) {
 		$url = "http://localhost:3000/src/parent/parent.ts";
 		wp_enqueue_script( 'chatrix-script', $url, array(), null, true );
 	}
