@@ -1,0 +1,5 @@
+{
+  "core": "WordPress/WordPress",
+  "phpVersion": "7.4",
+  "plugins": [ "./plugin/" ]
+}
