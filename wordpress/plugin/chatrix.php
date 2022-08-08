@@ -10,33 +10,46 @@
 
 namespace Chatrix;
 
-function chatrix_config() {
-	return apply_filters( 'chatrix_configuration', false );
-}
-
-add_filter( "chatrix_configuration", function () {
+// Declare all instances of chatrix.
+add_filter( "chatrix_instances", function () {
 	return array(
-		"url"    => rest_url( 'chatrix/config' ),
-		"config" => array(
+		"polyglots" => array(
 			"homeserver"              => "https://orbit-sandbox.ems.host",
 			"login_methods"           => array( "sso" ),
 			"welcome_message_heading" => "Welcome to chatrix!",
 			"welcome_message_text"    => "To start chatting, log in with one of the options below.",
 			"auto_join_room"          => "!OTrhRALmywAzyMUeaj:orbit-sandbox.ems.host",
-		)
+		),
 	);
-} );
+}, 0 );
 
+// Declare rest routes for each chatrix instance.
 add_action( 'rest_api_init', function () {
-	if ( $config = chatrix_config() ) {
-		register_rest_route( 'chatrix', 'config', array(
+	foreach ( apply_filters( "chatrix_instances", false ) as $instance_id => $instance ) {
+		register_rest_route( 'chatrix', "config/$instance_id", array(
 			'methods'  => 'GET',
-			'callback' => function () use ( $config ) {
-				return $config["config"];
+			'callback' => function () use ( $instance ) {
+				return $instance;
 			}
 		) );
 	}
 } );
+
+// Return the configuration for the current page, if any.
+add_filter( "chatrix_configuration", function () {
+	$instances = apply_filters( "chatrix_instances", false );
+
+	// TODO: Retrieve actual instance
+	$instance_id = "polyglots";
+
+	return array(
+		"url"    => rest_url( "chatrix/config/$instance_id" ),
+		"config" => $instances[ $instance_id ],
+	);
+} );
+function chatrix_config() {
+	return apply_filters( 'chatrix_configuration', false );
+}
 
 // We need to set window.CHATTERBOX_CONFIG_LOCATION.
 // However, we can't use wp_localize_script() since it cannot write to the `window` object.
