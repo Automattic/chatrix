@@ -30,13 +30,14 @@ add_filter( "chatrix_instances", function () {
 	);
 }, 0 );
 
-// Declare rest routes for each chatrix instance.
+// Declare rest routes for the config of each chatrix instance.
 add_action( 'rest_api_init', function () {
-	foreach ( apply_filters( "chatrix_instances", false ) as $instance_id => $instance ) {
+	$instances = apply_filters( "chatrix_instances", false );
+	foreach ( $instances as $instance_id => $instance ) {
 		register_rest_route( 'chatrix', "config/$instance_id", array(
 			'methods'  => 'GET',
-			'callback' => function () use ( $instance ) {
-				return $instance;
+			'callback' => function () use ( $instances, $instance_id ) {
+				return $instances[ $instance_id ];
 			}
 		) );
 	}
