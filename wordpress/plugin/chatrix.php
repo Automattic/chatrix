@@ -23,22 +23,22 @@ add_filter( "chatrix_configuration", function () {
 // We need to set window.CHATTERBOX_CONFIG_LOCATION.
 // However, we can't use wp_localize_script() since it cannot write to the `window` object.
 // So to work around this, we instead hook to wp_head and set it explicitly.
-add_action ( 'wp_head', function () {
-    if (apply_filters( 'chatrix_configuration', false ) ) {
-        $config_url = rest_url( 'chatrix/config' );
-	    ?>
+add_action( 'wp_head', function () {
+	if ( apply_filters( 'chatrix_configuration', false ) ) {
+		$config_url = rest_url( 'chatrix/config' );
+		?>
         <script type="text/javascript">
             window.CHATTERBOX_CONFIG_LOCATION = "<?php echo $config_url ?>";
         </script>
-        <?php
-    }
+		<?php
+	}
 } );
 
 // Enqueue the script only when chatrix_configuration filter is set.
-add_action( 'wp_enqueue_scripts', function() {
+add_action( 'wp_enqueue_scripts', function () {
 	$chatrix_configuration = apply_filters( 'chatrix_configuration', false );
 	if ( $chatrix_configuration ) {
-        $url = "http://localhost:3000/src/parent/parent.ts";
+		$url = "http://localhost:3000/src/parent/parent.ts";
 		wp_enqueue_script( 'chatrix-script', $url, array(), null, true );
 	}
 } );
@@ -48,5 +48,6 @@ add_filter( 'script_loader_tag', function ( $tag, $handle, $src ) {
 	if ( $handle === "chatrix-script" ) {
 		$tag = '<script id="chatterbox-script" type="module" src="' . esc_url( $src ) . '"></script>';
 	}
+
 	return $tag;
 }, 10, 3 );
