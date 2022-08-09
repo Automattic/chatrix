@@ -19,8 +19,23 @@ You can access WordPress's admin at [`http://localhost:8888/wp-admin`](http://lo
 - username: **`admin`**
 - password: **`password`**
 
-Lastly, you must build chatrix itself:
+Build chatrix itself:
 
 ```shell
 yarn build
+```
+
+## Running phpcs
+> You must be in the `wordpress/` directory, not in the repo root.
+
+Install composer dependencies:
+
+```shell
+composer install
+```
+
+Then run `phpcs` with:
+
+```shell
+./vendor/bin/phpcs
 ```
