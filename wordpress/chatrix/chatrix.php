@@ -75,6 +75,7 @@ add_action( 'wp_head', function () {
 	if ( $config = chatrix_config() ) {
 		?>
         <script type="text/javascript">
+            window.CHATTERBOX_HTML_LOCATION = "<?php echo assetUrl( 'chatterbox.html' ) ?>";
             window.CHATTERBOX_CONFIG_LOCATION = "<?php echo $config["url"] ?>";
         </script>
 		<?php
