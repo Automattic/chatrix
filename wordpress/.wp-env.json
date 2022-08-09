@@ -1,5 +1,8 @@
 {
   "core": "WordPress/WordPress",
   "phpVersion": "7.4",
-  "plugins": [ "./chatrix/" ]
+  "plugins": [ "./chatrix/" ],
+  "mappings": {
+    "wp-content/plugins/chatrix/frontend": "../target"
+  }
 }

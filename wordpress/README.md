@@ -18,3 +18,9 @@ You can access WordPress's admin at [`http://localhost:8888/wp-admin`](http://lo
 
 - username: **`admin`**
 - password: **`password`**
+
+Lastly, you must build chatrix itself:
+
+```shell
+yarn build
+```
