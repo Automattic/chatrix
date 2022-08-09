@@ -10,6 +10,10 @@
 
 namespace Chatrix;
 
+function assetUrl( $assetPath ): string {
+	return plugins_url( "frontend/$assetPath", __FILE__ );
+}
+
 // Declare all instances of chatrix.
 add_filter( "chatrix_instances", function () {
 	return array(
@@ -64,9 +68,9 @@ function chatrix_config() {
 	return apply_filters( 'chatrix_configuration', false );
 }
 
-// We need to set window.CHATTERBOX_CONFIG_LOCATION.
-// However, we can't use wp_localize_script() since it cannot write to the `window` object.
-// So to work around this, we instead hook to wp_head and set it explicitly.
+// Chatterbox accepts some configuration through properties on the window object.
+// Ideally we would use wp_localize_script() but it cannot write to the `window` object.
+// So instead we hook to wp_head and set the properties explicitly.
 add_action( 'wp_head', function () {
 	if ( $config = chatrix_config() ) {
 		?>
@@ -80,8 +84,7 @@ add_action( 'wp_head', function () {
 // Enqueue the script only when chatrix_configuration filter is set.
 add_action( 'wp_enqueue_scripts', function () {
 	if ( chatrix_config() ) {
-		$url = "http://localhost:3000/src/parent/parent.ts";
-		wp_enqueue_script( 'chatrix-script', $url, array(), null, true );
+		wp_enqueue_script( 'chatrix-script', assetUrl( 'assets/parent.js' ), array(), null, true );
 	}
 } );
 
