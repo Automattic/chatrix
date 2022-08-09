@@ -43,7 +43,7 @@ if ( __FILE__ === $included_files[0] ) {
  */
 function convert_readme_md( $readme_md, $print_errors = false ) {
 	$readme_txt = $readme_md;
-	$metadata = array();
+	$metadata   = array();
 
 	// Transform the sections above the description.
 	$readme_txt = preg_replace_callback(
