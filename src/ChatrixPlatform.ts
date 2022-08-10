@@ -15,9 +15,16 @@ limitations under the License.
 */
 
 import { Platform } from "hydrogen-view-sdk";
+import { SessionInfoStorage } from "./SessionInfoStorage";
 
 export class ChatrixPlatform extends Platform {
-    constructor(options) {
+    constructor(options, instanceId: string | null, ) {
         super(options);
+        let sessionName = "hydrogen_sessions_v1"
+        if (instanceId && instanceId !== "") {
+            sessionName = `${sessionName}_${instanceId}`;
+        }
+
+        this.sessionInfoStorage = new SessionInfoStorage(sessionName);
     }
 }
