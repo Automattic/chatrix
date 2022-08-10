@@ -20,6 +20,7 @@ add_filter(
 	function () {
 		return array(
 			'core'      => array(
+				'instance_id'             => 'core',
 				'homeserver'              => 'https://orbit-sandbox.ems.host',
 				'login_methods'           => array( 'sso' ),
 				'welcome_message_heading' => 'Welcome to chatrix!',
@@ -27,6 +28,7 @@ add_filter(
 				'auto_join_room'          => '!IhfwGaWMASGLWVjkWJ:orbit-sandbox.ems.host',
 			),
 			'polyglots' => array(
+				'instance_id'             => 'polyglots',
 				'homeserver'              => 'https://orbit-sandbox.ems.host',
 				'login_methods'           => array( 'sso' ),
 				'welcome_message_heading' => 'Welcome to chatrix!',
