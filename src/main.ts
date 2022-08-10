@@ -16,7 +16,7 @@ limitations under the License.
 
 import type { IChatterboxConfig } from "./types/IChatterboxConfig";
 import { createRouter, Navigation } from "hydrogen-view-sdk";
-import { ChatrixPlatform } from "./ChatrixPlatform";
+import { ChatrixPlatform } from "./platform/ChatrixPlatform";
 import { RootViewModel } from "./viewmodels/RootViewModel";
 import { RootView } from "./ui/views/RootView";
 import downloadSandboxPath from "hydrogen-view-sdk/download-sandbox.html?url";
