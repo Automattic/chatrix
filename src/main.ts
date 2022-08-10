@@ -56,7 +56,7 @@ async function main() {
     root.className = "hydrogen";
     const config = await fetchConfig();
 
-    const platform = new ChatrixPlatform({container: root, assetPaths, config: {}, options: { development: import.meta.env.DEV }});
+    const platform = new ChatrixPlatform({container: root, assetPaths, config: {}, options: { development: import.meta.env.DEV }}, config.instance_id);
     const navigation = new Navigation(allowsChild);
     platform.setNavigation(navigation);
     const urlRouter = createRouter({ navigation, history: platform.history });
