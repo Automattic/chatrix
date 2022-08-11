@@ -8,7 +8,7 @@ npm -g i @wordpress/env
 
 Once `wp-env` is installed you can use it to start WordPress with:
 
-> Note that you should be inside the `wordpress/` directory, not in the repo root.
+> You must be in the `wordpress/` directory, not in the repo root.
 
 ```shell
 wp-env start
@@ -19,10 +19,10 @@ You can access WordPress's admin at [`http://localhost:8888/wp-admin`](http://lo
 - username: **`admin`**
 - password: **`password`**
 
-Build chatrix itself:
+Build the plugin:
 
 ```shell
-yarn build
+make plugin
 ```
 
 ## Running phpcs
