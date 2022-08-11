@@ -15,6 +15,9 @@ limitations under the License.
 */
 
 export interface IChatterboxConfig {
+	// Allows for having multiple clients with different configuration on the same domain.
+	// Set to null if you don't require this feature.
+	instance_id: string | null,
 	homeserver: string;
 	login_methods: Array<string>,
 	welcome_message_heading: string,

@@ -15,7 +15,8 @@ limitations under the License.
 */
 
 import type { IChatterboxConfig } from "./types/IChatterboxConfig";
-import { Platform, createRouter, Navigation } from "hydrogen-view-sdk";
+import { createRouter, Navigation } from "hydrogen-view-sdk";
+import { ChatrixPlatform } from "./platform/ChatrixPlatform";
 import { RootViewModel } from "./viewmodels/RootViewModel";
 import { RootView } from "./ui/views/RootView";
 import downloadSandboxPath from "hydrogen-view-sdk/download-sandbox.html?url";
@@ -55,7 +56,7 @@ async function main() {
     root.className = "hydrogen";
     const config = await fetchConfig();
 
-    const platform = new Platform({container: root, assetPaths, config: {}, options: { development: import.meta.env.DEV }});
+    const platform = new ChatrixPlatform({container: root, assetPaths, config: {}, options: { development: import.meta.env.DEV }}, config.instance_id);
     const navigation = new Navigation(allowsChild);
     platform.setNavigation(navigation);
     const urlRouter = createRouter({ navigation, history: platform.history });
