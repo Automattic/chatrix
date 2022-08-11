@@ -1,0 +1,21 @@
+name: PR checks
+
+on:
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+  build-chatrix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up node
+        uses: actions/setup-node@v2
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build
+        run: yarn build
