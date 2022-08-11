@@ -62,17 +62,24 @@ function loadCSS() {
 
 function loadIframe(minimized = false) {
     const iframe = document.createElement("iframe");
+
+    let htmlLocation = (window as any).CHATTERBOX_HTML_LOCATION;
+    if (!htmlLocation) {
+        htmlLocation = "../chatterbox.html";
+    }
+
     const configLocation = (window as any).CHATTERBOX_CONFIG_LOCATION;
     if (!configLocation) {
         throw new Error("CHATTERBOX_CONFIG_LOCATION is not set");
     }
+
     const urlParams = new URLSearchParams(window.location.search);
     const loginToken = urlParams.get("loginToken");
     urlParams.delete("loginToken");
     window.history.replaceState( null, '', (urlParams.entries.length ? '?' + urlParams : './' ) + location.hash );
 
     iframe.src = new URL(
-        `../chatterbox.html?config=${configLocation}${minimized? "&minimized=true": ""}${loginToken? "&loginToken="+encodeURIComponent(loginToken): ""}`,
+        `${htmlLocation}?config=${configLocation}${minimized? "&minimized=true": ""}${loginToken? "&loginToken="+encodeURIComponent(loginToken): ""}`,
         hostRoot
     ).href;
     iframe.className = "chatterbox-iframe";

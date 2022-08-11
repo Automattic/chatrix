@@ -49,7 +49,7 @@ export class SingleSignOnViewModel extends ViewModel {
     }
 
     private redirect() {
-        const returnURL = parent.location.origin
+        const returnURL = parent.location.href;
         parent.location.href = `${this.homeserver}/_matrix/client/r0/login/sso/redirect?redirectUrl=${returnURL}`;
     }
 
