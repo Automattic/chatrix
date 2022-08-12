@@ -1,0 +1,30 @@
+name: PR checks
+
+on:
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+  lint-plugin:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: wordpress
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install composer dependencies
+        run: composer install
+
+      - name: Run phpcs
+        run: ./vendor/bin/phpcs
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build chatrix and wordpress plugin
+        run: make
