@@ -20,7 +20,7 @@ jobs:
       - name: Run phpcs
         run: ./vendor/bin/phpcs
 
-  build-chatrix:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -29,8 +29,5 @@ jobs:
       - name: Set up node
         uses: actions/setup-node@v2
 
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Build
-        run: yarn build
+      - name: Build chatrix and wordpress plugin
+        run: make

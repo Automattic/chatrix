@@ -1,5 +1,11 @@
 # Running WordPress plugin locally
 
+Start by building chatrix:
+
+```shell
+make
+```
+
 You'll need [wp-env](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/). If you don't have it installed, you can install it with:
 
 ```shell
@@ -18,12 +24,6 @@ You can access WordPress's admin at [`http://localhost:8888/wp-admin`](http://lo
 
 - username: **`admin`**
 - password: **`password`**
-
-Build the plugin:
-
-```shell
-make plugin
-```
 
 ## Running phpcs
 > You must be in the `wordpress/` directory, not in the repo root.
