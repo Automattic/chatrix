@@ -5,6 +5,21 @@ on:
     branches: [ $default-branch ]
 
 jobs:
+  lint-plugin:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: wordpress
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run composer install
+        run: composer install
+
+      - name: Run phpcs
+        run: ./vendor/bin/phpcs
+
   build-chatrix:
     runs-on: ubuntu-latest
     steps:
