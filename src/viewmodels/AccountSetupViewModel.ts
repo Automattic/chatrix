@@ -31,9 +31,6 @@ export class AccountSetupViewModel extends ViewModel {
         super(options);
         this._client = options.client;
         this._config = options.config;
-        // temporarily get username and password of the user we are working with from the config
-        this._username = options.config.username;
-        this._password = options.config.password;
 
         const loginPromise = this.login();
         this.navigation.push("timeline", loginPromise);
