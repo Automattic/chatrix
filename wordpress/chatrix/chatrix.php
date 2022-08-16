@@ -49,8 +49,8 @@ add_action(
 				"config/$instance_id",
 				array(
 					'methods'  => 'GET',
-					'callback' => function () use ( $instances, $instance_id ) {
-						return $instances[ $instance_id ];
+					'callback' => function () use ( $instance ) {
+						return array_merge( $instance, array( 'userIdentifier' => get_current_user_id() ) );
 					},
 				)
 			);
