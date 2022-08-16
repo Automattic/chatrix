@@ -18,6 +18,7 @@ interface ISessionInfo {
     id: string;
     deviceId: string;
     userId: string;
+    userIdentifier: string;
     homeserver: string;
     homeServer: string; // deprecate this over time
     accessToken: string;
@@ -81,5 +82,5 @@ export class SessionInfoStorage implements ISessionInfoStorage {
         sessions = sessions.filter(s => s.id !== sessionId);
         localStorage.setItem(this._name, JSON.stringify(sessions));
     }
-    
+
 }
