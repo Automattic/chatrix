@@ -83,11 +83,14 @@ function main() {
 		function () {
 			$config = chatrix_config();
 			if ( $config ) {
+				$current_user = wp_get_current_user();
 				?>
 				<script type="text/javascript">
 					window.CHATTERBOX_HTML_LOCATION = "<?php echo esc_url( asset_url( 'chatterbox.html' ) ); ?>";
 					window.CHATTERBOX_CONFIG_LOCATION = "<?php echo esc_url( $config['url'] ); ?>";
-					window.CHATTERBOX_BACKEND_USER_ID = "<?php echo esc_js( get_current_user_id() ); ?>";
+					<?php if ( $current_user ) { ?>
+						window.CHATTERBOX_BACKEND_USER_ID = "<?php echo esc_js( $current_user->user_login ); ?>";
+					<?php } ?>
 				</script>
 				<?php
 			}
