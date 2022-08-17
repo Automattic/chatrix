@@ -18,11 +18,14 @@ import { Platform } from "hydrogen-view-sdk";
 import { SessionInfoStorage } from "./SessionInfoStorage";
 
 export class ChatrixPlatform extends Platform {
-    constructor(options, instanceId: string | null, ) {
+    constructor(options, instanceId: string | null, backendUserId: string | null) {
         super(options);
         let sessionName = "hydrogen_sessions_v1"
         if (instanceId && instanceId !== "") {
             sessionName = `${sessionName}_${instanceId}`;
+        }
+        if (backendUserId && backendUserId !== "") {
+            sessionName = `${sessionName}_${backendUserId}`;
         }
 
         this.sessionInfoStorage = new SessionInfoStorage(sessionName);
