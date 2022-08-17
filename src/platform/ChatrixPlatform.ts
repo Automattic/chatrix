@@ -39,7 +39,19 @@ export class ChatrixPlatform extends Platform {
             if (!key.startsWith("hydrogen_sessions_v1") || key === activeSessionName) {
                 continue;
             }
+            this.invalidateSession(
+                JSON.parse(localStorage.getItem(key))[0]
+            );
             localStorage.removeItem(key);
         }
+    }
+
+    invalidateSession(session: {[key: string]: string}) {
+        fetch(session.homeserver + '/_matrix/client/v3/logout', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + session.accessToken,
+            },
+        });
     }
 }
