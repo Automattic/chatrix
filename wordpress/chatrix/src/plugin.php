@@ -87,6 +87,7 @@ function main() {
 				<script type="text/javascript">
 					window.CHATTERBOX_HTML_LOCATION = "<?php echo esc_url( asset_url( 'chatterbox.html' ) ); ?>";
 					window.CHATTERBOX_CONFIG_LOCATION = "<?php echo esc_url( $config['url'] ); ?>";
+					window.CHATTERBOX_BACKEND_USER_ID = "<?php echo esc_js( get_current_user_id() ); ?>";
 				</script>
 				<?php
 			}

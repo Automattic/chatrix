@@ -73,13 +73,15 @@ function loadIframe(minimized = false) {
         throw new Error("CHATTERBOX_CONFIG_LOCATION is not set");
     }
 
+    const backendUserId = (window as any).CHATTERBOX_BACKEND_USER_ID;
+
     const urlParams = new URLSearchParams(window.location.search);
     const loginToken = urlParams.get("loginToken");
     urlParams.delete("loginToken");
     window.history.replaceState( null, '', (urlParams.entries.length ? '?' + urlParams : './' ) + location.hash );
 
     iframe.src = new URL(
-        `${htmlLocation}?config=${configLocation}${minimized? "&minimized=true": ""}${loginToken? "&loginToken="+encodeURIComponent(loginToken): ""}`,
+        `${htmlLocation}?config=${configLocation}${minimized? "&minimized=true": ""}${loginToken? "&loginToken="+encodeURIComponent(loginToken): ""}${backendUserId? "&backendUserId="+backendUserId: ""}`,
         hostRoot
     ).href;
     iframe.className = "chatterbox-iframe";
