@@ -2,7 +2,7 @@
 <ruleset name="Coding Style Checks">
     <description>Coding Style Checks.</description>
 
-    <file>./chatrix</file>
+    <file>./src/</file>
 
     <arg value="sp"/>
     <arg name="basepath" value="./"/>
