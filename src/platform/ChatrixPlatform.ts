@@ -29,5 +29,17 @@ export class ChatrixPlatform extends Platform {
         }
 
         this.sessionInfoStorage = new SessionInfoStorage(sessionName);
+
+        this.cleanupSessions(sessionName);
+    }
+
+    cleanupSessions(activeSessionName: string) {
+        for (let i=0; i<localStorage.length; i++) {
+            let key = localStorage.key(i);
+            if (!key.startsWith("hydrogen_sessions_v1") || key === activeSessionName) {
+                continue;
+            }
+            localStorage.removeItem(key);
+        }
     }
 }
