@@ -8,6 +8,7 @@
  * Version: 1.0
  */
 
+use function Automattic\Chatrix\main;
 
 // Autoload, unless this code has been installed by composer, in which case autoload.php has already been loaded.
 // If this code has been installed by composer, autoload.php is not readable.
@@ -15,4 +16,4 @@ if ( is_readable( __DIR__ . '/vendor/autoload.php' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
 }
 
-include plugin_dir_path( __FILE__ ) . 'src/plugin.php';
+main();

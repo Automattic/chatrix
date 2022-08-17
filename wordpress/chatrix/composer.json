@@ -6,7 +6,10 @@
     "autoload": {
         "psr-4": {
             "Automattic\\Chatrix\\": "src/"
-        }
+        },
+        "files": [
+            "src/plugin.php"
+        ]
     },
     "config": {
         "allow-plugins": {
