@@ -1,12 +1,21 @@
 # Running WordPress plugin locally
 
-Start by building chatrix:
+Start by building the chatrix frontend:
 
 ```shell
-make
+yarn install
+yarn build
 ```
 
-You'll need [wp-env](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/). If you don't have it installed, you can install it with:
+Install composer dependencies:
+
+```shell
+cd wordpress/chatrix
+composer install
+```
+
+You'll need [wp-env](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/). If you don't
+have it installed, you can install it with:
 
 ```shell
 npm -g i @wordpress/env
@@ -14,27 +23,26 @@ npm -g i @wordpress/env
 
 Once `wp-env` is installed you can use it to start WordPress with:
 
-> You must be in the `wordpress/` directory, not in the repo root.
-
 ```shell
+cd wordpress
 wp-env start
 ```
 
-You can access WordPress's admin at [`http://localhost:8888/wp-admin`](http://localhost:8888/wp-admin). The credentials are:
+You can access WordPress's admin at [`http://localhost:8888/wp-admin`](http://localhost:8888/wp-admin). The credentials
+are:
 
 - username: **`admin`**
 - password: **`password`**
 
-## Running phpcs
-> You must be in the `wordpress/` directory, not in the repo root.
+## Linting
 
-Install composer dependencies:
+Change to the plugin directory:
 
 ```shell
-composer install
+cd wordpress/chatrix
 ```
 
-Then run `phpcs` with:
+Then run `phpcs`:
 
 ```shell
 ./vendor/bin/phpcs
