@@ -88,10 +88,10 @@ function main() {
 			$config = chatrix_config();
 			if ( $config ) {
 				?>
-                <script type="text/javascript">
-                    window.CHATTERBOX_HTML_LOCATION = "<?php echo esc_url( asset_url( 'chatterbox.html' ) ); ?>";
-                    window.CHATTERBOX_CONFIG_LOCATION = "<?php echo esc_url( $config['url'] ); ?>";
-                </script>
+				<script type="text/javascript">
+					window.CHATTERBOX_HTML_LOCATION = "<?php echo esc_url( asset_url( 'chatterbox.html' ) ); ?>";
+					window.CHATTERBOX_CONFIG_LOCATION = "<?php echo esc_url( $config['url'] ); ?>";
+				</script>
 				<?php
 			}
 		}
