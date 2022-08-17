@@ -112,6 +112,10 @@ function main() {
 		'script_loader_tag',
 		function ( $tag, $handle, $src ) {
 			if ( 'chatrix-script' === $handle ) {
+				// This triggers the WordPress.WP.EnqueuedResources.NonEnqueuedScript phpcs rule.
+				// However, we're not actually rendering anything here, we're just assigning to a variable.
+				// The fact that this code triggers phpcs is likely a bug in phpcs.
+				// phpcs:ignore
 				$tag = '<script id="chatterbox-script" type="module" src="' . esc_url( $src ) . '"></script>';
 			}
 
