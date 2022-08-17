@@ -46,8 +46,8 @@ export class ChatrixPlatform extends Platform {
         }
     }
 
-    invalidateSession(session: {[key: string]: string}) {
-        fetch(session.homeserver + '/_matrix/client/v3/logout', {
+    async invalidateSession(session: {[key: string]: string}) {
+        await fetch(session.homeserver + '/_matrix/client/v3/logout', {
             method: 'POST',
             headers: {
                 'Authorization': 'Bearer ' + session.accessToken,
