@@ -81,7 +81,7 @@ function loadIframe(minimized = false) {
     window.history.replaceState( null, '', (urlParams.entries.length ? '?' + urlParams : './' ) + location.hash );
 
     iframe.src = new URL(
-        `${htmlLocation}?config=${configLocation}${minimized? "&minimized=true": ""}${loginToken? "&loginToken="+encodeURIComponent(loginToken): ""}${backendUserId? "&backendUserId="+backendUserId: ""}`,
+        `${htmlLocation}?config=${configLocation}${minimized? "&minimized=true": ""}${loginToken? "&loginToken="+encodeURIComponent(loginToken): ""}${backendUserId? "&backendUserId="+encodeURIComponent(backendUserId): ""}`,
         hostRoot
     ).href;
     iframe.className = "chatterbox-iframe";
