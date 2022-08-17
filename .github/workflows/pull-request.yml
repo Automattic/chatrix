@@ -2,7 +2,7 @@ name: PR checks
 
 on:
   pull_request:
-    branches: [ $default-branch ]
+    types: [ opened, synchronize ]
 
 jobs:
   lint-plugin:
