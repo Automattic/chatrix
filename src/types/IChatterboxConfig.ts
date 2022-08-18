@@ -19,7 +19,7 @@ export interface IChatterboxConfig {
     // Set to null if you don't require this feature.
     instance_id: string | null,
     homeserver: string;
-    login_methods: Array<string>,
+    login_methods: Array<string> | null,
     welcome_message_heading: string,
     welcome_message_text: string,
     username: string;

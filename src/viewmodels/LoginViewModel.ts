@@ -37,8 +37,9 @@ export class LoginViewModel extends ViewModel {
         this._welcomeMessageHeading = config.welcome_message_heading;
         this._welcomeMessageText = config.welcome_message_text;
 
-        if (config.login_methods.length === 0) {
+        if (!config.login_methods || config.login_methods.length === 0) {
             this._errorMessage = "No login methods are configured. Please contact the site's administrator."
+            return;
         }
 
         if (config.login_methods.includes("password")) {
