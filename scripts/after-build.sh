@@ -6,3 +6,7 @@ rm -vf target/index.html
 rm -vf target/manifest.json
 mv -v target/parent/assets/* target/assets/
 rm -rfv target/parent
+
+# Copy chatrix assets to wordpress plugin.
+rm -rf wordpress/chatrix/frontend
+cp -r target wordpress/chatrix/frontend
