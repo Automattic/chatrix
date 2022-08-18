@@ -15,17 +15,17 @@ limitations under the License.
 */
 
 export interface IChatterboxConfig {
-	// Allows for having multiple clients with different configuration on the same domain.
-	// Set to null if you don't require this feature.
-	instance_id: string | null,
-	homeserver: string;
-	login_methods: Array<string>,
-	welcome_message_heading: string,
-	welcome_message_text: string,
-	username: string;
-	password: string;
+    // Allows for having multiple clients with different configuration on the same domain.
+    // Set to null if you don't require this feature.
+    instance_id: string | null,
+    homeserver: string;
+    login_methods: Array<string>,
+    welcome_message_heading: string,
+    welcome_message_text: string,
+    username: string;
+    password: string;
     // Internal room-id of the room to which chatterbox should join
-	auto_join_room: string;
+    auto_join_room: string;
     // Configurations for header on chatterbox (containing title, avatar, minimize button)
     header: IHeader;
     // Configurations for footer on chatterbox (containing what links to use)
