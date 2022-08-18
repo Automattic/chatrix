@@ -11,7 +11,19 @@ function settings() {
 			'type'              => 'array',
 			'default'           => null,
 			'sanitize_callback' => function ( $value ) {
-				return $value;
+				$value = sanitize_textarea_field( $value );
+				if ( empty( $value ) ) {
+					return $value;
+				}
+
+				$instances = json_decode( $value, true );
+				if ( json_last_error() ) {
+					add_settings_error( 'chatrix_instances', 'chatrix_instances', 'Chatrix instances configuration must be a valid JSON document.' );
+				}
+
+				// TODO: Validate each instance is a valid chatrix config.json.
+
+				return $instances;
 			},
 		)
 	);
@@ -33,8 +45,8 @@ function settings() {
 		'chatrix_instances',
 		'Instances',
 		function () {
-			$instances  = get_option( 'chatrix_instances', array() );
-			$serialized = $instances ? json_encode( $instances ) : null;
+			$instances  = get_option( 'chatrix_instances' );
+			$serialized = $instances ? json_encode( $instances, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) : null;
 			?>
 			<fieldset>
 				<legend class="screen-reader-text"><span>Instances</span></legend>
@@ -53,15 +65,16 @@ function settings() {
 						<?php // @formatter:off ?>
 
 {
-	'about': {
-		'homeserver': 'https://matrix.org',
-		'auto_join_room': '!foo:matrix.org',
+	"about": {
+		"homeserver": "https://matrix.org",
+		"auto_join_room": "!foo:matrix.org"
 	},
-	'contact': {
-		'homeserver': 'https://matrix.org',
-		'auto_join_room': '!bar:matrix.org',
+	"contact": {
+		"homeserver": "https://matrix.org",
+		"auto_join_room": "!bar:matrix.org"
 	}
 }
+
 						<?php // @formatter:on ?>
 					</code>
 				</p>
