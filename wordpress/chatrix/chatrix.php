@@ -10,9 +10,7 @@
 
 use function Automattic\Chatrix\main;
 
-// Autoload, unless this code has been installed by composer, in which case autoload.php has already been loaded.
-// If this code has been installed by composer, autoload.php is not readable.
-if ( is_readable( __DIR__ . '/vendor/autoload.php' ) ) {
+if ( ! function_exists( 'Automattic\Chatrix\main' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
 }
 

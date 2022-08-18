@@ -2,10 +2,6 @@
 
 namespace Automattic\Chatrix;
 
-if ( function_exists( 'main' ) ) {
-	return;
-}
-
 function asset_url( $asset_path ): string {
 	return plugins_url( "../frontend/$asset_path", __FILE__ );
 }
