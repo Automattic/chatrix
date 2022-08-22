@@ -68,9 +68,9 @@ function loadIframe(minimized = false) {
         htmlLocation = "../chatrix.html";
     }
 
-    const configLocation = (window as any).CHATTERBOX_CONFIG_LOCATION;
+    const configLocation = (window as any).CHATRIX_CONFIG_LOCATION;
     if (!configLocation) {
-        throw new Error("CHATTERBOX_CONFIG_LOCATION is not set");
+        throw new Error("CHATRIX_CONFIG_LOCATION is not set");
     }
 
     const backendUserId = (window as any).CHATTERBOX_BACKEND_USER_ID || null;

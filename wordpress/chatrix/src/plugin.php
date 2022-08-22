@@ -74,7 +74,7 @@ function main() {
 				?>
 				<script type="text/javascript">
 					window.CHATTERBOX_HTML_LOCATION = "<?php echo esc_url( asset_url( 'chatrix.html' ) ); ?>";
-					window.CHATTERBOX_CONFIG_LOCATION = "<?php echo esc_url( $config['url'] ); ?>";
+					window.CHATRIX_CONFIG_LOCATION = "<?php echo esc_url( $config['url'] ); ?>";
 					<?php if ( 0 === $current_user->ID ) { ?>
 						window.CHATTERBOX_BACKEND_USER_ID = null;
 					<?php } else { ?>
