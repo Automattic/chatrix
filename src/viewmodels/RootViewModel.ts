@@ -44,7 +44,7 @@ export class RootViewModel extends ViewModel {
         this._client = new Client(this.platform);
         this._setupNavigation();
         this._messageFromParent.on("maximize", () => this.start());
-        // Chatterbox can be minimized via the start button on the parent page!
+        // Chatrix can be minimized via the start button on the parent page!
         this._messageFromParent.on("minimize", () => this.navigation.push("minimize"));
     }
 
@@ -131,7 +131,7 @@ export class RootViewModel extends ViewModel {
                 if (newCount !== previousCount) {
                     if (!room.isUnread && newCount !== 0) {
                         /*
-                        when chatterbox is maximized and there are previous unread messages,
+                        when chatrix is maximized and there are previous unread messages,
                         this condition is hit but we still want to send the notification count so that 
                         the badge zeroes out.
                         */
@@ -167,7 +167,7 @@ export class RootViewModel extends ViewModel {
             ));
             await this._chatrixViewModel.load();
             if (!this._isWatchingNotificationCount) {
-                // for when chatterbox is loaded initially
+                // for when chatrix is loaded initially
                 this._watchNotificationCount();
             }
         }

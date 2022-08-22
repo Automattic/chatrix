@@ -24,7 +24,7 @@ export interface IChatrixConfig {
     welcome_message_text: string,
     // Id of the room to use, e.g. !room-id:example.com.
     room_id: string;
-    // Configurations for header on chatterbox (containing title, avatar, minimize button)
+    // Configurations for header on chatrix (containing title, avatar, minimize button)
     header: IHeader;
 }
 

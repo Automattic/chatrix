@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { resizeIframe, toggleIframe, removeIframe } from "./iframe";
+import { removeIframe, resizeIframe, toggleIframe } from "./iframe";
 import { loadStartButton } from "./load";
 import "./parent-style.css";
 
@@ -36,8 +36,8 @@ window.addEventListener("message", event => {
     switch (action) {
         case "resize-iframe":
             if (event.data.view === "timeline") {
-                // Chatterbox has made it to the timeline!
-                // Store this is info in localStorage so that we know to load chatterbox in background
+                // Chatrix has made it to the timeline!
+                // Store this is info in localStorage so that we know to load chatrix in background
                 // in subsequent visits.
                 window.localStorage.setItem("chatterbox-should-load-in-background", "true");
             }

@@ -31,7 +31,7 @@ export function loadStartButton() {
         loadIframe(false);
     } else if (window.localStorage.getItem("chatterbox-should-load-in-background")) {
         /**
-         * If chatterbox made it to the timeline before, load the chatterbox app in background.
+         * If chatrix made it to the timeline before, load the chatrix app in background.
          * This will let us watch for new messages and show a notification badge as needed.
          */
         loadIframe(true);
