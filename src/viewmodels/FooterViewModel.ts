@@ -15,10 +15,10 @@ limitations under the License.
 */
 
 import { ViewModel } from "hydrogen-view-sdk";
-import { IChatterboxConfig } from "../types/IChatterboxConfig";
+import { IChatrixConfig } from "../types/IChatrixConfig";
 
 export class FooterViewModel extends ViewModel {
-    private _config: IChatterboxConfig;
+    private _config: IChatrixConfig;
 
     constructor(options) {
         super(options);

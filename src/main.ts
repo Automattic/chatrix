@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import type { IChatterboxConfig } from "./types/IChatterboxConfig";
+import type { IChatrixConfig } from "./types/IChatrixConfig";
 import { createRouter, Navigation } from "hydrogen-view-sdk";
 import { ChatrixPlatform } from "./platform/ChatrixPlatform";
 import { RootViewModel } from "./viewmodels/RootViewModel";
@@ -29,13 +29,13 @@ const assetPaths = {
 
 const rootDivId = "#chatterbox";
 
-async function fetchConfig(): Promise<IChatterboxConfig> {
+async function fetchConfig(): Promise<IChatrixConfig> {
     const queryParams = new URLSearchParams(window.location.search);
     const configLink = queryParams.get("config");
     if (!configLink) {
         throw new Error("Root element does not have config specified");
     }
-    const config: IChatterboxConfig = await (await fetch(configLink)).json();
+    const config: IChatrixConfig = await (await fetch(configLink)).json();
     return config;
 }
 

@@ -14,13 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import {Client, ViewModel} from "hydrogen-view-sdk";
+import { Client, ViewModel } from "hydrogen-view-sdk";
 import "hydrogen-view-sdk/style.css";
-import {IChatterboxConfig} from "../types/IChatterboxConfig";
+import { IChatrixConfig } from "../types/IChatrixConfig";
 
 export class SettingsViewModel extends ViewModel {
     // @ts-ignore
-    private readonly _config: IChatterboxConfig;
+    private readonly _config: IChatrixConfig;
     private _client: typeof Client;
 
     constructor(options) {

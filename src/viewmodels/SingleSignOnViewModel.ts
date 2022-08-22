@@ -14,12 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import {Client, ViewModel, LoadStatus} from "hydrogen-view-sdk";
+import { Client, LoadStatus, ViewModel } from "hydrogen-view-sdk";
 import "hydrogen-view-sdk/style.css";
-import {IChatterboxConfig} from "../types/IChatterboxConfig";
+import { IChatrixConfig } from "../types/IChatrixConfig";
 
 export class SingleSignOnViewModel extends ViewModel {
-    private readonly _config: IChatterboxConfig;
+    private readonly _config: IChatrixConfig;
     private _client: typeof Client;
     private _isBusy: boolean;
 

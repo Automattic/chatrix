@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-export interface IChatterboxConfig {
+export interface IChatrixConfig {
     // Allows for having multiple clients with different configuration on the same domain.
     // Set to null if you don't require this feature.
     instance_id: string | null,
