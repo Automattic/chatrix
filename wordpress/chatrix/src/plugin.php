@@ -73,7 +73,7 @@ function main() {
 				$current_user = wp_get_current_user();
 				?>
 				<script type="text/javascript">
-					window.CHATTERBOX_HTML_LOCATION = "<?php echo esc_url( asset_url( 'chatrix.html' ) ); ?>";
+					window.CHATRIX_HTML_LOCATION = "<?php echo esc_url( asset_url( 'chatrix.html' ) ); ?>";
 					window.CHATRIX_CONFIG_LOCATION = "<?php echo esc_url( $config['url'] ); ?>";
 					<?php if ( 0 === $current_user->ID ) { ?>
 						window.CHATTERBOX_BACKEND_USER_ID = null;

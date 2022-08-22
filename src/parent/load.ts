@@ -63,7 +63,7 @@ function loadCSS() {
 function loadIframe(minimized = false) {
     const iframe = document.createElement("iframe");
 
-    let htmlLocation = (window as any).CHATTERBOX_HTML_LOCATION;
+    let htmlLocation = (window as any).CHATRIX_HTML_LOCATION;
     if (!htmlLocation) {
         htmlLocation = "../chatrix.html";
     }
