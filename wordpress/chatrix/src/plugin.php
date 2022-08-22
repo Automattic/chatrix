@@ -62,7 +62,7 @@ function main() {
 		}
 	);
 
-	// Chatterbox accepts some configuration through properties on the window object.
+	// Chatrix accepts some configuration through properties on the window object.
 	// Ideally we would use wp_localize_script() but it cannot write to the `window` object.
 	// So instead we hook to wp_head and set the properties explicitly.
 	add_action(
@@ -96,7 +96,7 @@ function main() {
 		}
 	);
 
-	// Output the script tag in the format expected by chatterbox.
+	// Output the script tag in the format expected by chatrix.
 	add_filter(
 		'script_loader_tag',
 		function ( $tag, $handle, $src ) {
