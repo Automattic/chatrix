@@ -99,7 +99,7 @@ body {
     margin-bottom: 33px;
 }
 
-.ChatterboxView .FooterView {
+.ChatrixView .FooterView {
     margin: 10.5px 0;
 }
 
@@ -118,7 +118,7 @@ body {
     color: #737D8C;
 }
 
-.ChatterboxView {
+.ChatrixView {
     width: 100%;
     height: 100%;
     display: flex;
@@ -168,7 +168,7 @@ body {
     border: 2px solid rgba(255, 255, 255, 0.8);
 }
 
-.ChatterboxView_footer {
+.ChatrixView_footer {
     display: flex;
     align-items: center;
     justify-content: end;
@@ -179,7 +179,7 @@ body {
     color: #9b9797;
 }
 
-.ChatterboxView_footer>img {
+.ChatrixView_footer > img {
     width: 35px;
     padding-left: 4px;
 }
@@ -195,7 +195,7 @@ body {
     flex: 1
 }
 
-.ChatterboxView .ChatterboxLoadingView {
+.ChatrixView .ChatterboxLoadingView {
     height: 100%;
 }
 

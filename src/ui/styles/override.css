@@ -23,7 +23,7 @@ todo: this style should actually be in hydrogen-web
     box-shadow: 0px 0px 0px 4px rgba(92, 86, 245, 0.1);
 }
 
-.ChatterboxView .MessageComposer_input {
+.ChatrixView .MessageComposer_input {
     background: #FFFFFF;
     border: 1px solid #E3E8F0;
     border-radius: 8px;
@@ -32,19 +32,19 @@ todo: this style should actually be in hydrogen-web
     box-sizing: border-box;
 }
 
-.ChatterboxView .MessageComposer_input>textarea {
+.ChatrixView .MessageComposer_input > textarea {
     background: #FFFFFF;
 }
 
-.ChatterboxView .MessageComposer_input>textarea:focus-visible {
+.ChatrixView .MessageComposer_input > textarea:focus-visible {
     outline: none;
 }
 
-.ChatterboxView .MessageComposer_input .send {
+.ChatrixView .MessageComposer_input .send {
     background-color: var(--main-bg-color);
 }
 
-.ChatterboxView .MessageComposer {
+.ChatrixView .MessageComposer {
     display: flex;
     justify-content: center;
 }
