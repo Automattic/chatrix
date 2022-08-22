@@ -1,4 +1,4 @@
-.chatterbox-iframe {
+.chatrix-iframe {
     position: fixed;
     right: 20px;
     bottom: 100px;
@@ -14,7 +14,7 @@
 }
 
 @media (max-width: 800px) {
-    .chatterbox-iframe {
+    .chatrix-iframe {
         bottom: 0;
         right: 0;
     }

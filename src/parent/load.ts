@@ -84,7 +84,7 @@ function loadIframe(minimized = false) {
         `${htmlLocation}?config=${configLocation}${minimized? "&minimized=true": ""}${loginToken? "&loginToken="+encodeURIComponent(loginToken): ""}${backendUserId? "&backendUserId="+encodeURIComponent(backendUserId): ""}`,
         hostRoot
     ).href;
-    iframe.className = "chatterbox-iframe";
+    iframe.className = "chatrix-iframe";
     document.body.appendChild(iframe);
     (window as any).isIframeLoaded = true;
     document .querySelector(".start-chat-btn") .classList.add("start-background-minimized");

@@ -30,7 +30,7 @@ const sizeCollection = {
 }
 
 export function toggleIframe() {
-    const iframeElement = document.querySelector(".chatterbox-iframe") as HTMLIFrameElement;
+    const iframeElement = document.querySelector(".chatrix-iframe") as HTMLIFrameElement;
     const startButtonDiv = document.querySelector(".start") as HTMLDivElement;
     if (iframeElement.style.display !== "none") {
         iframeElement.style.display = "none";
@@ -54,15 +54,21 @@ export function resizeIframe(data) {
     const { view } = data;
     const type = isMobile()? "mobile": "desktop";
     const size = sizeCollection[type][view];
-    if (!size) { return; }
-    const { height, width } = size;
-    const iframeElement = document.querySelector(".chatterbox-iframe") as HTMLIFrameElement;
-    if (height) { iframeElement.style.height = height; }
-    if (width) { iframeElement.style.width = width; }
+    if (!size) {
+        return;
+    }
+    const {height, width} = size;
+    const iframeElement = document.querySelector(".chatrix-iframe") as HTMLIFrameElement;
+    if (height) {
+        iframeElement.style.height = height;
+    }
+    if (width) {
+        iframeElement.style.width = width;
+    }
 }
 
 export function removeIframe() {
-    const iframeElement = document.querySelector(".chatterbox-iframe") as HTMLIFrameElement;
+    const iframeElement = document.querySelector(".chatrix-iframe") as HTMLIFrameElement;
     iframeElement?.remove();
     const startButton = document.querySelector(".start") as HTMLDivElement;
     startButton.remove();

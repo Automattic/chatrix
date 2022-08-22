@@ -30,8 +30,8 @@ describe('chatterbox-staging.element.io test', () => {
 
   it('opens the chatterbox privacy window', () => {
     cy.get('.start > button').click();
-    cy.frameLoaded('.chatterbox-iframe');
-    cy.enter('.chatterbox-iframe').then(frame => {
+    cy.frameLoaded('.chatrix-iframe');
+    cy.enter('.chatrix-iframe').then(frame => {
       frame().find('.PolicyAgreementView_next').should('have.length', 1);
       frame().find('.PolicyAgreementView_cancel').should('have.length', 1);
     })
@@ -39,8 +39,8 @@ describe('chatterbox-staging.element.io test', () => {
 
   it('open the main chat window and sends a message', () => {
     cy.get('.start > button').click();
-    cy.frameLoaded('.chatterbox-iframe');
-    cy.enter('.chatterbox-iframe').then(frame => {
+    cy.frameLoaded('.chatrix-iframe');
+    cy.enter('.chatrix-iframe').then(frame => {
       frame().find('.PolicyAgreementView_next').click();
       cy.fixture('demoInstance').then(({headerName}) => {
         frame().find('.RoomHeaderView_name').should('have.text', headerName);
