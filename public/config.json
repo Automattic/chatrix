@@ -1,5 +1,4 @@
 {
-    "instance_id": "polyglots",
     "homeserver": "https://orbit-sandbox.ems.host",
     "login_methods": ["sso"],
     "welcome_message_heading": "Welcome to chatrix!",
