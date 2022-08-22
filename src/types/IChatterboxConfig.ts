@@ -31,7 +31,7 @@ export interface IChatterboxConfig {
 }
 
 interface IHeader {
-    // An optional static title. If this is not given, no room name is shown in the header
+    // An optional static title.
     title?: string;
     // An optional link to static avatar. If this is not given, the room avatar is used instead
     avatar?: string;
