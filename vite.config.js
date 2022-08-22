@@ -20,7 +20,7 @@ module.exports = defineConfig(({ command }) => {
             build: {
                 rollupOptions: {
                     input: {
-                        main: resolve(__dirname, "chatterbox.html"),
+                        main: resolve(__dirname, "chatrix.html"),
                         parent: resolve(__dirname, "index.html"),
                     },
                 },

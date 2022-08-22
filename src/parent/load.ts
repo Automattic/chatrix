@@ -65,7 +65,7 @@ function loadIframe(minimized = false) {
 
     let htmlLocation = (window as any).CHATTERBOX_HTML_LOCATION;
     if (!htmlLocation) {
-        htmlLocation = "../chatterbox.html";
+        htmlLocation = "../chatrix.html";
     }
 
     const configLocation = (window as any).CHATTERBOX_CONFIG_LOCATION;
