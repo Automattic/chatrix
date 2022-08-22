@@ -140,7 +140,7 @@ export class RootViewModel extends ViewModel {
 
     private async _watchNotificationCount() {
         await this._client.loadStatus.waitFor(s => s === LoadStatus.Ready).promise;
-        const roomId = await this.platform.settingsStorage.getString("created-room-id") ?? this._config.auto_join_room;
+        const roomId = await this.platform.settingsStorage.getString("created-room-id") ?? this._config.room_id;
         const observable = await this._client.session.observeRoomStatus(roomId);
         await observable.waitFor((status) => status === RoomStatus.Joined).promise;
         const room = this._client.session.rooms.get(roomId);

@@ -22,8 +22,8 @@ export interface IChatterboxConfig {
     login_methods: Array<string> | null,
     welcome_message_heading: string,
     welcome_message_text: string,
-    // Internal room-id of the room to which chatterbox should join
-    auto_join_room: string;
+    // Id of the room to use, e.g. !room-id:example.com.
+    room_id: string;
     // Configurations for header on chatterbox (containing title, avatar, minimize button)
     header: IHeader;
     // Configurations for footer on chatterbox (containing what links to use)

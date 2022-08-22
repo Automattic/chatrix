@@ -1,6 +1,6 @@
 {
     "homeserver": "https://example.com",
-    "auto_join_room": "!room-id:example.com",
+    "room_id": "!room-id:example.com",
     "login_methods": [
         "sso",
         "password"
