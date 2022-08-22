@@ -48,11 +48,11 @@ export class RootViewModel extends ViewModel {
         this._messageFromParent.on("minimize", () => this.navigation.push("minimize"));
     }
 
-    private _setupNavigation() {
-        this.navigation.observe("login").subscribe(() => this._showLogin());
-        this.navigation.observe("settings").subscribe(() => this._showSettings());
-        this.navigation.observe("timeline").subscribe((loginPromise) => this._showTimeline(loginPromise));
-        this.navigation.observe("minimize").subscribe(() => this.minimizeChatterbox());
+    minimizeChatrix() {
+        this._chatrixViewModel = this.disposeTracked(this._chatrixViewModel);
+        this._accountSetupViewModel = this.disposeTracked(this._chatrixViewModel);
+        this._activeSection = "";
+        this.emitChange("chatrixViewModel");
     }
 
     async start() {
@@ -147,11 +147,11 @@ export class RootViewModel extends ViewModel {
         this._isWatchingNotificationCount = true;
     }
 
-    minimizeChatterbox() {
-        this._chatrixViewModel = this.disposeTracked(this._chatrixViewModel);
-        this._accountSetupViewModel = this.disposeTracked(this._chatrixViewModel);
-        this._activeSection = "";
-        this.emitChange("chatrixViewModel");
+    private _setupNavigation() {
+        this.navigation.observe("login").subscribe(() => this._showLogin());
+        this.navigation.observe("settings").subscribe(() => this._showSettings());
+        this.navigation.observe("timeline").subscribe((loginPromise) => this._showTimeline(loginPromise));
+        this.navigation.observe("minimize").subscribe(() => this.minimizeChatrix());
     }
 
     private async _showTimeline(loginPromise: Promise<void>) {
