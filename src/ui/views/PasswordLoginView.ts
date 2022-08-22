@@ -16,7 +16,7 @@ limitations under the License.
 
 import { TemplateView } from "hydrogen-view-sdk";
 import { LoginViewModel } from "../../viewmodels/LoginViewModel";
-import {PasswordLoginViewModel} from "../../viewmodels/PasswordLoginViewModel";
+import { PasswordLoginViewModel } from "../../viewmodels/PasswordLoginViewModel";
 
 export class PasswordLoginView extends TemplateView<LoginViewModel> {
     constructor(value) {
@@ -31,16 +31,12 @@ export class PasswordLoginView extends TemplateView<LoginViewModel> {
             type: "text",
             placeholder: vm.i18n`Username`,
             // Field is Hardcoded to the value from config for now.
-            // TODO: Remove the following line to remove hardcoded default username.
-            value: vm.username,
         });
         const password = t.input({
             id: "password",
             type: "password",
             placeholder: vm.i18n`Password`,
             // Field is Hardcoded to the value from config for now.
-            // TODO: Remove the following line to remove hardcoded default password.
-            value: vm.password,
         });
         const submit = t.button({
             className: "button-action secondary",

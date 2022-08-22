@@ -22,16 +22,12 @@ export interface IChatterboxConfig {
     login_methods: Array<string> | null,
     welcome_message_heading: string,
     welcome_message_text: string,
-    username: string;
-    password: string;
     // Internal room-id of the room to which chatterbox should join
     auto_join_room: string;
     // Configurations for header on chatterbox (containing title, avatar, minimize button)
     header: IHeader;
     // Configurations for footer on chatterbox (containing what links to use)
     footer: IFooter;
-    // URL of the image that should be used as the users avatar
-    avatar: string;
 }
 
 interface IHeader {
