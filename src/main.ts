@@ -72,7 +72,7 @@ function allowsChild(parent, child) {
     const { type } = child;
     switch (parent?.type) {
         case undefined:
-            return type === "start" || type === "login" || type === "settings" || type === "account-setup" || type === "timeline" || type === "minimize";
+            return type === "start" || type === "login" || type === "settings" || type === "timeline" || type === "minimize";
         default:
             return false;
     }
@@ -99,7 +99,7 @@ function hideOnError() {
 }
 
 
-(window as any).sendViewChangeToParent = function (view: "timeline" | "login" | "settings" | "account-setup") {
+(window as any).sendViewChangeToParent = function (view: "timeline" | "login" | "settings") {
     window.parent?.postMessage({
         action: "resize-iframe",
         view

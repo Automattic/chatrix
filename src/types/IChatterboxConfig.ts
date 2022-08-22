@@ -30,8 +30,6 @@ export interface IChatterboxConfig {
     header: IHeader;
     // Configurations for footer on chatterbox (containing what links to use)
     footer: IFooter;
-    // Token needed for token-authenticated registration
-    token: string;
     // URL of the image that should be used as the users avatar
     avatar: string;
 }

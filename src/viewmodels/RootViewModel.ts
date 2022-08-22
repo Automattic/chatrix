@@ -18,11 +18,10 @@ import { ViewModel, Client, Navigation, createRouter, Platform, RoomStatus, Load
 import { IChatterboxConfig } from "../types/IChatterboxConfig";
 import { ChatterboxViewModel } from "./ChatterboxViewModel";
 import "hydrogen-view-sdk/style.css";
-import { AccountSetupViewModel } from "./AccountSetupViewModel";
 import { FooterViewModel } from "./FooterViewModel";
 import { MessageFromParent } from "../observables/MessageFromParent";
 import { LoginViewModel } from "./LoginViewModel";
-import {SettingsViewModel} from "./SettingsViewModel";
+import { SettingsViewModel } from "./SettingsViewModel";
 
 type Options = { platform: typeof Platform, navigation: typeof Navigation, urlCreator: ReturnType<typeof createRouter>, startMinimized: boolean, loginToken: string };
 
@@ -32,7 +31,6 @@ export class RootViewModel extends ViewModel {
     private _chatterBoxViewModel?: ChatterboxViewModel;
     private _loginViewModel?: LoginViewModel;
     private _settingsViewModel?: SettingsViewModel;
-    private _accountSetupViewModel?: AccountSetupViewModel;
     private _activeSection?: string;
     private _messageFromParent: MessageFromParent = new MessageFromParent();
     private _startMinimized: boolean;
@@ -56,7 +54,6 @@ export class RootViewModel extends ViewModel {
     private _setupNavigation() {
         this.navigation.observe("login").subscribe(() => this._showLogin());
         this.navigation.observe("settings").subscribe(() => this._showSettings());
-        this.navigation.observe("account-setup").subscribe(() => this._showAccountSetup());
         this.navigation.observe("timeline").subscribe((loginPromise) => this._showTimeline(loginPromise));
         this.navigation.observe("minimize").subscribe(() => this.minimizeChatterbox());
     }
@@ -121,19 +118,6 @@ export class RootViewModel extends ViewModel {
             this.childOptions({
                 client: this._client,
                 config: this._config,
-            })
-        ));
-        this.emitChange("activeSection");
-    }
-
-    private _showAccountSetup() {
-        this._activeSection = "account-setup";
-        this._accountSetupViewModel = this.track(new AccountSetupViewModel(
-            this.childOptions({
-                client: this._client,
-                config: this._config,
-                state: this._state,
-                footerVM: this._footerViewModel,
             })
         ));
         this.emitChange("activeSection");

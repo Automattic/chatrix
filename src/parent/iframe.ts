@@ -14,19 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { isMobile } from "./common";
+import {isMobile} from "./common";
 
 const sizeCollection = {
     "desktop": {
         "login": { height: "480px", width: "375px" },
         "settings": { height: "595px", width: "375px" },
-        "account-setup": { height: "334px", width: "375px" },
         "timeline": {height: "595px", width: "375px"}
     },
     "mobile": {
         "login": { height: "100vh", width: "100vw" },
         "settings": { height: "100vh", width: "100vw" },
-        "account-setup": { height: "100vh", width: "100vw" },
         "timeline": {height: "100vh", width: "100vw"}
     }
 }
