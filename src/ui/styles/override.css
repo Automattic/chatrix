@@ -46,5 +46,6 @@ todo: this style should actually be in hydrogen-web
 
 .ChatrixView .MessageComposer {
     display: flex;
+    margin-bottom: 8px;
     justify-content: center;
 }

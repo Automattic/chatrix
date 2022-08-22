@@ -123,8 +123,4 @@ export class ChatrixViewModel extends ViewModel {
     private get _session() {
         return this._client.session;
     }
-
-    get footerViewModel() {
-        return this.options.footerVM;
-    }
 }

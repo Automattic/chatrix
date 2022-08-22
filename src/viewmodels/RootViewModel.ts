@@ -18,7 +18,6 @@ import { Client, createRouter, LoadStatus, Navigation, Platform, RoomStatus, Vie
 import { IChatrixConfig } from "../types/IChatrixConfig";
 import { ChatrixViewModel } from "./ChatrixViewModel";
 import "hydrogen-view-sdk/style.css";
-import { FooterViewModel } from "./FooterViewModel";
 import { MessageFromParent } from "../observables/MessageFromParent";
 import { LoginViewModel } from "./LoginViewModel";
 import { SettingsViewModel } from "./SettingsViewModel";
@@ -36,7 +35,6 @@ export class RootViewModel extends ViewModel {
     private _startMinimized: boolean;
     private _loginToken: string;
     private _isWatchingNotificationCount: boolean;
-    private _footerViewModel: FooterViewModel;
 
     constructor(config: IChatrixConfig, options: Options) {
         super(options);
@@ -44,7 +42,6 @@ export class RootViewModel extends ViewModel {
         this._config = config;
         this._loginToken = options.loginToken;
         this._client = new Client(this.platform);
-        this._footerViewModel = new FooterViewModel(this.childOptions({config: this._config}));
         this._setupNavigation();
         this._messageFromParent.on("maximize", () => this.start());
         // Chatterbox can be minimized via the start button on the parent page!
@@ -89,7 +86,6 @@ export class RootViewModel extends ViewModel {
                 loginToken: this._loginToken,
                 state: this._state,
                 platform: this.platform,
-                footerVM: this._footerViewModel,
             })
         ));
         this.emitChange("activeSection");
@@ -166,7 +162,6 @@ export class RootViewModel extends ViewModel {
                     client: this._client,
                     config: this._config,
                     state: this._state,
-                    footerVM: this._footerViewModel,
                     loginPromise,
                 })
             ));

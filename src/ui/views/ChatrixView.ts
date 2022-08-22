@@ -16,7 +16,6 @@ limitations under the License.
 
 import { AvatarView, MessageComposer, TemplateView, TimelineView, viewClassForTile } from "hydrogen-view-sdk";
 import { ChatrixViewModel } from "../../viewmodels/ChatrixViewModel";
-import { FooterView } from "./FooterView";
 import { LoadingView } from "./LoadingView";
 
 export class ChatrixView extends TemplateView<ChatrixViewModel> {
@@ -38,7 +37,6 @@ export class ChatrixView extends TemplateView<ChatrixViewModel> {
                 (vm) => vm.messageComposerViewModel,
                 (vm) => (vm?.kind === "composer" ? new MessageComposer(vm) : null)
             ),
-            t.view(new FooterView(vm.footerViewModel)),
         ]);
     }
 }

@@ -26,8 +26,6 @@ export interface IChatrixConfig {
     room_id: string;
     // Configurations for header on chatterbox (containing title, avatar, minimize button)
     header: IHeader;
-    // Configurations for footer on chatterbox (containing what links to use)
-    footer: IFooter;
 }
 
 interface IHeader {
@@ -35,11 +33,4 @@ interface IHeader {
     title?: string;
     // An optional link to static avatar. If this is not given, the room avatar is used instead
     avatar?: string;
-}
-
-interface IFooter {
-    // Specifies the link which must be opened when chatterbox logo in the footer is clicked.
-    chatterbox_link: string;
-    // Specifies the link which must be opened when matrix branding in the footer is clicked.
-    matrix_link: string;
 }
