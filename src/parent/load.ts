@@ -17,7 +17,7 @@ limitations under the License.
 import { isMobile } from "./common";
 import { toggleIframe } from "./iframe";
 
-const parentHostRoot = ( document.querySelector("#chatterbox-script") as HTMLScriptElement).src;
+const parentHostRoot = (document.querySelector("#chatrix-script") as HTMLScriptElement).src;
 const hostRoot = new URL(parentHostRoot).origin;
 
 export function loadStartButton() {
@@ -27,9 +27,9 @@ export function loadStartButton() {
     const button = createStartButton();
     container.appendChild(button);
     document.body.appendChild(container);
-    if ( new URLSearchParams(window.location.search).get("loginToken") ) {
+    if (new URLSearchParams(window.location.search).get("loginToken")) {
         loadIframe(false);
-    } else if (window.localStorage.getItem("chatterbox-should-load-in-background")) {
+    } else if (window.localStorage.getItem("chatrix-should-load-in-background")) {
         /**
          * If chatrix made it to the timeline before, load the chatrix app in background.
          * This will let us watch for new messages and show a notification badge as needed.

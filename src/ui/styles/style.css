@@ -9,7 +9,7 @@ body {
     margin: 0;
 }
 
-#chatterbox {
+#chatrix {
     position: absolute;
     width: 100vw;
     height: 100vh;
@@ -128,18 +128,18 @@ body {
     border: 2px solid rgba(255, 255, 255, 0.8);
 }
 
-.ChatterboxLoadingView {
+.ChatrixLoadingView {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.AccountSetupView .ChatterboxLoadingView {
+.AccountSetupView .ChatrixLoadingView {
     flex: 1
 }
 
-.ChatrixView .ChatterboxLoadingView {
+.ChatrixView .ChatrixLoadingView {
     height: 100%;
 }
 
@@ -150,7 +150,7 @@ body {
     line-height: 24px;
 }
 
-.chatterbox-spinner {
+.chatrix-spinner {
     width: 64px;
     height: 64px;
     background: #fff;

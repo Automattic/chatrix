@@ -39,7 +39,7 @@ window.addEventListener("message", event => {
                 // Chatrix has made it to the timeline!
                 // Store this is info in localStorage so that we know to load chatrix in background
                 // in subsequent visits.
-                window.localStorage.setItem("chatterbox-should-load-in-background", "true");
+                window.localStorage.setItem("chatrix-should-load-in-background", "true");
             }
             resizeIframe(event.data);
             break;

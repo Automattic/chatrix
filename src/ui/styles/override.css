@@ -1,24 +1,24 @@
 /* CSS styles overridden from Hydrogen */
 
-#chatterbox .Timeline {
+#chatrix .Timeline {
     flex-grow: 2;
     padding-bottom: 15px;
 }
 
-#chatterbox .Timeline_messageAvatar {
+#chatrix .Timeline_messageAvatar {
     pointer-events: none;
 }
 
 /*
 todo: this style should actually be in hydrogen-web
 */
-#chatterbox .popupContainer {
+#chatrix .popupContainer {
     position: fixed;
     top: 0;
     left: 0;
 }
 
-#chatterbox .MessageComposer_input:focus-within {
+#chatrix .MessageComposer_input:focus-within {
     outline: 1px solid #5C56F5;
     box-shadow: 0px 0px 0px 4px rgba(92, 86, 245, 0.1);
 }

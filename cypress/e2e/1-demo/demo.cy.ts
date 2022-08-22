@@ -17,18 +17,18 @@ limitations under the License.
 /// <reference types="cypress" />
 import demoInstance from '../../fixtures/demoInstance.json'
 
-describe('chatterbox-staging.element.io test', () => {
+describe('chatrix-staging.element.io test', () => {
   beforeEach(() => {
     cy.fixture('demoInstance').then(({url}) => {
       cy.visit(url)
     });
   });
 
-  it('displays the chatterbox icon', () => {
+  it('displays the chatrix icon', () => {
     cy.get('.start').should('have.length', 1);
   });
 
-  it('opens the chatterbox privacy window', () => {
+  it('opens the chatrix privacy window', () => {
     cy.get('.start > button').click();
     cy.frameLoaded('.chatrix-iframe');
     cy.enter('.chatrix-iframe').then(frame => {
