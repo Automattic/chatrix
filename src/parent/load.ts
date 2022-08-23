@@ -73,7 +73,7 @@ function loadIframe(minimized = false) {
         throw new Error("CHATRIX_CONFIG_LOCATION is not set");
     }
 
-    const backendUserId = (window as any).CHATTERBOX_BACKEND_USER_ID || null;
+    const backendUserId = (window as any).CHATRIX_BACKEND_USER_ID || null;
 
     const urlParams = new URLSearchParams(window.location.search);
     const loginToken = urlParams.get("loginToken");
