@@ -14,9 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import {Client, ViewModel, LoadStatus} from "hydrogen-view-sdk";
+import { Client, LoadStatus, ViewModel } from "hydrogen-view-sdk";
 import "hydrogen-view-sdk/style.css";
-import {IChatterboxConfig} from "../types/IChatterboxConfig";
+import { IChatterboxConfig } from "../types/IChatterboxConfig";
 
 export class PasswordLoginViewModel extends ViewModel {
     private readonly _config: IChatterboxConfig;
@@ -30,8 +30,6 @@ export class PasswordLoginViewModel extends ViewModel {
         super(options);
         this._config = options.config;
         this._client = options.client;
-        this._username = this._config.username;
-        this._password = this._config.password;
         this._errorMessage = "";
         this._isBusy = false;
     }

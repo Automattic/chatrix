@@ -1,20 +1,10 @@
 {
-    "instance_id": "polyglots",
-    "homeserver": "https://orbit-sandbox.ems.host",
-    "login_methods": ["sso"],
+    "homeserver": "https://example.com",
+    "room_id": "!room-id:example.com",
+    "login_methods": [
+        "sso",
+        "password"
+    ],
     "welcome_message_heading": "Welcome to chatrix!",
-    "welcome_message_text": "To start chatting, log in with one of the options below.",
-    "auto_join_room": "!TGeMnSOaImTtdkfeLq:orbit-sandbox.ems.host",
-    "username": "chatterbox",
-    "password": "DsqC0Oe6j1",
-    "header": {
-        "title": "",
-        "avatar": ""
-    },
-    "footer": {
-        "chatterbox_link": "https://element.io/solutions/chatterbox-embedded-live-chat-for-customer-service",
-        "matrix_link": "https://matrix.org"
-    },
-    "token": "Valid Token to be used with Token Authenticated Registration",
-    "avatar": ""
+    "welcome_message_text": "To start chatting, log in with one of the options below."
 }

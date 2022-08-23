@@ -22,22 +22,16 @@ export interface IChatterboxConfig {
     login_methods: Array<string> | null,
     welcome_message_heading: string,
     welcome_message_text: string,
-    username: string;
-    password: string;
-    // Internal room-id of the room to which chatterbox should join
-    auto_join_room: string;
+    // Id of the room to use, e.g. !room-id:example.com.
+    room_id: string;
     // Configurations for header on chatterbox (containing title, avatar, minimize button)
     header: IHeader;
     // Configurations for footer on chatterbox (containing what links to use)
     footer: IFooter;
-    // Token needed for token-authenticated registration
-    token: string;
-    // URL of the image that should be used as the users avatar
-    avatar: string;
 }
 
 interface IHeader {
-    // An optional static title. If this is not given, no room name is shown in the header
+    // An optional static title.
     title?: string;
     // An optional link to static avatar. If this is not given, the room avatar is used instead
     avatar?: string;

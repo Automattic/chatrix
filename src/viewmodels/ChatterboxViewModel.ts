@@ -32,10 +32,10 @@ export class ChatterboxViewModel extends ViewModel {
         // wait until login is completed
         await this._loginPromise;
         let room;
-        if(this._options.config["auto_join_room"]) {
+        if (this._options.config["room_id"]) {
             room = await this.joinRoomSpecifiedInConfig();
         } else {
-            throw new Error("ConfigError: You must specify 'auto_join_room'");
+            throw new Error("ConfigError: You must specify 'room_id'");
         }
         this._roomViewModel = this.track(new RoomViewModel(this.childOptions({
             room,
@@ -55,7 +55,7 @@ export class ChatterboxViewModel extends ViewModel {
     }
 
     private async joinRoomSpecifiedInConfig() {
-        const roomId = this._options.config["auto_join_room"];
+        const roomId = this._options.config["room_id"];
         let room = this._session.rooms.get(roomId);
         if (!room) {
             // user is not in specified room, so join it

@@ -14,15 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { ViewModel, Client, Navigation, createRouter, Platform, RoomStatus, LoadStatus } from "hydrogen-view-sdk";
+import { Client, createRouter, LoadStatus, Navigation, Platform, RoomStatus, ViewModel } from "hydrogen-view-sdk";
 import { IChatterboxConfig } from "../types/IChatterboxConfig";
 import { ChatterboxViewModel } from "./ChatterboxViewModel";
 import "hydrogen-view-sdk/style.css";
-import { AccountSetupViewModel } from "./AccountSetupViewModel";
 import { FooterViewModel } from "./FooterViewModel";
 import { MessageFromParent } from "../observables/MessageFromParent";
 import { LoginViewModel } from "./LoginViewModel";
-import {SettingsViewModel} from "./SettingsViewModel";
+import { SettingsViewModel } from "./SettingsViewModel";
 
 type Options = { platform: typeof Platform, navigation: typeof Navigation, urlCreator: ReturnType<typeof createRouter>, startMinimized: boolean, loginToken: string };
 
@@ -32,7 +31,6 @@ export class RootViewModel extends ViewModel {
     private _chatterBoxViewModel?: ChatterboxViewModel;
     private _loginViewModel?: LoginViewModel;
     private _settingsViewModel?: SettingsViewModel;
-    private _accountSetupViewModel?: AccountSetupViewModel;
     private _activeSection?: string;
     private _messageFromParent: MessageFromParent = new MessageFromParent();
     private _startMinimized: boolean;
@@ -56,7 +54,6 @@ export class RootViewModel extends ViewModel {
     private _setupNavigation() {
         this.navigation.observe("login").subscribe(() => this._showLogin());
         this.navigation.observe("settings").subscribe(() => this._showSettings());
-        this.navigation.observe("account-setup").subscribe(() => this._showAccountSetup());
         this.navigation.observe("timeline").subscribe((loginPromise) => this._showTimeline(loginPromise));
         this.navigation.observe("minimize").subscribe(() => this.minimizeChatterbox());
     }
@@ -126,19 +123,6 @@ export class RootViewModel extends ViewModel {
         this.emitChange("activeSection");
     }
 
-    private _showAccountSetup() {
-        this._activeSection = "account-setup";
-        this._accountSetupViewModel = this.track(new AccountSetupViewModel(
-            this.childOptions({
-                client: this._client,
-                config: this._config,
-                state: this._state,
-                footerVM: this._footerViewModel,
-            })
-        ));
-        this.emitChange("activeSection");
-    }
-
     /**
      * Try to start Hydrogen based on an existing hydrogen session.
      * If multiple sessions exist, this method chooses the most recent one.
@@ -156,7 +140,7 @@ export class RootViewModel extends ViewModel {
 
     private async _watchNotificationCount() {
         await this._client.loadStatus.waitFor(s => s === LoadStatus.Ready).promise;
-        const roomId = await this.platform.settingsStorage.getString("created-room-id") ?? this._config.auto_join_room;
+        const roomId = await this.platform.settingsStorage.getString("created-room-id") ?? this._config.room_id;
         const observable = await this._client.session.observeRoomStatus(roomId);
         await observable.waitFor((status) => status === RoomStatus.Joined).promise;
         const room = this._client.session.rooms.get(roomId);
