@@ -23,8 +23,8 @@ export class ChatrixView extends TemplateView<ChatrixViewModel> {
         super(value);
     }
 
-    render(t, vm) {
-        return t.div({className: "ChatrixView",}, [
+    render(t) {
+        return t.div({className: "ChatrixView"}, [
             t.mapView(
                 (vm) => (vm.roomViewModel ? vm : null),
                 (vm) => (vm ? new RoomHeaderView(vm) : null)
