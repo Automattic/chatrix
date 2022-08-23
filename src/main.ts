@@ -47,6 +47,10 @@ function getLoginToken(): string | null {
     return new URLSearchParams(window.location.search).get("loginToken");
 }
 
+function getBackendUserId(): string | null {
+    return new URLSearchParams(window.location.search).get("backendUserId");
+}
+
 async function main() {
     hideOnError();
     const root = document.querySelector(rootDivId) as HTMLDivElement;
@@ -56,7 +60,8 @@ async function main() {
     root.className = "hydrogen";
     const config = await fetchConfig();
 
-    const platform = new ChatrixPlatform({container: root, assetPaths, config: {}, options: { development: import.meta.env.DEV }}, config.instance_id);
+    const backendUserId = getBackendUserId();
+    const platform = new ChatrixPlatform({container: root, assetPaths, config: {}, options: { development: import.meta.env.DEV }}, config.instance_id, backendUserId);
     const navigation = new Navigation(allowsChild);
     platform.setNavigation(navigation);
     const urlRouter = createRouter({ navigation, history: platform.history });
