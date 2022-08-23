@@ -8,7 +8,9 @@
             "Automattic\\Chatrix\\": "src/"
         },
         "files": [
-            "src/plugin.php"
+            "src/plugin.php",
+            "src/Admin/admin.php",
+            "src/Admin/settings.php"
         ]
     },
     "config": {

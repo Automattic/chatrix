@@ -8,10 +8,15 @@
  * Version: 1.0
  */
 
+use function Automattic\Chatrix\Admin\main as adminMain;
 use function Automattic\Chatrix\main;
 
 if ( ! function_exists( 'Automattic\Chatrix\main' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
+}
+
+if ( is_admin() ) {
+	adminMain();
 }
 
 main();
