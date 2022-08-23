@@ -12,6 +12,7 @@ function settings() {
 			'default'           => null,
 			'sanitize_callback' => function ( $value ) {
 				$value = sanitize_textarea_field( $value );
+				$value = htmlspecialchars_decode( $value );
 				if ( empty( $value ) ) {
 					return $value;
 				}
@@ -79,7 +80,7 @@ function settings() {
 					</code>
 				</p>
 				<p><textarea name="chatrix_instances" rows="10" id="chatrix_instances"
-				             class="large-text code"><?php echo $serialized; ?></textarea></p>
+				             class="large-text code"><?php echo htmlspecialchars( $serialized ); ?></textarea></p>
 			</fieldset>
 			<?php
 		},
