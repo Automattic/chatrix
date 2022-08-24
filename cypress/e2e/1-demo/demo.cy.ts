@@ -17,21 +17,21 @@ limitations under the License.
 /// <reference types="cypress" />
 import demoInstance from '../../fixtures/demoInstance.json'
 
-describe('chatterbox-staging.element.io test', () => {
+describe('chatrix-staging.element.io test', () => {
   beforeEach(() => {
     cy.fixture('demoInstance').then(({url}) => {
       cy.visit(url)
     });
   });
 
-  it('displays the chatterbox icon', () => {
+  it('displays the chatrix icon', () => {
     cy.get('.start').should('have.length', 1);
   });
 
-  it('opens the chatterbox privacy window', () => {
+  it('opens the chatrix privacy window', () => {
     cy.get('.start > button').click();
-    cy.frameLoaded('.chatterbox-iframe');
-    cy.enter('.chatterbox-iframe').then(frame => {
+    cy.frameLoaded('.chatrix-iframe');
+    cy.enter('.chatrix-iframe').then(frame => {
       frame().find('.PolicyAgreementView_next').should('have.length', 1);
       frame().find('.PolicyAgreementView_cancel').should('have.length', 1);
     })
@@ -39,8 +39,8 @@ describe('chatterbox-staging.element.io test', () => {
 
   it('open the main chat window and sends a message', () => {
     cy.get('.start > button').click();
-    cy.frameLoaded('.chatterbox-iframe');
-    cy.enter('.chatterbox-iframe').then(frame => {
+    cy.frameLoaded('.chatrix-iframe');
+    cy.enter('.chatrix-iframe').then(frame => {
       frame().find('.PolicyAgreementView_next').click();
       cy.fixture('demoInstance').then(({headerName}) => {
         frame().find('.RoomHeaderView_name').should('have.text', headerName);

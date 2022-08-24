@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-export interface IChatterboxConfig {
+export interface IChatrixConfig {
     // Allows for having multiple clients with different configuration on the same domain.
     // Set to null if you don't require this feature.
     instance_id: string | null,
@@ -24,10 +24,8 @@ export interface IChatterboxConfig {
     welcome_message_text: string,
     // Id of the room to use, e.g. !room-id:example.com.
     room_id: string;
-    // Configurations for header on chatterbox (containing title, avatar, minimize button)
+    // Configurations for header on chatrix (containing title, avatar, minimize button)
     header: IHeader;
-    // Configurations for footer on chatterbox (containing what links to use)
-    footer: IFooter;
 }
 
 interface IHeader {
@@ -35,11 +33,4 @@ interface IHeader {
     title?: string;
     // An optional link to static avatar. If this is not given, the room avatar is used instead
     avatar?: string;
-}
-
-interface IFooter {
-    // Specifies the link which must be opened when chatterbox logo in the footer is clicked.
-    chatterbox_link: string;
-    // Specifies the link which must be opened when matrix branding in the footer is clicked.
-    matrix_link: string;
 }

@@ -62,7 +62,7 @@ function main() {
 		}
 	);
 
-	// Chatterbox accepts some configuration through properties on the window object.
+	// Chatrix accepts some configuration through properties on the window object.
 	// Ideally we would use wp_localize_script() but it cannot write to the `window` object.
 	// So instead we hook to wp_head and set the properties explicitly.
 	add_action(
@@ -73,12 +73,12 @@ function main() {
 				$current_user = wp_get_current_user();
 				?>
 				<script type="text/javascript">
-					window.CHATTERBOX_HTML_LOCATION = "<?php echo esc_url( asset_url( 'chatterbox.html' ) ); ?>";
-					window.CHATTERBOX_CONFIG_LOCATION = "<?php echo esc_url( $config['url'] ); ?>";
+					window.CHATRIX_HTML_LOCATION = "<?php echo esc_url( asset_url( 'chatrix.html' ) ); ?>";
+					window.CHATRIX_CONFIG_LOCATION = "<?php echo esc_url( $config['url'] ); ?>";
 					<?php if ( 0 === $current_user->ID ) { ?>
-						window.CHATTERBOX_BACKEND_USER_ID = null;
+						window.CHATRIX_BACKEND_USER_ID = null;
 					<?php } else { ?>
-						window.CHATTERBOX_BACKEND_USER_ID = "<?php echo esc_js( $current_user->user_login ); ?>";
+						window.CHATRIX_BACKEND_USER_ID = "<?php echo esc_js( $current_user->user_login ); ?>";
 					<?php } ?>
 				</script>
 				<?php
@@ -96,7 +96,7 @@ function main() {
 		}
 	);
 
-	// Output the script tag in the format expected by chatterbox.
+	// Output the script tag in the format expected by chatrix.
 	add_filter(
 		'script_loader_tag',
 		function ( $tag, $handle, $src ) {
@@ -105,7 +105,7 @@ function main() {
 				// However, we're not actually rendering anything here, we're just assigning to a variable.
 				// The fact that this code triggers phpcs is likely a bug in phpcs.
 				// phpcs:ignore
-				$tag = '<script id="chatterbox-script" type="module" src="' . esc_url( $src ) . '"></script>';
+				$tag = '<script id="chatrix-script" type="module" src="' . esc_url( $src ) . '"></script>';
 			}
 
 			return $tag;

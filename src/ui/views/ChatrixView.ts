@@ -14,20 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { TemplateView, TimelineView, AvatarView, viewClassForTile } from "hydrogen-view-sdk";
-import { MessageComposer } from "hydrogen-view-sdk";
-import { ChatterboxViewModel } from "../../viewmodels/ChatterboxViewModel";
-import { FooterView } from "./FooterView";
+import { AvatarView, MessageComposer, TemplateView, TimelineView, viewClassForTile } from "hydrogen-view-sdk";
+import { ChatrixViewModel } from "../../viewmodels/ChatrixViewModel";
 import { LoadingView } from "./LoadingView";
 
-export class ChatterboxView extends TemplateView<ChatterboxViewModel> {
+export class ChatrixView extends TemplateView<ChatrixViewModel> {
     constructor(value) {
         super(value);
     }
 
     render(t, vm) {
-        return t.div({ className: "ChatterboxView", },
-            [
+        return t.div({className: "ChatrixView",}, [
             t.mapView(
                 (vm) => (vm.roomViewModel ? vm : null),
                 (vm) => (vm ? new RoomHeaderView(vm) : null)
@@ -40,22 +37,24 @@ export class ChatterboxView extends TemplateView<ChatterboxViewModel> {
                 (vm) => vm.messageComposerViewModel,
                 (vm) => (vm?.kind === "composer" ? new MessageComposer(vm) : null)
             ),
-            t.view(new FooterView(vm.footerViewModel)),
         ]);
     }
 }
 
-class RoomHeaderView extends TemplateView<ChatterboxViewModel> {
+class RoomHeaderView extends TemplateView<ChatrixViewModel> {
     constructor(value) {
         super(value);
     }
 
-    render(t, vm: ChatterboxViewModel) {
-        const avatar = vm.customAvatarURL ? t.img({ className:"avatar", src: vm.customAvatarURL }) : t.view(new AvatarView(vm.roomViewModel, 30));
-        return t.div({ className: "RoomHeaderView" }, [
+    render(t, vm: ChatrixViewModel) {
+        const avatar = vm.customAvatarURL ? t.img({
+            className: "avatar",
+            src: vm.customAvatarURL
+        }) : t.view(new AvatarView(vm.roomViewModel, 30));
+        return t.div({className: "RoomHeaderView"}, [
             avatar,
-            t.div({ className: "RoomHeaderView_name" }, vm => vm.roomName),
-            t.div({ className: "RoomHeaderView_menu" }, [
+            t.div({className: "RoomHeaderView_name"}, vm => vm.roomName),
+            t.div({className: "RoomHeaderView_menu"}, [
                 t.button({
                     className: "RoomHeaderView_menu_settings", onClick: () => {
                         vm.showSettings();

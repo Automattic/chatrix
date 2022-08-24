@@ -15,10 +15,9 @@ limitations under the License.
 */
 
 import { Client, createRouter, LoadStatus, Navigation, Platform, RoomStatus, ViewModel } from "hydrogen-view-sdk";
-import { IChatterboxConfig } from "../types/IChatterboxConfig";
-import { ChatterboxViewModel } from "./ChatterboxViewModel";
+import { IChatrixConfig } from "../types/IChatrixConfig";
+import { ChatrixViewModel } from "./ChatrixViewModel";
 import "hydrogen-view-sdk/style.css";
-import { FooterViewModel } from "./FooterViewModel";
 import { MessageFromParent } from "../observables/MessageFromParent";
 import { LoginViewModel } from "./LoginViewModel";
 import { SettingsViewModel } from "./SettingsViewModel";
@@ -26,9 +25,9 @@ import { SettingsViewModel } from "./SettingsViewModel";
 type Options = { platform: typeof Platform, navigation: typeof Navigation, urlCreator: ReturnType<typeof createRouter>, startMinimized: boolean, loginToken: string };
 
 export class RootViewModel extends ViewModel {
-    private _config: IChatterboxConfig;
+    private _config: IChatrixConfig;
     private _client: typeof Client;
-    private _chatterBoxViewModel?: ChatterboxViewModel;
+    private _chatrixViewModel?: ChatrixViewModel;
     private _loginViewModel?: LoginViewModel;
     private _settingsViewModel?: SettingsViewModel;
     private _activeSection?: string;
@@ -36,26 +35,24 @@ export class RootViewModel extends ViewModel {
     private _startMinimized: boolean;
     private _loginToken: string;
     private _isWatchingNotificationCount: boolean;
-    private _footerViewModel: FooterViewModel;
 
-    constructor(config: IChatterboxConfig, options: Options) {
+    constructor(config: IChatrixConfig, options: Options) {
         super(options);
         this._startMinimized = options.startMinimized;
         this._config = config;
         this._loginToken = options.loginToken;
         this._client = new Client(this.platform);
-        this._footerViewModel = new FooterViewModel(this.childOptions({ config: this._config }));
         this._setupNavigation();
         this._messageFromParent.on("maximize", () => this.start());
-        // Chatterbox can be minimized via the start button on the parent page!
+        // Chatrix can be minimized via the start button on the parent page!
         this._messageFromParent.on("minimize", () => this.navigation.push("minimize"));
     }
 
-    private _setupNavigation() {
-        this.navigation.observe("login").subscribe(() => this._showLogin());
-        this.navigation.observe("settings").subscribe(() => this._showSettings());
-        this.navigation.observe("timeline").subscribe((loginPromise) => this._showTimeline(loginPromise));
-        this.navigation.observe("minimize").subscribe(() => this.minimizeChatterbox());
+    minimizeChatrix() {
+        this._chatrixViewModel = this.disposeTracked(this._chatrixViewModel);
+        this._accountSetupViewModel = this.disposeTracked(this._chatrixViewModel);
+        this._activeSection = "";
+        this.emitChange("chatrixViewModel");
     }
 
     async start() {
@@ -76,25 +73,8 @@ export class RootViewModel extends ViewModel {
         this.navigation.push("login");
     }
 
-    private async _showTimeline(loginPromise: Promise<void>) {
-        this._activeSection = "timeline";
-        if (!this._chatterBoxViewModel) {
-            this._chatterBoxViewModel = this.track(new ChatterboxViewModel(
-                this.childOptions({
-                    client: this._client,
-                    config: this._config,
-                    state: this._state,
-                    footerVM: this._footerViewModel,
-                    loginPromise,
-                })
-            ));
-            await this._chatterBoxViewModel.load();
-            if (!this._isWatchingNotificationCount) {
-                // for when chatterbox is loaded initially
-                this._watchNotificationCount();
-            }
-        }
-        this.emitChange("activeSection");
+    get chatrixViewModel() {
+        return this._chatrixViewModel;
     }
 
     private _showLogin() {
@@ -106,7 +86,6 @@ export class RootViewModel extends ViewModel {
                 loginToken: this._loginToken,
                 state: this._state,
                 platform: this.platform,
-                footerVM: this._footerViewModel,
             })
         ));
         this.emitChange("activeSection");
@@ -152,7 +131,7 @@ export class RootViewModel extends ViewModel {
                 if (newCount !== previousCount) {
                     if (!room.isUnread && newCount !== 0) {
                         /*
-                        when chatterbox is maximized and there are previous unread messages,
+                        when chatrix is maximized and there are previous unread messages,
                         this condition is hit but we still want to send the notification count so that 
                         the badge zeroes out.
                         */
@@ -167,16 +146,32 @@ export class RootViewModel extends ViewModel {
         this.track(this._client.session.rooms.subscribe(subscription));
         this._isWatchingNotificationCount = true;
     }
-    
-    minimizeChatterbox() {
-        this._chatterBoxViewModel = this.disposeTracked(this._chatterBoxViewModel);
-        this._accountSetupViewModel = this.disposeTracked(this._chatterBoxViewModel);
-        this._activeSection = "";
-        this.emitChange("chatterboxViewModel");
+
+    private _setupNavigation() {
+        this.navigation.observe("login").subscribe(() => this._showLogin());
+        this.navigation.observe("settings").subscribe(() => this._showSettings());
+        this.navigation.observe("timeline").subscribe((loginPromise) => this._showTimeline(loginPromise));
+        this.navigation.observe("minimize").subscribe(() => this.minimizeChatrix());
     }
 
-    get chatterboxViewModel() {
-        return this._chatterBoxViewModel;
+    private async _showTimeline(loginPromise: Promise<void>) {
+        this._activeSection = "timeline";
+        if (!this._chatrixViewModel) {
+            this._chatrixViewModel = this.track(new ChatrixViewModel(
+                this.childOptions({
+                    client: this._client,
+                    config: this._config,
+                    state: this._state,
+                    loginPromise,
+                })
+            ));
+            await this._chatrixViewModel.load();
+            if (!this._isWatchingNotificationCount) {
+                // for when chatrix is loaded initially
+                this._watchNotificationCount();
+            }
+        }
+        this.emitChange("activeSection");
     }
 
     get loginViewModel() {
@@ -185,10 +180,6 @@ export class RootViewModel extends ViewModel {
 
     get settingsViewModel() {
         return this._settingsViewModel;
-    }
-
-    get accountSetupViewModel() {
-        return this._accountSetupViewModel;
     }
 
     get activeSection() {

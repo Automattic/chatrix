@@ -1,4 +1,5 @@
-Chatterbox lets you securely embed [Hydrogen](https://github.com/vector-im/hydrogen-web) within any website.
+Chatrix lets you securely embed [Hydrogen](https://github.com/vector-im/hydrogen-web) within any website. Chatrix is a
+fork of [Chatterbox](https://github.com/vector-im/chatterbox).
     
 ### Develop Instructions
 ---
@@ -8,7 +9,8 @@ Chatterbox lets you securely embed [Hydrogen](https://github.com/vector-im/hydro
     yarn install
     ```
 3) Modify config.json in `public` directory with your homeserver details.  
-(See [`types/IChatterboxConfig.ts`](https://github.com/vector-im/chatterbox/blob/main/src/types/IChatterboxConfig.ts) for the format)
+   (See [`types/IChatrixConfig.ts`](https://github.com/Automattic/chatrix/blob/main/src/types/IChatrixConfig.ts)
+   for the format)
 4) Start develop server:
     ```properties
     yarn start
@@ -17,24 +19,28 @@ Chatterbox lets you securely embed [Hydrogen](https://github.com/vector-im/hydro
 ### Build Instructions
 ---
 Follow the develop instructions above (steps 1-3), then:
-- Build chatterbox app into `/target` directory:
+
+- Build chatrix app into `/target` directory:
     ```properties
     yarn build
     ```
 
 ### Embed Instructions
 ---
-Assuming that the build output (inside `/target`) is hosted at `<root>` (eg: chatterbox.element.io), copy and paste the following snippet before the closing `</body>` tag:
+Assuming that the build output (inside `/target`) is hosted at `<root>` (eg: chatrix.example.com), copy and paste the
+following snippet before the closing `</body>` tag:
+
 ```html
-	<script>
-		window.CHATTERBOX_CONFIG_LOCATION = "path_to_config";
-	</script>
-	<script src="<root>/assets/parent.js" type="module" id="chatterbox-script"></script>
+
+<script>
+	window.CHATRIX_CONFIG_LOCATION = "path_to_config";
+</script>
+<script src="<root>/assets/parent.js" type="module" id="chatrix-script"></script>
 ```
 
 ## Testing
 
-Chatterbox comes with a suite of integration tests, using cypress.
+Chatrix comes with a suite of integration tests, using cypress.
 
 You can run them by doing
 ```sh
