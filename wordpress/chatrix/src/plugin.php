@@ -86,6 +86,42 @@ function main() {
 		}
 	);
 
+	// Logs out user from Chatrix on non-logged in page load, if any session exists in localStorage.
+	foreach ( array( 'wp_footer', 'login_footer' ) as $footer_hook ) {
+		add_action(
+			$footer_hook,
+			function() {
+				if ( ! is_user_logged_in() ) {
+					?>
+					<script type="text/javascript">
+						async function invalidateChatrixSession(session) {
+							await fetch(session.homeserver + '/_matrix/client/v3/logout', {
+								method: 'POST',
+								headers: {
+									'Authorization': 'Bearer ' + session.accessToken,
+								},
+							});
+						}
+						(function() {
+							let sessionPrefix = "hydrogen_sessions_v1";
+							for (let i=0; i<localStorage.length; i++) {
+								let key = localStorage.key(i);
+								if (!key.startsWith(sessionPrefix)) {
+									continue;
+								}
+								this.invalidateChatrixSession(
+									JSON.parse(localStorage.getItem(key))[0]
+								);
+								localStorage.removeItem(key);
+							}
+						})();
+					</script>
+					<?php
+				}
+			}
+		);
+	}
+
 	// Enqueue the script only when chatrix_configuration filter is set.
 	add_action(
 		'wp_enqueue_scripts',
