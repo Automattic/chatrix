@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Chatrix lets you securely embed the Hydrogen matrix client on any website!",
   "repository": "git@github.com:Automattic/chatrix.git",
-  "author": "Automattic",
+  "author": "matrix.org, Automattic",
   "license": "Apache-2.0",
   "scripts": {
     "start": "vite",
@@ -19,6 +19,6 @@
   "dependencies": {
     "@sentry/browser": "^7.5.0",
     "@sentry/tracing": "^7.5.0",
-    "hydrogen-view-sdk": "^0.0.15"
+    "hydrogen-view-sdk": "^0.1.0"
   }
 }

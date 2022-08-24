@@ -62,6 +62,7 @@ async function main() {
 
     const backendUserId = getBackendUserId();
     const platform = new ChatrixPlatform({container: root, assetPaths, config: {}, options: { development: import.meta.env.DEV }}, config.instance_id, backendUserId);
+    attachLogExportToWindow(platform);
     const navigation = new Navigation(allowsChild);
     platform.setNavigation(navigation);
     const urlRouter = createRouter({ navigation, history: platform.history });
@@ -80,6 +81,30 @@ function allowsChild(parent, child) {
             return type === "start" || type === "login" || type === "settings" || type === "timeline" || type === "minimize";
         default:
             return false;
+    }
+}
+
+function attachLogExportToWindow(platform): void {
+    (window as any).downloadLogs = async () => {
+        const logs = await platform.logger.export();
+        if (!logs && import.meta.env.DEV) {
+            console.error(
+                "Dev mode is not currently configured to collect persistent logs! Change the 'development' flag passed to Platform constructor to false or run Chatterbox from a true build."
+            );
+            return;
+        }
+        const accepted = confirm(
+            "Debug logs contain application usage data including your username, " +
+            "the IDs or aliases of the rooms or groups you have visited, " +
+            "the usernames of other users and the names of files you send. " +
+            "They do not contain messages. For more information, review our " +
+            "privacy policy at https://element.io/privacy." +
+            "\n\n" +
+            "Continue to export logs?"
+        );
+        if (accepted) {
+            platform.saveFileAs(logs.asBlob(), "chatterbox-logs.json");
+        }
     }
 }
 
