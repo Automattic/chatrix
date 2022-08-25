@@ -6,6 +6,10 @@
   "repository": "https://github.com/Automattic/chatrix",
   "author": "Automattic",
   "license": "GPL-2.0-or-later",
+  "scripts": {
+    "build": "wp-scripts build",
+    "start": "wp-scripts start"
+  },
   "devDependencies": {
     "@wordpress/scripts": "^24.0.0"
   }
