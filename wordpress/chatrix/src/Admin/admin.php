@@ -2,6 +2,10 @@
 
 namespace Automattic\Chatrix\Admin;
 
+function admin_asset_url( $asset_path ): string {
+	return plugins_url( "../../build/$asset_path", __FILE__ );
+}
+
 function main() {
 	add_action( 'admin_enqueue_scripts', 'Automattic\Chatrix\Admin\Settings\scripts' );
 	add_action( 'admin_menu', 'Automattic\Chatrix\Admin\Settings\main' );

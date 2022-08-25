@@ -1,16 +1,23 @@
 <?php
 
 namespace Automattic\Chatrix\Admin\Settings;
+use function Automattic\Chatrix\Admin\admin_asset_url;
 
 function scripts() {
+	wp_enqueue_style(
+		'chatrix-style',
+		admin_asset_url( 'settings.css' )
+	);
+
 	wp_enqueue_script(
 		'chatrix-settings-js',
-		plugins_url( 'settings.js', __FILE__ ),
+		admin_asset_url( 'settings.js' ),
 		array(
 			'wp-element',
 			'wp-i18n'
 		),
-		'1.0'
+		'1.0',
+		true
 	);
 }
 
@@ -22,7 +29,7 @@ function main() {
 		'chatrix',
 		function () {
 			?>
-			<div id="chatrix-settings-page">
+			<div id="chatrix-settings">
 			</div>
 			<?php
 		}
