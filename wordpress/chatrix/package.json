@@ -5,5 +5,8 @@
   "main": "index.js",
   "repository": "https://github.com/Automattic/chatrix",
   "author": "Automattic",
-  "license": "GPL-2.0-or-later"
+  "license": "GPL-2.0-or-later",
+  "devDependencies": {
+    "@wordpress/scripts": "^24.0.0"
+  }
 }
