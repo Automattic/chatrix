@@ -73,7 +73,7 @@ function loadIframe(minimized = false) {
         throw new Error("CHATRIX_CONFIG_LOCATION is not set");
     }
 
-    const backendUserId = (window as any).CHATRIX_BACKEND_USER_ID || null;
+    const localStorageKey = (window as any).CHATRIX_LOCAL_STORAGE_KEY || null;
 
     const urlParams = new URLSearchParams(window.location.search);
     const loginToken = urlParams.get("loginToken");
@@ -81,7 +81,7 @@ function loadIframe(minimized = false) {
     window.history.replaceState( null, '', (urlParams.entries.length ? '?' + urlParams : './' ) + location.hash );
 
     iframe.src = new URL(
-        `${htmlLocation}?config=${configLocation}${minimized? "&minimized=true": ""}${loginToken? "&loginToken="+encodeURIComponent(loginToken): ""}${backendUserId? "&backendUserId="+encodeURIComponent(backendUserId): ""}`,
+        `${htmlLocation}?config=${configLocation}${minimized? "&minimized=true": ""}${loginToken? "&loginToken="+encodeURIComponent(loginToken): ""}${localStorageKey? "&localStorageKey="+encodeURIComponent(localStorageKey): ""}`,
         hostRoot
     ).href;
     iframe.className = "chatrix-iframe";

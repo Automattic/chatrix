@@ -2,6 +2,8 @@
 
 namespace Automattic\Chatrix;
 
+const LOCAL_STORAGE_KEY_PREFIX = 'hydrogen_sessions_v1';
+
 function asset_url( $asset_path ): string {
 	return plugins_url( "../frontend/$asset_path", __FILE__ );
 }
@@ -51,7 +53,7 @@ function main() {
 
 			// The instance id is the $uri without the trailing '/'.
 			$instance_id = rtrim( $page_uri, '/' );
-			if ( ! array_key_exists( $instance_id, $instances ) ) {
+			if ( ! $instances || ! array_key_exists( $instance_id, $instances ) ) {
 				return null;
 			}
 
@@ -71,15 +73,25 @@ function main() {
 			$config = chatrix_config();
 			if ( $config ) {
 				$current_user = wp_get_current_user();
+
+				// get instance id from url returned in config.
+				$exploded_url = explode( '/', $config['url'] );
+				$instance_id  = array_pop( $exploded_url );
+
+				$local_storage_key = LOCAL_STORAGE_KEY_PREFIX;
+
+				if ( ! empty( $config['instance_id'] ) ) {
+					$local_storage_key = $local_storage_key . '_' . $instance_id;
+				}
+
+				if ( 0 !== $current_user->ID ) {
+					$local_storage_key = $local_storage_key . '_' . $current_user->user_login;
+				}
 				?>
 				<script type="text/javascript">
 					window.CHATRIX_HTML_LOCATION = "<?php echo esc_url( asset_url( 'chatrix.html' ) ); ?>";
 					window.CHATRIX_CONFIG_LOCATION = "<?php echo esc_url( $config['url'] ); ?>";
-					<?php if ( 0 === $current_user->ID ) { ?>
-						window.CHATRIX_BACKEND_USER_ID = null;
-					<?php } else { ?>
-						window.CHATRIX_BACKEND_USER_ID = "<?php echo esc_js( $current_user->user_login ); ?>";
-					<?php } ?>
+					window.CHATRIX_LOCAL_STORAGE_KEY = "<?php echo esc_js( $local_storage_key ); ?>";
 				</script>
 				<?php
 			}
@@ -103,10 +115,9 @@ function main() {
 							});
 						}
 						(function() {
-							let sessionPrefix = "hydrogen_sessions_v1";
 							for (let i=0; i<localStorage.length; i++) {
 								let key = localStorage.key(i);
-								if (!key.startsWith(sessionPrefix)) {
+								if (!key.startsWith(LOCAL_STORAGE_KEY_PREFIX)) {
 									continue;
 								}
 								this.invalidateChatrixSession(

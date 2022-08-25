@@ -47,8 +47,8 @@ function getLoginToken(): string | null {
     return new URLSearchParams(window.location.search).get("loginToken");
 }
 
-function getBackendUserId(): string | null {
-    return new URLSearchParams(window.location.search).get("backendUserId");
+function getLocalStorageKey(): string | null {
+    return new URLSearchParams(window.location.search).get("localStorageKey");
 }
 
 async function main() {
@@ -60,8 +60,8 @@ async function main() {
     root.className = "hydrogen";
     const config = await fetchConfig();
 
-    const backendUserId = getBackendUserId();
-    const platform = new ChatrixPlatform({container: root, assetPaths, config: {}, options: { development: import.meta.env.DEV }}, config.instance_id, backendUserId);
+    const localStorageKey = getLocalStorageKey();
+    const platform = new ChatrixPlatform({container: root, assetPaths, config: {}, options: { development: import.meta.env.DEV }}, localStorageKey);
     attachLogExportToWindow(platform);
     const navigation = new Navigation(allowsChild);
     platform.setNavigation(navigation);
