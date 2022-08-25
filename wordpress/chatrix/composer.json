@@ -10,7 +10,7 @@
         "files": [
             "src/plugin.php",
             "src/Admin/admin.php",
-            "src/Admin/settings.php",
+            "src/Admin/Settings/settings.php",
             "src/Admin/settingsInJson.php"
         ]
     },
