@@ -58,8 +58,9 @@ function main() {
 			}
 
 			return array(
-				'url'    => rest_url( "chatrix/config/$instance_id" ),
-				'config' => $instances[ $instance_id ],
+				'url'         => rest_url( "chatrix/config/$instance_id" ),
+				'config'      => $instances[ $instance_id ],
+				'instance_id' => $instance_id,
 			);
 		}
 	);
@@ -74,14 +75,10 @@ function main() {
 			if ( $config ) {
 				$current_user = wp_get_current_user();
 
-				// get instance id from url returned in config.
-				$exploded_url = explode( '/', $config['url'] );
-				$instance_id  = array_pop( $exploded_url );
-
 				$local_storage_key = LOCAL_STORAGE_KEY_PREFIX;
 
 				if ( ! empty( $config['instance_id'] ) ) {
-					$local_storage_key = $local_storage_key . '_' . $instance_id;
+					$local_storage_key = $local_storage_key . '_' . $config['instance_id'];
 				}
 
 				if ( 0 !== $current_user->ID ) {
