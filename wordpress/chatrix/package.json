@@ -1,0 +1,9 @@
+{
+  "name": "chatrix",
+  "version": "0.1.0",
+  "description": "WordPress plugin to embed the Chatrix Matrix client into WordPress pages.",
+  "main": "index.js",
+  "repository": "https://github.com/Automattic/chatrix",
+  "author": "Automattic",
+  "license": "GPL-2.0-or-later"
+}
