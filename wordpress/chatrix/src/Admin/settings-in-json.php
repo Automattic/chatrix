@@ -2,7 +2,7 @@
 
 namespace Automattic\Chatrix\Admin\Settings;
 
-function settingsInJson() {
+function settings_in_json() {
 	register_setting(
 		'discussion',
 		'chatrix_instances',
@@ -46,7 +46,7 @@ function settingsInJson() {
 		'Instances',
 		function () {
 			$instances  = get_option( 'chatrix_instances' );
-			$serialized = $instances ? json_encode( $instances, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) : null;
+			$serialized = $instances ? wp_json_encode( $instances, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) : null;
 			?>
 			<fieldset>
 				<legend class="screen-reader-text"><span>Instances</span></legend>
@@ -78,8 +78,10 @@ function settingsInJson() {
 						<?php // @formatter:on ?>
 					</code>
 				</p>
-				<p><textarea name="chatrix_instances" rows="10" id="chatrix_instances"
-				             class="large-text code"><?php echo htmlspecialchars( $serialized ); ?></textarea></p>
+				<p>
+					<textarea name="chatrix_instances" rows="10" id="chatrix_instances" class="large-text code"><?php echo esc_html( $serialized ); ?>
+					</textarea>
+				</p>
 			</fieldset>
 			<?php
 		},

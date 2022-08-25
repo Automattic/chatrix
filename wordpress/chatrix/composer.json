@@ -11,7 +11,7 @@
             "src/plugin.php",
             "src/Admin/admin.php",
             "src/Admin/Settings/settings.php",
-            "src/Admin/settingsInJson.php"
+            "src/Admin/settings-in-json.php"
         ]
     },
     "config": {
