@@ -1,9 +1,8 @@
 <?php
-// phpcs:ignoreFile
 
-namespace Automattic\Chatrix\Admin;
+namespace Automattic\Chatrix\Admin\Settings;
 
-function settings() {
+function settingsInJson() {
 	register_setting(
 		'discussion',
 		'chatrix_instances',
