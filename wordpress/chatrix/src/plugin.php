@@ -2,6 +2,8 @@
 
 namespace Automattic\Chatrix;
 
+const LOCAL_STORAGE_KEY_PREFIX = 'hydrogen_sessions_v1';
+
 function asset_url( $asset_path ): string {
 	return plugins_url( "../frontend/$asset_path", __FILE__ );
 }
@@ -51,13 +53,14 @@ function main() {
 
 			// The instance id is the $uri without the trailing '/'.
 			$instance_id = rtrim( $page_uri, '/' );
-			if ( ! array_key_exists( $instance_id, $instances ) ) {
+			if ( ! $instances || ! array_key_exists( $instance_id, $instances ) ) {
 				return null;
 			}
 
 			return array(
-				'url'    => rest_url( "chatrix/config/$instance_id" ),
-				'config' => $instances[ $instance_id ],
+				'url'         => rest_url( "chatrix/config/$instance_id" ),
+				'config'      => $instances[ $instance_id ],
+				'instance_id' => $instance_id,
 			);
 		}
 	);
@@ -71,20 +74,61 @@ function main() {
 			$config = chatrix_config();
 			if ( $config ) {
 				$current_user = wp_get_current_user();
+
+				$local_storage_key = LOCAL_STORAGE_KEY_PREFIX;
+
+				if ( ! empty( $config['instance_id'] ) ) {
+					$local_storage_key = $local_storage_key . '_' . $config['instance_id'];
+				}
+
+				if ( 0 !== $current_user->ID ) {
+					$local_storage_key = $local_storage_key . '_' . $current_user->user_login;
+				}
 				?>
 				<script type="text/javascript">
 					window.CHATRIX_HTML_LOCATION = "<?php echo esc_url( asset_url( 'chatrix.html' ) ); ?>";
 					window.CHATRIX_CONFIG_LOCATION = "<?php echo esc_url( $config['url'] ); ?>";
-					<?php if ( 0 === $current_user->ID ) { ?>
-						window.CHATRIX_BACKEND_USER_ID = null;
-					<?php } else { ?>
-						window.CHATRIX_BACKEND_USER_ID = "<?php echo esc_js( $current_user->user_login ); ?>";
-					<?php } ?>
+					window.CHATRIX_LOCAL_STORAGE_KEY = "<?php echo esc_js( $local_storage_key ); ?>";
 				</script>
 				<?php
 			}
 		}
 	);
+
+	// Logs out user from Chatrix on non-logged in page load, if any session exists in localStorage.
+	foreach ( array( 'wp_footer', 'login_footer' ) as $footer_hook ) {
+		add_action(
+			$footer_hook,
+			function() {
+				if ( ! is_user_logged_in() ) {
+					?>
+					<script type="text/javascript">
+						async function invalidateChatrixSession(session) {
+							await fetch(session.homeserver + '/_matrix/client/v3/logout', {
+								method: 'POST',
+								headers: {
+									'Authorization': 'Bearer ' + session.accessToken,
+								},
+							});
+						}
+						(function() {
+							for (let i=0; i<localStorage.length; i++) {
+								let key = localStorage.key(i);
+								if (!key.startsWith(LOCAL_STORAGE_KEY_PREFIX)) {
+									continue;
+								}
+								this.invalidateChatrixSession(
+									JSON.parse(localStorage.getItem(key))[0]
+								);
+								localStorage.removeItem(key);
+							}
+						})();
+					</script>
+					<?php
+				}
+			}
+		);
+	}
 
 	// Enqueue the script only when chatrix_configuration filter is set.
 	add_action(
