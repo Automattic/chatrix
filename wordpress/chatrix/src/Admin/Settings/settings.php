@@ -4,6 +4,7 @@ namespace Automattic\Chatrix\Admin\Settings;
 
 const DEFAULT_VALUES     = array(
 	'homeserver' => 'https://example.com',
+	'room'       => '!room-id:example.com',
 );
 const SETTINGS_PAGE_SLUG = 'chatrix';
 const OPTION_GROUP       = 'chatrix';
@@ -40,11 +41,14 @@ function room_section( $settings ) {
 		SETTINGS_PAGE_SLUG
 	);
 
-
 	$fields = array(
 		array(
 			'name'  => 'homeserver',
 			'label' => 'Homeserver',
+		),
+		array(
+			'name'  => 'room',
+			'label' => 'Room',
 		),
 	);
 
@@ -73,18 +77,30 @@ function room_section( $settings ) {
 	}
 }
 
-
 function sanitize_value( $field_name, $value ): string {
 	if ( 'homeserver' === $field_name ) {
 		$value = sanitize_text_field( $value );
 		if ( empty( $value ) ) {
 			add_error( 'homeserver-empty', 'Homeserver must not be empty.' );
-			return $value;
 		}
 
 		if ( ! wp_http_validate_url( $value ) ) {
 			add_error( 'homeserver-invalid', 'Homeserver must be a valid URL.' );
-			return $value;
+		}
+	}
+
+	if ( 'room' === $field_name ) {
+		$value = sanitize_text_field( $value );
+		if ( empty( $value ) ) {
+			add_error( 'room-empty', 'Room must not be empty.' );
+		}
+
+		if ( ! str_starts_with( $value, '!' ) ) {
+			add_error( 'room-missing-exclamation', 'Room must start with an exclamation mark, e.g. !room-id@example.com' );
+		}
+
+		if ( ! str_contains( $value, '@' ) ) {
+			add_error( 'room-missing-at-sign', 'Room must end with an @ followed by the homeserver domain, e.g. !room-id@example.com' );
 		}
 	}
 
@@ -119,12 +135,12 @@ function sanitize( $values ): array {
 		return DEFAULT_VALUES;
 	}
 
-	$out = array();
+	$sanitized = array();
 	foreach ( DEFAULT_VALUES as $key => $default_value ) {
-		$out[ $key ] = sanitize_value( $key, $values[ $key ] );
+		$sanitized[ $key ] = sanitize_value( $key, $values[ $key ] );
 	}
 
-	return $out;
+	return $sanitized;
 }
 
 function add_error( $code, $message ) {
