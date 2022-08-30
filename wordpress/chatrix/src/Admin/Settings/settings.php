@@ -40,27 +40,37 @@ function room_section( $settings ) {
 		SETTINGS_PAGE_SLUG
 	);
 
-	add_settings_field(
-		"{$section_slug}_homeserver",
-		'Homeserver',
-		function ( $args ) {
-			printf(
-				'<input name="%1$s[%2$s]" id="%3$s" value="%4$s" class="regular-text">',
-				esc_attr( $args['option_name'] ),
-				esc_attr( $args['name'] ),
-				esc_attr( $args['label_for'] ),
-				esc_attr( $args['value'] ),
-			);
-		},
-		SETTINGS_PAGE_SLUG,
-		$section_slug,
+
+	$fields = array(
 		array(
-			'label_for'   => OPTION_NAME . '_homeserver',
-			'name'        => 'homeserver',
-			'value'       => esc_attr( $settings['homeserver'] ),
-			'option_name' => OPTION_NAME,
-		)
+			'name'  => 'homeserver',
+			'label' => 'Homeserver',
+		),
 	);
+
+	foreach ( $fields as $field ) {
+		add_settings_field(
+			"{$section_slug}_${field['name']}",
+			$field['label'],
+			function ( $args ) {
+				printf(
+					'<input name="%1$s[%2$s]" id="%3$s" value="%4$s" class="regular-text">',
+					esc_attr( $args['option_name'] ),
+					esc_attr( $args['name'] ),
+					esc_attr( $args['label_for'] ),
+					esc_attr( $args['value'] ),
+				);
+			},
+			SETTINGS_PAGE_SLUG,
+			$section_slug,
+			array(
+				'label_for'   => OPTION_NAME . '_' . $field['name'],
+				'name'        => $field['name'],
+				'value'       => esc_attr( $settings[ $field['name'] ] ),
+				'option_name' => OPTION_NAME,
+			)
+		);
+	}
 }
 
 
@@ -69,10 +79,12 @@ function sanitize_value( $field_name, $value ): string {
 		$value = sanitize_text_field( $value );
 		if ( empty( $value ) ) {
 			add_error( 'homeserver-empty', 'Homeserver must not be empty.' );
+			return $value;
 		}
 
 		if ( ! wp_http_validate_url( $value ) ) {
 			add_error( 'homeserver-invalid', 'Homeserver must be a valid URL.' );
+			return $value;
 		}
 	}
 
