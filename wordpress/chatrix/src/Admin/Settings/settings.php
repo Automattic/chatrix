@@ -70,6 +70,10 @@ function sanitize_value( $field_name, $value ): string {
 		if ( empty( $value ) ) {
 			add_error( 'homeserver-empty', 'Homeserver must not be empty.' );
 		}
+
+		if ( ! wp_http_validate_url( $value ) ) {
+			add_error( 'homeserver-invalid', 'Homeserver must be a valid URL.' );
+		}
 	}
 
 	return $value;
