@@ -63,11 +63,16 @@ function room_section( $settings ) {
 	);
 }
 
-function sanitize( $values ) {
-	if ( ! is_array( $values ) ) {
-		return DEFAULT_VALUES;
+
+function sanitize_value( $field_name, $value ): string {
+	if ( 'homeserver' === $field_name ) {
+		$value = sanitize_text_field( $value );
+		if ( empty( $value ) ) {
+			add_error( 'homeserver-empty', 'Homeserver must not be empty.' );
+		}
 	}
-	return $values;
+
+	return $value;
 }
 
 function menu() {
@@ -91,4 +96,21 @@ function menu() {
 			<?php
 		}
 	);
+}
+
+function sanitize( $values ): array {
+	if ( ! is_array( $values ) ) {
+		return DEFAULT_VALUES;
+	}
+
+	$out = array();
+	foreach ( DEFAULT_VALUES as $key => $default_value ) {
+		$out[ $key ] = sanitize_value( $key, $values[ $key ] );
+	}
+
+	return $out;
+}
+
+function add_error( $code, $message ) {
+	add_settings_error( OPTION_GROUP, "chatrix-$code", $message );
 }
