@@ -64,11 +64,11 @@ function sanitize_value( $field_name, $value ): string {
 		}
 
 		if ( ! str_starts_with( $value, '!' ) ) {
-			add_error( 'room-missing-exclamation', 'Room must start with an exclamation mark, e.g. !room-id@example.com' );
+			add_error( 'room-missing-exclamation', 'Room must start with an exclamation mark, e.g. !room-id:example.com' );
 		}
 
-		if ( ! str_contains( $value, '@' ) ) {
-			add_error( 'room-missing-at-sign', 'Room must end with an @ followed by the homeserver domain, e.g. !room-id@example.com' );
+		if ( ! str_contains( $value, ':' ) ) {
+			add_error( 'room-missing-colon', 'Room must end with an : followed by the homeserver domain, e.g. !room-id:example.com' );
 		}
 	}
 
