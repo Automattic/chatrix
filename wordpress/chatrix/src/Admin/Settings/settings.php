@@ -5,6 +5,7 @@ namespace Automattic\Chatrix\Admin\Settings;
 const DEFAULT_VALUES     = array(
 	'homeserver' => 'https://example.com',
 	'room'       => '!room-id:example.com',
+	'show_on'    => 'all',
 );
 const SETTINGS_PAGE_SLUG = 'chatrix';
 const OPTION_GROUP       = 'chatrix';
@@ -45,8 +46,23 @@ function room_section( $settings ) {
 		SETTINGS_PAGE_SLUG
 	);
 
-	add_text_field( $room_section_slug, 'homeserver', $settings['homeserver'], 'Homeserver',  );
+	add_text_field( $room_section_slug, 'homeserver', $settings['homeserver'], 'Homeserver', );
 	add_text_field( $room_section_slug, 'room', $settings['room'], 'Room' );
+
+	$pages_section_slug = 'chatrix_';
+	add_settings_section(
+		$pages_section_slug,
+		'Pages',
+		function () {
+			?>
+			<p>Configure in which pages to show Chatrix.</p>
+			<?php
+		},
+		SETTINGS_PAGE_SLUG
+	);
+
+	add_radio_field( $pages_section_slug, 'show_on', 'all', 'Show chatrix on', 'All pages', $settings['show_on'] );
+	add_radio_field( $pages_section_slug, 'show_on', 'specific', '', 'Specific pages', $settings['show_on'] );
 }
 
 function sanitize_value( $field_name, $value, $original_value ): string {
@@ -85,6 +101,13 @@ function sanitize_value( $field_name, $value, $original_value ): string {
 		}
 	}
 
+	if ( 'show_on' === $field_name ) {
+		$value = sanitize_text_field( $value );
+		if ( ! in_array( $value, array( 'all', 'specific' ) ) ) {
+			add_error( 'show-on-invalid', 'Invalid show-on selection' );
+		}
+	}
+
 	return $value;
 }
 
@@ -108,6 +131,33 @@ function add_text_field( string $section_slug, string $name, string $value, stri
 			'label_for'   => OPTION_NAME . '_' . $name,
 			'name'        => $name,
 			'value'       => $value,
+		)
+	);
+}
+
+function add_radio_field( string $section_slug, string $name, string $value, string $label, string $description, string $selected_value ) {
+	add_settings_field(
+		"{$section_slug}_{$name}_$value",
+		$label,
+		function ( $args ) {
+			printf(
+				'<input name="%1$s[%2$s]" value="%3$s" type="radio" class="regular-text" %4$s/> %5$s',
+				esc_attr( $args['option_name'] ),
+				esc_attr( $args['name'] ),
+				esc_attr( $args['value'] ),
+				checked( $args['value'], $args['selected_value'], false ),
+				esc_attr( $args['description'] ),
+			);
+		},
+		SETTINGS_PAGE_SLUG,
+		$section_slug,
+		array(
+			'option_name'    => OPTION_NAME,
+			'label_for'      => OPTION_NAME . '_' . $name,
+			'name'           => $name,
+			'value'          => $value,
+			'description'    => $description,
+			'selected_value' => $selected_value,
 		)
 	);
 }
