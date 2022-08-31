@@ -32,12 +32,13 @@ function init() {
 	$settings = array_merge( DEFAULT_VALUES, get_option( OPTION_NAME ) );
 
 	room_section( $settings );
+	pages_section( $settings );
 }
 
-function room_section( $settings ) {
-	$room_section_slug = 'chatrix_room';
+function room_section( array $settings ) {
+	$section_slug = 'chatrix_room';
 	add_settings_section(
-		$room_section_slug,
+		$section_slug,
 		'Room',
 		function () {
 			?>
@@ -47,12 +48,14 @@ function room_section( $settings ) {
 		SETTINGS_PAGE_SLUG
 	);
 
-	add_text_field( $room_section_slug, 'homeserver', $settings['homeserver'], 'Homeserver', );
-	add_text_field( $room_section_slug, 'room', $settings['room'], 'Room' );
+	add_text_field( $section_slug, 'homeserver', $settings['homeserver'], 'Homeserver', );
+	add_text_field( $section_slug, 'room', $settings['room'], 'Room' );
+}
 
-	$pages_section_slug = 'chatrix_pages';
+function pages_section( array $settings ) {
+	$section_slug = 'chatrix_pages';
 	add_settings_section(
-		$pages_section_slug,
+		$section_slug,
 		'Pages',
 		function () {
 			?>
@@ -62,9 +65,9 @@ function room_section( $settings ) {
 		SETTINGS_PAGE_SLUG
 	);
 
-	add_radio_field( $pages_section_slug, 'show_on', 'all', 'Show chatrix on', 'All pages', $settings['show_on'] );
-	add_radio_field( $pages_section_slug, 'show_on', 'specific', '', 'Specific pages', $settings['show_on'] );
-	add_page_select_field( $pages_section_slug, 'pages', $settings['pages'][0], '' );
+	add_radio_field( $section_slug, 'show_on', 'all', 'Show chatrix on', 'All pages', $settings['show_on'] );
+	add_radio_field( $section_slug, 'show_on', 'specific', '', 'Specific pages', $settings['show_on'] );
+	add_page_select_field( $section_slug, 'pages', $settings['pages'][0], '' );
 }
 
 function sanitize_value( $field_name, $value, $original_value ): string {
