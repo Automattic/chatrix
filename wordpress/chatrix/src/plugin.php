@@ -2,6 +2,8 @@
 
 namespace Automattic\Chatrix;
 
+use function Automattic\Chatrix\Admin\Settings\get as get_chatrix_settings;
+
 const LOCAL_STORAGE_KEY_PREFIX = 'hydrogen_sessions_v1';
 
 function asset_url( $asset_path ): string {
@@ -13,13 +15,21 @@ function chatrix_config() {
 }
 
 function main() {
-	// Declare all instances of chatrix.
+	// Declare the default instance of chatrix.
 	add_filter(
 		'chatrix_instances',
 		function () {
-			$instances = get_option( 'chatrix_instances' );
+			$settings = get_chatrix_settings();
+			if ( empty( $settings ) ) {
+				return array();
+			}
 
-			return empty( $instances ) ? null : $instances;
+			return array(
+				'default' => array(
+					'homeserver' => $settings['homeserver'],
+					'room_id'    => $settings['room'],
+				),
+			);
 		},
 		0
 	);

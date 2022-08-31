@@ -10,6 +10,10 @@ const SETTINGS_PAGE_SLUG = 'chatrix';
 const OPTION_GROUP       = 'chatrix';
 const OPTION_NAME        = 'chatrix_settings';
 
+function get() {
+	return get_option( OPTION_NAME );
+}
+
 function init() {
 	// All settings are stored under a single associative array.
 	register_setting(
