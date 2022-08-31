@@ -6,6 +6,7 @@ const DEFAULT_VALUES     = array(
 	'homeserver' => 'https://example.com',
 	'room'       => '!room-id:example.com',
 	'show_on'    => 'all',
+	'pages'      => array( 0 ),
 );
 const SETTINGS_PAGE_SLUG = 'chatrix';
 const OPTION_GROUP       = 'chatrix';
@@ -49,7 +50,7 @@ function room_section( $settings ) {
 	add_text_field( $room_section_slug, 'homeserver', $settings['homeserver'], 'Homeserver', );
 	add_text_field( $room_section_slug, 'room', $settings['room'], 'Room' );
 
-	$pages_section_slug = 'chatrix_';
+	$pages_section_slug = 'chatrix_pages';
 	add_settings_section(
 		$pages_section_slug,
 		'Pages',
@@ -63,6 +64,7 @@ function room_section( $settings ) {
 
 	add_radio_field( $pages_section_slug, 'show_on', 'all', 'Show chatrix on', 'All pages', $settings['show_on'] );
 	add_radio_field( $pages_section_slug, 'show_on', 'specific', '', 'Specific pages', $settings['show_on'] );
+	add_page_select_field( $pages_section_slug, 'pages', $settings['pages'][0], '' );
 }
 
 function sanitize_value( $field_name, $value, $original_value ): string {
@@ -103,9 +105,22 @@ function sanitize_value( $field_name, $value, $original_value ): string {
 
 	if ( 'show_on' === $field_name ) {
 		$value = sanitize_text_field( $value );
-		if ( ! in_array( $value, array( 'all', 'specific' ) ) ) {
-			add_error( 'show-on-invalid', 'Invalid show-on selection' );
+		if ( ! in_array( $value, array( 'all', 'specific' ), true ) ) {
+			// translators: %s is the value the user entered.
+			add_error( 'show-on-invalid', __( 'Invalid show-on selection', 'chatrix' ) );
+			$value = $original_value;
 		}
+	}
+
+	if ( 'pages' === $field_name ) {
+		$value = sanitize_text_field( $value );
+		if ( empty( $value ) ) {
+			// translators: %s is the value the user entered.
+			add_error( 'page-not-set', __( 'You must select a page' ) );
+			$value = $original_value;
+		}
+
+		$value = array( $value );
 	}
 
 	return $value;
@@ -158,6 +173,32 @@ function add_radio_field( string $section_slug, string $name, string $value, str
 			'value'          => $value,
 			'description'    => $description,
 			'selected_value' => $selected_value,
+		)
+	);
+}
+
+function add_page_select_field( string $section_slug, string $name, string $value, string $label ) {
+	add_settings_field(
+		"{$section_slug}_{$name}",
+		$label,
+		function ( $args ) {
+			wp_dropdown_pages(
+				array(
+					'id'                => esc_attr( $args['label_for'] ),
+					'name'              => esc_attr( "{$args['option_name']}[${args['name']}]" ),
+					'selected'          => esc_attr( $args['value'] ),
+					'option_none_value' => '0',
+					'echo'              => true,
+				)
+			);
+		},
+		SETTINGS_PAGE_SLUG,
+		$section_slug,
+		array(
+			'option_name' => OPTION_NAME,
+			'label_for'   => OPTION_NAME . '_' . $name,
+			'name'        => $name,
+			'value'       => $value,
 		)
 	);
 }
