@@ -33,9 +33,9 @@ function init() {
 }
 
 function room_section( $settings ) {
-	$section_slug = 'chatrix_room';
+	$room_section_slug = 'chatrix_room';
 	add_settings_section(
-		$section_slug,
+		$room_section_slug,
 		'Room',
 		function () {
 			?>
@@ -45,8 +45,8 @@ function room_section( $settings ) {
 		SETTINGS_PAGE_SLUG
 	);
 
-	add_text_field( $section_slug, 'homeserver', 'Homeserver', $settings );
-	add_text_field( $section_slug, 'room', 'Room', $settings );
+	add_text_field( $room_section_slug, 'homeserver', $settings['homeserver'], 'Homeserver',  );
+	add_text_field( $room_section_slug, 'room', $settings['room'], 'Room' );
 }
 
 function sanitize_value( $field_name, $value, $original_value ): string {
@@ -88,7 +88,7 @@ function sanitize_value( $field_name, $value, $original_value ): string {
 	return $value;
 }
 
-function add_text_field( string $section_slug, string $name, string $label, array $settings ) {
+function add_text_field( string $section_slug, string $name, string $value, string $label ) {
 	add_settings_field(
 		"{$section_slug}_$name",
 		$label,
@@ -104,10 +104,10 @@ function add_text_field( string $section_slug, string $name, string $label, arra
 		SETTINGS_PAGE_SLUG,
 		$section_slug,
 		array(
+			'option_name' => OPTION_NAME,
 			'label_for'   => OPTION_NAME . '_' . $name,
 			'name'        => $name,
-			'value'       => esc_attr( $settings[ $name ] ),
-			'option_name' => OPTION_NAME,
+			'value'       => $value,
 		)
 	);
 }
