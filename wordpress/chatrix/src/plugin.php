@@ -24,26 +24,6 @@ function main() {
 		0
 	);
 
-	// Declare rest routes for the config of each chatrix instance.
-	add_action(
-		'rest_api_init',
-		function () {
-			$instances = apply_filters( 'chatrix_instances', false );
-			foreach ( $instances as $instance_id => $instance ) {
-				register_rest_route(
-					'chatrix',
-					"config/$instance_id",
-					array(
-						'methods'  => 'GET',
-						'callback' => function () use ( $instances, $instance_id ) {
-							return $instances[ $instance_id ];
-						},
-					)
-				);
-			}
-		}
-	);
-
 	// Return the configuration for the current page, if any.
 	add_filter(
 		'chatrix_configuration',
@@ -65,6 +45,26 @@ function main() {
 		}
 	);
 
+	// Declare rest routes for the config of each chatrix instance.
+	add_action(
+		'rest_api_init',
+		function () {
+			$instances = apply_filters( 'chatrix_instances', false );
+			foreach ( $instances as $instance_id => $instance ) {
+				register_rest_route(
+					'chatrix',
+					"config/$instance_id",
+					array(
+						'methods'  => 'GET',
+						'callback' => function () use ( $instances, $instance_id ) {
+							return $instances[ $instance_id ];
+						},
+					)
+				);
+			}
+		}
+	);
+
 	// Chatrix accepts some configuration through properties on the window object.
 	// Ideally we would use wp_localize_script() but it cannot write to the `window` object.
 	// So instead we hook to wp_head and set the properties explicitly.
@@ -73,8 +73,7 @@ function main() {
 		function () {
 			$config = chatrix_config();
 			if ( $config ) {
-				$current_user = wp_get_current_user();
-
+				$current_user      = wp_get_current_user();
 				$local_storage_key = LOCAL_STORAGE_KEY_PREFIX;
 
 				if ( ! empty( $config['instance_id'] ) ) {
@@ -99,7 +98,7 @@ function main() {
 	foreach ( array( 'wp_footer', 'login_footer' ) as $footer_hook ) {
 		add_action(
 			$footer_hook,
-			function() {
+			function () {
 				if ( ! is_user_logged_in() ) {
 					?>
 					<script type="text/javascript">
@@ -111,8 +110,9 @@ function main() {
 								},
 							});
 						}
-						(function() {
-							for (let i=0; i<localStorage.length; i++) {
+
+						(function () {
+							for (let i = 0; i < localStorage.length; i++) {
 								let key = localStorage.key(i);
 								if (!key.startsWith(LOCAL_STORAGE_KEY_PREFIX)) {
 									continue;
