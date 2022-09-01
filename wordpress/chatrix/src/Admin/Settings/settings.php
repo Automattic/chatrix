@@ -6,7 +6,7 @@ const DEFAULT_VALUES     = array(
 	'homeserver' => 'https://example.com',
 	'room'       => '!room-id:example.com',
 	'show_on'    => 'all',
-	'pages'      => array( 0 ),
+	'pages'      => array(),
 );
 const SETTINGS_PAGE_SLUG = 'chatrix';
 const OPTION_GROUP       = 'chatrix';
@@ -65,12 +65,17 @@ function pages_section( array $settings ) {
 		SETTINGS_PAGE_SLUG
 	);
 
-	add_radio_field( $section_slug, 'show_on', 'all', 'Show chatrix on', 'All pages', $settings['show_on'] );
+	add_radio_field( $section_slug, 'show_on', 'all', 'Show on', 'All pages', $settings['show_on'] );
 	add_radio_field( $section_slug, 'show_on', 'specific', '', 'Specific pages', $settings['show_on'] );
-	add_page_select_field( $section_slug, 'pages', $settings['pages'][0], '' );
+
+	foreach ( get_pages() as $page ) {
+		$id      = $page->ID;
+		$checked = in_array( $id, $settings['pages'] );
+		add_checkbox_field( $section_slug, 'pages', $id, '', $page->post_title, $checked );
+	}
 }
 
-function sanitize_value( $field_name, $value, $original_value ): string {
+function sanitize_value( $field_name, $value, $original_value ) {
 	if ( 'homeserver' === $field_name ) {
 		$value = sanitize_text_field( $value );
 
@@ -116,14 +121,7 @@ function sanitize_value( $field_name, $value, $original_value ): string {
 	}
 
 	if ( 'pages' === $field_name ) {
-		$value = sanitize_text_field( $value );
-		if ( empty( $value ) ) {
-			// translators: %s is the value the user entered.
-			add_error( 'page-not-set', __( 'You must select a page' ) );
-			$value = $original_value;
-		}
-
-		$value = array( $value );
+		$value = array_values( $value );
 	}
 
 	return $value;
@@ -135,7 +133,7 @@ function add_text_field( string $section_slug, string $name, string $value, stri
 		$label,
 		function ( $args ) {
 			printf(
-				'<input name="%1$s[%2$s]" id="%3$s" type="text" value="%4$s" class="regular-text" />',
+				'<input name="%1$s[%2$s]" id="%3$s" value="%4$s" type="text" class="regular-text"/>',
 				esc_attr( $args['option_name'] ),
 				esc_attr( $args['name'] ),
 				esc_attr( $args['label_for'] ),
@@ -159,7 +157,7 @@ function add_radio_field( string $section_slug, string $name, string $value, str
 		$label,
 		function ( $args ) {
 			printf(
-				'<input name="%1$s[%2$s]" value="%3$s" type="radio" class="regular-text" %4$s/> %5$s',
+				'<label><input name="%1$s[%2$s]" value="%3$s" type="radio" %4$s/>%5$s</label>',
 				esc_attr( $args['option_name'] ),
 				esc_attr( $args['name'] ),
 				esc_attr( $args['value'] ),
@@ -180,19 +178,18 @@ function add_radio_field( string $section_slug, string $name, string $value, str
 	);
 }
 
-function add_page_select_field( string $section_slug, string $name, string $value, string $label ) {
+function add_checkbox_field( string $section_slug, string $name, string $value, string $label, string $description, string $checked ) {
 	add_settings_field(
-		"{$section_slug}_{$name}",
+		"{$section_slug}_{$name}_$value",
 		$label,
 		function ( $args ) {
-			wp_dropdown_pages(
-				array(
-					'id'                => esc_attr( $args['label_for'] ),
-					'name'              => esc_attr( "{$args['option_name']}[${args['name']}]" ),
-					'selected'          => esc_attr( $args['value'] ),
-					'option_none_value' => '0',
-					'echo'              => true,
-				)
+			printf(
+				'<label><input name="%1$s[%2$s][%3$s]" value="%3$s" type="checkbox" %4$s/>%5$s</label>',
+				esc_attr( $args['option_name'] ),
+				esc_attr( $args['name'] ),
+				esc_attr( $args['value'] ),
+				checked( true, $args['checked'], false ),
+				esc_attr( $args['description'] ),
 			);
 		},
 		SETTINGS_PAGE_SLUG,
@@ -202,6 +199,8 @@ function add_page_select_field( string $section_slug, string $name, string $valu
 			'label_for'   => OPTION_NAME . '_' . $name,
 			'name'        => $name,
 			'value'       => $value,
+			'description' => $description,
+			'checked'     => $checked,
 		)
 	);
 }
