@@ -84,7 +84,7 @@ function add_text_field( string $section_slug, string $name, string $label, arra
 		$label,
 		function ( $args ) {
 			printf(
-				'<input name="%1$s[%2$s]" id="%3$s" value="%4$s" class="regular-text">',
+				'<input name="%1$s[%2$s]" id="%3$s" type="text" value="%4$s" class="regular-text" />',
 				esc_attr( $args['option_name'] ),
 				esc_attr( $args['name'] ),
 				esc_attr( $args['label_for'] ),
