@@ -241,6 +241,11 @@ function sanitize( $values ): array {
 		$sanitized[ $key ] = sanitize_value( $key, $value, $previous_value );
 	}
 
+	// Don't clear page selection when show_on is set to all pages.
+	if ( 'all' === $sanitized['show_on'] ) {
+		$sanitized['pages'] = $previous['pages'];
+	}
+
 	return $sanitized;
 }
 
