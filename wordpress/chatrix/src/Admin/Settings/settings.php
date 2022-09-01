@@ -74,7 +74,7 @@ function pages_section( array $settings ) {
 
 	foreach ( get_pages() as $page ) {
 		$id      = $page->ID;
-		$checked = in_array( $id, $settings['pages'] );
+		$checked = in_array( (string) $id, $settings['pages'], true );
 		add_checkbox_field( $section_slug, 'pages', $id, '', $page->post_title, $checked );
 	}
 }

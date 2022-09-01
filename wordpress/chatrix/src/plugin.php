@@ -28,6 +28,7 @@ function main() {
 				'default' => array(
 					'homeserver' => $settings['homeserver'],
 					'room_id'    => $settings['room'],
+					'pages'      => 'all' === $settings['show_on'] ? 'all' : $settings['pages'],
 				),
 			);
 		},
@@ -38,20 +39,32 @@ function main() {
 	add_filter(
 		'chatrix_configuration',
 		function () {
-			$instances = apply_filters( 'chatrix_instances', false );
-			$page_uri  = str_replace( home_url() . '/', '', get_permalink() );
-
-			// The instance id is the $uri without the trailing '/'.
-			$instance_id = rtrim( $page_uri, '/' );
-			if ( ! $instances || ! array_key_exists( $instance_id, $instances ) ) {
+			if ( ! is_page() ) {
 				return null;
 			}
 
-			return array(
-				'url'         => rest_url( "chatrix/config/$instance_id" ),
-				'config'      => $instances[ $instance_id ],
-				'instance_id' => $instance_id,
-			);
+			global $post;
+
+			$page_id   = $post->ID;
+			$instances = apply_filters( 'chatrix_instances', false );
+
+			foreach ( $instances as $instance_id => $instance ) {
+				$config = array(
+					'url'         => rest_url( "chatrix/config/$instance_id" ),
+					'config'      => $instance,
+					'instance_id' => $instance_id,
+				);
+
+				if ( 'all' === $instance['pages'] ) {
+					return $config;
+				}
+
+				if ( in_array( (string) $page_id, $instance['pages'], true ) ) {
+					return $config;
+				}
+			}
+
+			return null;
 		}
 	);
 
