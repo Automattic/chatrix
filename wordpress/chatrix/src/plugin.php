@@ -11,7 +11,7 @@ function asset_url( $asset_path ): string {
 }
 
 function chatrix_config() {
-	return apply_filters( 'chatrix_configuration', false );
+	return apply_filters( 'chatrix_config', false );
 }
 
 function main() {
@@ -37,7 +37,7 @@ function main() {
 
 	// Return the configuration for the current page, if any.
 	add_filter(
-		'chatrix_configuration',
+		'chatrix_config',
 		function () {
 			if ( ! is_page() ) {
 				return null;
@@ -153,7 +153,7 @@ function main() {
 		);
 	}
 
-	// Enqueue the script only when chatrix_configuration filter is set.
+	// Enqueue the script only when chatrix_config filter is set.
 	add_action(
 		'wp_enqueue_scripts',
 		function () {
