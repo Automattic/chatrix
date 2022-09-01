@@ -75,6 +75,7 @@ function sanitize_value( $field_name, $value, $original_value ): string {
 		}
 
 		if ( ! str_contains( $value, ':' ) ) {
+			// translators: %s is the value the user entered.
 			add_error( 'room-missing-colon', sprintf( __( '<tt>%s</tt> is not a valid room address.', 'chatrix' ), $value ) . ' ' . __( 'It must end with an <tt>:</tt> followed by the homeserver domain, e.g. <tt>!room-id:example.com</tt>', 'chatrix' ) );
 			$value = $original_value;
 		}
@@ -135,7 +136,7 @@ function sanitize( $values ): array {
 	$previous  = get_option( OPTION_NAME );
 
 	foreach ( $values as $key => $value ) {
-		$sanitized[ $key ] = sanitize_value( $key, $value, $previous[$key] );
+		$sanitized[ $key ] = sanitize_value( $key, $value, $previous[ $key ] );
 	}
 
 	return $sanitized;
