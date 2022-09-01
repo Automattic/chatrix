@@ -45,17 +45,19 @@ function room_section( $settings ) {
 	add_text_field( $section_slug, 'room', 'Room', $settings );
 }
 
-function sanitize_value( $field_name, $value ): string {
+function sanitize_value( $field_name, $value, $original_value ): string {
 	if ( 'homeserver' === $field_name ) {
 		$value = sanitize_text_field( $value );
 
 		if ( empty( $value ) ) {
 			add_error( 'homeserver-empty', __( 'Homeserver must not be empty.', 'chatrix' ) );
+			$value = $original_value;
 		}
 
 		if ( ! wp_http_validate_url( $value ) ) {
 			// translators: %s is the value the user entered.
 			add_error( 'homeserver-invalid', sprintf( __( '<tt>%s</tt> is not a valid homeserver URL.' ), $value ) );
+			$value = $original_value;
 		}
 	}
 
@@ -63,15 +65,18 @@ function sanitize_value( $field_name, $value ): string {
 		$value = sanitize_text_field( $value );
 		if ( empty( $value ) ) {
 			add_error( 'room-empty', __( 'Room must not be empty.', 'chatrix' ) );
+			$value = $original_value;
 		}
 
 		if ( ! str_starts_with( $value, '!' ) ) {
 			// translators: %s is the value the user entered.
 			add_error( 'room-missing-exclamation', sprintf( __( '<tt>%s</tt> is not a valid room address.', 'chatrix' ), $value ) . ' ' . __( 'It must start with an exclamation mark, e.g. <tt>!room-id:example.com</tt>', 'chatrix' ) );
+			$value = $original_value;
 		}
 
 		if ( ! str_contains( $value, ':' ) ) {
 			add_error( 'room-missing-colon', sprintf( __( '<tt>%s</tt> is not a valid room address.', 'chatrix' ), $value ) . ' ' . __( 'It must end with an <tt>:</tt> followed by the homeserver domain, e.g. <tt>!room-id:example.com</tt>', 'chatrix' ) );
+			$value = $original_value;
 		}
 	}
 
@@ -126,13 +131,11 @@ function menu() {
 }
 
 function sanitize( $values ): array {
-	if ( ! is_array( $values ) ) {
-		return DEFAULT_VALUES;
-	}
-
 	$sanitized = array();
-	foreach ( DEFAULT_VALUES as $key => $default_value ) {
-		$sanitized[ $key ] = sanitize_value( $key, $values[ $key ] );
+	$previous  = get_option( OPTION_NAME );
+
+	foreach ( $values as $key => $value ) {
+		$sanitized[ $key ] = sanitize_value( $key, $value, $previous[$key] );
 	}
 
 	return $sanitized;
