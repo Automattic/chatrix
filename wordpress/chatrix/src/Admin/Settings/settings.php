@@ -23,7 +23,7 @@ function init() {
 	);
 
 	// If field is not set, use default value instead.
-	$settings = shortcode_atts( DEFAULT_VALUES, get_option( OPTION_NAME ) );
+	$settings = array_merge( DEFAULT_VALUES, get_option( OPTION_NAME ) );
 
 	room_section( $settings );
 }
@@ -35,7 +35,7 @@ function room_section( $settings ) {
 		'Room',
 		function () {
 			?>
-			<p>Configure the Matrix room.</p>
+			<p><?php esc_html_e( 'Configure the Matrix room.', 'chatrix' ); ?></p>
 			<?php
 		},
 		SETTINGS_PAGE_SLUG
@@ -48,27 +48,30 @@ function room_section( $settings ) {
 function sanitize_value( $field_name, $value ): string {
 	if ( 'homeserver' === $field_name ) {
 		$value = sanitize_text_field( $value );
+
 		if ( empty( $value ) ) {
-			add_error( 'homeserver-empty', 'Homeserver must not be empty.' );
+			add_error( 'homeserver-empty', __( 'Homeserver must not be empty.', 'chatrix' ) );
 		}
 
 		if ( ! wp_http_validate_url( $value ) ) {
-			add_error( 'homeserver-invalid', 'Homeserver must be a valid URL.' );
+			// translators: %s is the value the user entered.
+			add_error( 'homeserver-invalid', sprintf( __( '<tt>%s</tt> is not a valid homeserver URL.' ), $value ) );
 		}
 	}
 
 	if ( 'room' === $field_name ) {
 		$value = sanitize_text_field( $value );
 		if ( empty( $value ) ) {
-			add_error( 'room-empty', 'Room must not be empty.' );
+			add_error( 'room-empty', __( 'Room must not be empty.', 'chatrix' ) );
 		}
 
 		if ( ! str_starts_with( $value, '!' ) ) {
-			add_error( 'room-missing-exclamation', 'Room must start with an exclamation mark, e.g. !room-id:example.com' );
+			// translators: %s is the value the user entered.
+			add_error( 'room-missing-exclamation', sprintf( __( '<tt>%s</tt> is not a valid room address.', 'chatrix' ), $value ) . ' ' . __( 'It must start with an exclamation mark, e.g. <tt>!room-id:example.com</tt>', 'chatrix' ) );
 		}
 
 		if ( ! str_contains( $value, ':' ) ) {
-			add_error( 'room-missing-colon', 'Room must end with an : followed by the homeserver domain, e.g. !room-id:example.com' );
+			add_error( 'room-missing-colon', sprintf( __( '<tt>%s</tt> is not a valid room address.', 'chatrix' ), $value ) . ' ' . __( 'It must end with an <tt>:</tt> followed by the homeserver domain, e.g. <tt>!room-id:example.com</tt>', 'chatrix' ) );
 		}
 	}
 
@@ -108,7 +111,7 @@ function menu() {
 		function () {
 			?>
 			<div id="chatrix-settings" class="wrap">
-				<h1>Chatrix Settings</h1>
+				<h1><?php esc_html_e( 'Chatrix Settings', 'chatrix' ); ?></h1>
 				<form action="options.php" method="POST">
 					<?php
 					settings_fields( OPTION_GROUP );
