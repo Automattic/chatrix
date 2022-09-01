@@ -16,6 +16,10 @@ function get() {
 	return get_option( OPTION_NAME );
 }
 
+function enqueue() {
+	wp_enqueue_script( 'chatrix-settings-js', plugins_url( 'settings.js', __FILE__ ), array(), '1.0', true );
+}
+
 function init() {
 	// All settings are stored under a single associative array.
 	register_setting(
