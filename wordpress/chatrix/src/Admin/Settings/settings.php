@@ -234,7 +234,8 @@ function sanitize( $values ): array {
 	$previous  = get_option( OPTION_NAME );
 
 	foreach ( $values as $key => $value ) {
-		$sanitized[ $key ] = sanitize_value( $key, $value, $previous[ $key ] );
+		$previous_value    = array_key_exists( $key, $previous ) ? $previous[ $key ] : null;
+		$sanitized[ $key ] = sanitize_value( $key, $value, $previous_value );
 	}
 
 	return $sanitized;
