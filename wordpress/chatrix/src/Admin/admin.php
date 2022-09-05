@@ -13,7 +13,8 @@ function init_settings() {
 	}
 
 	$uri = basename( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
-	if ( ! str_starts_with( $uri, 'options-general.php?page=chatrix' ) ) {
+	$is_options_page = str_starts_with( $uri, 'options-general.php?page=chatrix' ) || 'options.php' === $uri;
+	if ( ! $is_options_page ) {
 		return;
 	}
 
