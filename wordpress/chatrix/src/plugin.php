@@ -78,9 +78,10 @@ function main() {
 					'chatrix',
 					"config/$instance_id",
 					array(
-						'methods'  => 'GET',
-						'callback' => function () use ( $instances, $instance_id ) {
-							return $instances[ $instance_id ];
+						'methods'             => 'GET',
+						'permission_callback' => '__return_true',
+						'callback'            => function () use ( $instance ) {
+							return $instance;
 						},
 					)
 				);
