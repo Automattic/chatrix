@@ -16,7 +16,7 @@ function chatrix_config() {
 }
 
 function main() {
-	init_frontend_session_management();
+	init_frontend_session_management( LOCAL_STORAGE_KEY_PREFIX );
 
 	// Declare the default instance of chatrix.
 	add_filter(

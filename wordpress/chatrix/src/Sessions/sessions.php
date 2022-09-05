@@ -2,21 +2,21 @@
 
 namespace Automattic\Chatrix\Sessions;
 
-function init() {
+function init( string $local_storage_key_prefix ) {
 	// Log out user from Chatrix on non-logged in page load.
 	foreach ( array( 'wp_footer', 'login_footer' ) as $footer_hook ) {
 		add_action(
 			$footer_hook,
-			function () {
+			function () use ( $local_storage_key_prefix ) {
 				if ( ! is_user_logged_in() ) {
-					echo_script();
+					echo_script( $local_storage_key_prefix );
 				}
 			}
 		);
 	}
 }
 
-function echo_script() {
+function echo_script( string $local_storage_key_prefix ) {
 	?>
 	<script type="text/javascript">
 		async function invalidateChatrixSession(session) {
@@ -31,7 +31,7 @@ function echo_script() {
 		(function () {
 			for (let i = 0; i < localStorage.length; i++) {
 				let key = localStorage.key(i);
-				if (!key.startsWith(LOCAL_STORAGE_KEY_PREFIX)) {
+				if (!key.startsWith('<?php echo esc_js( $local_storage_key_prefix ); ?>')) {
 					continue;
 				}
 				this.invalidateChatrixSession(
