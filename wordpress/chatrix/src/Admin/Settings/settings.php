@@ -52,8 +52,8 @@ function room_section( array $settings ) {
 		SETTINGS_PAGE_SLUG
 	);
 
-	add_text_field( $section_slug, 'homeserver', $settings['homeserver'], 'Homeserver', );
-	add_text_field( $section_slug, 'room', $settings['room'], 'Room' );
+	add_text_field( $section_slug, 'homeserver', $settings['homeserver'], __( 'Homeserver', 'chatrix' ) );
+	add_text_field( $section_slug, 'room', $settings['room'], __( 'Room', 'chatrix' ) );
 }
 
 function pages_section( array $settings ) {
@@ -69,8 +69,8 @@ function pages_section( array $settings ) {
 		SETTINGS_PAGE_SLUG
 	);
 
-	add_radio_field( $section_slug, 'show_on', 'all', 'Show on', 'All pages', $settings['show_on'] );
-	add_radio_field( $section_slug, 'show_on', 'specific', '', 'Specific pages', $settings['show_on'] );
+	add_radio_field( $section_slug, 'show_on', 'all', __( 'Show on', 'chatrix' ), __( 'All pages', 'chatrix' ), $settings['show_on'] );
+	add_radio_field( $section_slug, 'show_on', 'specific', '', __( 'Specific pages', 'chatrix' ), $settings['show_on'] );
 
 	foreach ( get_pages() as $page ) {
 		$id      = $page->ID;
