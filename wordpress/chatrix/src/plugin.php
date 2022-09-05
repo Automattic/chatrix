@@ -159,7 +159,7 @@ function main() {
 		'wp_enqueue_scripts',
 		function () {
 			if ( chatrix_config() ) {
-				wp_enqueue_script( 'chatrix-script', asset_url( 'assets/parent.js' ), array(), '1.0', true );
+				wp_enqueue_script( 'chatrix-parent-js', asset_url( 'assets/parent.js' ), array(), '1.0', true );
 			}
 		}
 	);
@@ -168,9 +168,9 @@ function main() {
 	add_filter(
 		'script_loader_tag',
 		function ( $tag, $handle, $src ) {
-			if ( 'chatrix-script' === $handle ) {
+			if ( 'chatrix-parent-js' === $handle ) {
 				// This triggers the WordPress.WP.EnqueuedResources.NonEnqueuedScript phpcs rule.
-				// However, we're not actually rendering anything here, we're just assigning to a variable.
+				// However, we're not actually rendering anything here, we're pre-processing the already-enqueued script.
 				// The fact that this code triggers phpcs is likely a bug in phpcs.
 				// phpcs:ignore
 				$tag = '<script id="chatrix-script" type="module" src="' . esc_url( $src ) . '"></script>';
