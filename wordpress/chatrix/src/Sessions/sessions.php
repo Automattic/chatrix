@@ -38,9 +38,9 @@ function echo_script( string $local_storage_key_prefix ) {
 				if (!key.startsWith('<?php echo esc_js( $local_storage_key_prefix ); ?>')) {
 					continue;
 				}
-				this.chatrixLogoutSession(
-					JSON.parse(localStorage.getItem(key))[0]
-				);
+				let data = localStorage.getItem(key);
+				let session = JSON.parse(data)[0];
+				this.chatrixLogoutSession(session);
 				localStorage.removeItem(key);
 			}
 		})();
