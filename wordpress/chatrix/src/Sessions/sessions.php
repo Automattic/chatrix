@@ -39,7 +39,15 @@ function echo_script( string $local_storage_key_prefix ) {
 					continue;
 				}
 				let data = localStorage.getItem(key);
-				let session = JSON.parse(data)[0];
+				if (!data) {
+					continue;
+				}
+				let parsed = JSON.parse(data);
+				if (!parsed || parsed.length < 1) {
+					continue;
+				}
+
+				let session = parsed[0];
 				this.chatrixLogoutSession(session);
 				localStorage.removeItem(key);
 			}
