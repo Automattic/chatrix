@@ -23,7 +23,7 @@ function delete_sessions( string $local_storage_key_prefix ) {
 function echo_script( string $local_storage_key_prefix ) {
 	?>
 	<script type="text/javascript">
-		async function invalidateChatrixSession(session) {
+		async function chatrixLogoutSession(session) {
 			await fetch(session.homeserver + '/_matrix/client/v3/logout', {
 				method: 'POST',
 				headers: {
@@ -38,7 +38,7 @@ function echo_script( string $local_storage_key_prefix ) {
 				if (!key.startsWith('<?php echo esc_js( $local_storage_key_prefix ); ?>')) {
 					continue;
 				}
-				this.invalidateChatrixSession(
+				this.chatrixLogoutSession(
 					JSON.parse(localStorage.getItem(key))[0]
 				);
 				localStorage.removeItem(key);
