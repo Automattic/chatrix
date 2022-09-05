@@ -84,6 +84,8 @@ function main() {
 						'methods'             => 'GET',
 						'permission_callback' => '__return_true',
 						'callback'            => function () use ( $instance ) {
+							unset( $instance['pages'] );
+
 							return $instance;
 						},
 					)
