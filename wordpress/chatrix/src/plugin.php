@@ -31,7 +31,7 @@ function main() {
 				'default' => array(
 					'homeserver'    => $settings['homeserver'],
 					'room_id'       => $settings['room'],
-					'login_methods' => array( 'password', 'sso' ), // TODO: don't hardcode login methods
+					'login_methods' => array( 'password', 'sso' ), // TODO: don't hardcode login methods.
 					'pages'         => 'all' === $settings['show_on'] ? 'all' : $settings['pages'],
 				),
 			);
