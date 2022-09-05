@@ -4,6 +4,10 @@ namespace Automattic\Chatrix\Sessions;
 
 function init( string $local_storage_key_prefix ) {
 	// Log out user from Chatrix on non-logged in page load.
+	delete_sessions( $local_storage_key_prefix );
+}
+
+function delete_sessions( string $local_storage_key_prefix ) {
 	foreach ( array( 'wp_footer', 'login_footer' ) as $footer_hook ) {
 		add_action(
 			$footer_hook,
