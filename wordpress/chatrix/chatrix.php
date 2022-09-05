@@ -16,6 +16,16 @@ if ( ! function_exists( 'Automattic\Chatrix\main' ) ) {
 }
 
 if ( is_admin() ) {
+	// Link to the plugin settings from the plugins page.
+	add_filter(
+		'plugin_action_links_' . plugin_basename( __FILE__ ),
+		function ( $links ) {
+			$links[] = '<a href="' . admin_url( 'options-general.php?page=chatrix' ) . '">' . __( 'Settings' ) . '</a>';
+
+			return $links;
+		}
+	);
+
 	adminMain();
 }
 

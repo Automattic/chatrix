@@ -2,6 +2,8 @@
 
 namespace Automattic\Chatrix;
 
+use function Automattic\Chatrix\Admin\Settings\get as get_chatrix_settings;
+
 const LOCAL_STORAGE_KEY_PREFIX = 'hydrogen_sessions_v1';
 
 function asset_url( $asset_path ): string {
@@ -9,19 +11,61 @@ function asset_url( $asset_path ): string {
 }
 
 function chatrix_config() {
-	return apply_filters( 'chatrix_configuration', false );
+	return apply_filters( 'chatrix_config', false );
 }
 
 function main() {
-	// Declare all instances of chatrix.
+	// Declare the default instance of chatrix.
 	add_filter(
 		'chatrix_instances',
 		function () {
-			$instances = get_option( 'chatrix_instances' );
+			$settings = get_chatrix_settings();
+			if ( empty( $settings ) ) {
+				return array();
+			}
 
-			return empty( $instances ) ? null : $instances;
+			return array(
+				'default' => array(
+					'homeserver' => $settings['homeserver'],
+					'room_id'    => $settings['room'],
+					'pages'      => 'all' === $settings['show_on'] ? 'all' : $settings['pages'],
+				),
+			);
 		},
 		0
+	);
+
+	// Return the configuration for the current page, if any.
+	add_filter(
+		'chatrix_config',
+		function () {
+			if ( ! is_page() ) {
+				return null;
+			}
+
+			global $post;
+
+			$page_id   = $post->ID;
+			$instances = apply_filters( 'chatrix_instances', false );
+
+			foreach ( $instances as $instance_id => $instance ) {
+				$config = array(
+					'url'         => rest_url( "chatrix/config/$instance_id" ),
+					'config'      => $instance,
+					'instance_id' => $instance_id,
+				);
+
+				if ( 'all' === $instance['pages'] ) {
+					return $config;
+				}
+
+				if ( in_array( (string) $page_id, $instance['pages'], true ) ) {
+					return $config;
+				}
+			}
+
+			return null;
+		}
 	);
 
 	// Declare rest routes for the config of each chatrix instance.
@@ -44,27 +88,6 @@ function main() {
 		}
 	);
 
-	// Return the configuration for the current page, if any.
-	add_filter(
-		'chatrix_configuration',
-		function () {
-			$instances = apply_filters( 'chatrix_instances', false );
-			$page_uri  = str_replace( home_url() . '/', '', get_permalink() );
-
-			// The instance id is the $uri without the trailing '/'.
-			$instance_id = rtrim( $page_uri, '/' );
-			if ( ! $instances || ! array_key_exists( $instance_id, $instances ) ) {
-				return null;
-			}
-
-			return array(
-				'url'         => rest_url( "chatrix/config/$instance_id" ),
-				'config'      => $instances[ $instance_id ],
-				'instance_id' => $instance_id,
-			);
-		}
-	);
-
 	// Chatrix accepts some configuration through properties on the window object.
 	// Ideally we would use wp_localize_script() but it cannot write to the `window` object.
 	// So instead we hook to wp_head and set the properties explicitly.
@@ -73,8 +96,7 @@ function main() {
 		function () {
 			$config = chatrix_config();
 			if ( $config ) {
-				$current_user = wp_get_current_user();
-
+				$current_user      = wp_get_current_user();
 				$local_storage_key = LOCAL_STORAGE_KEY_PREFIX;
 
 				if ( ! empty( $config['instance_id'] ) ) {
@@ -99,7 +121,7 @@ function main() {
 	foreach ( array( 'wp_footer', 'login_footer' ) as $footer_hook ) {
 		add_action(
 			$footer_hook,
-			function() {
+			function () {
 				if ( ! is_user_logged_in() ) {
 					?>
 					<script type="text/javascript">
@@ -111,8 +133,9 @@ function main() {
 								},
 							});
 						}
-						(function() {
-							for (let i=0; i<localStorage.length; i++) {
+
+						(function () {
+							for (let i = 0; i < localStorage.length; i++) {
 								let key = localStorage.key(i);
 								if (!key.startsWith(LOCAL_STORAGE_KEY_PREFIX)) {
 									continue;
@@ -130,7 +153,7 @@ function main() {
 		);
 	}
 
-	// Enqueue the script only when chatrix_configuration filter is set.
+	// Enqueue the script only when chatrix_config filter is set.
 	add_action(
 		'wp_enqueue_scripts',
 		function () {
