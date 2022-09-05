@@ -24,7 +24,7 @@ function echo_script( string $local_storage_key_prefix ) {
 	?>
 	<script type="text/javascript">
 		async function chatrixLogoutSession(session) {
-			await fetch(session.homeserver + '/_matrix/client/v3/logout', {
+			return fetch(session.homeserver + '/_matrix/client/v3/logout', {
 				method: 'POST',
 				headers: {
 					'Authorization': 'Bearer ' + session.accessToken,
@@ -48,8 +48,11 @@ function echo_script( string $local_storage_key_prefix ) {
 				}
 
 				let session = parsed[0];
-				this.chatrixLogoutSession(session);
-				localStorage.removeItem(key);
+				this.chatrixLogoutSession(session).then(() => {
+					localStorage.removeItem(key);
+				}).catch((error) => {
+					console.log(`Failed to logout chatrix session. deviceId: ${session.deviceId}`, error);
+				});
 			}
 		})();
 	</script>
