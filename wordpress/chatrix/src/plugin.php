@@ -29,9 +29,10 @@ function main() {
 
 			return array(
 				'default' => array(
-					'homeserver' => $settings['homeserver'],
-					'room_id'    => $settings['room'],
-					'pages'      => 'all' === $settings['show_on'] ? 'all' : $settings['pages'],
+					'homeserver'    => $settings['homeserver'],
+					'room_id'       => $settings['room'],
+					'login_methods' => array( 'password', 'sso' ), // TODO: don't hardcode login methods
+					'pages'         => 'all' === $settings['show_on'] ? 'all' : $settings['pages'],
 				),
 			);
 		},
