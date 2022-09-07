@@ -3,6 +3,7 @@
 namespace Automattic\Chatrix;
 
 use function Automattic\Chatrix\Admin\Settings\get as get_chatrix_settings;
+use function Automattic\Chatrix\Sessions\init as init_frontend_session_management;
 
 const LOCAL_STORAGE_KEY_PREFIX = 'hydrogen_sessions_v1';
 
@@ -15,6 +16,8 @@ function chatrix_config() {
 }
 
 function main() {
+	init_frontend_session_management( LOCAL_STORAGE_KEY_PREFIX );
+
 	// Declare the default instance of chatrix.
 	add_filter(
 		'chatrix_instances',
@@ -26,9 +29,10 @@ function main() {
 
 			return array(
 				'default' => array(
-					'homeserver' => $settings['homeserver'],
-					'room_id'    => $settings['room'],
-					'pages'      => 'all' === $settings['show_on'] ? 'all' : $settings['pages'],
+					'homeserver'    => $settings['homeserver'],
+					'room_id'       => $settings['room'],
+					'login_methods' => array( 'password', 'sso' ), // TODO: don't hardcode login methods.
+					'pages'         => 'all' === $settings['show_on'] ? 'all' : $settings['pages'],
 				),
 			);
 		},
@@ -78,9 +82,12 @@ function main() {
 					'chatrix',
 					"config/$instance_id",
 					array(
-						'methods'  => 'GET',
-						'callback' => function () use ( $instances, $instance_id ) {
-							return $instances[ $instance_id ];
+						'methods'             => 'GET',
+						'permission_callback' => '__return_true',
+						'callback'            => function () use ( $instance ) {
+							unset( $instance['pages'] );
+
+							return $instance;
 						},
 					)
 				);
@@ -117,48 +124,11 @@ function main() {
 		}
 	);
 
-	// Logs out user from Chatrix on non-logged in page load, if any session exists in localStorage.
-	foreach ( array( 'wp_footer', 'login_footer' ) as $footer_hook ) {
-		add_action(
-			$footer_hook,
-			function () {
-				if ( ! is_user_logged_in() ) {
-					?>
-					<script type="text/javascript">
-						async function invalidateChatrixSession(session) {
-							await fetch(session.homeserver + '/_matrix/client/v3/logout', {
-								method: 'POST',
-								headers: {
-									'Authorization': 'Bearer ' + session.accessToken,
-								},
-							});
-						}
-
-						(function () {
-							for (let i = 0; i < localStorage.length; i++) {
-								let key = localStorage.key(i);
-								if (!key.startsWith(LOCAL_STORAGE_KEY_PREFIX)) {
-									continue;
-								}
-								this.invalidateChatrixSession(
-									JSON.parse(localStorage.getItem(key))[0]
-								);
-								localStorage.removeItem(key);
-							}
-						})();
-					</script>
-					<?php
-				}
-			}
-		);
-	}
-
-	// Enqueue the script only when chatrix_config filter is set.
 	add_action(
 		'wp_enqueue_scripts',
 		function () {
 			if ( chatrix_config() ) {
-				wp_enqueue_script( 'chatrix-script', asset_url( 'assets/parent.js' ), array(), '1.0', true );
+				wp_enqueue_script( 'chatrix-parent-js', asset_url( 'assets/parent.js' ), array(), '1.0', true );
 			}
 		}
 	);
@@ -167,9 +137,9 @@ function main() {
 	add_filter(
 		'script_loader_tag',
 		function ( $tag, $handle, $src ) {
-			if ( 'chatrix-script' === $handle ) {
+			if ( 'chatrix-parent-js' === $handle ) {
 				// This triggers the WordPress.WP.EnqueuedResources.NonEnqueuedScript phpcs rule.
-				// However, we're not actually rendering anything here, we're just assigning to a variable.
+				// However, we're not actually rendering anything here, we're pre-processing the already-enqueued script.
 				// The fact that this code triggers phpcs is likely a bug in phpcs.
 				// phpcs:ignore
 				$tag = '<script id="chatrix-script" type="module" src="' . esc_url( $src ) . '"></script>';
