@@ -26,5 +26,5 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Build chatrix and wordpress plugin
+      - name: Build
         run: make

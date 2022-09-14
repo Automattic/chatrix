@@ -1,9 +1,0 @@
-{
-    "homeserver": "https://orbit-sandbox.ems.host",
-    "room_id": "!TGeMnSOaImTtdkfeLq:orbit-sandbox.ems.host",
-    "login_methods": [
-        "sso"
-    ],
-    "welcome_message_heading": "This config is for chatrix developers",
-    "welcome_message_text": "Do not use it for your own site."
-}
