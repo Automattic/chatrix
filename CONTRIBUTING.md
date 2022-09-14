@@ -1,9 +1,9 @@
 # Running WordPress plugin locally
 
-Install composer dependencies:
+Initial setup:
 
 ```shell
-composer install
+make
 ```
 
 You'll need [wp-env](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/). If you don't
