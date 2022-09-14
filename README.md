@@ -12,7 +12,7 @@ Embed the Chatrix Matrix client into WordPress pages.
 **GitHub Plugin URI:** https://github.com/Automattic/chatrix
 
 ## Description
-This plugin allows you to embed the [Chatrix Matrix client](https://github.com/Automattic/chatrix) into WordPress pages.
+This plugin allows you to embed the [Chatrix Matrix client](https://github.com/Automattic/chatrix-fronted) into WordPress pages.
 
 ## Advanced usage
 If you need more flexibility than what the plugin's settings provides, you can configure chatrix though
