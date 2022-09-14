@@ -1,12 +1,5 @@
 # Running WordPress plugin locally
 
-Start by building the chatrix frontend:
-
-```shell
-yarn install
-yarn build
-```
-
 Install composer dependencies:
 
 ```shell
