@@ -1,4 +1,4 @@
 default: build
 
 build:
-	./scripts/build.sh
+	./bin/build.sh
