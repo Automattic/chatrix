@@ -1,8 +1,5 @@
-node_modules
 .DS_Store
-dist
-dist-ssr
-target
-*.local
-release
 .idea
+readme.txt
+vendor
+frontend

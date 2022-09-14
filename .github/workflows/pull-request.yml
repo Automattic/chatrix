@@ -5,26 +5,14 @@ on:
     types: [ opened, synchronize ]
 
 jobs:
-  lint-plugin:
+  lint:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: wordpress
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Install composer dependencies
-        run: cd chatrix && composer install
+        run: composer install
 
       - name: Run phpcs
-        run: cd chatrix && ./vendor/bin/phpcs
-
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Build chatrix and wordpress plugin
-        run: make
+        run: ./vendor/bin/phpcs

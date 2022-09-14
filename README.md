@@ -1,74 +1,42 @@
-Chatrix lets you securely embed [Hydrogen](https://github.com/vector-im/hydrogen-web) within any website. Chatrix is a
-fork of [Chatterbox](https://github.com/vector-im/chatterbox).
-    
-### Develop Instructions
----
-1) Clone the repo.
-2) Install dependencies (you only need to do this once):
-    ```properties
-    yarn install
-    ```
-3) Modify config.json in `public` directory with your homeserver details.  
-   (See [`types/IChatrixConfig.ts`](https://github.com/Automattic/chatrix/blob/main/src/types/IChatrixConfig.ts)
-   for the format)
-4) Start develop server:
-    ```properties
-    yarn start
-    ```
+# Chatrix Matrix client
 
-### Build Instructions
----
-Follow the develop instructions above (steps 1-3), then:
+Embed the Chatrix Matrix client into WordPress pages.
 
-- Build chatrix app into `/target` directory:
-    ```properties
-    yarn build
-    ```
+**Contributors:** akirk, ashfame, psrpinto
+**Tags:** matrix, chatrix
+**Requires at least:** 5.0
+**Tested up to:** 6.1
+**Requires PHP:** 7.4
+**License:** [GPLv2 or later](http://www.gnu.org/licenses/gpl-2.0.html)
+**Stable tag:** trunk
+**GitHub Plugin URI:** https://github.com/Automattic/chatrix
 
-### Embed Instructions
----
-Assuming that the build output (inside `/target`) is hosted at `<root>` (eg: chatrix.example.com), copy and paste the
-following snippet before the closing `</body>` tag:
+## Description
+This plugin allows you to embed the [Chatrix Matrix client](https://github.com/Automattic/chatrix-fronted) into WordPress pages.
 
-```html
+## Advanced usage
+If you need more flexibility than what the plugin's settings provides, you can configure chatrix though
+the `chatrix_instances` filter:
 
-<script>
-	window.CHATRIX_CONFIG_LOCATION = "path_to_config";
-</script>
-<script src="<root>/assets/parent.js" type="module" id="chatrix-script"></script>
+```php
+// functions.php
+
+add_filter( 'chatrix_instances', function ( array $default_instances ) {
+	// The key is an instance_id, the value array is the config for that instance.
+	// Set 'pages' to an array of the ids of the pages which should show chatrix.
+	// You can also set 'pages' to 'all' which results in that instance always being used.
+	// Only one instance can be shown on a given page.
+	return array(
+		'foo' => array(
+			'homeserver' => 'https://foo.com',
+			'room_id'    => '!id:foo.com',
+			'pages'      => 'all',
+		),
+		'bar' => array(
+			'homeserver' => 'https://bar.com',
+			'room_id'    => '!id:bar.com',
+			'pages'      => array(1, 2, 3),
+		),
+	);
+} );
 ```
-
-## Testing
-
-Chatrix comes with a suite of integration tests, using cypress.
-
-You can run them by doing
-```sh
-yarn cypress install
-yarn cypress open
-``` 
-
-Ensure you copy the `cypress/fixtures/demoInstance.sample.json` file to `cypress/fixtures/demoInstance.json` and edit 
-the keys accordingly.
-
-## Releasing
-Chatrix releases are automatically created through a GitHub Action, which is executed whenever a tag of the form `vX.Y.Z` is pushed. You can create and push a tag as follows.
-
-First find the latest tag:
-
-```shell
-# Fetch tags from origin
-git fetch
-
-# Returns the latest tag, e.g. v0.1.0
-git describe --tags --abbrev=0
-```
-
-Then create and push a tag that increments the latest one as per [Semantic Versioning](https://semver.org/):
-
-```shell
-git tag v0.1.1
-git push origin v0.1.1
-```
-
-The [GitHub Action](https://github.com/Automattic/chatrix/actions) will launch automatically, and when completed will have created a **draft release** for the tag that was pushed. You should then edit that release to provide a meaningful title and description (ideally including a [changelog](https://keepachangelog.com/en/1.0.0/)), then publish the release.

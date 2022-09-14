@@ -18,31 +18,45 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Build chatrix and wordpress plugin
-        run: make
+      - name: Install composer dependencies
+        run: composer install --no-ansi --no-dev --no-interaction --no-plugins --no-scripts --optimize-autoloader
 
-      - name: Create directory for chatrix release
-        run: cp -r target chatrix-${{ github.ref_name }}
+      - name: Generate readme.txt
+        run: php bin/transform-readme.php
 
-      - name: Create directory for wordpress plugin release
-        run: cp -r wordpress/chatrix chatrix-wordpress-plugin-${{ github.ref_name }}
+      - name: Download and extract chatrix-frontend
+        run: bin/fetch-frontend.sh
 
-      - name: Remove unnecessary files from wordpress plugin
+      - name: Create directory for release
+        run: mkdir /tmp/release
+
+      - name: Copy all files to release directory
+        run: cp -r ./* /tmp/release/
+
+      - name: Remove unnecessary files and directories
         run: |
-          rm -rf chatrix-wordpress-plugin-${{ github.ref_name }}/bin
-          rm -rf chatrix-wordpress-plugin-${{ github.ref_name }}/README.md
+          rm -rf /tmp/release/.github
+          rm -rf /tmp/release/.git
+          rm -rf /tmp/release/.gitignore
+          rm -rf /tmp/release/.editorconfig
+          rm -rf /tmp/release/.wp-env.json
+          rm -rf /tmp/release/bin
+          rm -rf /tmp/release/README.md
+          rm -rf /tmp/release/CONTRIBUTING.md
+          rm -rf /tmp/release/Makefile
+          rm -rf /tmp/release/phpcs.xml
 
-      - name: Create archive for chatrix release
-        run: tar -cvzf chatrix-${{ github.ref_name }}.tar.gz chatrix-${{ github.ref_name }}
+      - name: Move and rename release directory
+        run: mv /tmp/release chatrix
 
-      - name: Create archive for wordpress plugin release
-        run: tar -cvzf chatrix-wordpress-plugin-${{ github.ref_name }}.tar.gz chatrix-wordpress-plugin-${{ github.ref_name }}
+      - name: Create archive for release
+        run: tar -cvzf chatrix-${{ github.ref_name }}.tar.gz chatrix
 
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref_name }}
-          artifacts: "chatrix-${{ github.ref_name }}.tar.gz, chatrix-wordpress-plugin-${{ github.ref_name }}.tar.gz"
+          artifacts: "chatrix-${{ github.ref_name }}.tar.gz"
           artifactErrorsFailBuild: true
           draft: true

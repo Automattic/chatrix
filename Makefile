@@ -1,4 +1,7 @@
-default: build
+default: vendor frontend
 
-build:
-	./scripts/build.sh
+vendor: composer.json composer.lock
+	composer install
+
+frontend: bin/fetch-frontend.sh
+	./bin/fetch-frontend.sh
