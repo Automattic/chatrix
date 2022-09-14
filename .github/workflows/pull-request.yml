@@ -5,7 +5,7 @@ on:
     types: [ opened, synchronize ]
 
 jobs:
-  lint-plugin:
+  lint:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -19,12 +19,3 @@ jobs:
 
       - name: Run phpcs
         run: ./vendor/bin/phpcs
-
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Build
-        run: make

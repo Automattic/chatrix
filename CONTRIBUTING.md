@@ -3,7 +3,6 @@
 Install composer dependencies:
 
 ```shell
-cd wordpress/chatrix
 composer install
 ```
 
@@ -17,7 +16,6 @@ npm -g i @wordpress/env
 Once `wp-env` is installed you can use it to start WordPress with:
 
 ```shell
-cd wordpress
 wp-env start
 ```
 
@@ -28,15 +26,11 @@ are:
 - password: **`password`**
 
 ## Linting
-
-Change to the plugin directory:
-
-```shell
-cd wordpress/chatrix
-```
-
-Then run `phpcs`:
+Run `phpcs`:
 
 ```shell
 ./vendor/bin/phpcs
 ```
+
+## Upgrading frontend
+If you wish to upgrade the version [chatrix-frontend](https://github.com/Automattic/chatrix-frontend) used by this plugin, you can do so by editing `$VERSION` in [`bin/fetch-frontend.sh`](bin/fetch-frontend.sh). This will result in that version being used in the next release of this plugin. 

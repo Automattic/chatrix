@@ -1,4 +1,4 @@
-default: build
+default: frontend
 
-build:
-	./bin/build.sh
+frontend: bin/fetch-frontend.sh
+	./bin/fetch-frontend.sh
