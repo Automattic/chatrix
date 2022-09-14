@@ -24,6 +24,9 @@ jobs:
       - name: Generate readme.txt
         run: php bin/transform-readme.php
 
+      - name: Download and extract chatrix-frontend
+        run: bin/fetch-frontend.sh
+
       - name: Create directory for release
         run: mkdir /tmp/release
 
