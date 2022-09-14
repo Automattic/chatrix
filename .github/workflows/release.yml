@@ -18,13 +18,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Build chatrix and wordpress plugin
+      - name: Build
         run: make
 
-      - name: Create directory for chatrix release
-        run: cp -r target chatrix-${{ github.ref_name }}
-
-      - name: Create directory for wordpress plugin release
+      - name: Create directory for release
         run: cp -r wordpress/chatrix chatrix-wordpress-plugin-${{ github.ref_name }}
 
       - name: Remove unnecessary files from wordpress plugin
@@ -32,10 +29,7 @@ jobs:
           rm -rf chatrix-wordpress-plugin-${{ github.ref_name }}/bin
           rm -rf chatrix-wordpress-plugin-${{ github.ref_name }}/README.md
 
-      - name: Create archive for chatrix release
-        run: tar -cvzf chatrix-${{ github.ref_name }}.tar.gz chatrix-${{ github.ref_name }}
-
-      - name: Create archive for wordpress plugin release
+      - name: Create archive release
         run: tar -cvzf chatrix-wordpress-plugin-${{ github.ref_name }}.tar.gz chatrix-wordpress-plugin-${{ github.ref_name }}
 
       - name: Create release
@@ -43,6 +37,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref_name }}
-          artifacts: "chatrix-${{ github.ref_name }}.tar.gz, chatrix-wordpress-plugin-${{ github.ref_name }}.tar.gz"
+          artifacts: "chatrix-wordpress-plugin-${{ github.ref_name }}.tar.gz"
           artifactErrorsFailBuild: true
           draft: true
