@@ -12,7 +12,7 @@ function asset_url( $asset_path ): string {
 }
 
 function chatrix_config() {
-	return apply_filters( 'chatrix_config', false );
+	return apply_filters( 'chatrix_config', array() );
 }
 
 function main() {
@@ -44,11 +44,16 @@ function main() {
 	);
 
 	// Return the configuration for the current page, if any.
+	// If configuration has already been declared, use that instead.
 	add_filter(
 		'chatrix_config',
-		function () {
+		function ( array $config ) {
+			if ( ! empty( $config ) ) {
+				return $config;
+			}
+
 			if ( ! is_page() && ! is_home() ) {
-				return null;
+				return array();
 			}
 
 			global $post;
@@ -106,7 +111,7 @@ function main() {
 		'wp_head',
 		function () {
 			$config = chatrix_config();
-			if ( ! $config ) {
+			if ( empty( $config ) ) {
 				return;
 			}
 
@@ -133,7 +138,8 @@ function main() {
 	add_action(
 		'wp_enqueue_scripts',
 		function () {
-			if ( chatrix_config() ) {
+			$config = chatrix_config();
+			if ( ! empty( $config ) ) {
 				wp_enqueue_script( 'chatrix-parent-js', asset_url( 'assets/parent.js' ), array(), '1.0', true );
 			}
 		}
