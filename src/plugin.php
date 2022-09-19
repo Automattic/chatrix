@@ -127,9 +127,9 @@ function main() {
 			}
 			?>
 			<script type="text/javascript">
-				window.CHATRIX_HTML_LOCATION = "<?php echo esc_url( asset_url( 'chatrix.html' ) ); ?>";
-				window.CHATRIX_CONFIG_LOCATION = "<?php echo esc_url( $config['url'] ); ?>";
-				window.CHATRIX_LOCAL_STORAGE_KEY = "<?php echo esc_js( $local_storage_key ); ?>";
+				window.CHATTERBOX_HTML_LOCATION = "<?php echo esc_url( asset_url( 'chatterbox.html' ) ); ?>";
+				window.CHATTERBOX_CONFIG_LOCATION = "<?php echo esc_url( $config['url'] ); ?>";
+				window.CHATTERBOX_LOCAL_STORAGE_KEY = "<?php echo esc_js( $local_storage_key ); ?>";
 			</script>
 			<?php
 		}
@@ -145,7 +145,7 @@ function main() {
 		}
 	);
 
-	// Output the script tag in the format expected by chatrix.
+	// Output the script tag in the format expected by chatterbox.
 	add_filter(
 		'script_loader_tag',
 		function ( $tag, $handle, $src ) {
@@ -154,7 +154,7 @@ function main() {
 				// However, we're not actually rendering anything here, we're pre-processing the already-enqueued script.
 				// The fact that this code triggers phpcs is likely a bug in phpcs.
 				// phpcs:ignore
-				$tag = '<script id="chatrix-script" type="module" src="' . esc_url( $src ) . '"></script>';
+				$tag = '<script id="chatterbox-script" type="module" src="' . esc_url( $src ) . '"></script>';
 			}
 
 			return $tag;
