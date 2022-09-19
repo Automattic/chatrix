@@ -40,8 +40,7 @@ function main() {
 					'pages'         => 'all' === $settings['show_on'] ? 'all' : $settings['pages'],
 				),
 			);
-		},
-		0
+		}
 	);
 
 	// Return the configuration for the current page, if any.
