@@ -102,25 +102,27 @@ function main() {
 		'wp_head',
 		function () {
 			$config = chatrix_config();
-			if ( $config ) {
-				$current_user      = wp_get_current_user();
-				$local_storage_key = LOCAL_STORAGE_KEY_PREFIX;
-
-				if ( ! empty( $config['instance_id'] ) ) {
-					$local_storage_key = $local_storage_key . '_' . $config['instance_id'];
-				}
-
-				if ( 0 !== $current_user->ID ) {
-					$local_storage_key = $local_storage_key . '_' . $current_user->user_login;
-				}
-				?>
-				<script type="text/javascript">
-					window.CHATRIX_HTML_LOCATION = "<?php echo esc_url( asset_url( 'chatrix.html' ) ); ?>";
-					window.CHATRIX_CONFIG_LOCATION = "<?php echo esc_url( $config['url'] ); ?>";
-					window.CHATRIX_LOCAL_STORAGE_KEY = "<?php echo esc_js( $local_storage_key ); ?>";
-				</script>
-				<?php
+			if ( ! $config ) {
+				return;
 			}
+
+			$current_user      = wp_get_current_user();
+			$local_storage_key = LOCAL_STORAGE_KEY_PREFIX;
+
+			if ( ! empty( $config['instance_id'] ) ) {
+				$local_storage_key = $local_storage_key . '_' . $config['instance_id'];
+			}
+
+			if ( 0 !== $current_user->ID ) {
+				$local_storage_key = $local_storage_key . '_' . $current_user->user_login;
+			}
+			?>
+			<script type="text/javascript">
+				window.CHATRIX_HTML_LOCATION = "<?php echo esc_url( asset_url( 'chatrix.html' ) ); ?>";
+				window.CHATRIX_CONFIG_LOCATION = "<?php echo esc_url( $config['url'] ); ?>";
+				window.CHATRIX_LOCAL_STORAGE_KEY = "<?php echo esc_js( $local_storage_key ); ?>";
+			</script>
+			<?php
 		}
 	);
 
