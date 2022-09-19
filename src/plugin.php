@@ -18,10 +18,15 @@ function chatrix_config() {
 function main() {
 	init_frontend_session_management( LOCAL_STORAGE_KEY_PREFIX );
 
-	// Declare the default instance of chatrix.
+	// Declare the default instance of chatrix, using values from the plugin's settings.
+	// If instances have already been declared, use those instead, in which case plugin settings are ignored.
 	add_filter(
 		'chatrix_instances',
-		function () {
+		function ( array $instances ) {
+			if ( ! empty( $instances ) ) {
+				return $instances;
+			}
+
 			$settings = get_chatrix_settings();
 			if ( empty( $settings ) ) {
 				return array();
@@ -50,7 +55,7 @@ function main() {
 			global $post;
 
 			$page_id   = $post->ID;
-			$instances = apply_filters( 'chatrix_instances', false );
+			$instances = apply_filters( 'chatrix_instances', array() );
 
 			foreach ( $instances as $instance_id => $instance ) {
 				$config = array(
@@ -76,7 +81,7 @@ function main() {
 	add_action(
 		'rest_api_init',
 		function () {
-			$instances = apply_filters( 'chatrix_instances', false );
+			$instances = apply_filters( 'chatrix_instances', array() );
 			foreach ( $instances as $instance_id => $instance ) {
 				register_rest_route(
 					'chatrix',
