@@ -12,16 +12,21 @@ function asset_url( $asset_path ): string {
 }
 
 function chatrix_config() {
-	return apply_filters( 'chatrix_config', false );
+	return apply_filters( 'chatrix_config', array() );
 }
 
 function main() {
 	init_frontend_session_management( LOCAL_STORAGE_KEY_PREFIX );
 
-	// Declare the default instance of chatrix.
+	// Declare the default instance of chatrix, using values from the plugin's settings.
+	// If instances have already been declared, use those instead, in which case plugin settings are ignored.
 	add_filter(
 		'chatrix_instances',
-		function () {
+		function ( array $instances ) {
+			if ( ! empty( $instances ) ) {
+				return $instances;
+			}
+
 			$settings = get_chatrix_settings();
 			if ( empty( $settings ) ) {
 				return array();
@@ -35,36 +40,40 @@ function main() {
 					'pages'         => 'all' === $settings['show_on'] ? 'all' : $settings['pages'],
 				),
 			);
-		},
-		0
+		}
 	);
 
 	// Return the configuration for the current page, if any.
+	// If configuration has already been declared, use that instead.
 	add_filter(
 		'chatrix_config',
-		function () {
-			if ( ! is_page() ) {
-				return null;
+		function ( array $config ) {
+			if ( ! empty( $config ) ) {
+				return $config;
+			}
+
+			if ( ! is_page() && ! is_home() ) {
+				return array();
 			}
 
 			global $post;
 
 			$page_id   = $post->ID;
-			$instances = apply_filters( 'chatrix_instances', false );
+			$instances = apply_filters( 'chatrix_instances', array() );
 
 			foreach ( $instances as $instance_id => $instance ) {
-				$config = array(
+				$instance_config = array(
 					'url'         => rest_url( "chatrix/config/$instance_id" ),
 					'config'      => $instance,
 					'instance_id' => $instance_id,
 				);
 
 				if ( 'all' === $instance['pages'] ) {
-					return $config;
+					return $instance_config;
 				}
 
 				if ( in_array( (string) $page_id, $instance['pages'], true ) ) {
-					return $config;
+					return $instance_config;
 				}
 			}
 
@@ -76,7 +85,7 @@ function main() {
 	add_action(
 		'rest_api_init',
 		function () {
-			$instances = apply_filters( 'chatrix_instances', false );
+			$instances = apply_filters( 'chatrix_instances', array() );
 			foreach ( $instances as $instance_id => $instance ) {
 				register_rest_route(
 					'chatrix',
@@ -102,32 +111,35 @@ function main() {
 		'wp_head',
 		function () {
 			$config = chatrix_config();
-			if ( $config ) {
-				$current_user      = wp_get_current_user();
-				$local_storage_key = LOCAL_STORAGE_KEY_PREFIX;
-
-				if ( ! empty( $config['instance_id'] ) ) {
-					$local_storage_key = $local_storage_key . '_' . $config['instance_id'];
-				}
-
-				if ( 0 !== $current_user->ID ) {
-					$local_storage_key = $local_storage_key . '_' . $current_user->user_login;
-				}
-				?>
-				<script type="text/javascript">
-					window.CHATRIX_HTML_LOCATION = "<?php echo esc_url( asset_url( 'chatrix.html' ) ); ?>";
-					window.CHATRIX_CONFIG_LOCATION = "<?php echo esc_url( $config['url'] ); ?>";
-					window.CHATRIX_LOCAL_STORAGE_KEY = "<?php echo esc_js( $local_storage_key ); ?>";
-				</script>
-				<?php
+			if ( empty( $config ) ) {
+				return;
 			}
+
+			$current_user      = wp_get_current_user();
+			$local_storage_key = LOCAL_STORAGE_KEY_PREFIX;
+
+			if ( ! empty( $config['instance_id'] ) ) {
+				$local_storage_key = $local_storage_key . '_' . $config['instance_id'];
+			}
+
+			if ( 0 !== $current_user->ID ) {
+				$local_storage_key = $local_storage_key . '_' . $current_user->user_login;
+			}
+			?>
+			<script type="text/javascript">
+				window.CHATRIX_HTML_LOCATION = "<?php echo esc_url( asset_url( 'chatrix.html' ) ); ?>";
+				window.CHATRIX_CONFIG_LOCATION = "<?php echo esc_url( $config['url'] ); ?>";
+				window.CHATRIX_LOCAL_STORAGE_KEY = "<?php echo esc_js( $local_storage_key ); ?>";
+			</script>
+			<?php
 		}
 	);
 
 	add_action(
 		'wp_enqueue_scripts',
 		function () {
-			if ( chatrix_config() ) {
+			$config = chatrix_config();
+			if ( ! empty( $config ) ) {
 				wp_enqueue_script( 'chatrix-parent-js', asset_url( 'assets/parent.js' ), array(), '1.0', true );
 			}
 		}
