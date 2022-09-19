@@ -43,7 +43,7 @@ function main() {
 	add_filter(
 		'chatrix_config',
 		function () {
-			if ( ! is_page() ) {
+			if ( ! is_page() && ! is_home() ) {
 				return null;
 			}
 
