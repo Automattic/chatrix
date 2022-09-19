@@ -57,18 +57,18 @@ function main() {
 			$instances = apply_filters( 'chatrix_instances', array() );
 
 			foreach ( $instances as $instance_id => $instance ) {
-				$config = array(
+				$instance_config = array(
 					'url'         => rest_url( "chatrix/config/$instance_id" ),
 					'config'      => $instance,
 					'instance_id' => $instance_id,
 				);
 
 				if ( 'all' === $instance['pages'] ) {
-					return $config;
+					return $instance_config;
 				}
 
 				if ( in_array( (string) $page_id, $instance['pages'], true ) ) {
-					return $config;
+					return $instance_config;
 				}
 			}
 
