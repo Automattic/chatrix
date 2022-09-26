@@ -1,1 +1,3 @@
-console.log("block");
+import { main } from "../../main"
+
+main("chatrix-block");
