@@ -1,0 +1,15 @@
+{
+  "name": "chatrix",
+  "version": "0.1.0",
+  "description": "Embedded Matrix client for WordPress",
+  "repository": "git@github.com:Automattic/chatrix.git",
+  "author": "Automattic",
+  "license": "GPL-2.0-or-later",
+  "devDependencies": {
+    "typescript": "^4.8.3",
+    "vite": "^3.1.3"
+  },
+  "dependencies": {
+    "hydrogen-view-sdk": "^0.1.0"
+  }
+}
