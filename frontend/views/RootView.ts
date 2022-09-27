@@ -1,5 +1,6 @@
 import { TemplateView } from "hydrogen-view-sdk";
 import { RootViewModel, Section } from "../viewmodels/RootViewModel";
+import { LoginView } from "./LoginView";
 import { Builder } from "hydrogen-view-sdk/types/platform/web/ui/general/TemplateView";
 
 export class RootView extends TemplateView<RootViewModel> {
@@ -12,9 +13,7 @@ export class RootView extends TemplateView<RootViewModel> {
         return t.mapView(vm => vm.activeSection, (section: Section) => {
                 switch (section) {
                     case Section.Login:
-                        console.log("login");
-                        // TODO Return the login view.
-                        return null;
+                        if (vm.loginViewModel) return new LoginView(vm.loginViewModel);
                 }
                 return null;
             }

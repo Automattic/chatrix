@@ -1,4 +1,5 @@
 import { createRouter, Navigation, Options, Platform, ViewModel } from "hydrogen-view-sdk";
+import { LoginViewModel } from "./LoginViewModel";
 
 type Options = { platform: typeof Platform, navigation: typeof Navigation, urlCreator: ReturnType<typeof createRouter> };
 
@@ -9,10 +10,12 @@ export enum Section {
 
 export class RootViewModel extends ViewModel {
     private _activeSection: Section;
+    private _loginViewModel: LoginViewModel | null;
 
     constructor(options: Options) {
         super(options);
         this._activeSection = Section.Boot;
+        this._loginViewModel = null;
         this.setupNavigation();
     }
 
@@ -33,7 +36,18 @@ export class RootViewModel extends ViewModel {
         this.navigation.observe(Section.Login).subscribe(() => this.showLogin());
     }
 
+    public get loginViewModel(): LoginViewModel | null {
+        return this._loginViewModel;
+    }
+
     private showLogin() {
+        this._loginViewModel = this.track(new LoginViewModel(
+            this.childOptions({
+                client: this._client,
+                state: this._state,
+                platform: this.platform,
+            })
+        ));
         this.activeSection = Section.Login;
     }
 }
