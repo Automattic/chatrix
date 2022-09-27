@@ -4,7 +4,7 @@ import { LoginViewModel } from "./LoginViewModel";
 type Options = { platform: typeof Platform, navigation: typeof Navigation, urlCreator: ReturnType<typeof createRouter> };
 
 export enum Section {
-    Boot = "boot",
+    Loading = "loading",
     Login = "login",
 }
 
@@ -14,7 +14,7 @@ export class RootViewModel extends ViewModel {
 
     constructor(options: Options) {
         super(options);
-        this._activeSection = Section.Boot;
+        this._activeSection = Section.Loading;
         this._loginViewModel = null;
         this.setupNavigation();
     }
