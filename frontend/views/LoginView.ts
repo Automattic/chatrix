@@ -7,6 +7,7 @@ export class LoginView extends TemplateView<LoginViewModel> {
         super(value);
     }
 
+    // @ts-ignore
     render(t: Builder<LoginViewModel>, vm: LoginViewModel) {
         return t.div({ className: "LoginView" }, []);
     }
