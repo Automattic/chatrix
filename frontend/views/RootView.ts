@@ -1,8 +1,9 @@
 import { TemplateView } from "hydrogen-view-sdk";
-import { RootViewModel, Section } from "../viewmodels/RootViewModel";
+import { RootViewModel } from "../viewmodels/RootViewModel";
 import { LoginView } from "./LoginView";
 import { Builder } from "hydrogen-view-sdk/types/platform/web/ui/general/TemplateView";
 import { AppViewMaker } from "./AppView";
+import { Section } from "../main";
 
 export class RootView extends TemplateView<RootViewModel> {
     private _appViewMaker: AppViewMaker;

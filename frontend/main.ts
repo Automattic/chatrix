@@ -4,7 +4,7 @@ import olmWasmPath from "@matrix-org/olm/olm.wasm?url";
 import olmJsPath from "@matrix-org/olm/olm.js?url";
 import olmLegacyJsPath from "@matrix-org/olm/olm_legacy.js?url";
 import { createRouter, Navigation, Platform, URLRouter } from "hydrogen-view-sdk";
-import { RootViewModel, Section } from "./viewmodels/RootViewModel";
+import { RootViewModel } from "./viewmodels/RootViewModel";
 import { RootView } from "./views/RootView";
 import { AppViewModelMaker } from "./viewmodels/AppViewModel";
 import { AppViewMaker } from "./views/AppView";
@@ -18,6 +18,12 @@ const assetPaths = {
         wasmBundle: olmJsPath,
     },
 };
+
+export enum Section {
+    Loading = "loading",
+    Login = "login",
+    App = "app",
+}
 
 function allowsChild(parent: any, child: any) {
     const allowed = [

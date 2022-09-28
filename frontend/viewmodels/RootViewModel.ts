@@ -1,6 +1,7 @@
 import { createRouter, Navigation, Options, Platform, ViewModel } from "hydrogen-view-sdk";
 import { LoginViewModel } from "./LoginViewModel";
 import { AppViewModel, AppViewModelMaker } from "./AppViewModel";
+import { Section } from "../main";
 
 type Options = {
     platform: typeof Platform,
@@ -9,12 +10,6 @@ type Options = {
     emitChange?: (params: any) => void;
     appViewModelMaker: AppViewModelMaker,
 };
-
-export enum Section {
-    Loading = "loading",
-    Login = "login",
-    App = "app",
-}
 
 export class RootViewModel extends ViewModel {
     private _activeSection: Section;
