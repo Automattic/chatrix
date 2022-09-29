@@ -1,5 +1,5 @@
-const { defineConfig } = require("vite");
-const { resolve } = require("path");
+import { defineConfig } from "vite";
+import { resolve } from "path";
 
 export default defineConfig(() => {
     return {
