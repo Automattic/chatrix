@@ -12,7 +12,9 @@
     "noEmit": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    "skipLibCheck": true,
+    "jsx": "react-jsx"
   },
-  "include": ["./frontend"]
+  "include": ["./frontend", "./block"]
 }
