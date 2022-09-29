@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "automattic/chatrix",
+	"version": "0.1.0",
+	"title": "Chatrix",
+	"category": "embed",
+	"icon": "flag",
+	"description": "A Gutenberg block to embed a Matrix client.",
+	"attributes": {
+		"message": {
+			"type": "string",
+			"source": "text",
+			"selector": "div"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"textdomain": "chatrix",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
+}
