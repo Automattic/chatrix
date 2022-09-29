@@ -1,14 +1,13 @@
-import { AppView as BaseAppView } from "../../views/AppView";
 import { AppViewModel } from "./AppViewModel";
-import { Builder } from "hydrogen-view-sdk/types/platform/web/ui/general/TemplateView";
+import { TemplateView } from "hydrogen-view-sdk";
 
-export class AppView extends BaseAppView {
+export class AppView extends TemplateView<AppViewModel> {
     constructor(vm: AppViewModel) {
         super(vm);
     }
 
     // @ts-ignore
-    render(t: Builder<AppViewModel>, vm: AppViewModel) {
+    render(t, vm: AppViewModel) {
         return t.div({ className: "AppView" }, []);
     }
 }

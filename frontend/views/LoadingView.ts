@@ -1,5 +1,4 @@
 import { TemplateView } from "hydrogen-view-sdk";
-import { Builder } from "hydrogen-view-sdk/types/platform/web/ui/general/TemplateView";
 import { LoadingViewModel } from "../viewmodels/LoadingViewModel";
 
 export class LoadingView extends TemplateView<LoadingViewModel> {
@@ -8,7 +7,7 @@ export class LoadingView extends TemplateView<LoadingViewModel> {
     }
 
     // @ts-ignore
-    render(t: Builder<LoadingViewModel>, vm: LoadingViewModel) {
+    render(t, vm: LoadingViewModel) {
         return t.div({ className: "LoadingView" }, []);
     }
 }

@@ -1,5 +1,4 @@
 import { TemplateView } from "hydrogen-view-sdk";
-import { Builder } from "hydrogen-view-sdk/types/platform/web/ui/general/TemplateView";
 import { LoginViewModel } from "../viewmodels/LoginViewModel";
 
 export class LoginView extends TemplateView<LoginViewModel> {
@@ -8,7 +7,7 @@ export class LoginView extends TemplateView<LoginViewModel> {
     }
 
     // @ts-ignore
-    render(t: Builder<LoginViewModel>, vm: LoginViewModel) {
+    render(t, vm: LoginViewModel) {
         return t.div({ className: "LoginView" }, []);
     }
 }
