@@ -1,5 +1,6 @@
 .DS_Store
-.idea
-readme.txt
-vendor
-frontend
+/.idea/
+/readme.txt
+/vendor/
+/node_modules/
+build/
