@@ -1,7 +1,14 @@
-default: vendor frontend
+default: vendor node_modules build build-block
 
 vendor: composer.json composer.lock
 	composer install
 
-frontend: bin/fetch-frontend.sh
-	./bin/fetch-frontend.sh
+node_modules: package.json yarn.lock
+	yarn install
+
+build: frontend
+	yarn build:popup
+	yarn build:block
+
+build-block: block
+	yarn build:block-internal
