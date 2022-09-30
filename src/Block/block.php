@@ -4,6 +4,9 @@ namespace Automattic\Chatrix\Block;
 
 function register() {
 	$block_path = realpath( plugin_dir_path( __FILE__ ) . '../../build-block' );
+	if ( ! is_dir( $block_path ) ) {
+		return;
+	}
 
 	add_action(
 		'init',
