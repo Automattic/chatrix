@@ -3,16 +3,17 @@
 namespace Automattic\Chatrix\Block;
 
 function register() {
-	$block_path = dirname( plugin_dir_path( __FILE__ ), 2 ) . '/build-block';
-	if ( ! is_dir( $block_path ) ) {
+	$block_path      = dirname( plugin_dir_path( __FILE__ ), 2 ) . '/build-block';
+	$block_json_path = "$block_path/block.json";
+	if ( ! file_exists( $block_json_path ) ) {
 		return;
 	}
 
 	add_action(
 		'init',
-		function () use ( $block_path ) {
+		function () use ( $block_json_path ) {
 			register_block_type(
-				"$block_path/block.json",
+				$block_json_path,
 				array(
 					'render_callback' => 'Automattic\Chatrix\Block\render',
 				)
