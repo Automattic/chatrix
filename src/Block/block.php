@@ -19,11 +19,16 @@ function register() {
 }
 
 function render() {
+	$iframe_url = plugins_url() . '/chatrix/build/block/app.html';
+
 	ob_start();
 	?>
-	<p <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>>
-		hello
-	</p>
+	<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>>
+		<iframe class="<?php echo esc_attr( 'wp-block-automattic-chatrix-iframe' ); ?>"
+				title="<?php esc_attr_e( 'Chatrix Block', 'chatrix' ); ?>"
+				src="<?php echo esc_url( $iframe_url ); ?>"
+		></iframe>
+	</div>
 	<?php
 	return ob_get_clean();
 }

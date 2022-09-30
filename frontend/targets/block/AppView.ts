@@ -8,6 +8,8 @@ export class AppView extends BaseAppView {
 
     // @ts-ignore
     render(t, vm: AppViewModel) {
-        return t.div({ className: "AppView" }, []);
+        return t.div({ className: "AppView" }, [
+            t.div({ className: "hello" }, "Imagine this is a Matrix client"),
+        ]);
     }
 }
