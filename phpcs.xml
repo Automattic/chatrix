@@ -4,7 +4,6 @@
 
     <file>./src/</file>
     <file>./chatrix.php</file>
-    <file>./block/template.php</file>
 
     <arg value="sp"/>
     <arg name="basepath" value="./"/>

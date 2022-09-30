@@ -20,7 +20,10 @@ function register() {
 
 function render() {
 	ob_start();
-	echo 'hello';
-
+	?>
+	<p <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>>
+		hello
+	</p>
+	<?php
 	return ob_get_clean();
 }
