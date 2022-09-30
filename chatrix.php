@@ -29,23 +29,4 @@ if ( is_admin() ) {
 	adminMain();
 }
 
-// Register Gutenberg block.
-add_action(
-	'init',
-	function () {
-		$block_directory = plugin_dir_path( __FILE__ ) . 'build-block';
-		register_block_type(
-			"$block_directory/block.json",
-			array(
-				'render_callback' => function () use ( $block_directory ) {
-					ob_start();
-					require "$block_directory/template.php";
-
-					return ob_get_clean();
-				},
-			)
-		);
-	}
-);
-
 main();

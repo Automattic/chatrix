@@ -3,6 +3,7 @@
 namespace Automattic\Chatrix;
 
 use function Automattic\Chatrix\Admin\Settings\get as get_chatrix_settings;
+use function Automattic\Chatrix\Block\register as register_block;
 use function Automattic\Chatrix\Sessions\init as init_frontend_session_management;
 
 const LOCAL_STORAGE_KEY_PREFIX = 'hydrogen_sessions_v1';
@@ -17,6 +18,7 @@ function chatrix_config() {
 
 function main() {
 	init_frontend_session_management( LOCAL_STORAGE_KEY_PREFIX );
+	register_block();
 
 	// Declare the default instance of chatrix, using values from the plugin's settings.
 	// If instances have already been declared, use those instead, in which case plugin settings are ignored.
