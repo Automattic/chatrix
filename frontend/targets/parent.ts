@@ -1,4 +1,7 @@
-import { IConfig } from "./config";
+// This code is not used in the production build.
+// It's only used in local development environments.
+
+import { IConfig } from "../config";
 
 export function parent(scriptId: string, config: IConfig) {
     const scriptElement = document.querySelector(`#${scriptId}`);
