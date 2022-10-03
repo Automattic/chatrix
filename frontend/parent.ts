@@ -6,13 +6,17 @@ export function parent(scriptId: string) {
 
     const parentHostRoot = (scriptElement as HTMLScriptElement).src;
     const hostRoot = new URL(parentHostRoot).origin;
-    const className = `${scriptId}-iframe`;
-    loadIframe(hostRoot, className);
+    loadIframe(hostRoot, scriptId);
 }
 
-function loadIframe(hostRoot: string, className: string) {
+function loadIframe(hostRoot: string, scriptId: string) {
     const iframe = document.createElement("iframe");
     iframe.src = new URL("app.html", hostRoot).href;
-    iframe.className = className;
-    document.body.appendChild(iframe);
+    iframe.className = `${scriptId}-iframe`;
+
+    const parent = document.createElement("div");
+    parent.id = `${scriptId}-parent`;
+    parent.appendChild(iframe)
+
+    document.body.appendChild(parent);
 }
