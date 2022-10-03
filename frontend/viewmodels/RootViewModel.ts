@@ -1,15 +1,11 @@
-import { createRouter, Navigation, Options, Platform, ViewModel } from "hydrogen-view-sdk";
 import { LoginViewModel } from "./LoginViewModel";
 import { AppViewModel, AppViewModelMaker } from "./AppViewModel";
 import { Section } from "../main";
+import { Options as BaseOptions, ViewModel } from "./ViewModel";
 
 type Options = {
-    platform: typeof Platform,
-    navigation: typeof Navigation,
-    urlCreator: ReturnType<typeof createRouter>,
-    emitChange?: (params: any) => void;
     appViewModelMaker: AppViewModelMaker,
-};
+} & BaseOptions;
 
 export class RootViewModel extends ViewModel {
     private _activeSection: Section;

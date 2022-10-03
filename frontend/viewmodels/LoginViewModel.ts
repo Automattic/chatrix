@@ -1,7 +1,7 @@
-import { ViewModel } from "hydrogen-view-sdk";
+import { Options, ViewModel } from "./ViewModel";
 
 export class LoginViewModel extends ViewModel {
-    constructor(options: any) {
+    constructor(options: Options) {
         super(options);
     }
 }

@@ -1,9 +1,9 @@
-import { ViewModel } from "hydrogen-view-sdk";
+import { Options, ViewModel } from "./ViewModel";
 
 export type AppViewModelMaker = (options: any) => AppViewModel;
 
 export abstract class AppViewModel extends ViewModel {
-    protected constructor(options: any) {
+    protected constructor(options: Options) {
         super(options);
     }
 }
