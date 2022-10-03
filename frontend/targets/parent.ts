@@ -3,7 +3,13 @@
 
 import { IConfig } from "../config";
 
-export function parent(scriptId: string, config: IConfig) {
+export function parent(scriptId: string) {
+    const env = import.meta.env;
+
+    let config = {
+        homeserver: env.VITE_HOMESERVER,
+    };
+
     const scriptElement = document.querySelector(`#${scriptId}`);
     if (!scriptElement) {
         throw new Error(`Script with id #${scriptId} not found.`)

@@ -1,10 +1,16 @@
-const { defineConfig } = require("vite");
-const { resolve } = require("path");
+import { defineConfig } from "vite";
+import { resolve } from "path";
+import manifest from "../../../package.json";
 
 export default defineConfig(() => {
     return {
         base: "",
         root: __dirname,
+        envDir: "../../",
+        define: {
+            DEFINE_VERSION: JSON.stringify(manifest.version),
+            DEFINE_GLOBAL_HASH: JSON.stringify(null),
+        },
         build: {
             rollupOptions: {
                 input: {
