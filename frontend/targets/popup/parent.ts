@@ -1,3 +1,3 @@
 import { parent } from "../../parent";
 
-parent("chatrix-popup-script");
+parent("chatrix-popup-script", {});
