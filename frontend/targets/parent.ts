@@ -5,9 +5,12 @@ import { IConfig } from "../config";
 
 export function parent(scriptId: string) {
     const env = import.meta.env;
+    const loginToken = new URLSearchParams(window.location.search).get("loginToken");
 
-    let config = {
+    let config: IConfig = {
         homeserver: env.VITE_HOMESERVER,
+        localStorageKey: "chatrix",
+        loginToken: loginToken ?? null,
     };
 
     const scriptElement = document.querySelector(`#${scriptId}`);
