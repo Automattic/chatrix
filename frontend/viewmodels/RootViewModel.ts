@@ -1,13 +1,16 @@
-import { LoginViewModel } from "./LoginViewModel";
 import { AppViewModel, AppViewModelMaker } from "./AppViewModel";
 import { Section } from "../main";
 import { Options as BaseOptions, ViewModel } from "./ViewModel";
+import { LoginViewModel } from "./LoginViewModel";
+import { IConfig } from "../config";
 
 type Options = {
+    config: IConfig,
     appViewModelMaker: AppViewModelMaker,
 } & BaseOptions;
 
 export class RootViewModel extends ViewModel {
+    private _config: IConfig;
     private _activeSection: Section;
     private _loginViewModel: LoginViewModel | null;
     private _appViewModel: AppViewModel | null;
@@ -15,6 +18,7 @@ export class RootViewModel extends ViewModel {
 
     constructor(options: Options) {
         super(options);
+        this._config = options.config;
         this._activeSection = Section.Loading;
         this._loginViewModel = null;
         this._appViewModel = null;
@@ -53,19 +57,16 @@ export class RootViewModel extends ViewModel {
     private showLogin() {
         this._loginViewModel = this.track(new LoginViewModel(
             this.childOptions({
-                client: this._client,
-                state: this._state,
                 platform: this.platform,
-            })
-        ));
+                defaultHomeserver: this._config.homeserver ?? "",
+            }))
+        );
         this.activeSection = Section.Login;
     }
 
     private showApp() {
         this._appViewModel = this.track(this._appViewModelMaker(
             this.childOptions({
-                client: this._client,
-                state: this._state,
                 platform: this.platform,
             })
         ));
