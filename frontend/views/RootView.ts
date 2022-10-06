@@ -3,6 +3,7 @@ import { RootViewModel } from "../viewmodels/RootViewModel";
 import { AppViewMaker } from "./AppView";
 import { LoginView } from "./LoginView";
 import { Section } from "../main";
+import "hydrogen-view-sdk/style.css";
 
 export class RootView extends TemplateView<RootViewModel> {
     private readonly _appViewMaker: AppViewMaker;
