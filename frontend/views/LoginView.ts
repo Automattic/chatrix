@@ -1,13 +1,8 @@
-import { TemplateView } from "hydrogen-view-sdk";
+import { LoginView as BaseLoginView } from "hydrogen-web/src/platform/web/ui/login/LoginView";
 import { LoginViewModel } from "../viewmodels/LoginViewModel";
 
-export class LoginView extends TemplateView<LoginViewModel> {
+export class LoginView extends BaseLoginView {
     constructor(value: LoginViewModel) {
         super(value);
-    }
-
-    // @ts-ignore
-    render(t, vm: LoginViewModel) {
-        return t.div({ className: "LoginView" }, []);
     }
 }

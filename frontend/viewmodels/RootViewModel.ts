@@ -44,7 +44,7 @@ export class RootViewModel extends ViewModel {
     }
 
     public async start() {
-        this.navigation.push(Section.App);
+        this.navigation.push(Section.Login);
 
         return Promise.resolve();
     }
