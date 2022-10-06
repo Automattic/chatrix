@@ -1,15 +1,16 @@
 import { AppViewModel, AppViewModelMaker } from "./AppViewModel";
 import { Section } from "../main";
-import { Options as BaseOptions, ViewModel } from "./ViewModel";
 import { LoginViewModel } from "./LoginViewModel";
 import { IConfig } from "../config";
+import { Options as BaseOptions, ViewModel } from "hydrogen-web/src/domain/ViewModel";
+import { SegmentType } from "hydrogen-web/src/domain/navigation";
 
 type Options = {
     config: IConfig,
     appViewModelMaker: AppViewModelMaker,
 } & BaseOptions;
 
-export class RootViewModel extends ViewModel {
+export class RootViewModel extends ViewModel<SegmentType, Options> {
     private _config: IConfig;
     private _activeSection: Section;
     private _loginViewModel: LoginViewModel | null;
@@ -51,14 +52,22 @@ export class RootViewModel extends ViewModel {
 
     private setupNavigation() {
         this.navigation.observe(Section.Login).subscribe(() => this.showLogin());
+        // @ts-ignore
         this.navigation.observe(Section.App).subscribe(() => this.showApp());
     }
 
     private showLogin() {
+        // TODO: Fill with actual login token from query params.
+        const loginToken = undefined;
+
         this._loginViewModel = this.track(new LoginViewModel(
             this.childOptions({
                 platform: this.platform,
                 defaultHomeserver: this._config.homeserver ?? "",
+                ready: client => {
+                    // TODO.
+                },
+                loginToken
             }))
         );
         this.activeSection = Section.Login;
