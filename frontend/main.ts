@@ -9,11 +9,11 @@ import { AppViewModelMaker } from "./viewmodels/AppViewModel";
 import { AppViewMaker } from "./views/AppView";
 import { IConfig } from "./config";
 import { Platform } from "hydrogen-web/src/platform/web/Platform";
-import { createRouter, SegmentType } from "hydrogen-web/src/domain/navigation";
+import { parseUrlPath, SegmentType, stringifyPath } from "hydrogen-web/src/domain/navigation";
 import { Navigation, Segment } from "hydrogen-web/src/domain/navigation/Navigation";
-import { URLRouter } from "hydrogen-web/src/domain/navigation/URLRouter";
 import { NullLogger } from "hydrogen-web/src/logging/NullLogger";
 import "hydrogen-view-sdk/style.css";
+import { URLRouter } from "./platform/URLRouter";
 
 const assetPaths = {
     downloadSandbox: downloadSandboxPath,
@@ -51,7 +51,7 @@ export class Main {
     private readonly _config: IConfig;
     private readonly _platform: Platform;
     private readonly _navigation: Navigation<SegmentType>;
-    private readonly _router: URLRouter<SegmentType>;
+    private readonly _router: URLRouter;
     private readonly _rootNode: HTMLDivElement;
     private _rootViewModel: RootViewModel | undefined;
 
@@ -75,7 +75,7 @@ export class Main {
         this._navigation = new Navigation(allowsChild);
         this._platform.setNavigation(this._navigation);
 
-        this._router = createRouter({ navigation: this.navigation, history: this.platform.history });
+        this._router = new URLRouter(this.platform.history, this.navigation, parseUrlPath, stringifyPath);
         this._router.attach();
     }
 
@@ -87,7 +87,7 @@ export class Main {
         return this._navigation;
     }
 
-    public get router(): URLRouter<SegmentType> {
+    public get router(): URLRouter {
         return this._router;
     }
 
