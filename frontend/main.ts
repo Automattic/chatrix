@@ -8,12 +8,12 @@ import { RootView } from "./views/RootView";
 import { AppViewModelMaker } from "./viewmodels/AppViewModel";
 import { AppViewMaker } from "./views/AppView";
 import { IConfig } from "./config";
-import { Platform } from "hydrogen-web/src/platform/web/Platform";
 import { parseUrlPath, SegmentType, stringifyPath } from "hydrogen-web/src/domain/navigation";
 import { Navigation, Segment } from "hydrogen-web/src/domain/navigation/Navigation";
 import { NullLogger } from "hydrogen-web/src/logging/NullLogger";
 import "hydrogen-view-sdk/style.css";
 import { URLRouter } from "./platform/URLRouter";
+import { Platform } from "./platform/Platform";
 
 const assetPaths = {
     downloadSandbox: downloadSandboxPath,
@@ -73,13 +73,15 @@ export class Main {
         });
 
         this._navigation = new Navigation(allowsChild);
+        // @ts-ignore
         this._platform.setNavigation(this._navigation);
 
+        // @ts-ignore
         this._router = new URLRouter(this.platform.history, this.navigation, parseUrlPath, stringifyPath);
         this._router.attach();
     }
 
-    public get platform(): typeof Platform {
+    public get platform(): Platform {
         return this._platform;
     }
 
