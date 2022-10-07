@@ -5,8 +5,8 @@
 	"version": "0.1.0",
 	"title": "Chatrix",
 	"category": "embed",
-	"icon": "flag",
-	"description": "A Gutenberg block to embed a Matrix client.",
+	"icon": "format-chat",
+	"description": "Matrix client",
 	"attributes": {
 		"message": {
 			"type": "string",

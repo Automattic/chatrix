@@ -7,7 +7,7 @@ import './style.scss';
 const name: string = metadata.name;
 const configuration: BlockConfiguration = {
     title: "Chatrix",
-    description: __("A Gutenberg block to embed a Matrix client.", "chatrix"),
+    description: __("Matrix client", "chatrix"),
     category: "text",
     attributes: {},
     edit: Edit,
