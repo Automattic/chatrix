@@ -11,7 +11,7 @@ export function defaultViteConfig(rootDir: string, targetName: string) {
             DEFINE_GLOBAL_HASH: JSON.stringify(null),
         },
         build: {
-            outDir: resolve(__dirname, `../../build/${targetName}`),
+            outDir: resolve(__dirname, `../../build/frontend/${targetName}`),
             rollupOptions: {
                 input: {
                     app: resolve(rootDir, "app.html"),

@@ -7,7 +7,7 @@ namespace Automattic\Chatrix\Block;
 use function Automattic\Chatrix\get_local_storage_key;
 
 function register() {
-	$block_path      = dirname( plugin_dir_path( __FILE__ ), 2 ) . '/build-block';
+	$block_path      = dirname( plugin_dir_path( __FILE__ ), 2 ) . '/build/block';
 	$block_json_path = "$block_path/block.json";
 
 	register_site_status_test( $block_json_path );
@@ -51,7 +51,7 @@ function render(): string {
 		'loginToken'      => $login_token,
 	);
 
-	$iframe_url = add_query_arg( $config, plugins_url() . '/chatrix/build/block/app.html' );
+	$iframe_url = add_query_arg( $config, plugins_url() . '/chatrix/build/frontend/block/app.html' );
 
 	ob_start();
 	?>
@@ -91,7 +91,7 @@ function register_site_status_test( string $block_json_path ) {
 						),
 						'description' =>
 							'<p>' .
-							__( 'If a block.json file is not found under wp-content/plugins/chatrix/build-block/block.json, the Gutenberg block will not be available.', 'chatrix' ) .
+							__( 'If a block.json file is not found under wp-content/plugins/chatrix/build/block/block.json, the Gutenberg block will not be available.', 'chatrix' ) .
 							'</p>',
 						'test'        => 'chatrix-block-json',
 					);
