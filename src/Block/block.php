@@ -1,6 +1,10 @@
 <?php
 
+// phpcs:disable WordPress.Security.NonceVerification.Recommended
+
 namespace Automattic\Chatrix\Block;
+
+use function Automattic\Chatrix\get_local_storage_key;
 
 function register() {
 	$block_path      = dirname( plugin_dir_path( __FILE__ ), 2 ) . '/build-block';
@@ -25,8 +29,29 @@ function register() {
 	);
 }
 
-function render() {
-	$iframe_url = plugins_url() . '/chatrix/build/block/app.html';
+function render(): string {
+	$login_token = null;
+	if ( isset( $_GET['loginToken'] ) ) {
+		$login_token = sanitize_text_field( wp_unslash( $_GET['loginToken'] ) );
+	}
+
+	$instances = apply_filters( 'chatrix_instances', array() );
+
+	// TODO: Make it possible to use another instance.
+	$instance_id = 'default';
+	if ( ! isset( $instances[ $instance_id ] ) ) {
+		return '';
+	}
+
+	$instance = $instances[ $instance_id ];
+
+	$config = array(
+		'homeserver'      => $instance['homeserver'],
+		'localStorageKey' => get_local_storage_key( $instance_id ),
+		'loginToken'      => $login_token,
+	);
+
+	$iframe_url = add_query_arg( $config, plugins_url() . '/chatrix/build/block/app.html' );
 
 	ob_start();
 	?>
