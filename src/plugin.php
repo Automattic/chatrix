@@ -6,7 +6,7 @@ use function Automattic\Chatrix\Admin\Settings\get as get_chatrix_settings;
 use function Automattic\Chatrix\Block\register as register_block;
 use function Automattic\Chatrix\Sessions\init as init_frontend_session_management;
 
-const LOCAL_STORAGE_KEY_PREFIX = 'hydrogen_sessions_v1';
+const LOCAL_STORAGE_KEY_PREFIX = 'chatrix';
 
 function asset_url( $asset_path ): string {
 	return plugins_url( "../frontend/$asset_path", __FILE__ );
