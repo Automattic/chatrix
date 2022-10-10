@@ -1,8 +1,14 @@
+import { ForcedLogoutView } from "hydrogen-web/src/platform/web/ui/ForcedLogoutView";
+import { StaticView } from "hydrogen-web/src/platform/web/ui/general/StaticView";
+import { TemplateView } from "hydrogen-web/src/platform/web/ui/general/TemplateView";
+import { SessionLoadView } from "hydrogen-web/src/platform/web/ui/login/SessionLoadView";
+import { SessionPickerView } from "hydrogen-web/src/platform/web/ui/login/SessionPickerView";
+import { LogoutView } from "hydrogen-web/src/platform/web/ui/LogoutView";
+import { SessionView } from "hydrogen-web/src/platform/web/ui/session/SessionView";
+import { Section } from "../platform/Navigation";
 import { RootViewModel } from "../viewmodels/RootViewModel";
 import { AppViewMaker } from "./AppView";
 import { LoginView } from "./LoginView";
-import { TemplateView } from "hydrogen-web/src/platform/web/ui/general/TemplateView";
-import { Section } from "../platform/Navigation";
 
 export class RootView extends TemplateView<RootViewModel> {
     private readonly _appViewMaker: AppViewMaker;
@@ -12,19 +18,33 @@ export class RootView extends TemplateView<RootViewModel> {
         this._appViewMaker = appViewMaker;
     }
 
-    // @ts-ignore
     render(t, vm: RootViewModel) {
-        // @ts-ignore
         return t.mapView(vm => vm.activeSection, (section: Section) => {
                 switch (section) {
                     case Section.Login:
-                        if (vm.loginViewModel) return new LoginView(vm.loginViewModel);
-                        break;
-                    case Section.App:
-                        if (vm.appViewModel) return this._appViewMaker(vm.appViewModel);
-                        break;
+                        return new LoginView(vm.loginViewModel);
+                    case Section.Logout:
+                        return new LogoutView(vm.logoutViewModel);
+                    case Section.ForcedLogout:
+                        return new ForcedLogoutView(vm.forcedLogoutViewModel);
+                    case Section.Session:
+                        return new SessionView(vm.sessionViewModel);
+                    case Section.SessionPicker:
+                        return new SessionPickerView(vm.sessionPickerViewModel);
+                    case Section.Redirecting:
+                        return new StaticView(t => t.p("Redirecting..."));
+                    case Section.SessionLoading:
+                        return new SessionLoadView(vm.sessionLoadViewModel);
+                    case Section.Error:
+                        return new StaticView(t => {
+                            return t.div({ className: "StatusView" }, [
+                                t.h1("Something went wrong"),
+                                t.p(vm.error?.message),
+                            ])
+                        });
+                    default:
+                        throw new Error(`Unknown section: ${vm.activeSection}`);
                 }
-                return null;
             }
         );
     }

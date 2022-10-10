@@ -29,7 +29,9 @@ function loadIframe(hostRoot: string, scriptId: string, config: IConfig) {
     let property: keyof IConfig;
     for (property in config) {
         let value: string = config[property] ?? "";
-        url += `${property}=${encodeURIComponent(value)}&`;
+        if (value) {
+            url += `${property}=${encodeURIComponent(value)}&`;
+        }
     }
 
     const iframe = document.createElement("iframe");

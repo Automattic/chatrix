@@ -1,19 +1,19 @@
+import olmJsPath from "@matrix-org/olm/olm.js?url";
+import olmWasmPath from "@matrix-org/olm/olm.wasm?url";
+import olmLegacyJsPath from "@matrix-org/olm/olm_legacy.js?url";
 import downloadSandboxPath from "hydrogen-view-sdk/download-sandbox.html?url";
 import workerPath from "hydrogen-view-sdk/main.js?url";
-import olmWasmPath from "@matrix-org/olm/olm.wasm?url";
-import olmJsPath from "@matrix-org/olm/olm.js?url";
-import olmLegacyJsPath from "@matrix-org/olm/olm_legacy.js?url";
-import { RootViewModel } from "./viewmodels/RootViewModel";
-import { RootView } from "./views/RootView";
-import { AppViewModelMaker } from "./viewmodels/AppViewModel";
-import { AppViewMaker } from "./views/AppView";
-import { IConfig } from "./config";
+import "hydrogen-view-sdk/style.css";
 import { parseUrlPath, stringifyPath } from "hydrogen-web/src/domain/navigation";
 import { NullLogger } from "hydrogen-web/src/logging/NullLogger";
-import "hydrogen-view-sdk/style.css";
-import { URLRouter } from "./platform/URLRouter";
+import { IConfig } from "./config";
+import { createNavigation, Navigation } from "./platform/Navigation";
 import { Platform } from "./platform/Platform";
-import { Navigation } from "./platform/Navigation";
+import { URLRouter } from "./platform/URLRouter";
+import { AppViewModelMaker } from "./viewmodels/AppViewModel";
+import { RootViewModel } from "./viewmodels/RootViewModel";
+import { AppViewMaker } from "./views/AppView";
+import { RootView } from "./views/RootView";
 
 const assetPaths = {
     downloadSandbox: downloadSandboxPath,
@@ -50,7 +50,7 @@ export class Main {
             },
         });
 
-        this._navigation = new Navigation();
+        this._navigation = createNavigation();
         // @ts-ignore
         this._platform.setNavigation(this._navigation);
 
