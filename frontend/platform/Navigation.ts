@@ -14,11 +14,10 @@ export class Navigation extends BaseNavigation<SegmentType> {
 }
 
 function allowsChild(parent: Segment<SegmentType> | undefined, child: Segment<SegmentType>): boolean {
-    const allowed = [
-        Section.Loading,
-        Section.Login,
-        Section.App,
-    ];
+    let allowed: (string)[] = [];
+    for (let section in Section) {
+        allowed.push(section);
+    }
 
     const { type } = child;
     switch (parent?.type) {
