@@ -100,7 +100,6 @@ export class Main {
 
         return {
             homeserver: get("homeserver"),
-            localStorageKey: get("localStorageKey"),
             loginToken: get("loginToken"),
         }
     }

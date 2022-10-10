@@ -9,7 +9,6 @@ export function parent(scriptId: string) {
 
     let config: IConfig = {
         homeserver: env.VITE_HOMESERVER,
-        localStorageKey: "chatrix",
         loginToken: loginToken ?? null,
     };
 
