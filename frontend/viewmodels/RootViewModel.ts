@@ -1,6 +1,6 @@
 import { AppViewModel, AppViewModelMaker } from "./AppViewModel";
-import { Section } from "../main";
 import { LoginViewModel } from "./login/LoginViewModel";
+import { Section } from "../platform/Navigation";
 import { IConfig } from "../config";
 import { Options as BaseOptions, ViewModel } from "hydrogen-web/src/domain/ViewModel";
 import { SegmentType } from "hydrogen-web/src/domain/navigation";

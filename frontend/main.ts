@@ -8,12 +8,12 @@ import { RootView } from "./views/RootView";
 import { AppViewModelMaker } from "./viewmodels/AppViewModel";
 import { AppViewMaker } from "./views/AppView";
 import { IConfig } from "./config";
-import { parseUrlPath, SegmentType, stringifyPath } from "hydrogen-web/src/domain/navigation";
-import { Navigation, Segment } from "hydrogen-web/src/domain/navigation/Navigation";
+import { parseUrlPath, stringifyPath } from "hydrogen-web/src/domain/navigation";
 import { NullLogger } from "hydrogen-web/src/logging/NullLogger";
 import "hydrogen-view-sdk/style.css";
 import { URLRouter } from "./platform/URLRouter";
 import { Platform } from "./platform/Platform";
+import { Navigation } from "./platform/Navigation";
 
 const assetPaths = {
     downloadSandbox: downloadSandboxPath,
@@ -25,32 +25,10 @@ const assetPaths = {
     },
 };
 
-export enum Section {
-    Loading = "loading",
-    Login = "login",
-    App = "app",
-}
-
-function allowsChild(parent: Segment<SegmentType> | undefined, child: Segment<SegmentType>): boolean {
-    const allowed = [
-        Section.Loading,
-        Section.Login,
-        Section.App,
-    ];
-
-    const { type } = child;
-    switch (parent?.type) {
-        case undefined:
-            return allowed.includes(type);
-        default:
-            return false;
-    }
-}
-
 export class Main {
     private readonly _config: IConfig;
     private readonly _platform: Platform;
-    private readonly _navigation: Navigation<SegmentType>;
+    private readonly _navigation: Navigation;
     private readonly _router: URLRouter;
     private readonly _rootNode: HTMLDivElement;
     private _rootViewModel: RootViewModel | undefined;
@@ -72,7 +50,7 @@ export class Main {
             },
         });
 
-        this._navigation = new Navigation(allowsChild);
+        this._navigation = new Navigation();
         // @ts-ignore
         this._platform.setNavigation(this._navigation);
 
@@ -85,7 +63,7 @@ export class Main {
         return this._platform;
     }
 
-    public get navigation(): Navigation<SegmentType> {
+    public get navigation(): Navigation {
         return this._navigation;
     }
 
