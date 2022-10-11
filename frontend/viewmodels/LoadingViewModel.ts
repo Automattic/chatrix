@@ -1,7 +1,8 @@
-import { ViewModel } from "hydrogen-view-sdk";
+import { Options, ViewModel } from "hydrogen-web/src/domain/ViewModel";
+import { SegmentType } from "hydrogen-web/src/domain/navigation";
 
-export class LoadingViewModel extends ViewModel {
-    constructor(options: any) {
+export class LoadingViewModel extends ViewModel<SegmentType, Options> {
+    constructor(options: Options) {
         super(options);
     }
 }

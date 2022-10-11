@@ -1,5 +1,5 @@
-import { TemplateView } from "hydrogen-view-sdk";
 import { LoadingViewModel } from "../viewmodels/LoadingViewModel";
+import { TemplateView } from "hydrogen-web/src/platform/web/ui/general/TemplateView";
 
 export class LoadingView extends TemplateView<LoadingViewModel> {
     constructor(value: LoadingViewModel) {

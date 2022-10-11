@@ -1,17 +1,17 @@
-import { createRouter, Navigation, Options, Platform, ViewModel } from "hydrogen-view-sdk";
-import { LoginViewModel } from "./LoginViewModel";
 import { AppViewModel, AppViewModelMaker } from "./AppViewModel";
 import { Section } from "../main";
+import { LoginViewModel } from "./LoginViewModel";
+import { IConfig } from "../config";
+import { Options as BaseOptions, ViewModel } from "hydrogen-web/src/domain/ViewModel";
+import { SegmentType } from "hydrogen-web/src/domain/navigation";
 
 type Options = {
-    platform: typeof Platform,
-    navigation: typeof Navigation,
-    urlCreator: ReturnType<typeof createRouter>,
-    emitChange?: (params: any) => void;
+    config: IConfig,
     appViewModelMaker: AppViewModelMaker,
-};
+} & BaseOptions;
 
-export class RootViewModel extends ViewModel {
+export class RootViewModel extends ViewModel<SegmentType, Options> {
+    private _config: IConfig;
     private _activeSection: Section;
     private _loginViewModel: LoginViewModel | null;
     private _appViewModel: AppViewModel | null;
@@ -19,6 +19,7 @@ export class RootViewModel extends ViewModel {
 
     constructor(options: Options) {
         super(options);
+        this._config = options.config;
         this._activeSection = Section.Loading;
         this._loginViewModel = null;
         this._appViewModel = null;
@@ -44,32 +45,37 @@ export class RootViewModel extends ViewModel {
     }
 
     public async start() {
-        this.navigation.push(Section.App);
+        this.navigation.push(Section.Login);
 
         return Promise.resolve();
     }
 
     private setupNavigation() {
         this.navigation.observe(Section.Login).subscribe(() => this.showLogin());
+        // @ts-ignore
         this.navigation.observe(Section.App).subscribe(() => this.showApp());
     }
 
     private showLogin() {
+        // TODO: Fill with actual login token from query params.
+        const loginToken = undefined;
+
         this._loginViewModel = this.track(new LoginViewModel(
             this.childOptions({
-                client: this._client,
-                state: this._state,
                 platform: this.platform,
-            })
-        ));
+                defaultHomeserver: this._config.homeserver ?? "",
+                ready: client => {
+                    // TODO.
+                },
+                loginToken
+            }))
+        );
         this.activeSection = Section.Login;
     }
 
     private showApp() {
         this._appViewModel = this.track(this._appViewModelMaker(
             this.childOptions({
-                client: this._client,
-                state: this._state,
                 platform: this.platform,
             })
         ));

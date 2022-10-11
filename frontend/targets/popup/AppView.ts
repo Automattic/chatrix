@@ -1,5 +1,5 @@
 import { AppViewModel } from "./AppViewModel";
-import { TemplateView } from "hydrogen-view-sdk";
+import { TemplateView } from "hydrogen-web/src/platform/web/ui/general/TemplateView";
 
 export class AppView extends TemplateView<AppViewModel> {
     constructor(vm: AppViewModel) {

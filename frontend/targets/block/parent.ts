@@ -1,3 +1,3 @@
-import { parent } from "../../parent";
+import { parent } from "../parent";
 
 parent("chatrix-block-script");
