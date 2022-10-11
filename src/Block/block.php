@@ -4,8 +4,6 @@
 
 namespace Automattic\Chatrix\Block;
 
-use function Automattic\Chatrix\get_local_storage_key;
-
 function register() {
 	$block_path      = dirname( plugin_dir_path( __FILE__ ), 2 ) . '/build/block';
 	$block_json_path = "$block_path/block.json";
@@ -32,7 +30,7 @@ function register() {
 function render(): string {
 	$login_token = null;
 	if ( isset( $_GET['loginToken'] ) ) {
-		$login_token = sanitize_text_field( wp_unslash( $_GET['loginToken'] ) );
+		$login_token = $_GET['loginToken'];
 	}
 
 	$instances = apply_filters( 'chatrix_instances', array() );
@@ -45,13 +43,12 @@ function render(): string {
 
 	$instance = $instances[ $instance_id ];
 
-	$config = array(
-		'homeserver'      => $instance['homeserver'],
-		'localStorageKey' => get_local_storage_key( $instance_id ),
-		'loginToken'      => $login_token,
+	$iframe_query_params = array(
+		'homeserver' => urlencode( $instance['homeserver'] ),
+		'loginToken' => $login_token ? urlencode( $login_token ) : null,
 	);
 
-	$iframe_url = add_query_arg( $config, plugins_url() . '/chatrix/build/frontend/block/app.html' );
+	$iframe_url = add_query_arg( $iframe_query_params, plugins_url() . '/chatrix/build/frontend/block/app.html' );
 
 	ob_start();
 	?>

@@ -100,7 +100,6 @@ export class Main {
 
         return {
             homeserver: get("homeserver"),
-            loginToken: get("loginToken"),
         }
     }
 }

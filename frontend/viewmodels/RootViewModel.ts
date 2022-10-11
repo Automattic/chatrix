@@ -88,6 +88,8 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             this.track(this.navigation.observe(section).subscribe(() => this._applyNavigation(false)));
         });
 
+        this.track(this.navigation.observe("sso").subscribe(() => this._applyNavigation(false)));
+
         return this._applyNavigation(true);
     }
 
@@ -97,6 +99,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         const isForcedLogout = this.navigation.path.get("forced")?.value;
         const sessionId = this.navigation.path.get("session")?.value;
         const loginToken = this.navigation.path.get("sso")?.value;
+
         if (isLogin) {
             if (this.activeSection !== Section.Login) {
                 this._showLogin(undefined);

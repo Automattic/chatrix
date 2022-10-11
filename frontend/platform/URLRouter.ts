@@ -1,5 +1,5 @@
-import { URLRouter as BaseURLRouter } from "hydrogen-web/src/domain/navigation/URLRouter";
 import { SegmentType } from "hydrogen-web/src/domain/navigation";
+import { URLRouter as BaseURLRouter } from "hydrogen-web/src/domain/navigation/URLRouter";
 
 export class URLRouter extends BaseURLRouter<SegmentType> {
     createSSOCallbackURL(): string {
