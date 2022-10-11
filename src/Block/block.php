@@ -30,6 +30,7 @@ function register() {
 function render(): string {
 	$login_token = null;
 	if ( isset( $_GET['loginToken'] ) ) {
+		// phpcs:ignore
 		$login_token = $_GET['loginToken'];
 	}
 
@@ -44,8 +45,8 @@ function render(): string {
 	$instance = $instances[ $instance_id ];
 
 	$iframe_query_params = array(
-		'homeserver' => urlencode( $instance['homeserver'] ),
-		'loginToken' => $login_token ? urlencode( $login_token ) : null,
+		'homeserver' => rawurlencode( $instance['homeserver'] ),
+		'loginToken' => $login_token ? rawurlencode( $login_token ) : null,
 	);
 
 	$iframe_url = add_query_arg( $iframe_query_params, plugins_url() . '/chatrix/build/frontend/block/app.html' );
