@@ -50,32 +50,20 @@ export class Main {
         });
 
         this._navigation = createNavigation();
-        // @ts-ignore
-        this._platform.setNavigation(this._navigation);
 
-        // @ts-ignore
-        this._router = new URLRouter(this.platform.history, this.navigation, parseUrlPath, stringifyPath);
+        this._router = new URLRouter(this._platform.history, this._navigation, parseUrlPath, stringifyPath);
         this._router.attach();
     }
 
-    public get platform(): Platform {
-        return this._platform;
-    }
-
-    public get navigation(): Navigation {
-        return this._navigation;
-    }
-
-    public get router(): URLRouter {
-        return this._router;
-    }
-
     public async start(appViewModelMaker: AppViewModelMaker, appViewMaker: AppViewMaker) {
+        await this._platform.init();
+        this._platform.setNavigation(this._navigation);
+
         this._rootViewModel = new RootViewModel({
             logger: new NullLogger(),
-            platform: this.platform,
-            navigation: this.navigation,
-            urlCreator: this.router,
+            platform: this._platform,
+            navigation: this._navigation,
+            urlCreator: this._router,
             appViewModelMaker: appViewModelMaker,
         });
 
