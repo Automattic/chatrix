@@ -40,9 +40,13 @@ function loadIframe(hostRoot: string, scriptId: string, config: IConfig, loginTo
     iframe.src = new URL(url, hostRoot).href;
     iframe.className = `${scriptId}-iframe`;
 
+    const container = document.createElement("div");
+    container.id = `${scriptId}-container`;
+    container.appendChild(iframe);
+
     const parent = document.createElement("div");
     parent.id = `${scriptId}-parent`;
-    parent.appendChild(iframe)
+    parent.appendChild(container);
 
     document.body.appendChild(parent);
 }
