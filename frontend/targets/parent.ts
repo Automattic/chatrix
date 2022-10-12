@@ -7,8 +7,8 @@ export function parent(scriptId: string) {
     const env = import.meta.env;
     const loginToken = new URLSearchParams(window.location.search).get("loginToken");
 
-    let config: IConfig = {
-        homeserver: env.VITE_HOMESERVER,
+    let config = {
+        defaultHomeserver: env.VITE_HOMESERVER,
     };
 
     const scriptElement = document.querySelector(`#${scriptId}`);
@@ -21,7 +21,7 @@ export function parent(scriptId: string) {
     loadIframe(hostRoot, scriptId, config, loginToken);
 }
 
-function loadIframe(hostRoot: string, scriptId: string, config: IConfig, loginToken: string | null) {
+function loadIframe(hostRoot: string, scriptId: string, config: { defaultHomeserver: string }, loginToken: string | null) {
     let url = "app.html?";
 
     let property: keyof IConfig;

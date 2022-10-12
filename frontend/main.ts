@@ -26,7 +26,6 @@ const assetPaths = {
 };
 
 export class Main {
-    private readonly _config: IConfig;
     private readonly _platform: Platform;
     private readonly _navigation: Navigation;
     private readonly _router: URLRouter;
@@ -40,13 +39,13 @@ export class Main {
         }
         this._rootNode.className = "hydrogen";
 
-        this._config = this.parseConfig();
-
+        const config: IConfig = this.getConfig();
         this._platform = new Platform({
             container: this._rootNode,
             assetPaths,
             config: {
                 bugReportEndpointUrl: null,
+                ...config,
             },
         });
 
@@ -78,7 +77,6 @@ export class Main {
             navigation: this.navigation,
             urlCreator: this.router,
             appViewModelMaker: appViewModelMaker,
-            config: this._config
         });
 
         const rootView = new RootView(this._rootViewModel, appViewMaker);
@@ -87,10 +85,10 @@ export class Main {
         return this._rootViewModel.start();
     }
 
-    private parseConfig(): IConfig {
+    private getConfig(): IConfig {
         const params = new URLSearchParams(window.location.search);
 
-        let get = (name: string) => {
+        let getQueryParam = (name: string) => {
             let param = params.get(name);
             if (!param || param === "") {
                 param = null;
@@ -99,7 +97,7 @@ export class Main {
         };
 
         return {
-            homeserver: get("homeserver"),
+            defaultHomeserver: getQueryParam("homeserver") ?? "",
         }
     }
 }

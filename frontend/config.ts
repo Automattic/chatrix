@@ -1,4 +1,7 @@
 export interface IConfig {
-    homeserver?: string|null;
-    localStorageKey?: string|null;
+    /**
+     * The default homeserver used by Hydrogen; auto filled in the login UI.
+     * eg: https://matrix.org
+     */
+    defaultHomeserver: string;
 }
