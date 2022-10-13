@@ -1,7 +1,9 @@
 <?php
-
-// The URL parameters are received from our OpenID provider and include a nonce inside the JWT token.
-// phpcs:disable WordPress.Security.NonceVerification.Recommended
+/**
+ * The URL parameters are received from our OpenID provider and include a nonce inside the JWT token.
+ *
+ * phpcs:disable WordPress.Security.NonceVerification.Recommended
+ */
 
 namespace Automattic\Chatrix\Block;
 
@@ -31,7 +33,7 @@ function register() {
 function render(): string {
 	$login_token = null;
 	if ( isset( $_GET['loginToken'] ) ) {
-		$login_token = sanitize_text_field( $_GET['loginToken'] );
+		$login_token = sanitize_text_field( wp_unslash( $_GET['loginToken'] ) );
 	}
 
 	$instances = apply_filters( 'chatrix_instances', array() );
