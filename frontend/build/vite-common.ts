@@ -14,7 +14,7 @@ export function defaultViteConfig(rootDir: string, targetName: string) {
     return {
         base: "",
         root: rootDir,
-        envDir: resolve(__dirname, "../"),
+        envDir: __dirname,
         define: {
             DEFINE_VERSION: JSON.stringify(manifest.version),
             DEFINE_GLOBAL_HASH: JSON.stringify(null),
