@@ -26,6 +26,14 @@ export function defaultViteConfig(rootDir: string, targetName: string) {
                     app: resolve(rootDir, "index.html"),
                     parent: resolve(rootDir, "parent.html"),
                 },
+                output: {
+                    assetFileNames: (asset) => {
+                        if (asset.name.match(/theme-.+\.json/)) {
+                            return "assets/[name][extname]";
+                        }
+                        return "assets/[name].[hash][extname]";
+                    }
+                },
             },
             target: "esnext",
             assetsInlineLimit: 0,

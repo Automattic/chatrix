@@ -3,7 +3,6 @@ import olmWasmPath from "@matrix-org/olm/olm.wasm?url";
 import olmLegacyJsPath from "@matrix-org/olm/olm_legacy.js?url";
 import downloadSandboxPath from "hydrogen-view-sdk/download-sandbox.html?url";
 import workerPath from "hydrogen-view-sdk/main.js?url";
-import "hydrogen-view-sdk/style.css";
 import { parseUrlPath, stringifyPath } from "hydrogen-web/src/domain/navigation";
 import { NullLogger } from "hydrogen-web/src/logging/NullLogger";
 import { IConfig } from "./config";
@@ -85,6 +84,13 @@ export class Main {
 
         return {
             defaultHomeserver: getQueryParam("defaultHomeserver") ?? "",
+            themeManifests: [
+                new URL("assets/theme-chatrix.json", import.meta.url).href,
+            ],
+            defaultTheme: {
+                light: "chatrix",
+                dark: "chatrix",
+            },
         }
     }
 }
