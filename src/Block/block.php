@@ -48,7 +48,7 @@ function render(): string {
 
 	$iframe_query_params = array(
 		'defaultHomeserver' => rawurlencode( $instance['homeserver'] ),
-		'loginToken' => $login_token ? rawurlencode( $login_token ) : null,
+		'loginToken'        => $login_token ? rawurlencode( $login_token ) : null,
 	);
 
 	$iframe_url = add_query_arg( $iframe_query_params, plugins_url() . '/chatrix/build/frontend/block/index.html' );
