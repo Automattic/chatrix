@@ -75,8 +75,7 @@ export class Main {
 
     private getConfig(): IConfig {
         const params = new URLSearchParams(window.location.search);
-
-        let getQueryParam = (name: string) => {
+        const getQueryParam = (name: string) => {
             let param = params.get(name);
             if (!param || param === "") {
                 param = null;
@@ -85,7 +84,7 @@ export class Main {
         };
 
         return {
-            defaultHomeserver: getQueryParam("homeserver") ?? "",
+            defaultHomeserver: getQueryParam("defaultHomeserver") ?? "",
         }
     }
 }

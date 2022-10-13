@@ -47,7 +47,7 @@ function render(): string {
 	$instance = $instances[ $instance_id ];
 
 	$iframe_query_params = array(
-		'homeserver' => rawurlencode( $instance['homeserver'] ),
+		'defaultHomeserver' => rawurlencode( $instance['homeserver'] ),
 		'loginToken' => $login_token ? rawurlencode( $login_token ) : null,
 	);
 
