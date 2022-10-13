@@ -12,11 +12,11 @@
                     "background-color-primary": "#fff",
                     "background-color-secondary": "#f6f6f6",
                     "text-color": "#2E2F32",
-                    "accent-color": "#03b381",
-                    "error-color": "#FF4B55",
-                    "fixed-white": "#fff",
+                    "accent-color": "#007cba",
+                    "error-color": "#cc1818",
+                    "fixed-white": "#ffffff",
                     "room-badge": "#61708b",
-                    "link-color": "#238cf5"
+                    "link-color": "#007cba"
                 }
             },
             "dark": {
