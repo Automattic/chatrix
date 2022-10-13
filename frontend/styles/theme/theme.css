@@ -1,1 +1,7 @@
 @import "hydrogen-web/src/platform/web/ui/css/themes/element/theme.css";
+
+/* Somehow the SessionView is of by 8px, fix that. */
+.SessionView {
+    top: 0;
+    left: 0;
+}
