@@ -1,9 +1,14 @@
 <?php
+/**
+ * The URL parameters are received from our OpenID provider and include a nonce inside the JWT token.
+ *
+ * phpcs:disable WordPress.Security.NonceVerification.Recommended
+ */
 
 namespace Automattic\Chatrix\Block;
 
 function register() {
-	$block_path      = dirname( plugin_dir_path( __FILE__ ), 2 ) . '/build-block';
+	$block_path      = dirname( plugin_dir_path( __FILE__ ), 2 ) . '/build/block';
 	$block_json_path = "$block_path/block.json";
 
 	register_site_status_test( $block_json_path );
@@ -25,8 +30,28 @@ function register() {
 	);
 }
 
-function render() {
-	$iframe_url = plugins_url() . '/chatrix/build/block/app.html';
+function render(): string {
+	$login_token = null;
+	if ( isset( $_GET['loginToken'] ) ) {
+		$login_token = sanitize_text_field( wp_unslash( $_GET['loginToken'] ) );
+	}
+
+	$instances = apply_filters( 'chatrix_instances', array() );
+
+	// TODO: Make it possible to use another instance.
+	$instance_id = 'default';
+	if ( ! isset( $instances[ $instance_id ] ) ) {
+		return '';
+	}
+
+	$instance = $instances[ $instance_id ];
+
+	$iframe_query_params = array(
+		'homeserver' => rawurlencode( $instance['homeserver'] ),
+		'loginToken' => $login_token ? rawurlencode( $login_token ) : null,
+	);
+
+	$iframe_url = add_query_arg( $iframe_query_params, plugins_url() . '/chatrix/build/frontend/block/app.html' );
 
 	ob_start();
 	?>
@@ -66,7 +91,7 @@ function register_site_status_test( string $block_json_path ) {
 						),
 						'description' =>
 							'<p>' .
-							__( 'If a block.json file is not found under wp-content/plugins/chatrix/build-block/block.json, the Gutenberg block will not be available.', 'chatrix' ) .
+							__( 'If a block.json file is not found under wp-content/plugins/chatrix/build/block/block.json, the Gutenberg block will not be available.', 'chatrix' ) .
 							'</p>',
 						'test'        => 'chatrix-block-json',
 					);

@@ -7,10 +7,10 @@
   "license": "GPL-2.0-or-later",
   "scripts": {
     "start:block": "vite --config frontend/targets/block/vite.config.ts",
-    "build:block": "tsc && vite build --config frontend/targets/block/vite.config.ts --emptyOutDir",
+    "build:block": "tsc && vite build --config frontend/targets/block/vite.config.ts --emptyOutDir && yarn run build:block-internal",
     "start:popup": "vite --config frontend/targets/popup/vite.config.ts",
     "build:popup": "tsc && vite build --config frontend/targets/popup/vite.config.ts --emptyOutDir",
-    "build:block-internal": "wp-scripts build --webpack-src-dir=block --output-path=build-block && cp ./block/block.json ./build-block/"
+    "build:block-internal": "wp-scripts build --webpack-src-dir=block --output-path=build/block && cp ./block/block.json ./build/block/"
   },
   "devDependencies": {
     "@types/node": "^18.7.21",
@@ -26,7 +26,8 @@
   "dependencies": {
     "bs58": "^5.0.0",
     "hydrogen-view-sdk": "^0.1.0",
-    "hydrogen-web": "vector-im/hydrogen-web#v0.3.2"
+    "hydrogen-web": "vector-im/hydrogen-web#v0.3.2",
+    "node-html-parser": "^4.0.0"
   },
   "resolutions": {
     "@types/react": "^17.0.2"

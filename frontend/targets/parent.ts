@@ -9,8 +9,6 @@ export function parent(scriptId: string) {
 
     let config: IConfig = {
         homeserver: env.VITE_HOMESERVER,
-        localStorageKey: "chatrix",
-        loginToken: loginToken ?? null,
     };
 
     const scriptElement = document.querySelector(`#${scriptId}`);
@@ -20,16 +18,22 @@ export function parent(scriptId: string) {
 
     const parentHostRoot = (scriptElement as HTMLScriptElement).src;
     const hostRoot = new URL(parentHostRoot).origin;
-    loadIframe(hostRoot, scriptId, config);
+    loadIframe(hostRoot, scriptId, config, loginToken);
 }
 
-function loadIframe(hostRoot: string, scriptId: string, config: IConfig) {
+function loadIframe(hostRoot: string, scriptId: string, config: IConfig, loginToken: string | null) {
     let url = "app.html?";
 
     let property: keyof IConfig;
     for (property in config) {
         let value: string = config[property] ?? "";
-        url += `${property}=${encodeURIComponent(value)}&`;
+        if (value) {
+            url += `${property}=${encodeURIComponent(value)}&`;
+        }
+    }
+
+    if (loginToken) {
+        url += `loginToken=${encodeURIComponent(loginToken)}`;
     }
 
     const iframe = document.createElement("iframe");

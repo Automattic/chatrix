@@ -1,19 +1,19 @@
+import olmJsPath from "@matrix-org/olm/olm.js?url";
+import olmWasmPath from "@matrix-org/olm/olm.wasm?url";
+import olmLegacyJsPath from "@matrix-org/olm/olm_legacy.js?url";
 import downloadSandboxPath from "hydrogen-view-sdk/download-sandbox.html?url";
 import workerPath from "hydrogen-view-sdk/main.js?url";
-import olmWasmPath from "@matrix-org/olm/olm.wasm?url";
-import olmJsPath from "@matrix-org/olm/olm.js?url";
-import olmLegacyJsPath from "@matrix-org/olm/olm_legacy.js?url";
-import { RootViewModel } from "./viewmodels/RootViewModel";
-import { RootView } from "./views/RootView";
-import { AppViewModelMaker } from "./viewmodels/AppViewModel";
-import { AppViewMaker } from "./views/AppView";
-import { IConfig } from "./config";
-import { Platform } from "hydrogen-web/src/platform/web/Platform";
-import { createRouter, SegmentType } from "hydrogen-web/src/domain/navigation";
-import { Navigation, Segment } from "hydrogen-web/src/domain/navigation/Navigation";
-import { URLRouter } from "hydrogen-web/src/domain/navigation/URLRouter";
-import { NullLogger } from "hydrogen-web/src/logging/NullLogger";
 import "hydrogen-view-sdk/style.css";
+import { parseUrlPath, stringifyPath } from "hydrogen-web/src/domain/navigation";
+import { NullLogger } from "hydrogen-web/src/logging/NullLogger";
+import { IConfig } from "./config";
+import { createNavigation, Navigation } from "./platform/Navigation";
+import { Platform } from "./platform/Platform";
+import { URLRouter } from "./platform/URLRouter";
+import { AppViewModelMaker } from "./viewmodels/AppViewModel";
+import { RootViewModel } from "./viewmodels/RootViewModel";
+import { AppViewMaker } from "./views/AppView";
+import { RootView } from "./views/RootView";
 
 const assetPaths = {
     downloadSandbox: downloadSandboxPath,
@@ -25,33 +25,11 @@ const assetPaths = {
     },
 };
 
-export enum Section {
-    Loading = "loading",
-    Login = "login",
-    App = "app",
-}
-
-function allowsChild(parent: Segment<SegmentType> | undefined, child: Segment<SegmentType>): boolean {
-    const allowed = [
-        Section.Loading,
-        Section.Login,
-        Section.App,
-    ];
-
-    const { type } = child;
-    switch (parent?.type) {
-        case undefined:
-            return allowed.includes(type);
-        default:
-            return false;
-    }
-}
-
 export class Main {
     private readonly _config: IConfig;
     private readonly _platform: Platform;
-    private readonly _navigation: Navigation<SegmentType>;
-    private readonly _router: URLRouter<SegmentType>;
+    private readonly _navigation: Navigation;
+    private readonly _router: URLRouter;
     private readonly _rootNode: HTMLDivElement;
     private _rootViewModel: RootViewModel | undefined;
 
@@ -72,22 +50,24 @@ export class Main {
             },
         });
 
-        this._navigation = new Navigation(allowsChild);
+        this._navigation = createNavigation();
+        // @ts-ignore
         this._platform.setNavigation(this._navigation);
 
-        this._router = createRouter({ navigation: this.navigation, history: this.platform.history });
+        // @ts-ignore
+        this._router = new URLRouter(this.platform.history, this.navigation, parseUrlPath, stringifyPath);
         this._router.attach();
     }
 
-    public get platform(): typeof Platform {
+    public get platform(): Platform {
         return this._platform;
     }
 
-    public get navigation(): Navigation<SegmentType> {
+    public get navigation(): Navigation {
         return this._navigation;
     }
 
-    public get router(): URLRouter<SegmentType> {
+    public get router(): URLRouter {
         return this._router;
     }
 
@@ -120,8 +100,6 @@ export class Main {
 
         return {
             homeserver: get("homeserver"),
-            localStorageKey: get("localStorageKey"),
-            loginToken: get("loginToken"),
         }
     }
 }

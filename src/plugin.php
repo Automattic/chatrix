@@ -6,7 +6,7 @@ use function Automattic\Chatrix\Admin\Settings\get as get_chatrix_settings;
 use function Automattic\Chatrix\Block\register as register_block;
 use function Automattic\Chatrix\Sessions\init as init_frontend_session_management;
 
-const LOCAL_STORAGE_KEY_PREFIX = 'hydrogen_sessions_v1';
+const LOCAL_STORAGE_KEY_PREFIX = 'chatrix';
 
 function asset_url( $asset_path ): string {
 	return plugins_url( "../frontend/$asset_path", __FILE__ );
@@ -117,16 +117,7 @@ function main() {
 				return;
 			}
 
-			$current_user      = wp_get_current_user();
-			$local_storage_key = LOCAL_STORAGE_KEY_PREFIX;
-
-			if ( ! empty( $config['instance_id'] ) ) {
-				$local_storage_key = $local_storage_key . '_' . $config['instance_id'];
-			}
-
-			if ( 0 !== $current_user->ID ) {
-				$local_storage_key = $local_storage_key . '_' . $current_user->user_login;
-			}
+			$local_storage_key = get_local_storage_key( $config['instance_id'] ?? '' );
 			?>
 			<script type="text/javascript">
 				window.CHATTERBOX_HTML_LOCATION = "<?php echo esc_url( asset_url( 'chatterbox.html' ) ); ?>";
@@ -164,4 +155,19 @@ function main() {
 		10,
 		3
 	);
+}
+
+function get_local_storage_key( string $instance_id ): string {
+	$current_user      = wp_get_current_user();
+	$local_storage_key = LOCAL_STORAGE_KEY_PREFIX;
+
+	if ( ! empty( $instance_id ) ) {
+		$local_storage_key .= '_' . $instance_id;
+	}
+
+	if ( 0 !== $current_user->ID ) {
+		$local_storage_key .= '_' . $current_user->user_login;
+	}
+
+	return $local_storage_key;
 }

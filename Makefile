@@ -1,4 +1,4 @@
-default: vendor node_modules build build-block
+default: vendor node_modules build/frontend build/block
 
 vendor: composer.json composer.lock
 	composer install
@@ -6,9 +6,9 @@ vendor: composer.json composer.lock
 node_modules: package.json yarn.lock
 	yarn install
 
-build: frontend
+build/frontend: frontend
 	yarn build:popup
 	yarn build:block
 
-build-block: block
+build/block: block
 	yarn build:block-internal

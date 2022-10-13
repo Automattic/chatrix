@@ -74,7 +74,7 @@ function pages_section( array $settings ) {
 
 	foreach ( get_pages() as $page ) {
 		$id      = $page->ID;
-		$checked = in_array( (string) $id, $settings['pages'], true );
+		$checked = in_array( (string) $id, $settings['pages'] ?? array(), true );
 		add_checkbox_field( $section_slug, 'pages', $id, '', $page->post_title, $checked );
 	}
 }
@@ -233,6 +233,10 @@ function menu() {
 }
 
 function sanitize( $values ): array {
+	if ( empty( $values ) ) {
+		return array();
+	}
+
 	$sanitized = array();
 	$previous  = get_option( OPTION_NAME );
 
@@ -242,7 +246,7 @@ function sanitize( $values ): array {
 	}
 
 	// Don't clear page selection when show_on is set to all pages.
-	if ( 'all' === $sanitized['show_on'] ) {
+	if ( 'all' === $sanitized['show_on'] && ! empty( $previous['pages'] ) ) {
 		$sanitized['pages'] = $previous['pages'];
 	}
 

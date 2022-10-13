@@ -2,7 +2,7 @@ import { LoginView as BaseLoginView } from "hydrogen-web/src/platform/web/ui/log
 import { LoginViewModel } from "../viewmodels/LoginViewModel";
 
 export class LoginView extends BaseLoginView {
-    constructor(value: LoginViewModel) {
+    constructor(value: LoginViewModel|undefined) {
         super(value);
     }
 }

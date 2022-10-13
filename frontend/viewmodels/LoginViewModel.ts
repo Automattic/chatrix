@@ -7,7 +7,6 @@ type ReadyFn = (client: Client) => void;
 type Options = {
     defaultHomeserver: string;
     ready: ReadyFn;
-    loginToken?: string | undefined;
 } & BaseOptions;
 
 export class LoginViewModel extends BaseLoginViewModel {
