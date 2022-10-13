@@ -30,8 +30,7 @@ function register() {
 function render(): string {
 	$login_token = null;
 	if ( isset( $_GET['loginToken'] ) ) {
-		// phpcs:ignore
-		$login_token = $_GET['loginToken'];
+		$login_token = sanitize_text_field( $_GET['loginToken'] );
 	}
 
 	$instances = apply_filters( 'chatrix_instances', array() );
