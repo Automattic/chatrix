@@ -5,8 +5,8 @@ import urlVariables from "hydrogen-web/scripts/postcss/css-url-to-variables";
 import { resolve } from "path";
 import flexbugsFixes from "postcss-flexbugs-fixes";
 import manifest from "../../package.json";
-import { derive } from "../build/color.js";
-import { buildColorizedSVG as replacer } from "../build/svg-builder.js";
+import { buildColorizedSVG as replacer } from "../build/svg-builder";
+import { derive } from "./color";
 
 const compiledVariables = new Map();
 
