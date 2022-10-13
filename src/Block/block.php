@@ -1,5 +1,6 @@
 <?php
 
+// The URL parameters are received from our OpenID provider and include a nonce inside the JWT token.
 // phpcs:disable WordPress.Security.NonceVerification.Recommended
 
 namespace Automattic\Chatrix\Block;
