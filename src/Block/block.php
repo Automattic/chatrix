@@ -51,7 +51,7 @@ function render(): string {
 		'loginToken' => $login_token ? rawurlencode( $login_token ) : null,
 	);
 
-	$iframe_url = add_query_arg( $iframe_query_params, plugins_url() . '/chatrix/build/frontend/block/app.html' );
+	$iframe_url = add_query_arg( $iframe_query_params, plugins_url() . '/chatrix/build/frontend/block/index.html' );
 
 	ob_start();
 	?>

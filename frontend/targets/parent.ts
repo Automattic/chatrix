@@ -22,7 +22,7 @@ export function parent(scriptId: string) {
 }
 
 function loadIframe(hostRoot: string, scriptId: string, config: { defaultHomeserver: string }, loginToken: string | null) {
-    let url = "app.html?";
+    let url = "index.html?";
 
     let property: keyof IConfig;
     for (property in config) {

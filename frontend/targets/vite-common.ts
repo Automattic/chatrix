@@ -23,8 +23,8 @@ export function defaultViteConfig(rootDir: string, targetName: string) {
             outDir: resolve(__dirname, `../../build/frontend/${targetName}`),
             rollupOptions: {
                 input: {
-                    app: resolve(rootDir, "app.html"),
-                    parent: resolve(rootDir, "index.html"),
+                    app: resolve(rootDir, "index.html"),
+                    parent: resolve(rootDir, "parent.html"),
                 },
             },
             target: "esnext",
