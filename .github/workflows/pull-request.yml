@@ -5,7 +5,7 @@ on:
     types: [ opened, synchronize ]
 
 jobs:
-  lint:
+  php-lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -16,3 +16,24 @@ jobs:
 
       - name: Run phpcs
         run: ./vendor/bin/phpcs
+
+  frontend-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: Install npm dependencies
+        run: yarn install
+
+      - name: Build block
+        run: yarn build:block
+
+      - name: Build popup
+        run: yarn build:popup
