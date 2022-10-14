@@ -91,6 +91,6 @@ export class Main {
                 light: "chatrix",
                 dark: "chatrix",
             },
-        }
+        };
     }
 }

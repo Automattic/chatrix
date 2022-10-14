@@ -30,7 +30,7 @@ const sessionName = (sessionId: string) => `chatrix_session_${sessionId}`;
 const openDatabaseWithSessionId = function(sessionId: string, idbFactory: IDBFactory, localStorage: IDOMStorage, log: ILogItem) {
     const create = (db, txn, oldVersion, version) => createStores(db, txn, oldVersion, version, localStorage, log);
     return openDatabase(sessionName(sessionId), create, schema.length, idbFactory);
-}
+};
 
 interface ServiceWorkerHandler {
     preventConcurrentSessionAccess: (sessionId: string) => Promise<void>;
@@ -69,7 +69,7 @@ export class StorageFactory {
 
     async create(sessionId: string, log: ILogItem): Promise<Storage> {
         await this._serviceWorkerHandler?.preventConcurrentSessionAccess(sessionId);
-        requestPersistedStorage().then(persisted => {
+        void requestPersistedStorage().then(persisted => {
             // Firefox lies here though, and returns true even if the user denied the request
             if (!persisted) {
                 console.warn("no persisted storage, database can be evicted by browser");
