@@ -7,9 +7,9 @@
   "license": "GPL-2.0-or-later",
   "scripts": {
     "start:block": "vite --config frontend/targets/block/vite.config.ts",
-    "build:block": "tsc && vite build --config frontend/targets/block/vite.config.ts --emptyOutDir && yarn run build:block-internal",
+    "build:block": "tsc && mkdir -p build/.tmp && vite build --config frontend/targets/block/vite.config.ts --emptyOutDir && yarn run build:block-internal",
     "start:popup": "vite --config frontend/targets/popup/vite.config.ts",
-    "build:popup": "tsc && vite build --config frontend/targets/popup/vite.config.ts --emptyOutDir",
+    "build:popup": "tsc && mkdir -p build/.tmp && vite build --config frontend/targets/popup/vite.config.ts --emptyOutDir",
     "build:block-internal": "wp-scripts build --webpack-src-dir=block --output-path=build/block && cp ./block/block.json ./build/block/",
     "lint": "eslint frontend/ block/"
   },
