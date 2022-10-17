@@ -5,7 +5,7 @@ import downloadSandboxPath from "hydrogen-view-sdk/download-sandbox.html?url";
 import workerPath from "hydrogen-view-sdk/main.js?url";
 import { parseUrlPath, stringifyPath } from "hydrogen-web/src/domain/navigation";
 import { NullLogger } from "hydrogen-web/src/logging/NullLogger";
-import { IConfig } from "./config/IConfig";
+import { ConfigFactory } from "./config/ConfigFactory";
 import { createNavigation, Navigation } from "./platform/Navigation";
 import { Platform } from "./platform/Platform";
 import { URLRouter } from "./platform/URLRouter";
@@ -38,13 +38,12 @@ export class Main {
         }
         this._rootNode.className = "hydrogen";
 
-        const config: IConfig = this.getConfig();
         this._platform = new Platform({
             container: this._rootNode,
             assetPaths,
             config: {
                 bugReportEndpointUrl: null,
-                ...config,
+                ...ConfigFactory.fromQueryParams(),
             },
         });
 
@@ -70,27 +69,5 @@ export class Main {
         this._rootNode.appendChild(rootView.mount());
 
         return this._rootViewModel.start();
-    }
-
-    private getConfig(): IConfig {
-        const params = new URLSearchParams(window.location.search);
-        const getQueryParam = (name: string) => {
-            let param = params.get(name);
-            if (!param || param === "") {
-                param = null;
-            }
-            return param;
-        };
-
-        return {
-            defaultHomeserver: getQueryParam("defaultHomeserver") ?? "",
-            themeManifests: [
-                new URL("assets/theme-chatrix.json", import.meta.url).href,
-            ],
-            defaultTheme: {
-                light: "chatrix",
-                dark: "chatrix",
-            },
-        };
     }
 }
