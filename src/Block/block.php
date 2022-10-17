@@ -33,24 +33,14 @@ function register() {
 	);
 }
 
-function render(): string {
+function render( array $attributes ): string {
 	$login_token = null;
 	if ( isset( $_GET['loginToken'] ) ) {
 		$login_token = sanitize_text_field( wp_unslash( $_GET['loginToken'] ) );
 	}
 
-	$instances = apply_filters( 'chatrix_instances', array() );
-
-	// TODO: Make it possible to use another instance.
-	$instance_id = 'default';
-	if ( ! isset( $instances[ $instance_id ] ) ) {
-		return '';
-	}
-
-	$instance = $instances[ $instance_id ];
-
 	$iframe_query_params = array(
-		'defaultHomeserver' => rawurlencode( $instance['homeserver'] ),
+		'defaultHomeserver' => rawurlencode( $attributes['defaultHomeserver'] ),
 		'loginToken'        => $login_token ? rawurlencode( $login_token ) : null,
 	);
 
