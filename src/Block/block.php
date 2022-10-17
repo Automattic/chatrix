@@ -17,11 +17,12 @@ function register() {
 		return;
 	}
 
-	$metadata = parse_block_json( $block_json_path );
+	init_javascript_variables();
 
 	add_action(
 		'init',
-		function () use ( $block_json_path, $metadata ) {
+		function () use ( $block_json_path ) {
+			$metadata = parse_block_json( $block_json_path );
 			register_block_type(
 				$block_json_path,
 				array(
@@ -67,6 +68,23 @@ function parse_block_json( string $block_json_path ): array {
 	$block_json_contents = file_get_contents( $block_json_path );
 
 	return json_decode( $block_json_contents, true );
+}
+
+function init_javascript_variables() {
+	$enqueue_script = function () {
+		$handle    = 'chatrix-block-variables';
+		$variables = array(
+			'iframeUrl' => plugins_url() . '/chatrix/build/frontend/block/index.html',
+		);
+
+		$script_url = plugin_dir_url( __FILE__ ) . 'variables.js';
+		wp_register_script( $handle, $script_url, array(), '1.0', false );
+		wp_enqueue_script( $handle );
+		wp_localize_script( $handle, 'chatrix_block_config', $variables );
+	};
+
+	add_action( 'wp_enqueue_scripts', $enqueue_script );
+	add_action( 'admin_enqueue_scripts', $enqueue_script );
 }
 
 function register_site_status_test( string $block_json_path ) {
