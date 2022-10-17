@@ -1,16 +1,20 @@
-import { WPElement } from '@wordpress/element';
 import { useBlockProps } from "@wordpress/block-editor";
+import { WPElement } from '@wordpress/element';
 import ServerSideRender from "@wordpress/server-side-render";
 import './editor.scss';
+import Inspector from "./inspector";
 
-// @ts-ignore
-export default function Edit({ attributes }): WPElement {
+export default function Edit({ attributes, setAttributes }): WPElement {
     const blockProps = useBlockProps();
     return (
         <div {...blockProps}>
+            <Inspector
+                attributes={attributes}
+                setAttributes={setAttributes}
+            />
             <ServerSideRender
                 block="automattic/chatrix"
-                attributes={ attributes }
+                attributes={attributes}
             />
         </div>
     );

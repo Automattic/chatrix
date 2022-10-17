@@ -8,10 +8,9 @@
 	"icon": "format-chat",
 	"description": "Matrix client",
 	"attributes": {
-		"message": {
+		"defaultHomeserver": {
 			"type": "string",
-			"source": "text",
-			"selector": "div"
+			"default": ""
 		}
 	},
 	"supports": {
