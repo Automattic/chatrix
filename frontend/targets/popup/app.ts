@@ -1,8 +1,8 @@
-import { Main } from "../../main"
+import { Main } from "../../main";
 import { AppViewModelMaker } from "../../viewmodels/AppViewModel";
-import { AppViewModel } from "./AppViewModel";
 import { AppViewMaker } from "../../views/AppView";
 import { AppView } from "./AppView";
+import { AppViewModel } from "./AppViewModel";
 
 const appViewModelMaker: AppViewModelMaker = (options: any) => {
     return new AppViewModel(options);

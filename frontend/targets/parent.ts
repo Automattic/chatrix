@@ -13,7 +13,7 @@ export function parent(scriptId: string) {
 
     const scriptElement = document.querySelector(`#${scriptId}`);
     if (!scriptElement) {
-        throw new Error(`Script with id #${scriptId} not found.`)
+        throw new Error(`Script with id #${scriptId} not found.`);
     }
 
     const parentHostRoot = (scriptElement as HTMLScriptElement).src;

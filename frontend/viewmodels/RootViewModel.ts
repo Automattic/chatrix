@@ -81,10 +81,10 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
     public async start() {
         allSections().forEach((section: Section) => {
             // @ts-ignore
-            this.track(this.navigation.observe(section).subscribe(() => this._applyNavigation(false)));
+            this.track(this.navigation.observe(section).subscribe(() => void this._applyNavigation(false)));
         });
 
-        this.track(this.navigation.observe("sso").subscribe(() => this._applyNavigation(false)));
+        this.track(this.navigation.observe("sso").subscribe(() => void this._applyNavigation(false)));
 
         return this._applyNavigation(true);
     }
@@ -110,7 +110,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             }
         } else if (sessionId === true) {
             if (this.activeSection !== Section.SessionPicker) {
-                this._showPicker();
+                void this._showPicker();
             }
         } else if (sessionId) {
             if (!this._sessionViewModel || this._sessionViewModel.id !== sessionId) {

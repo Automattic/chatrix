@@ -40,7 +40,7 @@ export class RootView extends TemplateView<RootViewModel> {
                             return t.div({ className: "StatusView" }, [
                                 t.h1("Something went wrong"),
                                 t.p(vm.error?.message),
-                            ])
+                            ]);
                         });
                     default:
                         throw new Error(`Unknown section: ${vm.activeSection}`);
