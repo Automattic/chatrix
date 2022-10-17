@@ -15,13 +15,8 @@ type Window = {
 
 export default function Edit({ attributes, setAttributes }): WPElement {
     const blockProps = useBlockProps();
-    const win: Window = window as Window;
-    const config: BlockConfig = win.chatrix_block_config;
     const iframeTitle = `${blockProps["data-title"]} iframe`;
-
-    const iframeSrc = addQueryArgs(config.iframeUrl, {
-        defaultHomeserver: attributes.defaultHomeserver,
-    });
+    const iframeUrl = makeIframeUrl(attributes);
 
     return (
         <div {...blockProps}>
@@ -31,8 +26,24 @@ export default function Edit({ attributes, setAttributes }): WPElement {
             />
             <iframe className="wp-block-automattic-chatrix-iframe"
                     title={iframeTitle}
-                    src={iframeSrc}
+                    src={iframeUrl}
             ></iframe>
         </div>
     );
+}
+
+function makeIframeUrl(attributes): string {
+    const win: Window = window as Window;
+    const config: BlockConfig = win.chatrix_block_config;
+    const queryArgs = new URLSearchParams(window.location.search);
+
+    const iframeQueryArgs: { [key: string]: any } = {
+        defaultHomeserver: attributes.defaultHomeserver,
+    };
+
+    if (queryArgs.has("loginToken")) {
+        iframeQueryArgs.loginToken = queryArgs.get("loginToken");
+    }
+
+    return addQueryArgs(config.iframeUrl, iframeQueryArgs);
 }
