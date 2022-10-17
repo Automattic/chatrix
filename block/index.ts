@@ -6,10 +6,10 @@ import './style.scss';
 
 const name: string = metadata.name;
 const configuration: BlockConfiguration = {
-    title: "Chatrix",
+    title: metadata.title,
     description: __("Matrix client", "chatrix"),
-    category: "text",
-    attributes: {},
+    category: metadata.category,
+    attributes: metadata.attributes,
     edit: Edit,
 };
 
