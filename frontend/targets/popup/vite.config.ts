@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import { defaultViteConfig } from "../vite-common";
+import { defaultViteConfig } from "../../build/vite-common";
 
 export default defineConfig(() => {
     return {

@@ -6,18 +6,15 @@ import { SessionLoadViewModel } from "hydrogen-web/src/domain/SessionLoadViewMod
 import { SessionPickerViewModel } from "hydrogen-web/src/domain/SessionPickerViewModel";
 import { Options as BaseOptions, ViewModel } from "hydrogen-web/src/domain/ViewModel";
 import { Client } from "hydrogen-web/src/matrix/Client.js";
-import { IConfig } from "../config";
 import { allSections, Section } from "../platform/Navigation";
 import { AppViewModelMaker } from "./AppViewModel";
 import { LoginViewModel } from "./LoginViewModel";
 
 type Options = {
-    config: IConfig,
     appViewModelMaker: AppViewModelMaker,
 } & BaseOptions;
 
 export class RootViewModel extends ViewModel<SegmentType, Options> {
-    private _config: IConfig;
     private _error: Error | undefined;
     private _loginViewModel: LoginViewModel | undefined;
     private _logoutViewModel: LogoutViewModel | undefined;
@@ -30,7 +27,6 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
 
     constructor(options: Options) {
         super(options);
-        this._config = options.config;
         this._appViewModelMaker = options.appViewModelMaker;
     }
 
@@ -158,7 +154,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
     private _showLogin(loginToken: string | undefined) {
         this._setSection(() => {
             this._loginViewModel = new LoginViewModel(this.childOptions({
-                defaultHomeserver: this._config.homeserver ?? "",
+                defaultHomeserver: this.platform.config.defaultHomeserver,
                 ready: client => {
                     // We don't want to load the session container again, but we do want the change offscreen to go
                     // through the navigation, so we store the session container in a temporary variable that will be

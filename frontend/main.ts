@@ -3,7 +3,6 @@ import olmWasmPath from "@matrix-org/olm/olm.wasm?url";
 import olmLegacyJsPath from "@matrix-org/olm/olm_legacy.js?url";
 import downloadSandboxPath from "hydrogen-view-sdk/download-sandbox.html?url";
 import workerPath from "hydrogen-view-sdk/main.js?url";
-import "hydrogen-view-sdk/style.css";
 import { parseUrlPath, stringifyPath } from "hydrogen-web/src/domain/navigation";
 import { NullLogger } from "hydrogen-web/src/logging/NullLogger";
 import { IConfig } from "./config";
@@ -26,7 +25,6 @@ const assetPaths = {
 };
 
 export class Main {
-    private readonly _config: IConfig;
     private readonly _platform: Platform;
     private readonly _navigation: Navigation;
     private readonly _router: URLRouter;
@@ -40,45 +38,32 @@ export class Main {
         }
         this._rootNode.className = "hydrogen";
 
-        this._config = this.parseConfig();
-
+        const config: IConfig = this.getConfig();
         this._platform = new Platform({
             container: this._rootNode,
             assetPaths,
             config: {
                 bugReportEndpointUrl: null,
+                ...config,
             },
         });
 
         this._navigation = createNavigation();
-        // @ts-ignore
-        this._platform.setNavigation(this._navigation);
 
-        // @ts-ignore
-        this._router = new URLRouter(this.platform.history, this.navigation, parseUrlPath, stringifyPath);
+        this._router = new URLRouter(this._platform.history, this._navigation, parseUrlPath, stringifyPath);
         this._router.attach();
     }
 
-    public get platform(): Platform {
-        return this._platform;
-    }
-
-    public get navigation(): Navigation {
-        return this._navigation;
-    }
-
-    public get router(): URLRouter {
-        return this._router;
-    }
-
     public async start(appViewModelMaker: AppViewModelMaker, appViewMaker: AppViewMaker) {
+        await this._platform.init();
+        this._platform.setNavigation(this._navigation);
+
         this._rootViewModel = new RootViewModel({
             logger: new NullLogger(),
-            platform: this.platform,
-            navigation: this.navigation,
-            urlCreator: this.router,
+            platform: this._platform,
+            navigation: this._navigation,
+            urlCreator: this._router,
             appViewModelMaker: appViewModelMaker,
-            config: this._config
         });
 
         const rootView = new RootView(this._rootViewModel, appViewMaker);
@@ -87,10 +72,9 @@ export class Main {
         return this._rootViewModel.start();
     }
 
-    private parseConfig(): IConfig {
+    private getConfig(): IConfig {
         const params = new URLSearchParams(window.location.search);
-
-        let get = (name: string) => {
+        const getQueryParam = (name: string) => {
             let param = params.get(name);
             if (!param || param === "") {
                 param = null;
@@ -99,7 +83,14 @@ export class Main {
         };
 
         return {
-            homeserver: get("homeserver"),
+            defaultHomeserver: getQueryParam("defaultHomeserver") ?? "",
+            themeManifests: [
+                new URL("assets/theme-chatrix.json", import.meta.url).href,
+            ],
+            defaultTheme: {
+                light: "chatrix",
+                dark: "chatrix",
+            },
         }
     }
 }

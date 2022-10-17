@@ -29,4 +29,8 @@ export class History extends BaseHistory {
     _storeHash(hash) {
         window.localStorage?.setItem("chatrix_last_url_hash", hash);
     }
+
+    replaceUrlSilently(url) {
+        super.replaceUrlSilently(url);
+    }
 }
