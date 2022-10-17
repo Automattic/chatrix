@@ -1,7 +1,7 @@
 // This code is not used in the production build.
 // It's only used in local development environments.
 
-import { IConfig } from "../config";
+import { IConfig } from "../config/IConfig";
 
 export function parent(scriptId: string) {
     const env = import.meta.env;

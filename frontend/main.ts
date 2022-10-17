@@ -5,7 +5,7 @@ import downloadSandboxPath from "hydrogen-view-sdk/download-sandbox.html?url";
 import workerPath from "hydrogen-view-sdk/main.js?url";
 import { parseUrlPath, stringifyPath } from "hydrogen-web/src/domain/navigation";
 import { NullLogger } from "hydrogen-web/src/logging/NullLogger";
-import { IConfig } from "./config";
+import { IConfig } from "./config/IConfig";
 import { createNavigation, Navigation } from "./platform/Navigation";
 import { Platform } from "./platform/Platform";
 import { URLRouter } from "./platform/URLRouter";
