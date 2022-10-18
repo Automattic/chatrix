@@ -14,7 +14,7 @@ export default function Edit({ attributes, setAttributes }): WPElement {
     return (
         <div {...blockProps}>
             <Inspector attributes={attributes} setAttributes={setAttributes}/>
-            <IFrame attributes={attributes}/>
+            <IFrame attributes={attributes} focusable={true}/>
         </div>
     );
 }

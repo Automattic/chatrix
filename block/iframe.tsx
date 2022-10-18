@@ -1,3 +1,4 @@
+import { useFocusableIframe } from "@wordpress/compose";
 import { WPElement } from "@wordpress/element";
 import { addQueryArgs } from "@wordpress/url";
 
@@ -10,9 +11,10 @@ type BlockConfig = {
     iframeUrl: string,
 }
 
-export default function IFrame({ attributes }): WPElement {
+export default function IFrame({ attributes, focusable = false }): WPElement {
     const win: Window = window as Window;
     const config: BlockConfig = win.chatrix_block_config;
+    const ref = focusable ? useFocusableIframe() : undefined;
 
     const url = makeIframeUrl({
         url: config.iframeUrl,
@@ -21,6 +23,8 @@ export default function IFrame({ attributes }): WPElement {
 
     return (
         <iframe className="wp-block-automattic-chatrix-iframe"
+                // @ts-ignore
+                ref={ref}
                 title={attributes.title}
                 src={url}
         ></iframe>
