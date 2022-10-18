@@ -5,14 +5,8 @@ import IFrame from "./iframe";
 import Inspector from "./inspector";
 
 export default function Edit({ attributes, setAttributes }): WPElement {
-    const blockProps = useBlockProps();
-    attributes = {
-        ...attributes,
-        title: `${blockProps["data-title"]} iframe`
-    };
-
     return (
-        <div {...blockProps}>
+        <div {...useBlockProps()}>
             <Inspector attributes={attributes} setAttributes={setAttributes}/>
             <IFrame attributes={attributes} focusable={true}/>
         </div>

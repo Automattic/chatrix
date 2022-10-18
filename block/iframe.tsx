@@ -25,7 +25,6 @@ export default function IFrame({ attributes, focusable = false }): WPElement {
         <iframe className="wp-block-automattic-chatrix-iframe"
                 // @ts-ignore
                 ref={ref}
-                title={attributes.title}
                 src={url}
         ></iframe>
     );
