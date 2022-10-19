@@ -1,5 +1,6 @@
 import injectWebManifest from "hydrogen-web/scripts/build-plugins/manifest";
 import themeBuilder from "hydrogen-web/scripts/build-plugins/rollup-plugin-build-themes";
+import { createPlaceholderValues } from "hydrogen-web/scripts/build-plugins/service-worker";
 import compileVariables from "hydrogen-web/scripts/postcss/css-compile-variables";
 import urlProcessor from "hydrogen-web/scripts/postcss/css-url-processor";
 import urlVariables from "hydrogen-web/scripts/postcss/css-url-to-variables";
@@ -11,14 +12,15 @@ import { derive } from "./color";
 
 const compiledVariables = new Map();
 
-export function defaultConfig(rootDir: string, targetName: string) {
+export function defaultConfig(mode: string, rootDir: string, targetName: string) {
+    const definePlaceholders = createPlaceholderValues(mode);
     return {
         base: "",
         root: rootDir,
         envDir: __dirname,
         define: {
             DEFINE_VERSION: JSON.stringify(manifest.version),
-            DEFINE_GLOBAL_HASH: JSON.stringify(null),
+            ...definePlaceholders,
         },
         build: {
             outDir: resolve(__dirname, `../../build/frontend/${targetName}`),
