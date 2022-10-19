@@ -14,9 +14,9 @@ function automattic_chatrix_make_iframe(block_attributes) {
 
 // Used in both the editor and the site.
 function automattic_chatrix_iframe_url(block_attributes) {
-	const config = window.chatrix_block_config;
+	const config = window.automattic_chatrix_block_config;
 	if (!config) {
-		throw new Error("Failed to initialize Chatrix block: window.chatrix_block_config is not defined");
+		throw new Error("Failed to initialize Chatrix block: window.automattic_chatrix_block_config is not defined");
 	}
 
 	const queryParams = new URLSearchParams(window.location.search);

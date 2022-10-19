@@ -2,7 +2,7 @@ import { useFocusableIframe } from "@wordpress/compose";
 import { WPElement } from "@wordpress/element";
 
 declare global {
-    function automattic_chatrix_iframe_url<T>(someObject: T | null | undefined) : T;
+    function automattic_chatrix_iframe_url<T>(attributes: T | null | undefined) : T;
 }
 
 export default function IFrame({ attributes, focusable = false }): WPElement {
