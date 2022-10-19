@@ -16,7 +16,7 @@ export class URLRouter extends BaseURLRouter<SegmentType> {
 
     createSSOCallbackURL(): string {
         // The URL of the iframe's parent.
-        return parent.location.href;
+        return encodeURIComponent(parent.location.href);
     }
 
     normalizeUrl(): void {
