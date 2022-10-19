@@ -1,10 +1,6 @@
-import olmJsPath from "@matrix-org/olm/olm.js?url";
-import olmWasmPath from "@matrix-org/olm/olm.wasm?url";
-import olmLegacyJsPath from "@matrix-org/olm/olm_legacy.js?url";
-import downloadSandboxPath from "hydrogen-view-sdk/download-sandbox.html?url";
-import workerPath from "hydrogen-view-sdk/main.js?url";
 import { parseUrlPath, stringifyPath } from "hydrogen-web/src/domain/navigation";
 import { NullLogger } from "hydrogen-web/src/logging/NullLogger";
+import assetPaths from "./assets";
 import { ConfigFactory } from "./config/ConfigFactory";
 import { createNavigation, Navigation } from "./platform/Navigation";
 import { Platform } from "./platform/Platform";
@@ -13,16 +9,6 @@ import { AppViewModelMaker } from "./viewmodels/AppViewModel";
 import { RootViewModel } from "./viewmodels/RootViewModel";
 import { AppViewMaker } from "./views/AppView";
 import { RootView } from "./views/RootView";
-
-const assetPaths = {
-    downloadSandbox: downloadSandboxPath,
-    worker: workerPath,
-    olm: {
-        wasm: olmWasmPath,
-        legacyBundle: olmLegacyJsPath,
-        wasmBundle: olmJsPath,
-    },
-};
 
 export class Main {
     private readonly _platform: Platform;
