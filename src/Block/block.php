@@ -59,17 +59,6 @@ function render( array $attributes ): string {
 	return ob_get_clean();
 }
 
-function parse_block_json( string $block_json_path ): array {
-	// phpcs discourages file_get_contents for remote URLs, and recommends using wp_remote_get().
-	// However, here we're dealing with a path to a file on disk, so we ignore phpcs's warning.
-	// This is possibly a bug in phpcs, which seems to have code to check if the path is remote, but fails in this case.
-	// For more info see https://github.com/WordPress/WordPress-Coding-Standards/issues/943.
-	// phpcs:ignore
-	$block_json_contents = file_get_contents( $block_json_path );
-
-	return json_decode( $block_json_contents, true );
-}
-
 function init_javascript_variables() {
 	$enqueue_script = function () {
 		$handle    = 'chatrix-block-variables';
@@ -85,6 +74,17 @@ function init_javascript_variables() {
 
 	add_action( 'wp_enqueue_scripts', $enqueue_script );
 	add_action( 'admin_enqueue_scripts', $enqueue_script );
+}
+
+function parse_block_json( string $block_json_path ): array {
+	// phpcs discourages file_get_contents for remote URLs, and recommends using wp_remote_get().
+	// However, here we're dealing with a path to a file on disk, so we ignore phpcs's warning.
+	// This is possibly a bug in phpcs, which seems to have code to check if the path is remote, but fails in this case.
+	// For more info see https://github.com/WordPress/WordPress-Coding-Standards/issues/943.
+	// phpcs:ignore
+	$block_json_contents = file_get_contents( $block_json_path );
+
+	return json_decode( $block_json_contents, true );
 }
 
 function register_site_status_test( string $block_json_path ) {
