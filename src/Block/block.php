@@ -1,9 +1,4 @@
 <?php
-/**
- * The URL parameters are received from our OpenID provider and include a nonce inside the JWT token.
- *
- * phpcs:disable WordPress.Security.NonceVerification.Recommended
- */
 
 namespace Automattic\Chatrix\Block;
 
@@ -35,25 +30,13 @@ function register() {
 }
 
 function render( array $attributes ): string {
-	$login_token = null;
-	if ( isset( $_GET['loginToken'] ) ) {
-		$login_token = sanitize_text_field( wp_unslash( $_GET['loginToken'] ) );
-	}
-
-	$iframe_query_params = array(
-		'defaultHomeserver' => rawurlencode( $attributes['defaultHomeserver'] ),
-		'loginToken'        => $login_token ? rawurlencode( $login_token ) : null,
-	);
-
-	$iframe_url = add_query_arg( $iframe_query_params, plugins_url() . '/chatrix/build/frontend/block/index.html' );
-
 	ob_start();
 	?>
 	<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>>
-		<iframe class="<?php echo esc_attr( 'wp-block-automattic-chatrix-iframe' ); ?>"
-				title="<?php esc_attr_e( 'Chatrix Block', 'chatrix' ); ?>"
-				src="<?php echo esc_url( $iframe_url ); ?>"
-		></iframe>
+		<div id="wp-block-automattic-chatrix-iframe">
+			<?php // This div will be replaced by the actual iframe. ?>
+		</div>
+		<script>automattic_chatrix_make_iframe(<?php echo wp_json_encode( $attributes ); ?>)</script>
 	</div>
 	<?php
 	return ob_get_clean();
@@ -66,7 +49,7 @@ function init_javascript_variables() {
 			'iframeUrl' => plugins_url() . '/chatrix/build/frontend/block/index.html',
 		);
 
-		$script_url = plugin_dir_url( __FILE__ ) . 'variables.js';
+		$script_url = plugin_dir_url( __FILE__ ) . 'iframe.js';
 		wp_register_script( $handle, $script_url, array(), '1.0', false );
 		wp_enqueue_script( $handle );
 		wp_localize_script( $handle, 'chatrix_block_config', $variables );
