@@ -1,3 +1,4 @@
+import injectWebManifest from "hydrogen-web/scripts/build-plugins/manifest";
 import themeBuilder from "hydrogen-web/scripts/build-plugins/rollup-plugin-build-themes";
 import compileVariables from "hydrogen-web/scripts/postcss/css-compile-variables";
 import urlProcessor from "hydrogen-web/scripts/postcss/css-url-processor";
@@ -59,6 +60,8 @@ export function defaultConfig(rootDir: string, targetName: string) {
                 },
                 compiledVariables,
             }),
+            // Manifest must come before service worker so that the manifest and the icons it refers to are cached.
+            injectWebManifest(resolve(__dirname, "../assets/manifest.json")),
         ],
     };
 }
