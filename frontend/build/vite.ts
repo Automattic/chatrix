@@ -1,6 +1,6 @@
 import injectWebManifest from "hydrogen-web/scripts/build-plugins/manifest";
 import themeBuilder from "hydrogen-web/scripts/build-plugins/rollup-plugin-build-themes";
-import { createPlaceholderValues } from "hydrogen-web/scripts/build-plugins/service-worker";
+import { createPlaceholderValues, injectServiceWorker } from "hydrogen-web/scripts/build-plugins/service-worker";
 import compileVariables from "hydrogen-web/scripts/postcss/css-compile-variables";
 import urlProcessor from "hydrogen-web/scripts/postcss/css-url-processor";
 import urlVariables from "hydrogen-web/scripts/postcss/css-url-to-variables";
@@ -26,7 +26,7 @@ export function defaultConfig(mode: string, rootDir: string, targetName: string)
             outDir: resolve(__dirname, `../../build/frontend/${targetName}`),
             rollupOptions: {
                 input: {
-                    app: resolve(rootDir, "index.html"),
+                    index: resolve(rootDir, "index.html"),
                 },
                 output: {
                     assetFileNames: (asset) => {
@@ -64,6 +64,27 @@ export function defaultConfig(mode: string, rootDir: string, targetName: string)
             }),
             // Manifest must come before service worker so that the manifest and the icons it refers to are cached.
             injectWebManifest(resolve(__dirname, "../assets/manifest.json")),
+            injectServiceWorker(
+                resolve(__dirname, `../platform/sw.js`),
+                findUnhashedFileNamesFromBundle,
+                {
+                    // Placeholders to replace at end of the build by chunk name.
+                    index: {
+                        DEFINE_GLOBAL_HASH: definePlaceholders.DEFINE_GLOBAL_HASH,
+                    },
+                    sw: definePlaceholders,
+                }
+            ),
         ],
     };
+}
+
+function findUnhashedFileNamesFromBundle(bundle) {
+    const names = ["index.html"];
+    for (const fileName of Object.keys(bundle)) {
+        if (/theme-.+\.json/.test(fileName)) {
+            names.push(fileName);
+        }
+    }
+    return names;
 }
