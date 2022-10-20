@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import NOTIFICATION_BADGE_ICON from "./assets/icon.png?url";
+import NOTIFICATION_BADGE_ICON from "../assets/icon.png?url";
 
 // replaced by the service worker build plugin
 const UNHASHED_PRECACHED_ASSETS = DEFINE_UNHASHED_PRECACHED_ASSETS;
