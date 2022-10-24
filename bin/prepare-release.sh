@@ -18,3 +18,7 @@ sed -i"" -e "s/\(Version: \)\(.*\)/\1$VERSION/g" chatrix.php
 sed -i"" -e "s/\(AUTOMATTIC_CHATRIX_VERSION = '\)\(.*\)/\1$VERSION';/g" chatrix.php
 rm -f chatrix.php-e
 git add chatrix.php
+
+git commit -m "Release v$VERSION"
+git tag "v$VERSION"
+git push --tags origin main
