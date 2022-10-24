@@ -50,7 +50,7 @@ function init_javascript_variables() {
 		);
 
 		$script_url = plugin_dir_url( __FILE__ ) . 'iframe.js';
-		wp_register_script( $handle, $script_url, array(), '1.0', false );
+		wp_register_script( $handle, $script_url, array(), AUTOMATTIC_CHATRIX_VERSION, false );
 		wp_enqueue_script( $handle );
 		wp_localize_script( $handle, 'automattic_chatrix_block_config', $variables );
 	};

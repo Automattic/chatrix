@@ -1,31 +1,32 @@
 {
-    "name": "automattic/chatrix",
-    "description": "WordPress plugin to embed a Matrix client into WordPress pages.",
-    "type": "wordpress-plugin",
-    "license": "GPL",
-    "autoload": {
-        "psr-4": {
-            "Automattic\\Chatrix\\": "src/"
-        },
-        "files": [
-            "src/plugin.php",
-            "src/Sessions/sessions.php",
-            "src/Block/block.php",
-            "src/Admin/admin.php",
-            "src/Admin/Settings/settings.php"
-        ]
+  "name": "automattic/chatrix",
+  "version": "0.2.0",
+  "description": "WordPress plugin to embed a Matrix client into WordPress pages.",
+  "type": "wordpress-plugin",
+  "license": "GPL",
+  "autoload": {
+    "psr-4": {
+      "Automattic\\Chatrix\\": "src/"
     },
-    "config": {
-        "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
-        }
-    },
-    "scripts": {
-        "phpcs": "phpcs --standard=phpcs.xml"
-    },
-    "require-dev": {
-        "squizlabs/php_codesniffer": "^3.7",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
-        "wp-coding-standards/wpcs": "^2.3"
+    "files": [
+      "src/plugin.php",
+      "src/Sessions/sessions.php",
+      "src/Block/block.php",
+      "src/Admin/admin.php",
+      "src/Admin/Settings/settings.php"
+    ]
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
     }
+  },
+  "scripts": {
+    "phpcs": "phpcs --standard=phpcs.xml"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^3.7",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
+    "wp-coding-standards/wpcs": "^2.3"
+  }
 }

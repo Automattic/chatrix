@@ -1,23 +1,23 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
-	"name": "automattic/chatrix",
-	"version": "0.1.0",
-	"title": "Chatrix",
-	"category": "embed",
-	"icon": "format-chat",
-	"description": "Matrix client",
-	"attributes": {
-		"defaultHomeserver": {
-			"type": "string",
-			"default": ""
-		}
-	},
-	"supports": {
-		"html": false
-	},
-	"textdomain": "chatrix",
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "automattic/chatrix",
+  "version": "0.2.0",
+  "title": "Chatrix",
+  "category": "embed",
+  "icon": "format-chat",
+  "description": "Matrix client",
+  "attributes": {
+    "defaultHomeserver": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "textdomain": "chatrix",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
 }

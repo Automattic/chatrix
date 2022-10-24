@@ -18,14 +18,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Set up node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
       - name: Install composer dependencies
         run: composer install --no-ansi --no-dev --no-interaction --no-plugins --no-scripts --optimize-autoloader
 
       - name: Generate readme.txt
         run: php bin/transform-readme.php
 
-      - name: Download and extract chatrix-frontend
-        run: bin/fetch-frontend.sh
+      - name: Install npm dependencies
+        run: yarn install
+
+      - name: Build frontend
+        run: yarn build:block
 
       - name: Create directory for release
         run: mkdir /tmp/release
@@ -39,12 +48,18 @@ jobs:
           rm -rf /tmp/release/.git
           rm -rf /tmp/release/.gitignore
           rm -rf /tmp/release/.editorconfig
+          rm -rf /tmp/release/.eslintrc.js
           rm -rf /tmp/release/.wp-env.json
           rm -rf /tmp/release/bin
           rm -rf /tmp/release/README.md
           rm -rf /tmp/release/CONTRIBUTING.md
           rm -rf /tmp/release/Makefile
           rm -rf /tmp/release/phpcs.xml
+          rm -rf /tmp/release/tsconfig.json
+          rm -rf /tmp/release/build/.tmp
+          rm -rf /tmp/release/node_modules
+          rm -rf /tmp/release/frontend
+          rm -rf /tmp/release/block
 
       - name: Move and rename release directory
         run: mv /tmp/release chatrix
