@@ -1,17 +1,14 @@
-import { WPElement } from '@wordpress/element';
 import { useBlockProps } from "@wordpress/block-editor";
-import ServerSideRender from "@wordpress/server-side-render";
+import { WPElement } from '@wordpress/element';
 import './editor.scss';
+import IFrame from "./iframe";
+import Inspector from "./inspector";
 
-// @ts-ignore
-export default function Edit({ attributes }): WPElement {
-    const blockProps = useBlockProps();
+export default function Edit({ attributes, setAttributes }): WPElement {
     return (
-        <div {...blockProps}>
-            <ServerSideRender
-                block="automattic/chatrix"
-                attributes={ attributes }
-            />
+        <div {...useBlockProps()}>
+            <Inspector attributes={attributes} setAttributes={setAttributes}/>
+            <IFrame attributes={attributes} focusable={true}/>
         </div>
     );
 }

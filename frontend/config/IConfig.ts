@@ -1,6 +1,6 @@
 export interface IConfig {
     /**
-     * The default homeserver used by Hydrogen; auto filled in the login UI.
+     * The default homeserver used by Hydrogen; autofilled in the login UI.
      * eg: https://matrix.org
      */
     defaultHomeserver: string;

@@ -1,9 +1,4 @@
 <?php
-/**
- * The URL parameters are received from our OpenID provider and include a nonce inside the JWT token.
- *
- * phpcs:disable WordPress.Security.NonceVerification.Recommended
- */
 
 namespace Automattic\Chatrix\Block;
 
@@ -17,52 +12,62 @@ function register() {
 		return;
 	}
 
+	init_javascript_variables();
+
 	add_action(
 		'init',
 		function () use ( $block_json_path ) {
+			$metadata = parse_block_json( $block_json_path );
 			register_block_type(
 				$block_json_path,
 				array(
 					'render_callback' => 'Automattic\Chatrix\Block\render',
+					'attributes'      => $metadata['attributes'],
 				)
 			);
 		}
 	);
 }
 
-function render(): string {
-	$login_token = null;
-	if ( isset( $_GET['loginToken'] ) ) {
-		$login_token = sanitize_text_field( wp_unslash( $_GET['loginToken'] ) );
-	}
-
-	$instances = apply_filters( 'chatrix_instances', array() );
-
-	// TODO: Make it possible to use another instance.
-	$instance_id = 'default';
-	if ( ! isset( $instances[ $instance_id ] ) ) {
-		return '';
-	}
-
-	$instance = $instances[ $instance_id ];
-
-	$iframe_query_params = array(
-		'defaultHomeserver' => rawurlencode( $instance['homeserver'] ),
-		'loginToken'        => $login_token ? rawurlencode( $login_token ) : null,
-	);
-
-	$iframe_url = add_query_arg( $iframe_query_params, plugins_url() . '/chatrix/build/frontend/block/index.html' );
-
+function render( array $attributes ): string {
 	ob_start();
 	?>
 	<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>>
-		<iframe class="<?php echo esc_attr( 'wp-block-automattic-chatrix-iframe' ); ?>"
-				title="<?php esc_attr_e( 'Chatrix Block', 'chatrix' ); ?>"
-				src="<?php echo esc_url( $iframe_url ); ?>"
-		></iframe>
+		<div id="wp-block-automattic-chatrix-iframe">
+			<?php // This div will be replaced by the actual iframe. ?>
+		</div>
+		<script>automattic_chatrix_make_iframe(<?php echo wp_json_encode( $attributes ); ?>)</script>
 	</div>
 	<?php
 	return ob_get_clean();
+}
+
+function init_javascript_variables() {
+	$enqueue_script = function () {
+		$handle    = 'chatrix-block-variables';
+		$variables = array(
+			'iframeUrl' => plugins_url() . '/chatrix/build/frontend/block/index.html',
+		);
+
+		$script_url = plugin_dir_url( __FILE__ ) . 'iframe.js';
+		wp_register_script( $handle, $script_url, array(), '1.0', false );
+		wp_enqueue_script( $handle );
+		wp_localize_script( $handle, 'automattic_chatrix_block_config', $variables );
+	};
+
+	add_action( 'wp_enqueue_scripts', $enqueue_script );
+	add_action( 'admin_enqueue_scripts', $enqueue_script );
+}
+
+function parse_block_json( string $block_json_path ): array {
+	// phpcs discourages file_get_contents for remote URLs, and recommends using wp_remote_get().
+	// However, here we're dealing with a path to a file on disk, so we ignore phpcs's warning.
+	// This is possibly a bug in phpcs, which seems to have code to check if the path is remote, but fails in this case.
+	// For more info see https://github.com/WordPress/WordPress-Coding-Standards/issues/943.
+	// phpcs:ignore
+	$block_json_contents = file_get_contents( $block_json_path );
+
+	return json_decode( $block_json_contents, true );
 }
 
 function register_site_status_test( string $block_json_path ) {
