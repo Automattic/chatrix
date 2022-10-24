@@ -5,10 +5,10 @@
  * Author: Automattic
  * Author URI: https://automattic.com/
  * Plugin URI: https://github.com/Automattic/chatrix
- * Version: 0.2.0
+ * Version: 0.2.1
  */
 
-const AUTOMATTIC_CHATRIX_VERSION = '0.2.0';
+const AUTOMATTIC_CHATRIX_VERSION = '0.2.1';
 
 use function Automattic\Chatrix\Admin\main as adminMain;
 use function Automattic\Chatrix\main;
