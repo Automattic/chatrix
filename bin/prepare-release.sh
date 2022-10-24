@@ -7,6 +7,10 @@ fi
 
 VERSION=$1
 
+git checkout main
+git fetch
+git pull origin main
+
 for file in package.json composer.json block/block.json
 do
   jq ".version = \"$VERSION\"" $file > $file.tmp
