@@ -13,6 +13,7 @@ export class ConfigFactory {
 
         return {
             defaultHomeserver: getQueryParam("defaultHomeserver") ?? "",
+            roomId: getQueryParam("roomId") ?? "",
             themeManifests: [
                 new URL("assets/theme-chatrix.json", import.meta.url).href,
             ],
