@@ -7,15 +7,11 @@ import { LogoutView } from "hydrogen-web/src/platform/web/ui/LogoutView";
 import { SessionView } from "hydrogen-web/src/platform/web/ui/session/SessionView";
 import { Section } from "../platform/Navigation";
 import { RootViewModel } from "../viewmodels/RootViewModel";
-import { AppViewMaker } from "./AppView";
 import { LoginView } from "./LoginView";
 
 export class RootView extends TemplateView<RootViewModel> {
-    private readonly _appViewMaker: AppViewMaker;
-
-    constructor(value: RootViewModel, appViewMaker: AppViewMaker) {
+    constructor(value: RootViewModel) {
         super(value);
-        this._appViewMaker = appViewMaker;
     }
 
     render(t, vm: RootViewModel) {

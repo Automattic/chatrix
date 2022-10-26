@@ -7,12 +7,9 @@ import { SessionPickerViewModel } from "hydrogen-web/src/domain/SessionPickerVie
 import { Options as BaseOptions, ViewModel } from "hydrogen-web/src/domain/ViewModel";
 import { Client } from "hydrogen-web/src/matrix/Client.js";
 import { allSections, Section } from "../platform/Navigation";
-import { AppViewModelMaker } from "./AppViewModel";
 import { LoginViewModel } from "./LoginViewModel";
 
-type Options = {
-    appViewModelMaker: AppViewModelMaker,
-} & BaseOptions;
+type Options = {} & BaseOptions;
 
 export class RootViewModel extends ViewModel<SegmentType, Options> {
     private _error: Error | undefined;
@@ -23,11 +20,9 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
     private _sessionLoadViewModel: SessionLoadViewModel | undefined;
     private _sessionViewModel: SessionViewModel | undefined;
     private _pendingClient: Client;
-    private readonly _appViewModelMaker: AppViewModelMaker;
 
     constructor(options: Options) {
         super(options);
-        this._appViewModelMaker = options.appViewModelMaker;
     }
 
     public get activeSection(): Section {
