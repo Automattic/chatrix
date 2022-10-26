@@ -3,7 +3,7 @@
 
 import { IConfig } from "../config/IConfig";
 
-export function parent(scriptId: string) {
+export function parent() {
     const env = import.meta.env;
     const loginToken = new URLSearchParams(window.location.search).get("loginToken");
 
@@ -12,17 +12,10 @@ export function parent(scriptId: string) {
         roomId: env.VITE_ROOM_ID,
     };
 
-    const scriptElement = document.querySelector(`#${scriptId}`);
-    if (!scriptElement) {
-        throw new Error(`Script with id #${scriptId} not found.`);
-    }
-
-    const parentHostRoot = (scriptElement as HTMLScriptElement).src;
-    const hostRoot = new URL(parentHostRoot).origin;
-    loadIframe(hostRoot, scriptId, config, loginToken);
+    loadIframe(window.origin, config, loginToken);
 }
 
-function loadIframe(hostRoot: string, scriptId: string, config: { defaultHomeserver: string }, loginToken: string | null) {
+function loadIframe(hostRoot: string, config: { defaultHomeserver: string }, loginToken: string | null) {
     let url = "index.html?";
 
     let property: keyof IConfig;
@@ -39,14 +32,14 @@ function loadIframe(hostRoot: string, scriptId: string, config: { defaultHomeser
 
     const iframe = document.createElement("iframe");
     iframe.src = new URL(url, hostRoot).href;
-    iframe.className = `${scriptId}-iframe`;
+    iframe.className = "chatrix-iframe";
 
     const container = document.createElement("div");
-    container.id = `${scriptId}-container`;
+    container.id = "chatrix-container";
     container.appendChild(iframe);
 
     const parent = document.createElement("div");
-    parent.id = `${scriptId}-parent`;
+    parent.id = "chatrix-parent";
     parent.appendChild(container);
 
     document.body.appendChild(parent);
