@@ -22,6 +22,7 @@ function automattic_chatrix_iframe_url(block_attributes) {
 	const queryParams = new URLSearchParams(window.location.search);
 	const iframeQueryParams = {
 		defaultHomeserver: block_attributes.defaultHomeserver,
+		roomId: block_attributes.roomId,
 	};
 
 	if (queryParams.has("loginToken")) {
@@ -30,7 +31,9 @@ function automattic_chatrix_iframe_url(block_attributes) {
 
 	const url = new URL(config.iframeUrl);
 	for (let key in iframeQueryParams) {
-		url.searchParams.append(key, iframeQueryParams[key]);
+		if (!!iframeQueryParams[key]) {
+			url.searchParams.append(key, iframeQueryParams[key]);
+		}
 	}
 
 	return url.toString();
