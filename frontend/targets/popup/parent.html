@@ -4,7 +4,11 @@
 	<meta charset="UTF-8"/>
 	<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 	<title>Chatrix Block</title>
-	<script id="chatrix-popup-script" src="./parent.ts" type="module"></script>
+	<script type="module">
+		import { parent } from "../parent";
+
+		parent();
+	</script>
 	<style>
         html, body {
             margin: 0;
