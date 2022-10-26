@@ -1,6 +1,7 @@
 import { SessionInfoStorage } from "hydrogen-web/src/matrix/sessioninfo/localstorage/SessionInfoStorage";
 import { SettingsStorage } from "hydrogen-web/src/platform/web/dom/SettingsStorage";
 import { Platform as BasePlatform } from "hydrogen-web/src/platform/web/Platform";
+import { IConfig } from "../config/IConfig";
 import { History } from "./History";
 import { Navigation } from "./Navigation";
 import { StorageFactory } from "./StorageFactory";
@@ -34,6 +35,10 @@ export class Platform extends BasePlatform {
 
     async init() {
         super.init();
+    }
+
+    get config(): IConfig {
+        return super.config;
     }
 
     openUrl(url) {
