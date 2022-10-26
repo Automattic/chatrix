@@ -7,7 +7,7 @@ export default function Inspector({ attributes, setAttributes }): WPElement {
     return (
         <InspectorControls>
             <PanelBody
-                title={__("Homeserver and room", "chatrix")}
+                title={__("Homeserver", "chatrix")}
                 initialOpen={true}
             >
                 <PanelRow>
@@ -17,6 +17,11 @@ export default function Inspector({ attributes, setAttributes }): WPElement {
                         onChange={(value) => setAttributes({ defaultHomeserver: value })}
                     />
                 </PanelRow>
+            </PanelBody>
+            <PanelBody
+                title={__("Room", "chatrix")}
+                initialOpen={false}
+            >
                 <PanelRow>
                     <TextControl
                         label={__("Room id (optional)", "chatrix")}
