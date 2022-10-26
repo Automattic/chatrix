@@ -78,6 +78,10 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         return this._error;
     }
 
+    public get singleRoomMode(): boolean {
+        return !!this.platform.config.roomId;
+    }
+
     public async start() {
         allSections().forEach((section: Section) => {
             // @ts-ignore

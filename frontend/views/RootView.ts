@@ -19,7 +19,12 @@ export class RootView extends TemplateView<RootViewModel> {
     }
 
     render(t, vm: RootViewModel) {
-        return t.mapView(vm => vm.activeSection, (section: Section) => {
+        return t.div({
+            className: {
+                "RootView": true,
+                "single-room-mode": vm.singleRoomMode,
+            },
+        }, t.mapView(vm => vm.activeSection, (section: Section) => {
                 switch (section) {
                     case Section.Login:
                         return new LoginView(vm.loginViewModel);
@@ -46,6 +51,6 @@ export class RootView extends TemplateView<RootViewModel> {
                         throw new Error(`Unknown section: ${vm.activeSection}`);
                 }
             }
-        );
+        ));
     }
 }

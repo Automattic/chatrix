@@ -1,7 +1,13 @@
 @import "hydrogen-web/src/platform/web/ui/css/themes/element/theme.css";
 
+/* TODO: The rules below should be extracted out of the theme as they are theme-agnostic. */
+
 /* Somehow the SessionView is off by 8px, the following rules fix that. */
 .SessionView {
     top: 0;
     left: 0;
+}
+/* Hide back button when in single-room mode. */
+.RootView.single-room-mode .RoomHeader .close-middle {
+    display: none !important;
 }
