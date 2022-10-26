@@ -27,9 +27,9 @@ export interface IConfig {
     /**
      * When a roomId is set, client will be in single-room mode.
      * In this mode, the client opens directly in that room, with the user not having access to the screen that shows the list of rooms.
-     * The room must be public, so that the user can automatically be added to it, without requiring an invitation.
+     * The room must be public, so that the user can join without requiring an invitation.
      * The roomId must be the room's actual id, it must not be an alias.
-     * Example: !abc123:example.org
+     * Example: !abc123:example.com
      */
     roomId?: string;
 }
