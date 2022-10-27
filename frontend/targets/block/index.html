@@ -5,8 +5,14 @@
 	<meta content="IE=edge" http-equiv="X-UA-Compatible">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 	<title>chatrix-block</title>
-	<script src="./app.ts" type="module"></script>
 	<script type="module"> import "@theme/default"; </script>
+	<script type="module">
+		import { Main } from "../../main";
+		const main = new Main("chatrix-block");
+		main.start().catch((error) => {
+			throw new Error("Failed to start app: " + error);
+		});
+	</script>
 </head>
 <body>
 <div id="chatrix-block"></div>

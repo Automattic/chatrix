@@ -5,9 +5,7 @@ import { ConfigFactory } from "./config/ConfigFactory";
 import { createNavigation, Navigation } from "./platform/Navigation";
 import { Platform } from "./platform/Platform";
 import { URLRouter } from "./platform/URLRouter";
-import { AppViewModelMaker } from "./viewmodels/AppViewModel";
 import { RootViewModel } from "./viewmodels/RootViewModel";
-import { AppViewMaker } from "./views/AppView";
 import { RootView } from "./views/RootView";
 
 export class Main {
@@ -39,7 +37,7 @@ export class Main {
         this._router.attach();
     }
 
-    public async start(appViewModelMaker: AppViewModelMaker, appViewMaker: AppViewMaker) {
+    public async start() {
         await this._platform.init();
         this._platform.setNavigation(this._navigation);
 
@@ -48,10 +46,9 @@ export class Main {
             platform: this._platform,
             navigation: this._navigation,
             urlCreator: this._router,
-            appViewModelMaker: appViewModelMaker,
         });
 
-        const rootView = new RootView(this._rootViewModel, appViewMaker);
+        const rootView = new RootView(this._rootViewModel);
         this._rootNode.appendChild(rootView.mount());
 
         return this._rootViewModel.start();
