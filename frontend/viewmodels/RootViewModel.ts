@@ -78,6 +78,10 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         return this._error;
     }
 
+    public get singleRoomMode(): boolean {
+        return !!this.platform.config.roomId;
+    }
+
     public async start() {
         allSections().forEach((section: Section) => {
             // @ts-ignore
@@ -113,6 +117,10 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 void this._showPicker();
             }
         } else if (sessionId) {
+            if (this.platform.config.roomId) {
+                this.navigation.push("room", this.platform.config.roomId);
+            }
+
             if (!this._sessionViewModel || this._sessionViewModel.id !== sessionId) {
                 // See _showLogin for where _pendingClient comes from.
                 if (this._pendingClient && this._pendingClient.sessionId === sessionId) {

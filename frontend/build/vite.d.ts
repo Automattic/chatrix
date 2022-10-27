@@ -2,6 +2,7 @@
 
 interface ImportMetaEnv {
     readonly VITE_HOMESERVER: string
+    readonly VITE_ROOM_ID: string
 }
 
 interface ImportMeta {

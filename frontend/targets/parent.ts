@@ -9,6 +9,7 @@ export function parent(scriptId: string) {
 
     let config = {
         defaultHomeserver: env.VITE_HOMESERVER,
+        roomId: env.VITE_ROOM_ID,
     };
 
     const scriptElement = document.querySelector(`#${scriptId}`);

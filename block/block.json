@@ -11,6 +11,10 @@
     "defaultHomeserver": {
       "type": "string",
       "default": ""
+    },
+    "roomId": {
+      "type": "string",
+      "default": ""
     }
   },
   "supports": {
