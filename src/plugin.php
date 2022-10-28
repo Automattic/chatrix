@@ -133,7 +133,7 @@ function main() {
 		function () {
 			$config = chatrix_config();
 			if ( ! empty( $config ) ) {
-				wp_enqueue_script( 'chatrix-parent-js', asset_url( 'assets/parent.js' ), array(), AUTOMATTIC_CHATRIX_VERSION, true );
+				wp_enqueue_script( 'chatrix-parent-js', asset_url( 'assets/parent.js' ), array(), automattic_chatrix_version(), true );
 			}
 		}
 	);

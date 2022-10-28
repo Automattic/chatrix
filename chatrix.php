@@ -8,13 +8,23 @@
  * Version: 0.2.1
  */
 
-const AUTOMATTIC_CHATRIX_VERSION = '0.2.1';
-
 use function Automattic\Chatrix\Admin\main as adminMain;
 use function Automattic\Chatrix\main;
 
 if ( ! function_exists( 'Automattic\Chatrix\main' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
+}
+
+function automattic_chatrix_version() {
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
+		// So that assets aren't cached in development environments.
+		return null;
+	}
+
+	// Do not edit this line, it's automatically set by bin/prepare-release.sh.
+	$version = '0.2.1';
+
+	return $version;
 }
 
 if ( is_admin() ) {
