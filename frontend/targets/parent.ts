@@ -4,18 +4,7 @@ type IframeConfig = {
     loginToken?: string;
 }
 
-export function parent() {
-    const env = import.meta.env;
-
-    let config = {
-        defaultHomeserver: env.VITE_HOMESERVER,
-        roomId: env.VITE_ROOM_ID,
-    };
-
-    loadIframe(window.origin, config);
-}
-
-function loadIframe(hostRoot: string, config: IframeConfig) {
+export function loadIframe(hostRoot: string, config: IframeConfig) {
     const iframeUrl = appendQueryParams(new URL("index.html?", hostRoot), config);
 
     const iframe = document.createElement("iframe");
