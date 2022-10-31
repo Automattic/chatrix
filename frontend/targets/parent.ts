@@ -1,11 +1,11 @@
-type IframeConfig = {
+type IframeParams = {
     defaultHomeserver: string
     roomId: string,
     loginToken?: string;
 }
 
-export function loadIframe(hostRoot: string, config: IframeConfig) {
-    const iframeUrl = appendQueryParams(new URL("index.html?", hostRoot), config);
+export function loadIframe(hostRoot: string, params: IframeParams) {
+    const iframeUrl = appendQueryParams(new URL("index.html?", hostRoot), params);
 
     const iframe = document.createElement("iframe");
     iframe.src = iframeUrl;
@@ -22,17 +22,17 @@ export function loadIframe(hostRoot: string, config: IframeConfig) {
     document.body.appendChild(parent);
 }
 
-function appendQueryParams(url: URL, config: IframeConfig): string {
+function appendQueryParams(url: URL, params: IframeParams): string {
     const queryParams = new URLSearchParams(window.location.search);
 
     if (queryParams.has("loginToken")) {
         // @ts-ignore
-        config.loginToken = queryParams.get("loginToken");
+        params.loginToken = queryParams.get("loginToken");
     }
 
-    for (let key in config) {
-        if (!!config[key]) {
-            url.searchParams.append(key, config[key]);
+    for (let key in params) {
+        if (!!params[key]) {
+            url.searchParams.append(key, params[key]);
         }
     }
 
