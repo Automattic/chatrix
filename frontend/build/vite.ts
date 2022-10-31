@@ -10,7 +10,7 @@ import { derive } from "./color";
 
 const compiledVariables = new Map();
 
-export function defaultViteConfig(rootDir: string, targetName: string) {
+export function defaultConfig(rootDir: string, targetName: string) {
     return {
         base: "",
         root: rootDir,
