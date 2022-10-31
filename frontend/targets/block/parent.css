@@ -17,7 +17,7 @@ body {
     align-items: center;
 }
 
-#chatrix-container {
+.chatrix-container {
     width: 550px;
     height: 650px;
 }

@@ -1,7 +1,6 @@
 type IframeParams = {
     defaultHomeserver: string
     roomId: string,
-    loginToken?: string;
 }
 
 export function loadIframe(containerId: string, hostRoot: string, params: IframeParams) {
@@ -10,7 +9,7 @@ export function loadIframe(containerId: string, hostRoot: string, params: Iframe
         throw new Error(`Container for iframe was not found: ${containerId}`);
     }
 
-    const iframeUrl = appendQueryParams(new URL("index.html?", hostRoot), params);
+    const iframeUrl = makeIframeUrl(hostRoot, params);
     const iframe = document.createElement("iframe");
     iframe.src = iframeUrl;
     iframe.className = "chatrix-iframe";
@@ -19,7 +18,8 @@ export function loadIframe(containerId: string, hostRoot: string, params: Iframe
     container.appendChild(iframe);
 }
 
-function appendQueryParams(url: URL, params: IframeParams): string {
+export function makeIframeUrl(rootUrl: string, params: IframeParams): string {
+    const url = new URL("index.html?", rootUrl);
     const queryParams = new URLSearchParams(window.location.search);
 
     if (queryParams.has("loginToken")) {
