@@ -24,7 +24,6 @@ export function defaultViteConfig(rootDir: string, targetName: string) {
             rollupOptions: {
                 input: {
                     app: resolve(rootDir, "index.html"),
-                    parent: resolve(rootDir, "parent.html"),
                 },
                 output: {
                     assetFileNames: (asset) => {
