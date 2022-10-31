@@ -1,7 +1,8 @@
-// This code is not used in the production build.
-// It's only used in local development environments.
-
-import { IConfig } from "../config/IConfig";
+type IframeConfig = {
+    defaultHomeserver: string
+    roomId: string,
+    loginToken?: string;
+}
 
 export function parent() {
     const env = import.meta.env;
@@ -14,24 +15,11 @@ export function parent() {
     loadIframe(window.origin, config);
 }
 
-function loadIframe(hostRoot: string, config: { defaultHomeserver: string }) {
-    let url = "index.html?";
-
-    let property: keyof IConfig;
-    for (property in config) {
-        let value: string = config[property] ?? "";
-        if (value) {
-            url += `${property}=${encodeURIComponent(value)}&`;
-        }
-    }
-
-    const loginToken = new URLSearchParams(window.location.search).get("loginToken");
-    if (loginToken) {
-        url += `loginToken=${encodeURIComponent(loginToken)}`;
-    }
+function loadIframe(hostRoot: string, config: IframeConfig) {
+    const iframeUrl = appendQueryParams(new URL("index.html?", hostRoot), config);
 
     const iframe = document.createElement("iframe");
-    iframe.src = new URL(url, hostRoot).href;
+    iframe.src = iframeUrl;
     iframe.className = "chatrix-iframe";
 
     const container = document.createElement("div");
@@ -43,4 +31,21 @@ function loadIframe(hostRoot: string, config: { defaultHomeserver: string }) {
     parent.appendChild(container);
 
     document.body.appendChild(parent);
+}
+
+function appendQueryParams(url: URL, config: IframeConfig): string {
+    const queryParams = new URLSearchParams(window.location.search);
+
+    if (queryParams.has("loginToken")) {
+        // @ts-ignore
+        config.loginToken = queryParams.get("loginToken");
+    }
+
+    for (let key in config) {
+        if (!!config[key]) {
+            url.searchParams.append(key, config[key]);
+        }
+    }
+
+    return url.toString();
 }
