@@ -17,7 +17,7 @@ function get() {
 }
 
 function enqueue() {
-	wp_enqueue_script( 'chatrix-settings-js', plugins_url( 'settings.js', __FILE__ ), array(), AUTOMATTIC_CHATRIX_VERSION, true );
+	wp_enqueue_script( 'chatrix-settings-js', plugins_url( 'settings.js', __FILE__ ), array(), automattic_chatrix_version(), true );
 }
 
 function init() {
