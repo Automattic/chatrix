@@ -12,9 +12,9 @@ export function loadIframe(containerId: string, hostRoot: string, params: Iframe
     const iframeUrl = makeIframeUrl(hostRoot, params);
     const iframe = document.createElement("iframe");
     iframe.src = iframeUrl;
-    iframe.className = "chatrix-iframe";
+    iframe.className = "automattic-chatrix-iframe";
 
-    container.className = "chatrix-container";
+    container.className = "automattic-chatrix-container";
     container.appendChild(iframe);
 }
 

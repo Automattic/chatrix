@@ -6,8 +6,8 @@ export default function IFrame({ attributes, focusable = false }): WPElement {
     const url = iframeUrl(attributes);
 
     return (
-        <div className="chatrix-container">
-            <iframe className="chatrix-iframe"
+        <div className="automattic-chatrix-container">
+            <iframe className="automattic-chatrix-iframe"
                 // @ts-ignore
                 ref={ref}
                 src={url}
