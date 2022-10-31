@@ -8,7 +8,7 @@ export function defaultParentConfig(rootDir: string, targetName: string) {
         build: {
             outDir: resolve(__dirname, `../../build/frontend/${targetName}`),
             lib: {
-                entry: resolve(__dirname, "../targets/parent.ts"),
+                entry: resolve(__dirname, `../targets/${targetName}/parent.ts`),
                 formats: ["iife"],
                 name: "AutomatticChatrix",
                 fileName: "parent"

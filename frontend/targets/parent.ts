@@ -1,9 +1,9 @@
-type IframeParams = {
+export type IframeParams = {
     defaultHomeserver: string
     roomId: string,
 }
 
-export function loadIframe(containerId: string, hostRoot: string, params: IframeParams) {
+export function loadIframe(containerId: string, hostRoot: string, params: IframeParams): HTMLIFrameElement {
     const container = document.querySelector(`#${containerId}`);
     if (!container) {
         throw new Error(`Container for iframe was not found: ${containerId}`);
@@ -16,6 +16,8 @@ export function loadIframe(containerId: string, hostRoot: string, params: Iframe
 
     container.className = "automattic-chatrix-container";
     container.appendChild(iframe);
+
+    return iframe;
 }
 
 export function makeIframeUrl(rootUrl: string, params: IframeParams): string {
