@@ -15,10 +15,10 @@ if ( ! function_exists( 'Automattic\Chatrix\main' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
 }
 
-function automattic_chatrix_version() {
+function automattic_chatrix_version(): string {
 	if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
 		// So that assets aren't cached in development environments.
-		return null;
+		return strval( time() );
 	}
 
 	// Do not edit this line, it's automatically set by bin/prepare-release.sh.
