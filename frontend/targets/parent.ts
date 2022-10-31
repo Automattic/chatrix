@@ -5,17 +5,16 @@ import { IConfig } from "../config/IConfig";
 
 export function parent() {
     const env = import.meta.env;
-    const loginToken = new URLSearchParams(window.location.search).get("loginToken");
 
     let config = {
         defaultHomeserver: env.VITE_HOMESERVER,
         roomId: env.VITE_ROOM_ID,
     };
 
-    loadIframe(window.origin, config, loginToken);
+    loadIframe(window.origin, config);
 }
 
-function loadIframe(hostRoot: string, config: { defaultHomeserver: string }, loginToken: string | null) {
+function loadIframe(hostRoot: string, config: { defaultHomeserver: string }) {
     let url = "index.html?";
 
     let property: keyof IConfig;
@@ -26,6 +25,7 @@ function loadIframe(hostRoot: string, config: { defaultHomeserver: string }, log
         }
     }
 
+    const loginToken = new URLSearchParams(window.location.search).get("loginToken");
     if (loginToken) {
         url += `loginToken=${encodeURIComponent(loginToken)}`;
     }
