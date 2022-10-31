@@ -21,29 +21,6 @@ function main() {
 	register_block();
 	register_popup();
 
-	// Declare rest routes for the config of each chatrix instance.
-	add_action(
-		'rest_api_init',
-		function () {
-			$instances = apply_filters( 'chatrix_instances', array() );
-			foreach ( $instances as $instance_id => $instance ) {
-				register_rest_route(
-					'chatrix',
-					"config/$instance_id",
-					array(
-						'methods'             => 'GET',
-						'permission_callback' => '__return_true',
-						'callback'            => function () use ( $instance ) {
-							unset( $instance['pages'] );
-
-							return $instance;
-						},
-					)
-				);
-			}
-		}
-	);
-
 	// Chatrix accepts some configuration through properties on the window object.
 	// Ideally we would use wp_localize_script() but it cannot write to the `window` object.
 	// So instead we hook to wp_head and set the properties explicitly.

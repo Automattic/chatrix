@@ -7,6 +7,7 @@ use function Automattic\Chatrix\Admin\Settings\get as get_chatrix_settings;
 function register() {
 	register_default_instance();
 	define_config();
+	init_rest_api();
 }
 
 /**
@@ -76,6 +77,33 @@ function define_config() {
 			}
 
 			return null;
+		}
+	);
+}
+
+/**
+ * Declare rest routes for the config of each chatrix instance.
+ */
+function init_rest_api() {
+	add_action(
+		'rest_api_init',
+		function () {
+			$instances = apply_filters( 'chatrix_instances', array() );
+			foreach ( $instances as $instance_id => $instance ) {
+				register_rest_route(
+					'chatrix',
+					"config/$instance_id",
+					array(
+						'methods'             => 'GET',
+						'permission_callback' => '__return_true',
+						'callback'            => function () use ( $instance ) {
+							unset( $instance['pages'] );
+
+							return $instance;
+						},
+					)
+				);
+			}
 		}
 	);
 }
