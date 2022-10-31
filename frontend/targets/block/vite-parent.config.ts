@@ -1,9 +1,10 @@
 import { defineConfig } from "vite";
-import { defaultConfig } from "../../build/vite";
+import { defaultParentConfig } from "../../build/vite-parent";
 
+// @ts-ignore
 export default defineConfig(() => {
     return {
-        ...defaultConfig(__dirname, "block"),
+        ...defaultParentConfig(__dirname, "block"),
         ...{
             // If needed, you can override values from the default config here.
         }

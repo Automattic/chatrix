@@ -7,9 +7,11 @@
   "license": "GPL-2.0-or-later",
   "scripts": {
     "start:block": "vite --config frontend/targets/block/vite.config.ts",
-    "build:block": "tsc && mkdir -p build/.tmp && vite build --config frontend/targets/block/vite.config.ts --emptyOutDir && yarn run build:block-internal",
     "start:popup": "vite --config frontend/targets/popup/vite.config.ts",
-    "build:popup": "tsc && mkdir -p build/.tmp && vite build --config frontend/targets/popup/vite.config.ts --emptyOutDir",
+    "build:block": "tsc && mkdir -p build/.tmp && vite build --config frontend/targets/block/vite.config.ts --emptyOutDir && yarn run build:block:parent && yarn run build:block-internal",
+    "build:popup": "tsc && mkdir -p build/.tmp && vite build --config frontend/targets/popup/vite.config.ts --emptyOutDir && yarn run build:popup:parent",
+    "build:block:parent": "vite build --config frontend/targets/block/vite-parent.config.ts",
+    "build:popup:parent": "vite build --config frontend/targets/popup/vite-parent.config.ts",
     "build:block-internal": "wp-scripts build --webpack-src-dir=block --output-path=build/block && cp ./block/block.json ./build/block/",
     "lint": "eslint frontend/ block/"
   },

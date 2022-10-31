@@ -12,7 +12,7 @@ function register() {
 		return;
 	}
 
-	init_javascript_variables();
+	init_javascript();
 
 	add_action(
 		'init',
@@ -31,32 +31,45 @@ function register() {
 
 function render( array $attributes ): string {
 	ob_start();
+	$container_id = 'wp-block-automattic-chatrix-container';
 	?>
 	<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>>
-		<div id="wp-block-automattic-chatrix-iframe">
-			<?php // This div will be replaced by the actual iframe. ?>
+		<div id="<?php echo esc_attr( $container_id ); ?>">
+			<?php // Iframe will be rendered here. ?>
 		</div>
-		<script>automattic_chatrix_make_iframe(<?php echo wp_json_encode( $attributes ); ?>)</script>
+		<script>
+			(function () {
+				AutomatticChatrix.loadIframe(
+					"<?php echo esc_attr( $container_id ); ?>",
+					"<?php echo esc_url( root_url() ); ?>",
+					<?php echo wp_json_encode( $attributes ); ?>
+				);
+			})();
+		</script>
 	</div>
 	<?php
 	return ob_get_clean();
 }
 
-function init_javascript_variables() {
+function init_javascript() {
 	$enqueue_script = function () {
-		$handle    = 'chatrix-block-variables';
+		$handle    = 'chatrix-parent';
+		$root_url  = root_url();
 		$variables = array(
-			'iframeUrl' => plugins_url() . '/chatrix/build/frontend/block/index.html',
+			'rootUrl' => $root_url,
 		);
 
-		$script_url = plugin_dir_url( __FILE__ ) . 'iframe.js';
-		wp_register_script( $handle, $script_url, array(), automattic_chatrix_version(), false );
+		wp_register_script( $handle, "$root_url/parent.iife.js", array(), automattic_chatrix_version(), false );
 		wp_enqueue_script( $handle );
 		wp_localize_script( $handle, 'automattic_chatrix_block_config', $variables );
 	};
 
 	add_action( 'wp_enqueue_scripts', $enqueue_script );
 	add_action( 'admin_enqueue_scripts', $enqueue_script );
+}
+
+function root_url(): string {
+	return plugins_url() . '/chatrix/build/frontend/block/';
 }
 
 function parse_block_json( string $block_json_path ): array {

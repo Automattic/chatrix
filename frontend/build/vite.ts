@@ -10,7 +10,7 @@ import { derive } from "./color";
 
 const compiledVariables = new Map();
 
-export function defaultViteConfig(rootDir: string, targetName: string) {
+export function defaultConfig(rootDir: string, targetName: string) {
     return {
         base: "",
         root: rootDir,
@@ -24,7 +24,6 @@ export function defaultViteConfig(rootDir: string, targetName: string) {
             rollupOptions: {
                 input: {
                     app: resolve(rootDir, "index.html"),
-                    parent: resolve(rootDir, "parent.html"),
                 },
                 output: {
                     assetFileNames: (asset) => {
