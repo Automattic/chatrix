@@ -12,6 +12,7 @@
       "src/plugin.php",
       "src/Sessions/sessions.php",
       "src/Block/block.php",
+      "src/Popup/popup.php",
       "src/Admin/admin.php",
       "src/Admin/Settings/settings.php"
     ]
