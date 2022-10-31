@@ -4,22 +4,19 @@ type IframeParams = {
     loginToken?: string;
 }
 
-export function loadIframe(hostRoot: string, params: IframeParams) {
-    const iframeUrl = appendQueryParams(new URL("index.html?", hostRoot), params);
+export function loadIframe(containerId: string, hostRoot: string, params: IframeParams) {
+    const container = document.querySelector(`#${containerId}`);
+    if (!container) {
+        throw new Error(`Container for iframe was not found: ${containerId}`);
+    }
 
+    const iframeUrl = appendQueryParams(new URL("index.html?", hostRoot), params);
     const iframe = document.createElement("iframe");
     iframe.src = iframeUrl;
     iframe.className = "chatrix-iframe";
 
-    const container = document.createElement("div");
-    container.id = "chatrix-container";
+    container.className = "chatrix-container";
     container.appendChild(iframe);
-
-    const parent = document.createElement("div");
-    parent.id = "chatrix-parent";
-    parent.appendChild(container);
-
-    document.body.appendChild(parent);
 }
 
 function appendQueryParams(url: URL, params: IframeParams): string {
