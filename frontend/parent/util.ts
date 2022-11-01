@@ -6,6 +6,6 @@ export function iframeClass(): string {
     return prefix("iframe");
 }
 
-function prefix(value: string): string {
+export function prefix(value: string): string {
     return `automattic-chatrix-${value}`;
 }
