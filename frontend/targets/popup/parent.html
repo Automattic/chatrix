@@ -12,7 +12,7 @@
 			defaultHomeserver: env.VITE_HOMESERVER,
 			roomId: env.VITE_ROOM_ID,
 		};
-		loadStartButton("automattic-chatrix-container");
+		loadStartButton("automattic-chatrix-container", window.origin, config);
 	</script>
 	<style>
         @import "parent.css";
