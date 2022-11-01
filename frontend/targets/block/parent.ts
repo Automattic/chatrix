@@ -1,3 +1,6 @@
-import { loadIframe } from "../../parent/parent";
+import { Iframe, IframeParams } from "../../parent/iframe";
 
-export { loadIframe };
+export function loadIframe(containerId: string, hostRoot: string, params: IframeParams): void {
+    const iframe = new Iframe(hostRoot, params);
+    iframe.mount(containerId);
+}

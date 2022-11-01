@@ -1,3 +1,4 @@
-import { loadIframe } from "../../parent/parent";
+import { IframeParams } from "../../parent/iframe";
 
-export { loadIframe };
+export function loadPopup(containerId: string, hostRoot: string, params: IframeParams) {
+}
