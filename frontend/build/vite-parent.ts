@@ -1,4 +1,5 @@
 import { resolve } from "path";
+import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 
 export function defaultParentConfig(rootDir: string, targetName: string) {
     let moduleName = targetName.charAt(0).toUpperCase() + targetName.slice(1);
@@ -18,6 +19,9 @@ export function defaultParentConfig(rootDir: string, targetName: string) {
                 fileName: "parent"
             },
             rollupOptions: {}
-        }
+        },
+        plugins: [
+            cssInjectedByJsPlugin(),
+        ]
     };
 }

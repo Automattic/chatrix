@@ -1,5 +1,6 @@
 import { Iframe, IframeParams } from "../../parent/iframe";
 import { StartButton } from "./button";
+import "./parent.css";
 
 export function loadStartButton(containerId: string, hostRoot: string, params: IframeParams): void {
     const container = document.createElement("div");
