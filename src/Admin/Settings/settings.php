@@ -97,21 +97,18 @@ function sanitize_value( $field_name, $value, $original_value ) {
 
 	if ( 'room' === $field_name ) {
 		$value = sanitize_text_field( $value );
-		if ( empty( $value ) ) {
-			add_error( 'room-empty', __( 'Room must not be empty.', 'chatrix' ) );
-			$value = $original_value;
-		}
+		if ( ! empty( $value ) ) {
+			if ( ! str_starts_with( $value, '!' ) ) {
+				// translators: %s is the value the user entered.
+				add_error( 'room-missing-exclamation', sprintf( __( '<tt>%s</tt> is not a valid room address.', 'chatrix' ), $value ) . ' ' . __( 'It must start with an exclamation mark, e.g. <tt>!room-id:example.com</tt>', 'chatrix' ) );
+				$value = $original_value;
+			}
 
-		if ( ! str_starts_with( $value, '!' ) ) {
-			// translators: %s is the value the user entered.
-			add_error( 'room-missing-exclamation', sprintf( __( '<tt>%s</tt> is not a valid room address.', 'chatrix' ), $value ) . ' ' . __( 'It must start with an exclamation mark, e.g. <tt>!room-id:example.com</tt>', 'chatrix' ) );
-			$value = $original_value;
-		}
-
-		if ( ! str_contains( $value, ':' ) ) {
-			// translators: %s is the value the user entered.
-			add_error( 'room-missing-colon', sprintf( __( '<tt>%s</tt> is not a valid room address.', 'chatrix' ), $value ) . ' ' . __( 'It must end with an <tt>:</tt> followed by the homeserver domain, e.g. <tt>!room-id:example.com</tt>', 'chatrix' ) );
-			$value = $original_value;
+			if ( ! str_contains( $value, ':' ) ) {
+				// translators: %s is the value the user entered.
+				add_error( 'room-missing-colon', sprintf( __( '<tt>%s</tt> is not a valid room address.', 'chatrix' ), $value ) . ' ' . __( 'It must end with an <tt>:</tt> followed by the homeserver domain, e.g. <tt>!room-id:example.com</tt>', 'chatrix' ) );
+				$value = $original_value;
+			}
 		}
 	}
 
