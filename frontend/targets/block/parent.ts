@@ -1,3 +1,3 @@
-import { loadIframe, makeIframeUrl } from "../../parent/parent";
+import { loadIframe } from "../../parent/parent";
 
-export { loadIframe, makeIframeUrl };
+export { loadIframe };
