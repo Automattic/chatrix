@@ -3,12 +3,16 @@ import { prefix } from "../../../parent/util";
 export type ClickHandler = () => void;
 
 export class StartButton {
+    private readonly clickHandler: ClickHandler;
     private readonly button: HTMLButtonElement;
 
     constructor(clickHandler: ClickHandler) {
+        this.clickHandler = clickHandler;
         this.button = document.createElement("button");
         this.button.className = prefix("start-button");
-        this.button.onclick = clickHandler;
+        this.button.onclick = () => {
+            this.clicked();
+        };
         this.button.appendChild(this.createNotificationBadge());
     }
 
@@ -26,6 +30,18 @@ export class StartButton {
         container.appendChild(buttonContainer);
     }
 
+    public get active(): boolean {
+        return this.button.classList.contains("active");
+    }
+
+    public set active(value: boolean) {
+        if (value) {
+            this.button.classList.add("active");
+        } else {
+            this.button.classList.remove("active");
+        }
+    }
+
     public set unreadCount(count) {
         const notification = this.button.querySelector(`.${prefix("notification-badge")}`) as HTMLSpanElement;
         if (count === 0) {
@@ -36,16 +52,9 @@ export class StartButton {
         }
     }
 
-    public get visible(): boolean {
-        return this.button.style.display !== "none";
-    }
-
-    public set visible(value: boolean) {
-        if (value) {
-            this.button.style.display = "block";
-        } else {
-            this.button.style.display = "none";
-        }
+    private clicked() {
+        this.active = !this.active;
+        this.clickHandler();
     }
 
     private createNotificationBadge() {
