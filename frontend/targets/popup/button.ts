@@ -26,6 +26,16 @@ export class StartButton {
         container.appendChild(buttonContainer);
     }
 
+    public set unreadCount(count) {
+        const notification = this.button.querySelector(`.${prefix("notification-badge")}`) as HTMLSpanElement;
+        if (count === 0) {
+            notification.classList.add("hidden");
+        } else {
+            notification.innerText = count;
+            notification.classList.remove("hidden");
+        }
+    }
+
     private createNotificationBadge() {
         const notificationBadge = document.createElement("span");
         notificationBadge.className = `${prefix("notification-badge")} hidden`;

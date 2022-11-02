@@ -1,0 +1,17 @@
+.automattic-chatrix-container {
+    position: fixed;
+    right: 20px;
+    bottom: 15px;
+}
+
+.automattic-chatrix-start-button {
+    width: 64px;
+    height: 64px;
+    border: none;
+    border-radius: 100%;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 12px 32px -2px rgba(0, 0, 0, 0.2);
+    background:
+            no-repeat center url('data:image/svg+xml;utf8,<svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.94152 8.54592C0.629834 6.77827 1.81013 5.09263 3.57779 4.78094L30.1676 0.0924402C31.9346 -0.219139 33.6205 0.958905 33.9323 2.72716L37.5792 23.4097C37.8909 25.1773 36.7106 26.863 34.9429 27.1747L14.4261 30.7923C14.1597 30.8393 13.9158 30.9714 13.7309 31.1688L8.03376 37.2505C7.32955 38.0022 6.06936 37.6273 5.89049 36.6129L0.94152 8.54592ZM20.5047 23.0349C23.8143 22.4513 26.3772 20.1489 27.4756 17.2195C27.7229 16.5597 27.1289 15.9435 26.435 16.0659L12.5485 18.5144C11.8547 18.6368 11.5072 19.419 11.9653 19.9543C13.9993 22.3314 17.1951 23.6184 20.5047 23.0349Z" fill="white"/></svg>'),
+            linear-gradient(180deg, #048bcf 0%, #007cba 100%);
+}
