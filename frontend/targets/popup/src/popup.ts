@@ -3,7 +3,7 @@ import { containerClass } from "../../../parent/util";
 import { StartButton } from "./button";
 
 export class Popup {
-    private button: StartButton;
+    private startButton: StartButton;
     private iframe: Iframe;
     private readonly container: Element;
 
@@ -14,18 +14,18 @@ export class Popup {
         }
 
         this.container = container;
-        this.button = new StartButton(() => {
+        this.startButton = new StartButton(() => {
             this.startButtonClick();
         });
         this.iframe = new Iframe(hostRoot, params);
 
         this.container.className = containerClass();
-        this.button.mount(this.container.id);
+        this.startButton.mount(this.container.id);
     }
 
     private startButtonClick(): void {
         this.iframe.mount(this.container.id);
         this.iframe.visible = true;
-        this.button.visible = false;
+        this.startButton.visible = false;
     }
 }
