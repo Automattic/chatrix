@@ -7,29 +7,32 @@ export type IframeParams = {
 
 export class Iframe {
     private readonly _url: string;
+    private readonly _element: HTMLIFrameElement;
 
     constructor(hostRoot: string, params: IframeParams) {
         this._url = this.makeUrl(hostRoot, params);
+
+        this._element = document.createElement("iframe");
+        this._element.src = this.url;
+        this._element.className = iframeClass();
     }
 
     public get url(): string {
         return this._url;
     }
 
-    public mount(containerId: string): HTMLIFrameElement {
+    public get element(): HTMLIFrameElement {
+        return this._element;
+    }
+
+    public mount(containerId: string): void {
         const container = document.querySelector(`#${containerId}`);
         if (!container) {
             throw new Error(`Container for iframe was not found: ${containerId}`);
         }
 
-        const iframe = document.createElement("iframe");
-        iframe.src = this.url;
-        iframe.className = iframeClass();
-
         container.className = containerClass();
-        container.appendChild(iframe);
-
-        return iframe;
+        container.appendChild(this._element);
     }
 
     private makeUrl(rootUrl: string, params: IframeParams): string {
