@@ -1,4 +1,4 @@
-import { prefix } from "../../parent/util";
+import { prefix } from "../../../parent/util";
 
 export type ClickHandler = () => void;
 
