@@ -36,6 +36,18 @@ export class StartButton {
         }
     }
 
+    public get visible(): boolean {
+        return this.button.style.display !== "none";
+    }
+
+    public set visible(value: boolean) {
+        if (value) {
+            this.button.style.display = "block";
+        } else {
+            this.button.style.display = "none";
+        }
+    }
+
     private createNotificationBadge() {
         const notificationBadge = document.createElement("span");
         notificationBadge.className = `${prefix("notification-badge")} hidden`;

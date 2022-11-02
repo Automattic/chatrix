@@ -6,7 +6,6 @@ export class Popup {
     private button: StartButton;
     private iframe: Iframe;
     private readonly container: Element;
-    private isIframeLoaded: boolean;
 
     constructor(containerId: string, hostRoot: string, params: IframeParams) {
         const container = document.querySelector(`#${containerId}`);
@@ -15,7 +14,6 @@ export class Popup {
         }
 
         this.container = container;
-        this.isIframeLoaded = false;
         this.button = new StartButton(() => {
             this.startButtonClick();
         });
@@ -25,12 +23,9 @@ export class Popup {
         this.button.mount(this.container.id);
     }
 
-    private startButtonClick() {
-        if (!this.isIframeLoaded) {
-            this.iframe.mount(this.container.id);
-            this.isIframeLoaded = true;
-        } else {
-            // TODO
-        }
+    private startButtonClick(): void {
+        this.iframe.mount(this.container.id);
+        this.iframe.visible = true;
+        this.button.visible = false;
     }
 }

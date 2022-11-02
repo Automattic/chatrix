@@ -7,14 +7,14 @@ export type IframeParams = {
 
 export class Iframe {
     private readonly _url: string;
-    private readonly _element: HTMLIFrameElement;
+    private readonly iframe: HTMLIFrameElement;
 
     constructor(hostRoot: string, params: IframeParams) {
         this._url = this.makeUrl(hostRoot, params);
 
-        this._element = document.createElement("iframe");
-        this._element.src = this.url;
-        this._element.className = iframeClass();
+        this.iframe = document.createElement("iframe");
+        this.iframe.src = this.url;
+        this.iframe.className = iframeClass();
     }
 
     public get url(): string {
@@ -22,7 +22,19 @@ export class Iframe {
     }
 
     public get element(): HTMLIFrameElement {
-        return this._element;
+        return this.iframe;
+    }
+
+    public get visible(): boolean {
+        return this.iframe.style.display !== "none";
+    }
+
+    public set visible(value: boolean) {
+        if (value) {
+            this.iframe.style.display = "block";
+        } else {
+            this.iframe.style.display = "none";
+        }
     }
 
     public mount(containerId: string): void {
@@ -32,7 +44,7 @@ export class Iframe {
         }
 
         container.className = containerClass();
-        container.appendChild(this._element);
+        container.appendChild(this.iframe);
     }
 
     private makeUrl(rootUrl: string, params: IframeParams): string {
