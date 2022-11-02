@@ -3,11 +3,13 @@ import { containerClass } from "../../parent/util";
 import "./parent.css";
 import { StartButton } from "./src/button";
 
-export function loadStartButton(containerId: string, hostRoot: string, params: IframeParams): void {
-    const container = document.createElement("div");
-    container.id = containerId;
+export function loadPopup(containerId: string, hostRoot: string, params: IframeParams): void {
+    const container = document.querySelector(`#${containerId}`);
+    if (!container) {
+        throw new Error(`Container was not found: ${containerId}`);
+    }
+
     container.className = containerClass();
-    document.body.appendChild(container);
 
     const button = new StartButton(() => {
         if (!isIframeLoaded()) {

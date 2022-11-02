@@ -16,7 +16,7 @@ function register() {
 }
 
 /**
- * Register the default instance of the chatrix, using values from the plugin's settings.
+ * Register the default instance of chatrix, using values from the plugin's settings.
  * If instances have already been declared, use those instead, in which case plugin settings are ignored.
  */
 function register_default_instance() {
