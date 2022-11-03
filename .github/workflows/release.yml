@@ -48,7 +48,6 @@ jobs:
           rm -rf /tmp/release/.eslintrc.js
           rm -rf /tmp/release/.wp-env.json
           rm -rf /tmp/release/bin
-          rm -rf /tmp/release/README.md
           rm -rf /tmp/release/CONTRIBUTING.md
           rm -rf /tmp/release/Makefile
           rm -rf /tmp/release/phpcs.xml
