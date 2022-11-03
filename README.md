@@ -1,4 +1,4 @@
-# Chatrix Matrix client
+# Chatrix
 
 - Contributors: automattic
 - Tags: matrix, chat
@@ -9,12 +9,24 @@
 - Stable tag: 0.2.1
 - GitHub Plugin URI: https://github.com/Automattic/chatrix
 
-Chatrix Matrix client for WordPress.
+Matrix client for WordPress.
 
 ## Description
-This plugin allows you to embed the [Chatrix Matrix client](https://github.com/Automattic/chatrix-frontend) into WordPress pages.
+Easily add a matrix client to WordPress pages, either through the Block Editor, or as a _popup_:
+
+| Block                           | Popup                           |
+|---------------------------------|---------------------------------|
+| ![Block](screenshots/block.png) | ![Block](screenshots/popup.png) |
+
+## Usage
+This plugin can be used in two distinct ways:
+
+1. By adding a block to a page through the block editor
+2. By selecting pages in which a _popup_ will be displayed. You configure this through `Settings -> Chatrix`.
 
 ## Advanced usage
+> This only applies to the _popup_, not to the block.
+
 If you need more flexibility than what the plugin's settings provides, you can configure chatrix though
 the `chatrix_instances` filter:
 
