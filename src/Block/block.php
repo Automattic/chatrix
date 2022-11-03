@@ -39,7 +39,7 @@ function render( array $attributes ): string {
 		</div>
 		<script>
 			(function () {
-				AutomatticChatrix.loadIframe(
+				AutomatticChatrixBlock.loadIframe(
 					"<?php echo esc_attr( $container_id ); ?>",
 					"<?php echo esc_url( root_url() ); ?>",
 					<?php echo wp_json_encode( $attributes ); ?>
@@ -53,13 +53,13 @@ function render( array $attributes ): string {
 
 function init_javascript() {
 	$enqueue_script = function () {
-		$handle    = 'chatrix-parent';
+		$handle    = 'chatrix-block-parent';
 		$root_url  = root_url();
 		$variables = array(
 			'rootUrl' => $root_url,
 		);
 
-		wp_register_script( $handle, "$root_url/parent.iife.js", array(), automattic_chatrix_version(), false );
+		wp_register_script( $handle, $root_url . 'parent.iife.js', array(), automattic_chatrix_version(), false );
 		wp_enqueue_script( $handle );
 		wp_localize_script( $handle, 'automattic_chatrix_block_config', $variables );
 	};
