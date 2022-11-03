@@ -14,9 +14,9 @@ Matrix client for WordPress.
 ## Description
 Easily add a matrix client to WordPress pages, either through the Block Editor, or as a _popup_:
 
-| Block                           | Popup                           |
-|---------------------------------|---------------------------------|
-| ![Block](screenshots/block.png) | ![Block](screenshots/popup.png) |
+## Screenshots
+![Block](assets/screenshot-1.png)
+![Popup](assets/screenshot-2.png)
 
 ## Usage
 This plugin can be used in two distinct ways:
