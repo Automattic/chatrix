@@ -1,15 +1,15 @@
 # Chatrix Matrix client
 
-Embed the Chatrix Matrix client into WordPress pages.
+- Contributors: automattic
+- Tags: matrix, chat
+- Requires at least: 6.0
+- Tested up to: 6.1
+- Requires PHP: 7.4
+- License: [GPLv2](http://www.gnu.org/licenses/gpl-2.0.html)
+- Stable tag: 0.2.1
+- GitHub Plugin URI: https://github.com/Automattic/chatrix
 
-**Contributors:** akirk, ashfame, psrpinto
-**Tags:** matrix, chatrix
-**Requires at least:** 5.0
-**Tested up to:** 6.1
-**Requires PHP:** 7.4
-**License:** [GPLv2 or later](http://www.gnu.org/licenses/gpl-2.0.html)
-**Stable tag:** trunk
-**GitHub Plugin URI:** https://github.com/Automattic/chatrix
+Chatrix Matrix client for WordPress.
 
 ## Description
 This plugin allows you to embed the [Chatrix Matrix client](https://github.com/Automattic/chatrix-frontend) into WordPress pages.
