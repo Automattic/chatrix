@@ -60,7 +60,12 @@ jobs:
       - name: Move and rename release directory
         run: mv /tmp/release chatrix
 
-      - name: Create archive for release
+      - name: Create zip archive for release
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r chatrix-${{ github.ref_name }}.zip chatrix
+
+      - name: Create tar archive for release
         run: tar -cvzf chatrix-${{ github.ref_name }}.tar.gz chatrix
 
       - name: Create release
@@ -68,6 +73,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref_name }}
-          artifacts: "chatrix-${{ github.ref_name }}.tar.gz"
+          artifacts: "chatrix-${{ github.ref_name }}.tar.gz,chatrix-${{ github.ref_name }}.zip"
           artifactErrorsFailBuild: true
           draft: true
