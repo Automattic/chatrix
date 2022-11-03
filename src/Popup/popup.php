@@ -129,13 +129,13 @@ function init_javascript() {
 				'iframeParams' => array(
 					'defaultHomeserver' => $config['config']['homeserver'],
 					'roomId'            => empty( $config['config']['room_id'] ) ? null : $config['config']['room_id'],
-				)
+				),
 			);
 
 			wp_register_script( $handle, $root_url . 'parent.iife.js', array(), automattic_chatrix_version(), false );
 			wp_enqueue_script( $handle );
 			wp_localize_script( $handle, 'automattic_chatrix_popup_config', $variables );
-			wp_enqueue_script( 'chatrix-popup-js',  plugins_url( 'popup.js', __FILE__ ), array(), automattic_chatrix_version(), false);
+			wp_enqueue_script( 'chatrix-popup-js', plugins_url( 'popup.js', __FILE__ ), array(), automattic_chatrix_version(), false );
 		}
 	);
 }
