@@ -27,9 +27,6 @@ jobs:
       - name: Install composer dependencies
         run: composer install --no-ansi --no-dev --no-interaction --no-plugins --no-scripts --optimize-autoloader
 
-      - name: Generate readme.txt
-        run: php bin/transform-readme.php
-
       - name: Install npm dependencies
         run: yarn install
 
