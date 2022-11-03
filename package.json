@@ -8,6 +8,7 @@
   "scripts": {
     "start:block": "vite --config frontend/targets/block/vite.config.ts",
     "start:popup": "vite --config frontend/targets/popup/vite.config.ts",
+    "build": "yarn build:block && yarn build:popup",
     "build:block": "tsc && mkdir -p build/.tmp && vite build --config frontend/targets/block/vite.config.ts --emptyOutDir && yarn run build:block:parent && yarn run build:block-internal",
     "build:popup": "tsc && mkdir -p build/.tmp && vite build --config frontend/targets/popup/vite.config.ts --emptyOutDir && yarn run build:popup:parent",
     "build:block:parent": "vite build --config frontend/targets/block/vite-parent.config.ts",
