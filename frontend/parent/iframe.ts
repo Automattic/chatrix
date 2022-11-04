@@ -1,5 +1,7 @@
 import { containerClass, iframeClass } from "./util";
 
+const LOGIN_TOKEN_PARAM_NAME = "loginToken";
+
 export type IframeParams = {
     defaultHomeserver: string
     roomId: string,
@@ -24,7 +26,8 @@ export class IframeUrl {
         return this.url.toString();
     }
 
-    private applyLoginToken(paramName = "loginToken"): void {
+    private applyLoginToken(): void {
+        const paramName = LOGIN_TOKEN_PARAM_NAME;
         const queryParams = new URLSearchParams(window.location.search);
 
         if (queryParams.has(paramName)) {
