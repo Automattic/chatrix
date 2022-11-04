@@ -45,5 +45,4 @@ rm -f chatrix.php-e README.md-e
 git add chatrix.php README.md
 
 git commit -m "Release v$VERSION"
-git tag "v$VERSION"
-git push --tags origin "$RELEASE_BRANCH"
+git push origin "$RELEASE_BRANCH"
