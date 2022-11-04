@@ -33,7 +33,7 @@ sed -i"" -e "s/\(Version: \)\(.*\)/\1$VERSION/g" chatrix.php
 sed -i"" -e "s/\(\$version = '\)\(.*\)/\1$VERSION';/g" chatrix.php
 sed -i"" -e "s/\(- Stable tag: \)\(.*\)/\1$VERSION/g" README.md
 rm -f chatrix.php-e README.md-e
-git add chatrix.php
+git add chatrix.php README.md
 
 git commit -m "Release v$VERSION"
 git tag "v$VERSION"
