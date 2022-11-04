@@ -10,22 +10,29 @@ export class IframeUrl {
 
     constructor(hostRoot: string, params: IframeParams) {
         this.url = new URL("index.html?", hostRoot);
-        const queryParams = new URLSearchParams(window.location.search);
-
-        if (queryParams.has("loginToken")) {
-            // @ts-ignore
-            params.loginToken = queryParams.get("loginToken");
-        }
 
         for (let key in params) {
             if (!!params[key]) {
                 this.url.searchParams.append(key, params[key]);
             }
         }
+
+        this.applyLoginToken();
     }
 
     public toString(): string {
         return this.url.toString();
+    }
+
+    private applyLoginToken(paramName = "loginToken"): void {
+        const queryParams = new URLSearchParams(window.location.search);
+
+        if (queryParams.has(paramName)) {
+            this.url.searchParams.append(
+                paramName,
+                queryParams.get(paramName) ?? ""
+            );
+        }
     }
 }
 
