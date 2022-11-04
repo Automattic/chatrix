@@ -10,7 +10,6 @@ export function defaultParentConfig(rootDir: string, targetName: string) {
         root: rootDir,
         envDir: __dirname,
         build: {
-            minify: false,
             outDir: resolve(__dirname, `../../build/frontend/${targetName}`),
             lib: {
                 entry: resolve(__dirname, `../targets/${targetName}/parent.ts`),
