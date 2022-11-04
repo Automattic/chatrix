@@ -20,7 +20,7 @@ fi
 
 git checkout main
 git fetch
-git pull origin main
+git pull --no-rebase origin main
 
 for file in package.json composer.json block/block.json
 do
