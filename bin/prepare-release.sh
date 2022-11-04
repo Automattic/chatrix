@@ -47,12 +47,17 @@ git add chatrix.php README.md
 git --no-pager diff --cached
 
 printf "\n\n"
-read -p "Would you like to commit and push the above diff to the $RELEASE_BRANCH branch? [y|n] " yn
+read -p "Would you like to commit, push and open a PR for the above diff? [y|n] " yn
 case $yn in
-	yes|y ) ;;
+	yes|y )
+	  echo "Ok, continuing";;
 	* )
 	  error "Exiting without committing."
 esac
 
 git commit -m "Release v$VERSION"
-git push origin "$RELEASE_BRANCH"
+git push -u origin "$RELEASE_BRANCH"
+gh pr create --base main --fill --title "Release v$VERSION" --assignee @me --reviewer akirk,ashfame,psrpinto
+
+echo "A Pull Request has been created for Release v$VERSION (see URL above)."
+echo "The release will automatically be created once the Pull Request is merged."
