@@ -35,8 +35,5 @@ jobs:
       - name: Run eslint
         run: yarn lint
 
-      - name: Build block
-        run: yarn build:block
-
-      - name: Build popup
-        run: yarn build:popup
+      - name: Build
+        run: yarn build
