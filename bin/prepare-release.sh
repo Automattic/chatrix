@@ -15,7 +15,7 @@ VERSION=$1
 RELEASE_BRANCH="release-$VERSION"
 
 CURRENT_BRANCH=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
-if [ "$CURRENT_BRANCH" != "main" ]; then
+if [[ "$CURRENT_BRANCH" != "main" ]] && [[ "$CURRENT_BRANCH" != "$RELEASE_BRANCH" ]]; then
   error "You must be on branch main"
 fi
 
