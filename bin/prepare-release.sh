@@ -1,11 +1,22 @@
 set -e
 
+function error {
+  RED='\033[0;31m'
+  NONE='\033[0m'
+  printf "$RED$1$NONE\n"
+  exit 1
+}
+
 if [ -z "$1" ]; then
-    echo "Provide a new version, current version is $(jq '.version' package.json)"
-    exit 1
+    error "Provide a new version, current version is $(jq '.version' package.json)"
 fi
 
 VERSION=$1
+
+CURRENT_BRANCH=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
+if [ "$CURRENT_BRANCH" != "main" ]; then
+  error "You must be on branch main"
+fi
 
 git checkout main
 git fetch
