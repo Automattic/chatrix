@@ -33,9 +33,6 @@ Run `phpcs`:
 ./vendor/bin/phpcs
 ```
 
-## Upgrading frontend
-If you wish to upgrade the version of [chatrix-frontend](https://github.com/Automattic/chatrix-frontend) used by this plugin, you can do so by editing `$VERSION` in [`bin/fetch-frontend.sh`](bin/fetch-frontend.sh). This will result in that version being used in the next release of this plugin.
-
 ## Releasing
 Chatrix releases are automatically created through a GitHub Action, which is executed whenever a tag of the form `vX.Y.Z` is pushed. You can create and push a tag with:
 
