@@ -1,32 +1,55 @@
 import { containerClass, iframeClass } from "./util";
 
+const LOGIN_TOKEN_PARAM_NAME = "loginToken";
+
 export type IframeParams = {
     defaultHomeserver: string
     roomId: string,
 }
 
-export class Iframe {
-    private readonly _url: string;
-    private readonly iframe: HTMLIFrameElement;
+export class IframeUrl {
+    private readonly url: URL;
 
     constructor(hostRoot: string, params: IframeParams) {
-        this._url = this.makeUrl(hostRoot, params);
+        this.url = new URL("index.html?", hostRoot);
 
+        for (let key in params) {
+            if (!!params[key]) {
+                this.url.searchParams.append(key, params[key]);
+            }
+        }
+
+        this.applyLoginToken();
+    }
+
+    public toString(): string {
+        return this.url.toString();
+    }
+
+    public hasLoginToken(): boolean {
+        return this.url.searchParams.has(LOGIN_TOKEN_PARAM_NAME);
+    }
+
+    private applyLoginToken(): void {
+        const paramName = LOGIN_TOKEN_PARAM_NAME;
+        const queryParams = new URLSearchParams(window.location.search);
+
+        if (queryParams.has(paramName)) {
+            this.url.searchParams.append(
+                paramName,
+                queryParams.get(paramName) ?? ""
+            );
+        }
+    }
+}
+
+export class Iframe {
+    private readonly iframe: HTMLIFrameElement;
+
+    constructor(url: IframeUrl) {
         this.iframe = document.createElement("iframe");
-        this.iframe.src = this.url;
+        this.iframe.src = url.toString();
         this.iframe.className = iframeClass();
-    }
-
-    public get url(): string {
-        return this._url;
-    }
-
-    public get element(): HTMLIFrameElement {
-        return this.iframe;
-    }
-
-    public get visible(): boolean {
-        return this.iframe.style.display !== "none";
     }
 
     public set visible(value: boolean) {
@@ -45,23 +68,5 @@ export class Iframe {
 
         container.className = containerClass();
         container.appendChild(this.iframe);
-    }
-
-    private makeUrl(rootUrl: string, params: IframeParams): string {
-        const url = new URL("index.html?", rootUrl);
-        const queryParams = new URLSearchParams(window.location.search);
-
-        if (queryParams.has("loginToken")) {
-            // @ts-ignore
-            params.loginToken = queryParams.get("loginToken");
-        }
-
-        for (let key in params) {
-            if (!!params[key]) {
-                url.searchParams.append(key, params[key]);
-            }
-        }
-
-        return url.toString();
     }
 }

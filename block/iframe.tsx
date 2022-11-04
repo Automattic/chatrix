@@ -1,6 +1,6 @@
 import { useFocusableIframe } from "@wordpress/compose";
 import { WPElement } from "@wordpress/element";
-import { Iframe } from "../frontend/parent/iframe";
+import { IframeUrl } from "../frontend/parent/iframe";
 import { containerClass, iframeClass } from "../frontend/parent/util";
 
 export default function IFrame({ attributes, focusable = false }): WPElement {
@@ -18,14 +18,14 @@ export default function IFrame({ attributes, focusable = false }): WPElement {
     );
 }
 
-function iframeUrl(attributes) {
+function iframeUrl(attributes): string {
     const config = window.automattic_chatrix_block_config;
     if (!config) {
         throw new Error("Failed to initialize Chatrix block: window.automattic_chatrix_block_config is not defined");
     }
 
-    const iframe = new Iframe(config.rootUrl, attributes);
-    return iframe.url;
+    const url = new IframeUrl(config.rootUrl, attributes);
+    return url.toString();
 }
 
 declare global {
