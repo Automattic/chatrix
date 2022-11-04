@@ -12,15 +12,24 @@ if [ -z "$1" ]; then
 fi
 
 VERSION=$1
+RELEASE_BRANCH="release-$VERSION"
 
 CURRENT_BRANCH=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
 if [ "$CURRENT_BRANCH" != "main" ]; then
   error "You must be on branch main"
 fi
 
-git checkout main
+# Make sure we're up-to-date with origin.
 git fetch
 git pull --no-rebase origin main
+
+# Checkout or create branch for release.
+if [[ $(git branch --list "$RELEASE_BRANCH") ]]
+then
+  git checkout "$RELEASE_BRANCH"
+else
+  git checkout -b "$RELEASE_BRANCH"
+fi
 
 for file in package.json composer.json block/block.json
 do
@@ -37,4 +46,4 @@ git add chatrix.php README.md
 
 git commit -m "Release v$VERSION"
 git tag "v$VERSION"
-git push --tags origin main
+git push --tags origin "$RELEASE_BRANCH"
