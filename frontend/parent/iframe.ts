@@ -44,12 +44,8 @@ export class Iframe {
         this._url = new IframeUrl(hostRoot, params);
 
         this.iframe = document.createElement("iframe");
-        this.iframe.src = this.url;
+        this.iframe.src = this._url.toString();
         this.iframe.className = iframeClass();
-    }
-
-    public get url(): string {
-        return this._url.toString();
     }
 
     public set visible(value: boolean) {
