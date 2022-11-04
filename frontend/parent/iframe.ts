@@ -5,12 +5,36 @@ export type IframeParams = {
     roomId: string,
 }
 
+export class IframeUrl {
+    private readonly url: URL;
+
+    constructor(hostRoot: string, params: IframeParams) {
+        this.url = new URL("index.html?", hostRoot);
+        const queryParams = new URLSearchParams(window.location.search);
+
+        if (queryParams.has("loginToken")) {
+            // @ts-ignore
+            params.loginToken = queryParams.get("loginToken");
+        }
+
+        for (let key in params) {
+            if (!!params[key]) {
+                this.url.searchParams.append(key, params[key]);
+            }
+        }
+    }
+
+    public toString(): string {
+        return this.url.toString();
+    }
+}
+
 export class Iframe {
-    private readonly _url: string;
+    private readonly _url: IframeUrl;
     private readonly iframe: HTMLIFrameElement;
 
     constructor(hostRoot: string, params: IframeParams) {
-        this._url = this.makeUrl(hostRoot, params);
+        this._url = new IframeUrl(hostRoot, params);
 
         this.iframe = document.createElement("iframe");
         this.iframe.src = this.url;
@@ -18,7 +42,7 @@ export class Iframe {
     }
 
     public get url(): string {
-        return this._url;
+        return this._url.toString();
     }
 
     public set visible(value: boolean) {
@@ -37,23 +61,5 @@ export class Iframe {
 
         container.className = containerClass();
         container.appendChild(this.iframe);
-    }
-
-    private makeUrl(rootUrl: string, params: IframeParams): string {
-        const url = new URL("index.html?", rootUrl);
-        const queryParams = new URLSearchParams(window.location.search);
-
-        if (queryParams.has("loginToken")) {
-            // @ts-ignore
-            params.loginToken = queryParams.get("loginToken");
-        }
-
-        for (let key in params) {
-            if (!!params[key]) {
-                url.searchParams.append(key, params[key]);
-            }
-        }
-
-        return url.toString();
     }
 }
