@@ -1,4 +1,4 @@
-import { Iframe, IframeParams } from "../../../parent/iframe";
+import { Iframe, IframeParams, IframeUrl } from "../../../parent/iframe";
 import { containerClass } from "../../../parent/util";
 import { StartButton } from "./button";
 
@@ -20,7 +20,7 @@ export class Popup {
         });
 
         this.isFrameLoaded = false;
-        this.iframe = new Iframe(hostRoot, params);
+        this.iframe = new Iframe(new IframeUrl(hostRoot, params));
 
         this.container.className = containerClass();
         this.startButton.mount(this.container.id);

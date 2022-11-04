@@ -37,14 +37,11 @@ export class IframeUrl {
 }
 
 export class Iframe {
-    private readonly _url: IframeUrl;
     private readonly iframe: HTMLIFrameElement;
 
-    constructor(hostRoot: string, params: IframeParams) {
-        this._url = new IframeUrl(hostRoot, params);
-
+    constructor(url: IframeUrl) {
         this.iframe = document.createElement("iframe");
-        this.iframe.src = this._url.toString();
+        this.iframe.src = url.toString();
         this.iframe.className = iframeClass();
     }
 
