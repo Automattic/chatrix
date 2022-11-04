@@ -2,11 +2,17 @@
 
 /* TODO: The rules below should be extracted out of the theme as they are theme-agnostic. */
 
+/* Iframe is transparent so we must set the background color of its document's body. */
+body {
+    background-color: var(--background-color-primary);
+}
+
 /* Somehow the SessionView is off by 8px, the following rules fix that. */
 .SessionView {
     top: 0;
     left: 0;
 }
+
 /* Hide back button when in single-room mode. */
 .RootView.single-room-mode .RoomHeader .close-middle {
     display: none !important;
