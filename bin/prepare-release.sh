@@ -44,5 +44,15 @@ sed -i"" -e "s/\(- Stable tag: \)\(.*\)/\1$VERSION/g" README.md
 rm -f chatrix.php-e README.md-e
 git add chatrix.php README.md
 
+git --no-pager diff --cached
+
+printf "\n\n"
+read -p "Would you like to commit and push the above diff to the $RELEASE_BRANCH branch? [y|n] " yn
+case $yn in
+	yes|y ) ;;
+	* )
+	  error "Exiting without committing."
+esac
+
 git commit -m "Release v$VERSION"
 git push origin "$RELEASE_BRANCH"
