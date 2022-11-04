@@ -21,14 +21,6 @@ export class Iframe {
         return this._url;
     }
 
-    public get element(): HTMLIFrameElement {
-        return this.iframe;
-    }
-
-    public get visible(): boolean {
-        return this.iframe.style.display !== "none";
-    }
-
     public set visible(value: boolean) {
         if (value) {
             this.iframe.style.display = "block";
