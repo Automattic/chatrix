@@ -12,6 +12,11 @@ if [ -z "$1" ]; then
 fi
 
 VERSION=$1
+if [[ $VERSION == v* ]]; then
+  # Strip leading v.
+  VERSION="${VERSION:1}"
+fi
+
 RELEASE_BRANCH="release-$VERSION"
 
 CURRENT_BRANCH=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
