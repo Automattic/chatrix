@@ -15,8 +15,8 @@ jobs:
   check-version:
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.check-version.outputs.current-version }}
       changed: ${{ steps.output.outputs.changed }}
+      version: ${{ steps.output.outputs.version }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -29,18 +29,19 @@ jobs:
           version-command: jq '.version' package.json
           create-tag: false
 
-      - name: Set output if version changed
+      - name: Set output
         if: steps.check-version.outputs.current-version != steps.check-version.outputs.previous-version
         id: output
         run: |
           echo "Detected version change from ${{ steps.check-version.outputs.previous-version }} to ${{ steps.check-version.outputs.current-version }}"
           echo ::set-output name=changed::true
+          echo ::set-output name=version::${{ steps.check-version.outputs.current-version }}
 
   create-release:
     needs: check-version
     if: needs.check-version.outputs.changed == 'true'
     env:
-      version: needs.check-version.outputs.version
+      version: ${{ needs.check-version.outputs.version }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
