@@ -63,7 +63,7 @@ esac
 # Commit, push and open PR.
 git commit -m "Release v$VERSION"
 git push -u origin "$RELEASE_BRANCH"
-gh pr create --base main --fill --title "Release v$VERSION" --assignee @me --reviewer akirk,ashfame,psrpinto
+gh pr create --base main --label "Prepare Release" --fill --title "Release v$VERSION" --assignee @me --reviewer akirk,ashfame,psrpinto
 
 echo "A Pull Request has been created for Release v$VERSION (see URL above)."
 echo "The release will automatically be created once the Pull Request is merged."
