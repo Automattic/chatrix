@@ -34,12 +34,25 @@ Run `phpcs`:
 ```
 
 ## Releasing
-Chatrix releases are automatically created through a GitHub Action, which is executed whenever a tag of the form `vX.Y.Z` is pushed. You can create and push a tag with:
+Issuing a new release is a semi-automated process which consists of the following steps:
+
+1. In your local machine, run the `bin/prepare-release.sh` script, which creates a Pull Request where a release can be prepared.
+2. Once the above PR is merged, a GitHub Action will be triggered which will create a release on GitHub.
+3. Once a release is created on GitHub, a GitHub Action will be triggered which will publish the release to the WordPress Plugin Directory.
+
+### Preparing a release
+
+> You'll need [`jq`](https://stedolan.github.io/jq), which on macOS can be installed with `brew install jq`.
+
+> You'll need the [GitHub CLI](https://cli.github.com), which on macOS can be installed with `brew install gh`.
+
+You can prepare a release with the following command (using `v1.2.3` as example):
+
+> Make sure to consider [Semantic Versioning](https://semver.org) to decide which version you're issuing.
+
 
 ```shell
-# Make sure you consider https://semver.org to decide which version you're issuing.
-# Note the version must not be prefixed with a "v", e.g. it should be 1.2.3, not v1.2.3.  
 bin/prepare-release.sh 1.2.3
 ```
 
-Running the above script will trigger the [GitHub Action](https://github.com/Automattic/chatrix/actions), which when completed will have created a **draft release** for the tag that was pushed. You should then edit that release to provide a meaningful title and description (ideally including a [changelog](https://keepachangelog.com/en/1.0.0/)), then publish the release through the GitHub UI.
+Running the above script will create the Pull Request where a release can be prepared. Once the PR is merged, a GitHub Action will be triggered which will create the release.
