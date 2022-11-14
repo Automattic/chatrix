@@ -55,4 +55,4 @@ You can prepare a release with the following command (using `v1.2.3` as example)
 bin/prepare-release.sh 1.2.3
 ```
 
-Running the above script will create the Pull Request where a release can be prepared. Once the PR is merged, a GitHub Action will be triggered which will create the release.
+Running the above script will create the Pull Request where a release can be prepared. Once the PR is merged, a GitHub Action will be triggered which will create a draft Release. That Release should then be reviewed and manually published through the GitHub Web UI.
