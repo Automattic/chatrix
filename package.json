@@ -1,6 +1,6 @@
 {
   "name": "chatrix",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Embedded Matrix client for WordPress",
   "repository": "git@github.com:Automattic/chatrix.git",
   "author": "Automattic",
