@@ -40,7 +40,7 @@ jobs:
     needs: check-version
     if: needs.check-version.outputs.changed == 'true'
     env:
-      version: ${{ needs.check-version.outputs.version }}
+      version: needs.check-version.outputs.version
     runs-on: ubuntu-latest
     permissions:
       contents: write
