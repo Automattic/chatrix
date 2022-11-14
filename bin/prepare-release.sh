@@ -60,10 +60,17 @@ case $yn in
 	  error "Exiting without committing."
 esac
 
-# Commit, push and open PR.
+# Commit and push.
 git commit -m "Release v$VERSION"
 git push -u origin "$RELEASE_BRANCH"
-gh pr create --base main --label "Prepare Release" --title "Release v$VERSION" --body "Prepare release for v$VERSION" --assignee @me --reviewer akirk,ashfame,psrpinto
+
+# Open PR.
+LATEST_VERSION_TAG=$(git describe --tags --match "v[0-9]*" --abbrev=0 HEAD)
+PR_BODY=$(cat <<-EOB
+[Commits since $LATEST_VERSION_TAG](https://github.com/Automattic/chatrix/compare/$LATEST_VERSION_TAG...$RELEASE_BRANCH)
+EOB
+)
+gh pr create --base main --label "Prepare Release" --title "Release v$VERSION" --body "$PR_BODY" --assignee @me --reviewer akirk,ashfame,psrpinto
 
 echo "A Pull Request has been created for Release v$VERSION (see URL above)."
 echo "The release will automatically be created once the Pull Request is merged."
