@@ -103,6 +103,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.version }}
+          commit: ${{ github.sha }}
           artifacts: "chatrix-${{ env.version }}.tar.gz,chatrix-${{ env.version }}.zip"
           artifactErrorsFailBuild: true
           draft: true
