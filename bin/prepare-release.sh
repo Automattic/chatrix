@@ -31,21 +31,21 @@ else
   git checkout -b "$RELEASE_BRANCH"
 fi
 
+# Substitute version in all relevant files.
 for file in package.json composer.json block/block.json
 do
   jq ".version = \"$VERSION\"" $file > $file.tmp
   mv $file.tmp $file
   git add $file
 done
-
 sed -i"" -e "s/\(Version: \)\(.*\)/\1$VERSION/g" chatrix.php
 sed -i"" -e "s/\(\$version = '\)\(.*\)/\1$VERSION';/g" chatrix.php
 sed -i"" -e "s/\(- Stable tag: \)\(.*\)/\1$VERSION/g" README.md
 rm -f chatrix.php-e README.md-e
 git add chatrix.php README.md
 
+# Show diff and ask for confirmation.
 git --no-pager diff --cached
-
 printf "\n\n"
 read -p "Would you like to commit, push and open a PR for the above diff? [y|n] " yn
 case $yn in
@@ -55,6 +55,7 @@ case $yn in
 	  error "Exiting without committing."
 esac
 
+# Commit, push and open PR.
 git commit -m "Release v$VERSION"
 git push -u origin "$RELEASE_BRANCH"
 gh pr create --base main --fill --title "Release v$VERSION" --assignee @me --reviewer akirk,ashfame,psrpinto
