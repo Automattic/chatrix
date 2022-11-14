@@ -21,7 +21,7 @@ fi
 
 # Make sure we're up-to-date with origin.
 git fetch
-git pull --no-rebase origin main
+git pull --ff-only origin main
 
 # Checkout or create branch for release.
 if [[ $(git branch --list "$RELEASE_BRANCH") ]]
