@@ -15,6 +15,7 @@ jobs:
   check-version:
     runs-on: ubuntu-latest
     outputs:
+      version: ${{ steps.check-version.outputs.current-version }}
       changed: ${{ steps.output.outputs.changed }}
     steps:
       - name: Checkout repository
@@ -32,12 +33,14 @@ jobs:
         if: steps.check-version.outputs.current-version != steps.check-version.outputs.previous-version
         id: output
         run: |
-          echo "Detected version change from ${{steps.check-version.outputs.previous-version}} to ${{steps.check-version.outputs.current-version}}"
+          echo "Detected version change from ${{ steps.check-version.outputs.previous-version }} to ${{ steps.check-version.outputs.current-version }}"
           echo ::set-output name=changed::true
 
   create-release:
     needs: check-version
     if: needs.check-version.outputs.changed == 'true'
+    env:
+      version: ${{ needs.check-version.outputs.version }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -90,16 +93,16 @@ jobs:
       - name: Create zip archive for release
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r chatrix-${{ github.ref_name }}.zip chatrix
+          args: zip -qq -r chatrix-${{ env.version }}.zip chatrix
 
       - name: Create tar archive for release
-        run: tar -cvzf chatrix-${{ github.ref_name }}.tar.gz chatrix
+        run: tar -cvzf chatrix-${{ env.version }}.tar.gz chatrix
 
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref_name }}
-          artifacts: "chatrix-${{ github.ref_name }}.tar.gz,chatrix-${{ github.ref_name }}.zip"
+          tag: ${{ env.version }}
+          artifacts: "chatrix-${{ env.version }}.tar.gz,chatrix-${{ env.version }}.zip"
           artifactErrorsFailBuild: true
           draft: true
