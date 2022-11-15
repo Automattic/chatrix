@@ -87,6 +87,8 @@ jobs:
           rm -rf /tmp/release/node_modules
           rm -rf /tmp/release/frontend
           rm -rf /tmp/release/block
+          rm -rf /tmp/release/yarn.lock
+          rm -rf /tmp/release/package.json
 
       - name: Move and rename release directory
         run: mv /tmp/release chatrix
