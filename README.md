@@ -24,6 +24,10 @@ This plugin can be used in two distinct ways:
 1. By adding a block to a page through the block editor
 2. By selecting pages in which a _popup_ will be displayed. You configure this through `Settings -> Chatrix`.
 
+## Frequently Asked Questions
+### How can I add a border around the block?
+To add a border around the Chatrix block, you can place it inside a Group block. The Group block allows you to set a border, rounded corners, and other styling properties.
+
 ## Advanced usage
 > This only applies to the _popup_, not to the block.
 
