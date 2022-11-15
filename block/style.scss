@@ -2,13 +2,19 @@
  * Styles for both editor and the the frontend.
  */
 
-.wp-block-automattic-chatrix .automattic-chatrix-container {
-  width: 100%;
-  height: 600px;
+.wp-block-automattic-chatrix {
+  // When rendering inside a Group block with rounded corners (i.e. border-radius is set), we must inherit that
+  // border-radius and hide overflows, otherwise the content of the iframe covers the rounded corners.
+  border-radius: inherit;
+  overflow: hidden;
 
-  iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
+  .automattic-chatrix-container {
+    height: 600px;
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
   }
 }
