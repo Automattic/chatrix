@@ -55,51 +55,9 @@ jobs:
           node-version: '16'
           cache: 'yarn'
 
-      - name: Install composer dependencies
-        run: composer install --no-ansi --no-dev --no-interaction --no-plugins --no-scripts --optimize-autoloader
-
-      - name: Install npm dependencies
-        run: yarn install
-
-      - name: Build frontend
-        run: yarn build
-
-      - name: Create directory for release
-        run: mkdir /tmp/release
-
-      - name: Copy all files to release directory
-        run: cp -r ./* /tmp/release/
-
-      - name: Remove unnecessary files and directories
-        run: |
-          rm -rf /tmp/release/.github
-          rm -rf /tmp/release/.git
-          rm -rf /tmp/release/.gitignore
-          rm -rf /tmp/release/.editorconfig
-          rm -rf /tmp/release/.eslintrc.js
-          rm -rf /tmp/release/.wp-env.json
-          rm -rf /tmp/release/bin
-          rm -rf /tmp/release/CONTRIBUTING.md
-          rm -rf /tmp/release/Makefile
-          rm -rf /tmp/release/phpcs.xml
-          rm -rf /tmp/release/tsconfig.json
-          rm -rf /tmp/release/build/.tmp
-          rm -rf /tmp/release/node_modules
-          rm -rf /tmp/release/frontend
-          rm -rf /tmp/release/block
-          rm -rf /tmp/release/yarn.lock
-          rm -rf /tmp/release/package.json
-
-      - name: Move and rename release directory
-        run: mv /tmp/release chatrix
-
-      - name: Create zip archive for release
-        uses: montudor/action-zip@v1
-        with:
-          args: zip -qq -r chatrix-${{ env.version }}.zip chatrix
-
-      - name: Create tar archive for release
-        run: tar -cvzf chatrix-${{ env.version }}.tar.gz chatrix
+      - name: Create artifacts
+        run:
+          shell: bin/create-release-artifacts.sh ${{ env.version }}
 
       - name: Create release
         uses: ncipollo/release-action@v1
@@ -107,6 +65,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.version }}
           commit: ${{ github.sha }}
-          artifacts: "chatrix-${{ env.version }}.tar.gz,chatrix-${{ env.version }}.zip"
+          artifacts: "release/chatrix-${{ env.version }}.tar.gz,release/chatrix-${{ env.version }}.zip"
           artifactErrorsFailBuild: true
           draft: true
