@@ -19,13 +19,13 @@ Easily add a [Matrix](https://matrix.org) client to WordPress pages, either thro
 ![Popup](assets/screenshot-2.png)
 
 ## Frequently Asked Questions
-## How can I install this plugin on my site?
+### How can I install this plugin on my site?
 This plugin can be used in two distinct ways:
 
 1. By adding a block to a page through the block editor
 2. By selecting pages in which a _popup_ will be displayed. You configure this through `Settings -> Chatrix`.
 
-## Is there a more flexible way to configure the _popup_?
+### Is there a more flexible way to configure the popup?
 Yes. Instead of configuring the _popup_ through `Settings -> Chatrix`, you can configure it through code, by using the `chatrix_instances` filter:
 
 ```
