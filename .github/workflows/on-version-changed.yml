@@ -1,7 +1,7 @@
 name: Check if version changed, and if yes, create a release
 
 on:
-  # Trigger manually from https://github.com/Automattic/chatrix/actions/workflows/check-version.yml
+  # Trigger manually from https://github.com/Automattic/chatrix/actions/workflows/on-version-changed.yml
   workflow_dispatch:
 
   push:
@@ -11,7 +11,7 @@ on:
       - 'package.json'
 
 jobs:
-  check-version:
+  on-version-changed:
     runs-on: ubuntu-latest
     outputs:
       changed: ${{ steps.output.outputs.changed }}
@@ -37,10 +37,10 @@ jobs:
           echo ::set-output name=version::${{ steps.check-version.outputs.current-version }}
 
   call-create-release:
-    needs: check-version
-    if: needs.check-version.outputs.changed == 'true'
+    needs: on-version-changed
+    if: needs.on-version-changed.outputs.changed == 'true'
     uses: ./.github/workflows/create-release.yml
     permissions:
       contents: write
     with:
-      version: v${{ needs.check-version.outputs.version }}
+      version: v${{ needs.on-version-changed.outputs.version }}
