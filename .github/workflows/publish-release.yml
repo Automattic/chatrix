@@ -1,0 +1,45 @@
+name: Publish release to WordPress.org plugin directory
+
+on:
+  # Trigger manually from https://github.com/Automattic/chatrix/actions/workflows/publish-release.yml
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version of the release to publish, e.g. v1.2.3"
+        required: true
+        type: string
+
+  workflow_call:
+    inputs:
+      version:
+        description: "Version of the release to publish, e.g. v1.2.3"
+        required: true
+        type: string
+jobs:
+  publish-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: Build release
+        # We don't use the release artifacts here, but the script will also create the release directory, and that's
+        # what will be uploaded to SVN.
+        run: ./bin/create-release-artifacts.sh ${{ inputs.version }}
+
+      - name: Deploy to plugin directory
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        with:
+          generate-zip: false
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          BUILD_DIR: release/${{ inputs.version }}
+          ASSETS_DIR: .wporg
+          VERSION: ${{ inputs.version }}
