@@ -18,23 +18,17 @@ Easily add a [Matrix](https://matrix.org) client to WordPress pages, either thro
 ![Block](assets/screenshot-1.png)
 ![Popup](assets/screenshot-2.png)
 
-## Usage
+## Frequently Asked Questions
+### How can I install this plugin on my site?
 This plugin can be used in two distinct ways:
 
 1. By adding a block to a page through the block editor
 2. By selecting pages in which a _popup_ will be displayed. You configure this through `Settings -> Chatrix`.
 
-## Frequently Asked Questions
-### How can I add a border around the block?
-To add a border around the Chatrix block, you can place it inside a Group block. The Group block allows you to set a border, rounded corners, and other styling properties.
+### Is there a more flexible way to configure the popup?
+Yes. Instead of configuring the _popup_ through `Settings -> Chatrix`, you can configure it through code, by using the `chatrix_instances` filter:
 
-## Advanced usage
-> This only applies to the _popup_, not to the block.
-
-If you need more flexibility than what the plugin's settings provides, you can configure chatrix though
-the `chatrix_instances` filter:
-
-```php
+`
 // functions.php
 
 add_filter( 'chatrix_instances', function ( array $default_instances ) {
@@ -55,4 +49,7 @@ add_filter( 'chatrix_instances', function ( array $default_instances ) {
 		),
 	);
 } );
-```
+`
+
+### How can I add a border around the block?
+To add a border around the Chatrix block, you can place it inside a Group block. The Group block allows you to set a border, rounded corners, and other styling properties.
