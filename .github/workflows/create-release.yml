@@ -1,0 +1,45 @@
+name: Create a release
+
+on:
+  # Trigger manually from https://github.com/Automattic/chatrix/actions/workflows/create-release.yml
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version, e.g. v1.2.3"
+        required: true
+        type: string
+
+  workflow_call:
+    inputs:
+      version:
+        description: "Release version, e.g. v1.2.3"
+        required: true
+        type: string
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: Create artifacts
+        run: ./bin/create-release-artifacts.sh ${{ inputs.version }}
+
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ inputs.version }}
+          commit: ${{ github.sha }}
+          artifacts: "release/chatrix-${{ inputs.version }}.tar.gz,release/chatrix-${{ inputs.version }}.zip"
+          artifactErrorsFailBuild: true
+          draft: true
