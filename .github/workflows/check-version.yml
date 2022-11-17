@@ -1,8 +1,7 @@
-name: Check if a new version has been issued, and if yes, create a release
+name: Check if version changed, and if yes, create a release
 
 on:
-  # Allow manual trigger from the Actions tab:
-  # https://github.com/Automattic/chatrix/actions/workflows/check-version.yml
+  # Trigger manually from https://github.com/Automattic/chatrix/actions/workflows/check-version.yml
   workflow_dispatch:
 
   push:
@@ -37,33 +36,11 @@ jobs:
           echo ::set-output name=changed::true
           echo ::set-output name=version::${{ steps.check-version.outputs.current-version }}
 
-  create-release:
+  call-create-release:
     needs: check-version
     if: needs.check-version.outputs.changed == 'true'
-    env:
-      version: v${{ needs.check-version.outputs.version }}
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/create-release.yml
     permissions:
       contents: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          cache: 'yarn'
-
-      - name: Create artifacts
-        run: ./bin/create-release-artifacts.sh ${{ env.version }}
-
-      - name: Create release
-        uses: ncipollo/release-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ env.version }}
-          commit: ${{ github.sha }}
-          artifacts: "release/chatrix-${{ env.version }}.tar.gz,release/chatrix-${{ env.version }}.zip"
-          artifactErrorsFailBuild: true
-          draft: true
+    with:
+      version: v${{ needs.check-version.outputs.version }}
