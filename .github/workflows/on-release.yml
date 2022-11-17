@@ -9,6 +9,6 @@ on:
 
 jobs:
   call-publish-release:
-    uses: ./.github/workflows/create-release.yml
+    uses: ./.github/workflows/publish-release.yml
     with:
       version: ${{ github.event.release.tag_name }}
