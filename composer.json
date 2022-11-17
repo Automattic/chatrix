@@ -1,6 +1,6 @@
 {
   "name": "automattic/chatrix",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "WordPress plugin to embed a Matrix client into WordPress pages.",
   "type": "wordpress-plugin",
   "license": "GPL",
