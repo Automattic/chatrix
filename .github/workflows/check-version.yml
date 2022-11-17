@@ -1,8 +1,8 @@
-name: Create a release
+name: Check if a new version has been issued, and if yes, create a release
 
 on:
   # Allow manual trigger from the Actions tab:
-  # https://github.com/Automattic/chatrix/actions/workflows/create-release.yml
+  # https://github.com/Automattic/chatrix/actions/workflows/check-version.yml
   workflow_dispatch:
 
   push:
