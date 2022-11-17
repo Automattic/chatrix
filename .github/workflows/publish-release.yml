@@ -15,6 +15,11 @@ on:
         description: "Version of the release to publish, e.g. v1.2.3"
         required: true
         type: string
+    secrets:
+      SVN_USERNAME:
+        required: true
+      SVN_PASSWORD:
+        required: true
 jobs:
   publish-release:
     runs-on: ubuntu-latest
