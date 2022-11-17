@@ -15,8 +15,8 @@ Matrix client for WordPress.
 Easily add a [Matrix](https://matrix.org) client to WordPress pages, either through the Block Editor, or as a _popup_.
 
 ## Screenshots
-![Block](assets/screenshot-1.png)
-![Popup](assets/screenshot-2.png)
+![Block](.wporg/screenshot-1.png)
+![Popup](.wporg/screenshot-2.png)
 
 ## Frequently Asked Questions
 ### How can I install this plugin on my site?
