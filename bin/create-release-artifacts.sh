@@ -15,9 +15,9 @@ if [ -z "$1" ]; then
 fi
 
 VERSION=$1
-if [[ $VERSION == v* ]]; then
-  # Strip leading v.
-  VERSION="${VERSION:1}"
+if [[ $VERSION != v* ]]; then
+  # Add leading v.
+  VERSION="v$VERSION"
 fi
 
 RELEASE_ROOT_DIR="$(pwd)/release"

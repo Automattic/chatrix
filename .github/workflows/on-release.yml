@@ -1,0 +1,16 @@
+name: Publish release to WordPress.org plugin directory when there is a new release on GitHub
+
+on:
+  # Trigger manually from https://github.com/Automattic/chatrix/actions/workflows/on-release-published.yml
+  workflow_dispatch:
+
+  release:
+    types: [released]
+
+jobs:
+  call-publish-release:
+    needs: on-version-changed
+    if: needs.on-version-changed.outputs.changed == 'true'
+    uses: ./.github/workflows/create-release.yml
+    with:
+      version: v${{ needs.on-version-changed.outputs.version }}

@@ -1,0 +1,46 @@
+name: Check if version changed, and if yes, create a release
+
+on:
+  # Trigger manually from https://github.com/Automattic/chatrix/actions/workflows/on-version-changed.yml
+  workflow_dispatch:
+
+  push:
+    branches:
+      - main
+    paths:
+      - 'package.json'
+
+jobs:
+  on-version-changed:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.output.outputs.changed }}
+      version: ${{ steps.output.outputs.version }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - uses: salsify/action-detect-and-tag-new-version@v2
+        id: check-version
+        with:
+          version-command: jq '.version' package.json
+          create-tag: false
+
+      - name: Set output
+        if: steps.check-version.outputs.current-version != steps.check-version.outputs.previous-version
+        id: output
+        run: |
+          echo "Detected version change from ${{ steps.check-version.outputs.previous-version }} to ${{ steps.check-version.outputs.current-version }}"
+          echo ::set-output name=changed::true
+          echo ::set-output name=version::${{ steps.check-version.outputs.current-version }}
+
+  call-create-release:
+    needs: on-version-changed
+    if: needs.on-version-changed.outputs.changed == 'true'
+    uses: ./.github/workflows/create-release.yml
+    permissions:
+      contents: write
+    with:
+      version: v${{ needs.on-version-changed.outputs.version }}

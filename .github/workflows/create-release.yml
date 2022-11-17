@@ -1,47 +1,23 @@
 name: Create a release
 
 on:
-  # Allow manual trigger from the Actions tab:
-  # https://github.com/Automattic/chatrix/actions/workflows/create-release.yml
+  # Trigger manually from https://github.com/Automattic/chatrix/actions/workflows/create-release.yml
   workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version, e.g. v1.2.3"
+        required: true
+        type: string
 
-  push:
-    branches:
-      - main
-    paths:
-      - 'package.json'
+  workflow_call:
+    inputs:
+      version:
+        description: "Release version, e.g. v1.2.3"
+        required: true
+        type: string
 
 jobs:
-  check-version:
-    runs-on: ubuntu-latest
-    outputs:
-      changed: ${{ steps.output.outputs.changed }}
-      version: ${{ steps.output.outputs.version }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 2
-
-      - uses: salsify/action-detect-and-tag-new-version@v2
-        id: check-version
-        with:
-          version-command: jq '.version' package.json
-          create-tag: false
-
-      - name: Set output
-        if: steps.check-version.outputs.current-version != steps.check-version.outputs.previous-version
-        id: output
-        run: |
-          echo "Detected version change from ${{ steps.check-version.outputs.previous-version }} to ${{ steps.check-version.outputs.current-version }}"
-          echo ::set-output name=changed::true
-          echo ::set-output name=version::${{ steps.check-version.outputs.current-version }}
-
   create-release:
-    needs: check-version
-    if: needs.check-version.outputs.changed == 'true'
-    env:
-      version: v${{ needs.check-version.outputs.version }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -56,15 +32,14 @@ jobs:
           cache: 'yarn'
 
       - name: Create artifacts
-        run:
-          shell: bin/create-release-artifacts.sh ${{ env.version }}
+        run: ./bin/create-release-artifacts.sh ${{ inputs.version }}
 
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ env.version }}
+          tag: ${{ inputs.version }}
           commit: ${{ github.sha }}
-          artifacts: "release/chatrix-${{ env.version }}.tar.gz,release/chatrix-${{ env.version }}.zip"
+          artifacts: "release/chatrix-${{ inputs.version }}.tar.gz,release/chatrix-${{ inputs.version }}.zip"
           artifactErrorsFailBuild: true
           draft: true
