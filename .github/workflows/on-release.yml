@@ -9,8 +9,6 @@ on:
 
 jobs:
   call-publish-release:
-    needs: on-version-changed
-    if: needs.on-version-changed.outputs.changed == 'true'
     uses: ./.github/workflows/create-release.yml
     with:
-      version: v${{ needs.on-version-changed.outputs.version }}
+      version: ${{ github.event.release.tag_name }}
