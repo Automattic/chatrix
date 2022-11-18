@@ -5,14 +5,14 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Version of the release to publish, e.g. v1.2.3"
+        description: "Version of the release to publish, e.g. 1.2.3"
         required: true
         type: string
 
   workflow_call:
     inputs:
       version:
-        description: "Version of the release to publish, e.g. v1.2.3"
+        description: "Version of the release to publish, e.g. 1.2.3"
         required: true
         type: string
     secrets:

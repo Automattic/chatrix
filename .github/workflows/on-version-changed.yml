@@ -43,4 +43,4 @@ jobs:
     permissions:
       contents: write
     with:
-      version: v${{ needs.on-version-changed.outputs.version }}
+      version: ${{ needs.on-version-changed.outputs.version }}
