@@ -74,5 +74,5 @@ EOB
 )
 gh pr create --base main --label "Prepare Release" --title "Release v$VERSION" --body "$PR_BODY" --assignee @me --reviewer akirk,ashfame,psrpinto
 
-echo "A Pull Request has been created for Release v$VERSION (see URL above)."
+echo "A Pull Request has been created for Release $VERSION (see URL above)."
 echo "The release will automatically be created once the Pull Request is merged."
