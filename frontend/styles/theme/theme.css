@@ -21,7 +21,7 @@ body {
 /* Remove horizontal scrollbars in pre-session screen. */
 @media screen and (min-width: 600px) {
     .PreSessionScreen {
-        width: 590px;
+        width: 570px;
     }
 }
 
