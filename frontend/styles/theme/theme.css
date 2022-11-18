@@ -17,3 +17,10 @@ body {
 .RootView.single-room-mode .RoomHeader .close-middle {
     display: none !important;
 }
+
+/* Remove horizontal scrollbars in pre-session screen. */
+@media screen and (min-width: 600px) {
+    .PreSessionScreen {
+        width: 590px;
+    }
+}
