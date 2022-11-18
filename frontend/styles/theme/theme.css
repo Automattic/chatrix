@@ -30,3 +30,8 @@ body {
     box-shadow: none;
     border-radius: 0;
 }
+
+/* Remove link to hydrogen on GitHub. */
+.PreSessionScreen a[href*="https://github.com/vector-im/hydrogen-web"] {
+    display: none;
+}
