@@ -1,18 +1,19 @@
-name: Publish release to WordPress.org plugin directory
+name: Publish release to plugin directory
+run-name: Publish ${{ inputs.version }} to plugin directory
 
 on:
   # Trigger manually from https://github.com/Automattic/chatrix/actions/workflows/publish-release.yml
   workflow_dispatch:
     inputs:
       version:
-        description: "Version of the release to publish, e.g. v1.2.3"
+        description: "Version of the release to publish, e.g. 1.2.3"
         required: true
         type: string
 
   workflow_call:
     inputs:
       version:
-        description: "Version of the release to publish, e.g. v1.2.3"
+        description: "Version of the release to publish, e.g. 1.2.3"
         required: true
         type: string
     secrets:

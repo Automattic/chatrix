@@ -1,18 +1,19 @@
 name: Create a release
+run-name: Create release ${{ inputs.version }}
 
 on:
   # Trigger manually from https://github.com/Automattic/chatrix/actions/workflows/create-release.yml
   workflow_dispatch:
     inputs:
       version:
-        description: "Release version, e.g. v1.2.3"
+        description: "Release version, e.g. 1.2.3"
         required: true
         type: string
 
   workflow_call:
     inputs:
       version:
-        description: "Release version, e.g. v1.2.3"
+        description: "Release version, e.g. 1.2.3"
         required: true
         type: string
 

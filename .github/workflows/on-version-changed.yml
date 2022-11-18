@@ -1,4 +1,4 @@
-name: Check if version changed, and if yes, create a release
+name: On changes to package.json, create a release if version changed
 
 on:
   # Trigger manually from https://github.com/Automattic/chatrix/actions/workflows/on-version-changed.yml
@@ -43,4 +43,4 @@ jobs:
     permissions:
       contents: write
     with:
-      version: v${{ needs.on-version-changed.outputs.version }}
+      version: ${{ needs.on-version-changed.outputs.version }}
