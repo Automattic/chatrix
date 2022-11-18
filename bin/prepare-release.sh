@@ -63,16 +63,16 @@ case $yn in
 esac
 
 # Commit and push.
-git commit -m "Release v$VERSION"
+git commit -m "Release $VERSION"
 git push -u origin "$RELEASE_BRANCH"
 
 # Open PR.
-LATEST_VERSION_TAG=$(git describe --tags --match "v[0-9]*" --abbrev=0 HEAD)
+LATEST_VERSION_TAG=$(git describe --tags --match "[0-9]*" --abbrev=0 HEAD)
 PR_BODY=$(cat <<-EOB
 [Commits since $LATEST_VERSION_TAG](https://github.com/Automattic/chatrix/compare/$LATEST_VERSION_TAG...$RELEASE_BRANCH)
 EOB
 )
-gh pr create --base main --label "Prepare Release" --title "Release v$VERSION" --body "$PR_BODY" --assignee @me --reviewer akirk,ashfame,psrpinto
+gh pr create --base main --label "Prepare Release" --title "Release $VERSION" --body "$PR_BODY" --assignee @me --reviewer akirk,ashfame,psrpinto
 
 echo "A Pull Request has been created for Release $VERSION (see URL above)."
 echo "The release will automatically be created once the Pull Request is merged."
