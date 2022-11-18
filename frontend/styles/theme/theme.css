@@ -32,6 +32,9 @@ body {
 
     /* Remove whitespace on top of pre-session screen. */
     margin-top: 0;
+
+    /* Reduce padding to remove vertical scrollbars in login screen. */
+    padding: 24px;
 }
 
 /* Remove link to hydrogen on GitHub. */
