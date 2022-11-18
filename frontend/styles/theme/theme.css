@@ -41,3 +41,8 @@ body {
 .PreSessionScreen a[href*="https://github.com/vector-im/hydrogen-web"] {
     display: none;
 }
+
+/* Remove vertical scrollbars in logout screen. */
+.LogoutScreen {
+    height: 90vh;
+}
