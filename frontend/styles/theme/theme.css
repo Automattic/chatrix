@@ -25,10 +25,13 @@ body {
     }
 }
 
-/* Remove drop-shadow around pre-sessions screen. */
 .PreSessionScreen {
+    /* Remove drop-shadow around pre-session screen. */
     box-shadow: none;
     border-radius: 0;
+
+    /* Remove whitespace on top of pre-session screen. */
+    margin-top: 0;
 }
 
 /* Remove link to hydrogen on GitHub. */
