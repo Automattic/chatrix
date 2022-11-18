@@ -1,4 +1,5 @@
 name: Create a release
+run-name: Create release ${{ inputs.version }}
 
 on:
   # Trigger manually from https://github.com/Automattic/chatrix/actions/workflows/create-release.yml

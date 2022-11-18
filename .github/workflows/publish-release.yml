@@ -1,4 +1,5 @@
-name: Publish release to WordPress.org plugin directory
+name: Publish release to plugin directory
+run-name: Publish ${{ inputs.version }} to plugin directory
 
 on:
   # Trigger manually from https://github.com/Automattic/chatrix/actions/workflows/publish-release.yml
