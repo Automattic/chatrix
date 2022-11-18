@@ -40,7 +40,8 @@ done
 
 rm -rf "$RELEASE_DIR/build/.tmp"
 
-COMPOSER_VENDOR_DIR="$RELEASE_DIR/vendor" composer install --no-ansi --no-dev --no-interaction --no-plugins --no-scripts --optimize-autoloader
+COMPOSER_VENDOR_DIR=vendor_release composer install --no-ansi --no-dev --no-interaction --no-plugins --no-scripts --optimize-autoloader
+mv vendor_release "$RELEASE_DIR/vendor"
 
 # Rename release directory from version name (e.g. 1.2.3) to `chatrix` so that root directory in the artifacts is named `chatrix`.
 # Then create the archives, and rename back to the versioned name (e.g. 1.2.3).
