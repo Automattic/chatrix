@@ -25,16 +25,19 @@ body {
     }
 }
 
+/* Remove drop-shadow around pre-session screen. */
 .PreSessionScreen {
-    /* Remove drop-shadow around pre-session screen. */
     box-shadow: none;
     border-radius: 0;
+}
 
-    /* Remove whitespace on top of pre-session screen. */
+/* Reduce whitespace to remove vertical scrollbars in login screen. */
+.PreSessionScreen {
     margin-top: 0;
-
-    /* Reduce padding to remove vertical scrollbars in login screen. */
     padding: 24px;
+}
+.PreSessionScreen .LoginView_separator {
+    margin: -2px;
 }
 
 /* Remove link to hydrogen on GitHub. */
