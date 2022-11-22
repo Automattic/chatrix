@@ -21,6 +21,10 @@ export default function Edit({ attributes, setAttributes }): WPElement {
             <Inspector attributes={attributes} setAttributes={setAttributes}/>
             <div {...useBlockProps()}>
                 <ResizableBox
+                    size={{
+                        width: "100%",
+                        height: attributes.height,
+                    }}
                     enable={{
                         top: false,
                         right: false,
