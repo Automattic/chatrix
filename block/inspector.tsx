@@ -31,6 +31,19 @@ export default function Inspector({ attributes, setAttributes }): WPElement {
                     />
                 </PanelRow>
             </PanelBody>
+            <PanelBody
+                title={__("Layout", "chatrix")}
+                initialOpen={false}
+            >
+                <PanelRow>
+                    <TextControl
+                        label={__("height", "chatrix")}
+                        value={attributes.height}
+                        onChange={(value) => setAttributes({ height: value })}
+                        help={"In pixels"}
+                    />
+                </PanelRow>
+            </PanelBody>
         </InspectorControls>
     );
 }
