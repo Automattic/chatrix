@@ -17,25 +17,27 @@ export default function Edit({ attributes, setAttributes }): WPElement {
             : height;
 
     return (
-        <div {...useBlockProps()}>
+        <>
             <Inspector attributes={attributes} setAttributes={setAttributes}/>
-            <ResizableBox
-                enable={{
-                    top: false,
-                    right: false,
-                    bottom: true,
-                    left: false,
-                    topRight: false,
-                    bottomRight: false,
-                    bottomLeft: false,
-                    topLeft: false,
-                }}
-                onResize={(_event, _direction, elt) => {
-                    setAttributes({ height: elt.clientHeight, heightUnit: "px" });
-                }}
-            >
-                <IFrame props={{ height: heightWithUnit }} attributes={attributes} focusable={true}/>
-            </ResizableBox>
-        </div>
+            <div {...useBlockProps()}>
+                <ResizableBox
+                    enable={{
+                        top: false,
+                        right: false,
+                        bottom: true,
+                        left: false,
+                        topRight: false,
+                        bottomRight: false,
+                        bottomLeft: false,
+                        topLeft: false,
+                    }}
+                    onResize={(_event, _direction, elt) => {
+                        setAttributes({ height: elt.clientHeight, heightUnit: "px" });
+                    }}
+                >
+                    <IFrame props={{ height: heightWithUnit }} attributes={attributes} focusable={true}/>
+                </ResizableBox>
+            </div>
+        </>
     );
 }
