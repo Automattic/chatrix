@@ -17,3 +17,35 @@ body {
 .RootView.single-room-mode .RoomHeader .close-middle {
     display: none !important;
 }
+
+/* Remove horizontal scrollbars in pre-session screen. */
+@media screen and (min-width: 600px) {
+    .PreSessionScreen {
+        width: 570px;
+    }
+}
+
+/* Remove drop-shadow around pre-session screen. */
+.PreSessionScreen {
+    box-shadow: none;
+    border-radius: 0;
+}
+
+/* Reduce whitespace to remove vertical scrollbars in login screen. */
+.PreSessionScreen {
+    margin-top: 0;
+    padding: 24px;
+}
+.PreSessionScreen .LoginView_separator {
+    margin: -2px;
+}
+
+/* Remove link to hydrogen on GitHub. */
+.PreSessionScreen a[href*="https://github.com/vector-im/hydrogen-web"] {
+    display: none;
+}
+
+/* Remove vertical scrollbars in logout screen. */
+.LogoutScreen {
+    height: 90vh;
+}
