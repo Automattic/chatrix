@@ -3,12 +3,12 @@ import { WPElement } from "@wordpress/element";
 import { IframeUrl } from "../frontend/parent/iframe";
 import { containerClass, iframeClass } from "../frontend/parent/util";
 
-export default function IFrame({ attributes, focusable = false }): WPElement {
+export default function IFrame({ props, attributes, focusable = false }): WPElement {
     const ref = focusable ? useFocusableIframe() : undefined;
     const url = iframeUrl(attributes);
 
     return (
-        <div className={containerClass()}>
+        <div className={containerClass()} style={{ height: props.height || undefined }}>
             <iframe className={iframeClass()}
                 // @ts-ignore
                 ref={ref}

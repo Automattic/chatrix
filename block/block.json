@@ -15,6 +15,14 @@
     "roomId": {
       "type": "string",
       "default": ""
+    },
+    "height": {
+      "type": "string",
+      "default": "600"
+    },
+    "heightUnit": {
+      "type": "string",
+      "default": "px"
     }
   },
   "supports": {
