@@ -16,7 +16,7 @@ export default function Edit({ attributes, setAttributes }): WPElement {
     const heightWithUnit =
         height.value && height.unit
             ? `${height.value}${height.unit}`
-            : height.value;
+            : '';
 
     return (
         <>
