@@ -3,7 +3,7 @@ import { ResizableBox } from "@wordpress/components";
 import { WPElement } from '@wordpress/element';
 import './editor.scss';
 import IFrame from "./iframe";
-import Inspector from "./inspector";
+import InspectorControls from "./inspector";
 
 export default function Edit({ attributes, setAttributes }): WPElement {
     const {
@@ -18,7 +18,7 @@ export default function Edit({ attributes, setAttributes }): WPElement {
 
     return (
         <>
-            <Inspector attributes={attributes} setAttributes={setAttributes}/>
+            <InspectorControls attributes={attributes} setAttributes={setAttributes}/>
             <div {...useBlockProps()}>
                 <ResizableBox
                     size={{
