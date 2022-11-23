@@ -33,18 +33,20 @@ function render( array $attributes ): string {
 	ob_start();
 	$container_id = 'wp-block-automattic-chatrix-container';
 
-	$style = array(
+	$style      = array(
 		'height' => "{$attributes['height']['value']}{$attributes['height']['unit']}",
 	);
 	$style_attr = '';
-	array_walk($style, function($value, $key) use(&$style_attr) {
-		$style_attr .= "$key: $value;";
-	});
+	array_walk(
+		$style,
+		function ( $value, $key ) use ( &$style_attr ) {
+			$style_attr .= "$key: $value;";
+		}
+	);
 
 	?>
 	<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>>
-		<div id="<?php echo esc_attr( $container_id ); ?>"
-		     style="<?php echo esc_attr( $style_attr ); ?>">
+		<div id="<?php echo esc_attr( $container_id ); ?>" style="<?php echo esc_attr( $style_attr ); ?>">
 			<?php // Iframe will be rendered here. ?>
 		</div>
 		<script>
