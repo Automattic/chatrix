@@ -35,7 +35,7 @@ export default function Edit({ attributes, setAttributes }): WPElement {
                         bottomLeft: false,
                         topLeft: false,
                     }}
-                    onResize={(_event, _direction, elt) => {
+                    onResizeStop={(_event, _direction, elt) => {
                         setAttributes({ height: elt.clientHeight, heightUnit: "px" });
                     }}
                 >
