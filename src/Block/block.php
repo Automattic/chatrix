@@ -34,7 +34,7 @@ function render( array $attributes ): string {
 	$container_id = 'wp-block-automattic-chatrix-container';
 
 	$style = array(
-		'height' => "{$attributes['height']}{$attributes['heightUnit']}",
+		'height' => "{$attributes['height']['value']}{$attributes['height']['unit']}",
 	);
 	$style_attr = '';
 	array_walk($style, function($value, $key) use(&$style_attr) {

@@ -17,12 +17,11 @@
       "default": ""
     },
     "height": {
-      "type": "string",
-      "default": "600"
-    },
-    "heightUnit": {
-      "type": "string",
-      "default": "px"
+      "type": "object",
+      "default": {
+        "value": 600,
+        "unit": "px"
+      }
     }
   },
   "supports": {

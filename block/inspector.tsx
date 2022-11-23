@@ -38,8 +38,10 @@ export default function InspectorControls({ attributes, setAttributes }): WPElem
                 <PanelRow>
                     <TextControl
                         label={__("height", "chatrix")}
-                        value={attributes.height}
-                        onChange={(value) => setAttributes({ height: value })}
+                        value={attributes.height.value}
+                        onChange={(value) => {
+                            setAttributes({ height: { value: value, unit: "px" } });
+                        }}
                         help={"In pixels"}
                     />
                 </PanelRow>
