@@ -2,22 +2,12 @@ import { InspectorControls as BaseInspectorControls } from "@wordpress/block-edi
 import { PanelBody, PanelRow, TextControl } from "@wordpress/components";
 import { WPElement } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import HomeserverPanel from "./HomeserverPanel";
 
 export default function InspectorControls({ attributes, setAttributes }): WPElement {
     return (
         <BaseInspectorControls>
-            <PanelBody
-                title={__("Homeserver", "chatrix")}
-                initialOpen={true}
-            >
-                <PanelRow>
-                    <TextControl
-                        label={__("Default Homeserver", "chatrix")}
-                        value={attributes.defaultHomeserver}
-                        onChange={(value) => setAttributes({ defaultHomeserver: value })}
-                    />
-                </PanelRow>
-            </PanelBody>
+            <HomeserverPanel attributes={attributes} setAttributes={setAttributes}/>
             <PanelBody
                 title={__("Room", "chatrix")}
                 initialOpen={false}
