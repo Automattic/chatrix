@@ -1,6 +1,6 @@
 # Chatrix
 
-- Contributors: automattic
+- Contributors: automattic, akirk, ashfame, psrpinto
 - Tags: matrix, chat
 - Requires at least: 6.0
 - Tested up to: 6.1
@@ -28,7 +28,7 @@ This plugin can be used in two distinct ways:
 ### Is there a more flexible way to configure the popup?
 Yes. Instead of configuring the _popup_ through `Settings -> Chatrix`, you can configure it through code, by using the `chatrix_instances` filter:
 
-`
+~~~php
 // functions.php
 
 add_filter( 'chatrix_instances', function ( array $default_instances ) {
@@ -49,7 +49,7 @@ add_filter( 'chatrix_instances', function ( array $default_instances ) {
 		),
 	);
 } );
-`
+~~~
 
 ### How can I add a border around the block?
 To add a border around the Chatrix block, you can place it inside a Group block. The Group block allows you to set a border, rounded corners, and other styling properties.
