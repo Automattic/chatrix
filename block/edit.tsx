@@ -3,7 +3,7 @@ import { ResizableBox } from "@wordpress/components";
 import { WPElement } from '@wordpress/element';
 import './editor.scss';
 import IFrame from "./iframe";
-import InspectorControls from "./inspector";
+import InspectorControls from "./inspector/InspectorControls";
 
 type Height = {
     value: number
