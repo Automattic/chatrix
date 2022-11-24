@@ -5,7 +5,7 @@ import { __ } from "@wordpress/i18n";
 export default function StylePanel({ attributes, setAttributes }): WPElement {
     return (
         <PanelBody
-            title={__("Layout", "chatrix")}
+            title={__("Style", "chatrix")}
             initialOpen={false}
         >
             <PanelRow>
@@ -15,7 +15,7 @@ export default function StylePanel({ attributes, setAttributes }): WPElement {
                     onChange={(value) => {
                         setAttributes({ height: { value: value, unit: "px" } });
                     }}
-                    help={"In pixels"}
+                    help={__("In pixels", "chatrix")}
                 />
             </PanelRow>
         </PanelBody>
