@@ -1,6 +1,6 @@
 # Chatrix
 
-- Contributors: automattic
+- Contributors: automattic, akirk, ashfame, psrpinto
 - Tags: matrix, chat
 - Requires at least: 6.0
 - Tested up to: 6.1
