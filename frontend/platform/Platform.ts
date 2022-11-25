@@ -4,20 +4,31 @@ import { Platform as BasePlatform } from "hydrogen-web/src/platform/web/Platform
 import { IConfig } from "../config/IConfig";
 import { History } from "./History";
 import { Navigation } from "./Navigation";
+import { ServiceWorkerHandler } from "./ServiceWorkerHandler";
 import { StorageFactory } from "./StorageFactory";
 
 export class Platform extends BasePlatform {
     private settingsStorage: SettingsStorage;
     private sessionInfoStorage: SessionInfoStorage;
     private storageFactory: StorageFactory;
+    private _serviceWorkerHandler: ServiceWorkerHandler;
 
     constructor(options) {
+        const assetPaths = structuredClone(options.assetPaths);
+
+        // Unset serviceWorker path so that the base constructor doesn't register the service worker handler.
+        delete options.assetPaths.serviceWorker;
         super(options);
+
+        // Register our own service worker handler.
+        if (assetPaths.serviceWorker && "serviceWorker" in navigator) {
+            this._serviceWorkerHandler = new ServiceWorkerHandler();
+            this._serviceWorkerHandler.registerAndStart(assetPaths.serviceWorker);
+        }
+
         this.settingsStorage = new SettingsStorage("chatrix_setting_v1_");
         this.sessionInfoStorage = new SessionInfoStorage("chatrix_sessions_v1");
-        // @ts-ignore
         this.storageFactory = new StorageFactory(this._serviceWorkerHandler);
-        // @ts-ignore
         this.history = new History();
     }
 
