@@ -52,7 +52,7 @@ export class ServiceWorkerHandler {
             this._registrationPromise = null;
             // do we have a new service worker waiting to activate?
             if (this._registration.waiting && this._registration.active) {
-                this._proposeUpdate();
+                await this._proposeUpdate();
             }
             console.log("Service Worker registered");
         })();
@@ -116,19 +116,33 @@ export class ServiceWorkerHandler {
             return;
         }
 
+        console.log("Applying update");
+
         // prevent any fetch requests from going to the service worker
         // from any client, so that it is not kept active
         // when calling skipWaiting on the new one
         await this._sendAndWaitForReply("haltRequests");
+
         // only once all requests are blocked, ask the new
         // service worker to skipWaiting
-        this._send("skipWaiting", null, this._registration.waiting);
+        await this._send("skipWaiting", null, this._registration.waiting);
     }
 
     async confirm() {
-        const version = await this._sendAndWaitForReply("version", null, this._registration.waiting);
+        const dialog = document.getElementsByClassName('chatrix-update-confirm').item(0);
 
-        return confirm(`Version ${version.version} (${version.buildHash}) is available. Reload to apply?`);
+        // Don't show dialog if browser doesn't support dialogs.
+        if (!dialog || typeof dialog.showModal !== 'function') {
+            return Promise.reject();
+        }
+
+        dialog.showModal();
+
+        return new Promise(function (resolve) {
+            dialog.addEventListener('close', () => {
+                resolve(dialog.returnValue === "update");
+            });
+        });
     }
 
     handleEvent(event) {
