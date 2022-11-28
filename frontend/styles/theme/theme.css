@@ -49,3 +49,42 @@ body {
 .LogoutScreen {
     height: 90vh;
 }
+
+/* Update confirmation dialog. */
+.chatrix-update-confirm {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+.chatrix-update-confirm::backdrop {
+    background-color: #ffffff;
+}
+.chatrix-update-confirm > div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.chatrix-update-confirm form {
+    width: 60%;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+}
+.chatrix-update-confirm p {
+    font-style: normal;
+    font-weight: 300;
+}
+.chatrix-update-confirm strong {
+    font-style: normal;
+    font-weight: 600;
+}
+.chatrix-update-confirm .button-action {
+    border-radius: 8px;
+    margin-right: 10px;
+}
+.chatrix-update-confirm .button-action:not(.primary) {
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+}
