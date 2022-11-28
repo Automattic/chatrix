@@ -111,16 +111,24 @@ export class ServiceWorkerHandler {
         if (document.hidden) {
             return;
         }
-        const version = await this._sendAndWaitForReply("version", null, this._registration.waiting);
-        if (confirm(`Version ${version.version} (${version.buildHash}) is available. Reload to apply?`)) {
-            // prevent any fetch requests from going to the service worker
-            // from any client, so that it is not kept active
-            // when calling skipWaiting on the new one
-            await this._sendAndWaitForReply("haltRequests");
-            // only once all requests are blocked, ask the new
-            // service worker to skipWaiting
-            this._send("skipWaiting", null, this._registration.waiting);
+
+        if (!await this.confirm()) {
+            return;
         }
+
+        // prevent any fetch requests from going to the service worker
+        // from any client, so that it is not kept active
+        // when calling skipWaiting on the new one
+        await this._sendAndWaitForReply("haltRequests");
+        // only once all requests are blocked, ask the new
+        // service worker to skipWaiting
+        this._send("skipWaiting", null, this._registration.waiting);
+    }
+
+    async confirm() {
+        const version = await this._sendAndWaitForReply("version", null, this._registration.waiting);
+
+        return confirm(`Version ${version.version} (${version.buildHash}) is available. Reload to apply?`);
     }
 
     handleEvent(event) {
