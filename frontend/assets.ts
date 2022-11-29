@@ -14,4 +14,8 @@ const paths = {
     },
 };
 
+if (import.meta.env.PROD) {
+    paths["serviceWorker"] = "sw.js";
+}
+
 export default paths;
