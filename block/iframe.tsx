@@ -2,19 +2,27 @@ import { useFocusableIframe } from "@wordpress/compose";
 import { WPElement } from "@wordpress/element";
 import { IframeParams, IframeUrl } from "../frontend/parent/iframe";
 import { containerClass, iframeClass } from "../frontend/parent/util";
-import { Height } from "./attributes";
+import { BorderRadius, BorderWidth, Height } from "./attributes";
 
 export type IframeProps = {
     focusable: boolean,
-    height: Height,
     defaultHomeserver?: string,
     roomId?: string,
+    height: Height,
+    borderWidth: BorderWidth,
+    borderRadius: BorderRadius,
+    borderStyle: string,
+    borderColor: string,
 }
 
 export default function IFrame(props: IframeProps): WPElement {
     const ref = props.focusable ? useFocusableIframe() : undefined;
     const style = {
         height: props.height.toString(),
+        borderWidth: props.borderWidth ? props.borderWidth.toString() : 0,
+        borderRadius: props.borderRadius ? props.borderRadius.toString() : "",
+        borderStyle: props.borderStyle,
+        borderColor: props.borderColor,
     };
 
     const url = iframeUrl({
