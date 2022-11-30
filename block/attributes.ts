@@ -24,7 +24,7 @@ function unitFromString(value: string): Unit | undefined {
     return undefined;
 }
 
-export class Height {
+class ValueWithUnit {
     private readonly value: number;
     private readonly unit?: Unit;
 
@@ -40,5 +40,11 @@ export class Height {
 
     public toString(): string {
         return this.value && this.unit ? `${this.value}${this.unit}` : '';
+    }
+}
+
+export class Height extends ValueWithUnit {
+    constructor(value: number, unit: Unit | string) {
+        super(value, unit);
     }
 }
