@@ -33,8 +33,8 @@ function unitFromString(value: string): Unit | undefined {
 }
 
 class ValueWithUnit {
-    private readonly value: number;
-    private readonly unit?: Unit;
+    protected readonly value: number;
+    protected readonly unit?: Unit;
 
     constructor(value: number, unit: Unit | string) {
         this.value = value;
@@ -60,6 +60,10 @@ export class Height extends ValueWithUnit {
 export class BorderWidth extends ValueWithUnit {
     constructor(value: number, unit: Unit | string) {
         super(value, unit);
+    }
+
+    public toString(): string {
+        return this.value && this.unit ? `${this.value}${this.unit}` : '0';
     }
 }
 
