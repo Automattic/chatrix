@@ -3,8 +3,8 @@ import { containerClass, iframeClass } from "./util";
 const LOGIN_TOKEN_PARAM_NAME = "loginToken";
 
 export type IframeParams = {
-    defaultHomeserver: string
-    roomId: string,
+    defaultHomeserver?: string
+    roomId?: string,
 }
 
 export class IframeUrl {

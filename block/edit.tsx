@@ -2,7 +2,7 @@ import { useBlockProps } from "@wordpress/block-editor";
 import { ResizableBox } from "@wordpress/components";
 import { WPElement } from '@wordpress/element';
 import './editor.scss';
-import IFrame from "./iframe";
+import IFrame, { IframeProps } from "./iframe";
 import InspectorControls from "./inspector/InspectorControls";
 
 type Height = {
@@ -18,10 +18,11 @@ export default function Edit({ attributes, setAttributes }): WPElement {
             ? `${height.value}${height.unit}`
             : '';
 
-    const iframeProps = {
+    const iframeProps: IframeProps = {
         height: heightWithUnit,
         focusable: true,
-        attributes,
+        defaultHomeserver: attributes.defaultHomeserver,
+        roomId: attributes.roomId,
     };
 
     return (

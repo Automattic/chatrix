@@ -3,21 +3,22 @@ import { WPElement } from "@wordpress/element";
 import { IframeParams, IframeUrl } from "../frontend/parent/iframe";
 import { containerClass, iframeClass } from "../frontend/parent/util";
 
-type Props = {
+export type IframeProps = {
     focusable: boolean,
-    attributes: any,
     height: string,
+    defaultHomeserver?: string,
+    roomId?: string,
 }
 
-export default function IFrame(props: Props): WPElement {
+export default function IFrame(props: IframeProps): WPElement {
     const ref = props.focusable ? useFocusableIframe() : undefined;
     const style = {
         height: props.height || undefined,
     };
 
     const url = iframeUrl({
-        defaultHomeserver: props.attributes.defaultHomeserver,
-        roomId: props.attributes.roomId,
+        defaultHomeserver: props.defaultHomeserver,
+        roomId: props.roomId,
     });
 
     return (
