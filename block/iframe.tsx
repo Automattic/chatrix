@@ -6,9 +6,12 @@ import { containerClass, iframeClass } from "../frontend/parent/util";
 export default function IFrame({ props, attributes, focusable = false }): WPElement {
     const ref = focusable ? useFocusableIframe() : undefined;
     const url = iframeUrl(attributes);
+    const style = {
+        height: props.height || undefined,
+    };
 
     return (
-        <div className={containerClass()} style={{ height: props.height || undefined }}>
+        <div className={containerClass()} style={style}>
             <iframe className={iframeClass()}
                 // @ts-ignore
                 ref={ref}
