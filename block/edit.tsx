@@ -17,13 +17,7 @@ export default function Edit(props: Props): WPElement {
 
     const iframeProps: IframeProps = {
         focusable: true,
-        defaultHomeserver: attributes.defaultHomeserver,
-        roomId: attributes.roomId,
-        height: attributes.height,
-        borderWidth: attributes.borderWidth,
-        borderRadius: attributes.borderRadius,
-        borderStyle: attributes.borderStyle,
-        borderColor: attributes.borderColor,
+        ...attributes
     };
 
     return (
