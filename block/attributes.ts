@@ -2,12 +2,10 @@ interface Attributes {
     defaultHomeserver?: string,
     roomId?: string,
     height: Height,
-    border: {
-        width: BorderWidth,
-        radius: BorderRadius,
-        style: string,
-        color: string,
-    }
+    borderWidth: BorderWidth,
+    borderRadius: BorderRadius,
+    borderStyle: string,
+    borderColor: string,
 }
 
 export function parseAttributes(attributes): Attributes {
@@ -15,12 +13,10 @@ export function parseAttributes(attributes): Attributes {
         defaultHomeserver: attributes.defaultHomeserver ?? '',
         roomId: attributes.roomId ?? '',
         height: new Height(attributes.height.value, attributes.height.unit),
-        border: {
-            width: new BorderWidth(attributes.border.width.value, attributes.border.width.unit),
-            radius: new BorderRadius(attributes.border.radius.value, attributes.border.radius.unit),
-            style: attributes.border.style,
-            color: attributes.border.color,
-        }
+        borderWidth: new BorderWidth(attributes.borderWidth.value, attributes.borderWidth.unit),
+        borderRadius: new BorderRadius(attributes.borderRadius.value, attributes.borderRadius.unit),
+        borderStyle: attributes.borderStyle,
+        borderColor: attributes.borderColor,
     };
 }
 

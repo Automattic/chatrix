@@ -23,20 +23,27 @@
         "unit": "px"
       }
     },
-    "border": {
+    "borderWidth": {
       "type": "object",
       "default": {
-        "width": {
-          "value": 1,
-          "unit": "px"
-        },
-        "radius": {
-          "value": 10,
-          "unit": "px"
-        },
-        "style": "solid",
-        "color": "black"
+        "value": 1,
+        "unit": "px"
       }
+    },
+    "borderRadius": {
+      "type": "object",
+      "default": {
+        "value": 10,
+        "unit": "px"
+      }
+    },
+    "borderStyle": {
+      "type": "string",
+      "default": "solid"
+    },
+    "borderColor": {
+      "type": "string",
+      "default": "black"
     }
   },
   "supports": {
