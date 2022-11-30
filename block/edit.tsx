@@ -7,15 +7,10 @@ import IFrame, { IframeProps } from "./iframe";
 import InspectorControls from "./inspector/InspectorControls";
 
 export default function Edit({ attributes, setAttributes }): WPElement {
-    const height: Height = attributes.height;
-
-    const heightWithUnit =
-        height.value && height.unit
-            ? `${height.value}${height.unit}`
-            : '';
+    const height = new Height(attributes.height.value, attributes.height.unit);
 
     const iframeProps: IframeProps = {
-        height: heightWithUnit,
+        height: height.toString(),
         focusable: true,
         defaultHomeserver: attributes.defaultHomeserver,
         roomId: attributes.roomId,
@@ -28,7 +23,7 @@ export default function Edit({ attributes, setAttributes }): WPElement {
                 <ResizableBox
                     size={{
                         width: "100%",
-                        height: heightWithUnit,
+                        height: height.toString(),
                     }}
                     enable={{
                         top: false,
