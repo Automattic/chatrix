@@ -1,14 +1,10 @@
 import { useBlockProps } from "@wordpress/block-editor";
 import { ResizableBox } from "@wordpress/components";
 import { WPElement } from '@wordpress/element';
+import { Height } from "./attributes";
 import './editor.scss';
 import IFrame, { IframeProps } from "./iframe";
 import InspectorControls from "./inspector/InspectorControls";
-
-type Height = {
-    value: number
-    unit: string
-}
 
 export default function Edit({ attributes, setAttributes }): WPElement {
     const height: Height = attributes.height;
