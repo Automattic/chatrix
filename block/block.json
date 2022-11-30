@@ -22,6 +22,21 @@
         "value": 600,
         "unit": "px"
       }
+    },
+    "border": {
+      "type": "object",
+      "default": {
+        "width": {
+          "value": 1,
+          "unit": "px"
+        },
+        "radius": {
+          "value": 10,
+          "unit": "px"
+        },
+        "style": "solid",
+        "color": "black"
+      }
     }
   },
   "supports": {

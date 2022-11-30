@@ -2,6 +2,12 @@ interface Attributes {
     defaultHomeserver?: string,
     roomId?: string,
     height: Height,
+    border: {
+        width: BorderWidth,
+        radius: BorderRadius,
+        style: string,
+        color: string,
+    }
 }
 
 export function parseAttributes(attributes): Attributes {
@@ -9,6 +15,12 @@ export function parseAttributes(attributes): Attributes {
         defaultHomeserver: attributes.defaultHomeserver ?? '',
         roomId: attributes.roomId ?? '',
         height: new Height(attributes.height.value, attributes.height.unit),
+        border: {
+            width: new BorderWidth(attributes.border.width.value, attributes.border.width.unit),
+            radius: new BorderRadius(attributes.border.radius.value, attributes.border.radius.unit),
+            style: attributes.border.style,
+            color: attributes.border.color,
+        }
     };
 }
 
@@ -44,6 +56,18 @@ class ValueWithUnit {
 }
 
 export class Height extends ValueWithUnit {
+    constructor(value: number, unit: Unit | string) {
+        super(value, unit);
+    }
+}
+
+export class BorderWidth extends ValueWithUnit {
+    constructor(value: number, unit: Unit | string) {
+        super(value, unit);
+    }
+}
+
+export class BorderRadius extends ValueWithUnit {
     constructor(value: number, unit: Unit | string) {
         super(value, unit);
     }
