@@ -1,6 +1,6 @@
 import { useFocusableIframe } from "@wordpress/compose";
 import { WPElement } from "@wordpress/element";
-import { IframeUrl } from "../frontend/parent/iframe";
+import { IframeParams, IframeUrl } from "../frontend/parent/iframe";
 import { containerClass, iframeClass } from "../frontend/parent/util";
 
 type Props = {
@@ -11,10 +11,14 @@ type Props = {
 
 export default function IFrame(props: Props): WPElement {
     const ref = props.focusable ? useFocusableIframe() : undefined;
-    const url = iframeUrl(props.attributes);
     const style = {
         height: props.height || undefined,
     };
+
+    const url = iframeUrl({
+        defaultHomeserver: props.attributes.defaultHomeserver,
+        roomId: props.attributes.roomId,
+    });
 
     return (
         <div className={containerClass()} style={style}>
@@ -27,13 +31,13 @@ export default function IFrame(props: Props): WPElement {
     );
 }
 
-function iframeUrl(attributes): string {
+function iframeUrl(params: IframeParams): string {
     const config = window.automattic_chatrix_block_config;
     if (!config) {
         throw new Error("Failed to initialize Chatrix block: window.automattic_chatrix_block_config is not defined");
     }
 
-    const url = new IframeUrl(config.rootUrl, attributes);
+    const url = new IframeUrl(config.rootUrl, params);
     return url.toString();
 }
 
