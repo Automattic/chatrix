@@ -10,7 +10,7 @@ export default function Edit({ attributes, setAttributes }): WPElement {
     const height = new Height(attributes.height.value, attributes.height.unit);
 
     const iframeProps: IframeProps = {
-        height: height.toString(),
+        height,
         focusable: true,
         defaultHomeserver: attributes.defaultHomeserver,
         roomId: attributes.roomId,

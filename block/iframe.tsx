@@ -2,10 +2,11 @@ import { useFocusableIframe } from "@wordpress/compose";
 import { WPElement } from "@wordpress/element";
 import { IframeParams, IframeUrl } from "../frontend/parent/iframe";
 import { containerClass, iframeClass } from "../frontend/parent/util";
+import { Height } from "./attributes";
 
 export type IframeProps = {
     focusable: boolean,
-    height: string,
+    height: Height,
     defaultHomeserver?: string,
     roomId?: string,
 }
@@ -13,7 +14,7 @@ export type IframeProps = {
 export default function IFrame(props: IframeProps): WPElement {
     const ref = props.focusable ? useFocusableIframe() : undefined;
     const style = {
-        height: props.height || undefined,
+        height: props.height.toString(),
     };
 
     const url = iframeUrl({
