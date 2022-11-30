@@ -1,19 +1,25 @@
 import { useBlockProps } from "@wordpress/block-editor";
 import { ResizableBox } from "@wordpress/components";
 import { WPElement } from '@wordpress/element';
-import { Height } from "./attributes";
+import { parseAttributes } from "./attributes";
 import './editor.scss';
 import IFrame, { IframeProps } from "./iframe";
 import InspectorControls from "./inspector/InspectorControls";
 
-export default function Edit({ attributes, setAttributes }): WPElement {
-    const height = new Height(attributes.height.value, attributes.height.unit);
+interface Props {
+    attributes: object,
+    setAttributes: Function,
+}
+
+export default function Edit(props: Props): WPElement {
+    const { setAttributes } = props;
+    const attributes = parseAttributes(props.attributes);
 
     const iframeProps: IframeProps = {
-        height,
         focusable: true,
         defaultHomeserver: attributes.defaultHomeserver,
         roomId: attributes.roomId,
+        height: attributes.height,
     };
 
     return (
@@ -23,7 +29,7 @@ export default function Edit({ attributes, setAttributes }): WPElement {
                 <ResizableBox
                     size={{
                         width: "100%",
-                        height: height.toString(),
+                        height: attributes.height.toString(),
                     }}
                     enable={{
                         top: false,

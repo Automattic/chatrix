@@ -1,3 +1,17 @@
+interface Attributes {
+    defaultHomeserver?: string,
+    roomId?: string,
+    height: Height,
+}
+
+export function parseAttributes(attributes): Attributes {
+    return {
+        defaultHomeserver: attributes.defaultHomeserver ?? '',
+        roomId: attributes.roomId ?? '',
+        height: new Height(attributes.height.value, attributes.height.unit),
+    };
+}
+
 export enum Unit {
     px = "px",
 }
