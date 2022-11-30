@@ -18,6 +18,12 @@ export default function Edit({ attributes, setAttributes }): WPElement {
             ? `${height.value}${height.unit}`
             : '';
 
+    const iframeProps = {
+        height: heightWithUnit,
+        focusable: true,
+        attributes,
+    };
+
     return (
         <>
             <InspectorControls attributes={attributes} setAttributes={setAttributes}/>
@@ -41,7 +47,7 @@ export default function Edit({ attributes, setAttributes }): WPElement {
                         setAttributes({ height: { value: elt.clientHeight, unit: "px" } });
                     }}
                 >
-                    <IFrame props={{ height: heightWithUnit, focusable: true, attributes }}/>
+                    <IFrame props={iframeProps}/>
                 </ResizableBox>
             </div>
         </>
