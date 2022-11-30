@@ -41,7 +41,7 @@ export default function Edit({ attributes, setAttributes }): WPElement {
                         setAttributes({ height: { value: elt.clientHeight, unit: "px" } });
                     }}
                 >
-                    <IFrame props={{ height: heightWithUnit }} attributes={attributes} focusable={true}/>
+                    <IFrame props={{ height: heightWithUnit, focusable: true }} attributes={attributes}/>
                 </ResizableBox>
             </div>
         </>

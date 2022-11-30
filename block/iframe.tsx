@@ -3,8 +3,8 @@ import { WPElement } from "@wordpress/element";
 import { IframeUrl } from "../frontend/parent/iframe";
 import { containerClass, iframeClass } from "../frontend/parent/util";
 
-export default function IFrame({ props, attributes, focusable = false }): WPElement {
-    const ref = focusable ? useFocusableIframe() : undefined;
+export default function IFrame({ props, attributes }): WPElement {
+    const ref = props.focusable ? useFocusableIframe() : undefined;
     const url = iframeUrl(attributes);
     const style = {
         height: props.height || undefined,
