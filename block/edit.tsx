@@ -47,7 +47,7 @@ export default function Edit({ attributes, setAttributes }): WPElement {
                         setAttributes({ height: { value: elt.clientHeight, unit: "px" } });
                     }}
                 >
-                    <IFrame props={iframeProps}/>
+                    <IFrame {...iframeProps}/>
                 </ResizableBox>
             </div>
         </>
