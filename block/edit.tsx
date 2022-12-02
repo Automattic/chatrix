@@ -1,22 +1,24 @@
 import { useBlockProps } from "@wordpress/block-editor";
 import { ResizableBox } from "@wordpress/components";
 import { WPElement } from '@wordpress/element';
+import { parseAttributes } from "./attributes";
 import './editor.scss';
-import IFrame from "./iframe";
-import InspectorControls from "./inspector";
+import IFrame, { IframeProps } from "./iframe";
+import InspectorControls from "./inspector/InspectorControls";
 
-type Height = {
-    value: number
-    unit: string
+interface Props {
+    attributes: object,
+    setAttributes: Function,
 }
 
-export default function Edit({ attributes, setAttributes }): WPElement {
-    const height: Height = attributes.height;
+export default function Edit(props: Props): WPElement {
+    const { setAttributes } = props;
+    const attributes = parseAttributes(props.attributes);
 
-    const heightWithUnit =
-        height.value && height.unit
-            ? `${height.value}${height.unit}`
-            : '';
+    const iframeProps: IframeProps = {
+        focusable: true,
+        ...attributes
+    };
 
     return (
         <>
@@ -25,7 +27,7 @@ export default function Edit({ attributes, setAttributes }): WPElement {
                 <ResizableBox
                     size={{
                         width: "100%",
-                        height: heightWithUnit,
+                        height: attributes.height.toString(),
                     }}
                     enable={{
                         top: false,
@@ -41,7 +43,7 @@ export default function Edit({ attributes, setAttributes }): WPElement {
                         setAttributes({ height: { value: elt.clientHeight, unit: "px" } });
                     }}
                 >
-                    <IFrame props={{ height: heightWithUnit }} attributes={attributes} focusable={true}/>
+                    <IFrame {...iframeProps}/>
                 </ResizableBox>
             </div>
         </>

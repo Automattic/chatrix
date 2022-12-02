@@ -50,6 +50,3 @@ add_filter( 'chatrix_instances', function ( array $default_instances ) {
 	);
 } );
 ~~~
-
-### How can I add a border around the block?
-To add a border around the Chatrix block, you can place it inside a Group block. The Group block allows you to set a border, rounded corners, and other styling properties.

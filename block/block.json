@@ -22,6 +22,28 @@
         "value": 600,
         "unit": "px"
       }
+    },
+    "borderWidth": {
+      "type": "object",
+      "default": {
+        "value": 1,
+        "unit": "px"
+      }
+    },
+    "borderRadius": {
+      "type": "object",
+      "default": {
+        "value": 10,
+        "unit": "px"
+      }
+    },
+    "borderStyle": {
+      "type": "string",
+      "default": "solid"
+    },
+    "borderColor": {
+      "type": "string",
+      "default": "black"
     }
   },
   "supports": {

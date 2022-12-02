@@ -33,8 +33,16 @@ function render( array $attributes ): string {
 	ob_start();
 	$container_id = 'wp-block-automattic-chatrix-container';
 
+	$height        = $attributes['height'];
+	$border_width  = $attributes['borderWidth'];
+	$border_radius = $attributes['borderRadius'];
+
 	$style      = array(
-		'height' => "{$attributes['height']['value']}{$attributes['height']['unit']}",
+		'height'        => "{$height['value']}{$height['unit']}",
+		'border-width'  => "{$border_width['value']}{$border_width['unit']}",
+		'border-radius' => "{$border_radius['value']}{$border_radius['unit']}",
+		'border-style'  => "{$attributes['borderStyle']}",
+		'border-color'  => "{$attributes['borderColor']}",
 	);
 	$style_attr = '';
 	array_walk(
