@@ -1,5 +1,6 @@
 import { useState } from '@wordpress/element';
 import { Chat, ChatProps } from "../chat";
+import './style.scss';
 
 export interface Props extends ChatProps {
 }

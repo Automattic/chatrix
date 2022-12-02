@@ -2,7 +2,6 @@ import { createElement, render } from '@wordpress/element';
 import { ChatProps } from "../../components/Chat";
 import { Popup } from "../../components/Popup";
 import { IframeParams } from "../../parent/iframe";
-import "./parent.css";
 import { Popup as PopupLegacy } from "./src/popup";
 
 export function init(containerId: string, props: ChatProps) {
