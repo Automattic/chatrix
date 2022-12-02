@@ -1,5 +1,5 @@
 import { IframeUrl } from "../parent/iframe";
-import { containerClass, iframeClass } from "../parent/util";
+import { iframeClass } from "../parent/util";
 
 export interface ChatProps {
     hostRoot: string,
@@ -14,7 +14,7 @@ export function Chat(props: ChatProps) {
     });
 
     return (
-        <div className={containerClass()}>
+        <div className={"chatrix-component-chat"}>
             <iframe
                 className={iframeClass()}
                 src={iframeUrl.toString()}

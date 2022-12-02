@@ -1,6 +1,7 @@
-import { Iframe, IframeParams, IframeUrl } from "../../parent/iframe";
+import { createElement, render } from '@wordpress/element';
+import { Chat, ChatProps } from "../../components/Chat";
 
-export function loadIframe(containerId: string, hostRoot: string, params: IframeParams): void {
-    const iframe = new Iframe(new IframeUrl(hostRoot, params));
-    iframe.mount(containerId);
+export function init(containerId: string, props: ChatProps) {
+    const element = createElement(Chat, props);
+    render(element, document.getElementById(containerId));
 }
