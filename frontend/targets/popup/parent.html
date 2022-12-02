@@ -3,23 +3,23 @@
 <head>
 	<meta charset="UTF-8"/>
 	<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-	<title>Chatrix Popup</title>
+	<title>Chatrix</title>
 	<script type="module">
-		import { loadPopup } from "./parent";
+        import { init } from "./parent";
 
-		const env = import.meta.env;
-		let config = {
-			defaultHomeserver: env.VITE_HOMESERVER,
-			roomId: env.VITE_ROOM_ID,
-		};
-		loadPopup("automattic-chatrix-container", window.origin, config);
+        const env = import.meta.env;
+
+        init("root", {
+            hostRoot: window.origin,
+            defaultHomeserver: env.VITE_HOMESERVER,
+            roomId: env.VITE_ROOM_ID,
+        });
 	</script>
 	<style>
         @import "parent.css";
 	</style>
 </head>
 <body>
-	<div id="automattic-chatrix-container"></div>
+<div id="root"></div>
 </body>
-
 </html>
