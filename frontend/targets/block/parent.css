@@ -14,7 +14,7 @@ body {
     align-items: center;
 }
 
-.chatrix-component-chat {
+.chatrix-component-block {
     width: 600px;
     height: 600px;
     border-radius: 12px;

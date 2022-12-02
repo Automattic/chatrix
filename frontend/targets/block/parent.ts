@@ -1,7 +1,7 @@
 import { createElement, render } from '@wordpress/element';
-import { Chat, ChatProps } from "../../components/Chat";
+import { Block, BlockProps } from "../../components/block";
 
-export function init(containerId: string, props: ChatProps) {
-    const element = createElement(Chat, props);
+export function init(containerId: string, props: BlockProps) {
+    const element = createElement(Block, props);
     render(element, document.getElementById(containerId));
 }

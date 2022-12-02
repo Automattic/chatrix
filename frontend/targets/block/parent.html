@@ -9,10 +9,15 @@
 
         const env = import.meta.env;
 
+        window.automattic_chatrix_block_config = {
+            rootUrl: window.origin,
+        }
+
         init("root", {
-            hostRoot: window.origin,
-            defaultHomeserver: env.VITE_HOMESERVER,
-            roomId: env.VITE_ROOM_ID,
+            attributes: {
+                defaultHomeserver: env.VITE_HOMESERVER,
+                roomId: env.VITE_ROOM_ID,
+            }
         });
 	</script>
 	<style>
