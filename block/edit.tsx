@@ -1,10 +1,18 @@
 import { useBlockProps } from "@wordpress/block-editor";
 import { ResizableBox } from "@wordpress/components";
 import { WPElement } from '@wordpress/element';
+import { Chat, ChatProps } from "../frontend/components/chat";
 import { Attributes, BorderRadius, BorderWidth, Height } from "../frontend/components/chat/attributes";
 import './editor.scss';
-import IFrame, { IframeProps } from "./iframe";
 import InspectorControls from "./inspector/InspectorControls";
+
+declare global {
+    interface Window {
+        automattic_chatrix_block_config: {
+            rootUrl: string;
+        };
+    }
+}
 
 interface Props {
     attributes: object,
@@ -27,8 +35,14 @@ export default function Edit(props: Props): WPElement {
     const { setAttributes } = props;
     const attributes = parseAttributes(props.attributes);
 
-    const iframeProps: IframeProps = {
+    const config = window.automattic_chatrix_block_config;
+    if (!config) {
+        throw new Error("Failed to initialize Chatrix block: window.automattic_chatrix_block_config is not defined");
+    }
+
+    const chatProps: ChatProps = {
         focusable: true,
+        hostRoot: config.rootUrl,
         ...attributes
     };
 
@@ -55,7 +69,7 @@ export default function Edit(props: Props): WPElement {
                         setAttributes({ height: { value: elt.clientHeight, unit: "px" } });
                     }}
                 >
-                    <IFrame {...iframeProps}/>
+                    <Chat {...chatProps}/>
                 </ResizableBox>
             </div>
         </>
