@@ -2,6 +2,7 @@ import { useFocusableIframe } from "@wordpress/compose";
 import { IframeUrl } from "../../parent/iframe";
 import { iframeClass } from "../../parent/util";
 import { Attributes } from "./attributes";
+import './style.scss';
 
 export interface ChatProps extends Attributes {
     hostRoot: string,
