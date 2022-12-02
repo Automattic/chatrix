@@ -1,7 +1,7 @@
 import { useBlockProps } from "@wordpress/block-editor";
 import { ResizableBox } from "@wordpress/components";
 import { WPElement } from '@wordpress/element';
-import { Attributes, BorderRadius, BorderWidth, Height } from "./attributes";
+import { Attributes, BorderRadius, BorderWidth, Height } from "../frontend/components/chat/attributes";
 import './editor.scss';
 import IFrame, { IframeProps } from "./iframe";
 import InspectorControls from "./inspector/InspectorControls";

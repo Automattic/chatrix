@@ -1,8 +1,8 @@
 import { useFocusableIframe } from "@wordpress/compose";
 import { WPElement } from "@wordpress/element";
+import { BorderRadius, BorderWidth, Height } from "../frontend/components/chat/attributes";
 import { IframeParams, IframeUrl } from "../frontend/parent/iframe";
 import { containerClass, iframeClass } from "../frontend/parent/util";
-import { BorderRadius, BorderWidth, Height } from "./attributes";
 
 export type IframeProps = {
     focusable: boolean,
