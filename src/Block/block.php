@@ -32,41 +32,17 @@ function register() {
 function render( array $attributes ): string {
 	ob_start();
 	$container_id = 'wp-block-automattic-chatrix-container';
-
-	$height        = $attributes['height'];
-	$border_width  = $attributes['borderWidth'];
-	$border_radius = $attributes['borderRadius'];
-
-	$style      = array(
-		'height'        => "{$height['value']}{$height['unit']}",
-		'border-width'  => "{$border_width['value']}{$border_width['unit']}",
-		'border-radius' => "{$border_radius['value']}{$border_radius['unit']}",
-		'border-style'  => "{$attributes['borderStyle']}",
-		'border-color'  => "{$attributes['borderColor']}",
-	);
-	$style_attr = '';
-	array_walk(
-		$style,
-		function ( $value, $key ) use ( &$style_attr ) {
-			$style_attr .= "$key: $value;";
-		}
-	);
-
 	?>
-	<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>>
-		<div id="<?php echo esc_attr( $container_id ); ?>" style="<?php echo esc_attr( $style_attr ); ?>">
-			<?php // Iframe will be rendered here. ?>
-		</div>
-		<script>
-			(function () {
-				AutomatticChatrixBlock.loadIframe(
-					"<?php echo esc_attr( $container_id ); ?>",
-					"<?php echo esc_url( root_url() ); ?>",
-					<?php echo wp_json_encode( $attributes ); ?>
-				);
-			})();
-		</script>
+	<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?> id="<?php echo esc_attr( $container_id ); ?>">
+		<?php // Iframe will be rendered here. ?>
 	</div>
+	<script>
+		(function () {
+			const containerId = "<?php echo esc_attr( $container_id ); ?>";
+			const attributes = <?php echo wp_json_encode( $attributes ); ?>;
+			AutomatticChatrixBlock.init(containerId, { attributes });
+		})();
+	</script>
 	<?php
 	return ob_get_clean();
 }
@@ -79,7 +55,7 @@ function init_javascript() {
 			'rootUrl' => $root_url,
 		);
 
-		wp_register_script( $handle, $root_url . 'parent.iife.js', array(), automattic_chatrix_version(), false );
+		wp_register_script( $handle, $root_url . 'parent.iife.js', array('wp-element'), automattic_chatrix_version(), false );
 		wp_enqueue_script( $handle );
 		wp_localize_script( $handle, 'automattic_chatrix_block_config', $variables );
 	};
