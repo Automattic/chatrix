@@ -1,7 +1,7 @@
 import { useBlockProps } from "@wordpress/block-editor";
 import { ResizableBox } from "@wordpress/components";
 import { WPElement } from '@wordpress/element';
-import { parseAttributes } from "./attributes";
+import { Attributes, BorderRadius, BorderWidth, Height } from "./attributes";
 import './editor.scss';
 import IFrame, { IframeProps } from "./iframe";
 import InspectorControls from "./inspector/InspectorControls";
@@ -9,6 +9,18 @@ import InspectorControls from "./inspector/InspectorControls";
 interface Props {
     attributes: object,
     setAttributes: Function,
+}
+
+function parseAttributes(attributes): Attributes {
+    return {
+        defaultHomeserver: attributes.defaultHomeserver ?? '',
+        roomId: attributes.roomId ?? '',
+        height: new Height(attributes.height.value, attributes.height.unit),
+        borderWidth: new BorderWidth(attributes.borderWidth.value, attributes.borderWidth.unit),
+        borderRadius: new BorderRadius(attributes.borderRadius.value, attributes.borderRadius.unit),
+        borderStyle: attributes.borderStyle,
+        borderColor: attributes.borderColor,
+    };
 }
 
 export default function Edit(props: Props): WPElement {

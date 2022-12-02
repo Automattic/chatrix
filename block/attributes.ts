@@ -1,4 +1,4 @@
-interface Attributes {
+export interface Attributes {
     defaultHomeserver?: string,
     roomId?: string,
     height: Height,
@@ -6,18 +6,6 @@ interface Attributes {
     borderRadius: BorderRadius,
     borderStyle: string,
     borderColor: string,
-}
-
-export function parseAttributes(attributes): Attributes {
-    return {
-        defaultHomeserver: attributes.defaultHomeserver ?? '',
-        roomId: attributes.roomId ?? '',
-        height: new Height(attributes.height.value, attributes.height.unit),
-        borderWidth: new BorderWidth(attributes.borderWidth.value, attributes.borderWidth.unit),
-        borderRadius: new BorderRadius(attributes.borderRadius.value, attributes.borderRadius.unit),
-        borderStyle: attributes.borderStyle,
-        borderColor: attributes.borderColor,
-    };
 }
 
 export enum Unit {
