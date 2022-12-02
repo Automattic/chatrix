@@ -1,5 +1,5 @@
 import { useState } from '@wordpress/element';
-import { Chat, ChatProps } from "./Chat";
+import { Chat, ChatProps } from "../chat";
 
 export interface Props extends ChatProps {
 }

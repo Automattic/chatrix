@@ -1,5 +1,5 @@
-import { IframeUrl } from "../parent/iframe";
-import { iframeClass } from "../parent/util";
+import { IframeUrl } from "../../parent/iframe";
+import { iframeClass } from "../../parent/util";
 
 export interface ChatProps {
     hostRoot: string,
