@@ -1,3 +1,4 @@
+import react from '@vitejs/plugin-react';
 import injectWebManifest from "hydrogen-web/scripts/build-plugins/manifest";
 import themeBuilder from "hydrogen-web/scripts/build-plugins/rollup-plugin-build-themes";
 import { createPlaceholderValues, injectServiceWorker } from "hydrogen-web/scripts/build-plugins/service-worker";
@@ -53,6 +54,7 @@ export function defaultConfig(mode: string, rootDir: string, targetName: string)
             },
         },
         plugins: [
+            react(),
             themeBuilder({
                 themeConfig: {
                     themes: [
