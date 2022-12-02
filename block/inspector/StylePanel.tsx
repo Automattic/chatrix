@@ -1,6 +1,7 @@
 import { PanelBody, PanelRow, TextControl } from "@wordpress/components";
 import { WPElement } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import TextControlWithUnit from "./TextControlWithUnit";
 
 export default function StylePanel({ attributes, setAttributes }): WPElement {
     return (
@@ -9,23 +10,23 @@ export default function StylePanel({ attributes, setAttributes }): WPElement {
             initialOpen={false}
         >
             <PanelRow>
-                <TextControl
+                <TextControlWithUnit
                     label={__("height", "chatrix")}
                     value={attributes.height.value}
+                    unit={attributes.height.unit}
                     onChange={(value) => {
                         setAttributes({ height: { value: value, unit: "px" } });
                     }}
-                    help={__("In pixels", "chatrix")}
                 />
             </PanelRow>
             <PanelRow>
-                <TextControl
+                <TextControlWithUnit
                     label={__("border width", "chatrix")}
                     value={attributes.borderWidth.value}
+                    unit={attributes.borderWidth.unit}
                     onChange={(value) => {
                         setAttributes({ borderWidth: { value: value, unit: "px" } });
                     }}
-                    help={__("In pixels", "chatrix")}
                 />
             </PanelRow>
             <PanelRow>
@@ -47,13 +48,13 @@ export default function StylePanel({ attributes, setAttributes }): WPElement {
                 />
             </PanelRow>
             <PanelRow>
-                <TextControl
+                <TextControlWithUnit
                     label={__("border radius", "chatrix")}
                     value={attributes.borderRadius.value}
+                    unit={attributes.borderRadius.unit}
                     onChange={(value) => {
                         setAttributes({ borderRadius: { value: value, unit: "px" } });
                     }}
-                    help={__("In pixels", "chatrix")}
                 />
             </PanelRow>
         </PanelBody>
