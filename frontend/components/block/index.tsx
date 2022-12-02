@@ -15,9 +15,10 @@ export interface BlockProps {
 }
 
 export function Block(props: BlockProps) {
+    let rootUrl = window.origin;
     const config = window.automattic_chatrix_block_config;
-    if (!config) {
-        throw new Error("Failed to initialize Chatrix block: window.automattic_chatrix_block_config is not defined");
+    if (config && config.rootUrl) {
+        rootUrl = config.rootUrl;
     }
 
     const attributes = parseAttributes(props.attributes);
@@ -32,7 +33,7 @@ export function Block(props: BlockProps) {
 
     const chatProps = {
         focusable: props.focusable,
-        hostRoot: config.rootUrl,
+        hostRoot: rootUrl,
         defaultHomeserver: attributes.defaultHomeserver,
         roomId: attributes.roomId,
     };
