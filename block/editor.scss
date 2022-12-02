@@ -4,3 +4,22 @@
 
 .wp-block-automattic-chatrix {
 }
+
+.chatrix-inspector-controls {
+  .chatrix-text-control-with-unit {
+    width: 100%;
+  }
+
+  // Place input and unit on the same line.
+  .chatrix-text-control-with-unit {
+    .components-base-control__field > span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      & > span {
+        margin-left: 5px;
+      }
+    }
+  }
+}
