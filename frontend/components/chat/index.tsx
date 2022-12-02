@@ -1,12 +1,16 @@
+import { useFocusableIframe } from "@wordpress/compose";
 import { IframeUrl } from "../../parent/iframe";
 import { iframeClass } from "../../parent/util";
 import { Attributes } from "./attributes";
 
 export interface ChatProps extends Attributes {
     hostRoot: string,
+    focusable?: boolean,
 }
 
 export function Chat(props: ChatProps) {
+    const ref = props.focusable ? useFocusableIframe() : undefined;
+
     const iframeUrl = new IframeUrl(props.hostRoot, {
         defaultHomeserver: props.defaultHomeserver,
         roomId: props.roomId,
@@ -23,6 +27,8 @@ export function Chat(props: ChatProps) {
     return (
         <div className={"chatrix-component-chat"} style={style}>
             <iframe
+                // @ts-ignore
+                ref={ref}
                 className={iframeClass()}
                 src={iframeUrl.toString()}
             ></iframe>
