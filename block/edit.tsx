@@ -1,8 +1,7 @@
 import { useBlockProps } from "@wordpress/block-editor";
 import { ResizableBox } from "@wordpress/components";
 import { WPElement } from '@wordpress/element';
-import { Block, BlockProps } from "../frontend/components/block";
-import { parseAttributes } from "../frontend/components/block/attributes";
+import { Block, BlockProps, parseAttributes } from "../frontend/components/block";
 import './editor.scss';
 import InspectorControls from "./inspector/InspectorControls";
 
@@ -27,7 +26,7 @@ export default function Edit(props: Props): WPElement {
                 <ResizableBox
                     size={{
                         width: "100%",
-                        height: parsedAttributes.height.toString(),
+                        height: parsedAttributes.height ? parsedAttributes.height.toString() : "600px",
                     }}
                     enable={{
                         top: false,

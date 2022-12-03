@@ -1,8 +1,7 @@
 import { createElement, render } from '@wordpress/element';
-import { ChatProps } from "../../components/Chat";
-import { Popup } from "../../components/Popup";
+import { Popup, PopupProps } from "../../components/popup";
 
-export function init(containerId: string, props: ChatProps) {
+export function init(containerId: string, props: PopupProps) {
     const element = createElement(Popup, props);
     render(element, document.getElementById(containerId));
 }
