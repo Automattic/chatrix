@@ -125,12 +125,12 @@ function init_javascript() {
 			$handle    = 'chatrix-popup-parent';
 			$root_url  = root_url();
 			$variables = array(
-				'rootUrl'           => $root_url,
+				'rootUrl'           => "$root_url/iframe/",
 				'defaultHomeserver' => $config['config']['homeserver'],
 				'roomId'            => empty( $config['config']['room_id'] ) ? null : $config['config']['room_id'],
 			);
 
-			wp_register_script( $handle, $root_url . 'parent.iife.js', array(), automattic_chatrix_version(), false );
+			wp_register_script( $handle, $root_url . '/index.iife.js', array('wp-element'), automattic_chatrix_version(), false );
 			wp_enqueue_script( $handle );
 			wp_localize_script( $handle, 'automattic_chatrix_popup_config', $variables );
 			wp_enqueue_script( 'chatrix-popup-js', plugins_url( 'popup.js', __FILE__ ), array(), automattic_chatrix_version(), false );
@@ -139,5 +139,5 @@ function init_javascript() {
 }
 
 function root_url(): string {
-	return plugins_url() . '/chatrix/build/frontend/popup/';
+	return plugins_url() . '/chatrix/build';
 }

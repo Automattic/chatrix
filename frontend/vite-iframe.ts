@@ -6,15 +6,18 @@ import urlProcessor from "hydrogen-web/scripts/postcss/css-url-processor";
 import urlVariables from "hydrogen-web/scripts/postcss/css-url-to-variables";
 import { resolve } from "path";
 import flexbugsFixes from "postcss-flexbugs-fixes";
-import manifest from "../../package.json";
-import { buildColorizedSVG as replacer } from "../build/svg-builder";
-import themeBuilder from "./build-themes";
-import { derive } from "./color";
+import { defineConfig } from "vite";
+import manifest from "../package.json";
+import themeBuilder from "./build/build-themes";
+import { derive } from "./build/color";
+import { buildColorizedSVG as replacer } from "./build/svg-builder";
 
 const compiledVariables = new Map();
 
-export function defaultConfig(mode: string, rootDir: string, targetName: string) {
+export default defineConfig(({mode}) => {
     const definePlaceholders = createPlaceholderValues(mode);
+    const rootDir = __dirname;
+
     return {
         base: "",
         root: rootDir,
@@ -24,14 +27,14 @@ export function defaultConfig(mode: string, rootDir: string, targetName: string)
             ...definePlaceholders,
         },
         build: {
-            outDir: resolve(__dirname, `../../build/frontend/${targetName}`),
+            outDir: resolve(__dirname, `../build/iframe`),
             rollupOptions: {
                 input: {
                     iframe: resolve(rootDir, "iframe.html"),
                 },
                 output: {
                     assetFileNames: (asset) => {
-                        if (asset.name.match(/theme-.+\.json/)) {
+                        if (asset.name?.match(/theme-.+\.json/)) {
                             return "assets/[name][extname]";
                         }
                         return "assets/[name].[hash][extname]";
@@ -58,16 +61,16 @@ export function defaultConfig(mode: string, rootDir: string, targetName: string)
             themeBuilder({
                 themeConfig: {
                     themes: [
-                        resolve(__dirname, "../styles/theme")
+                        resolve(__dirname, "./styles/theme")
                     ],
                     default: "chatrix",
                 },
                 compiledVariables,
             }),
             // Manifest must come before service worker so that the manifest and the icons it refers to are cached.
-            injectWebManifest(resolve(__dirname, "../assets/manifest.json")),
+            injectWebManifest(resolve(__dirname, "./assets/manifest.json")),
             injectServiceWorker(
-                resolve(__dirname, `../platform/sw.js`),
+                resolve(__dirname, `./platform/sw.js`),
                 findUnhashedFileNamesFromBundle,
                 {
                     // Placeholders to replace at end of the build by chunk name.
@@ -79,7 +82,7 @@ export function defaultConfig(mode: string, rootDir: string, targetName: string)
             ),
         ],
     };
-}
+});
 
 function findUnhashedFileNamesFromBundle(bundle) {
     const names = ["iframe.html"];

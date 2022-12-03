@@ -40,7 +40,7 @@ function render( array $attributes ): string {
 		(function () {
 			const containerId = "<?php echo esc_attr( $container_id ); ?>";
 			const attributes = <?php echo wp_json_encode( $attributes ); ?>;
-			AutomatticChatrixBlock.render(containerId, { attributes });
+			AutomatticChatrix.renderBlock(containerId, { attributes });
 		})();
 	</script>
 	<?php
@@ -52,10 +52,10 @@ function init_javascript() {
 		$handle    = 'chatrix-block-parent';
 		$root_url  = root_url();
 		$variables = array(
-			'rootUrl' => $root_url,
+			'rootUrl' => "$root_url/iframe/",
 		);
 
-		wp_register_script( $handle, $root_url . 'parent.iife.js', array('wp-element'), automattic_chatrix_version(), false );
+		wp_register_script( $handle, $root_url . '/index.iife.js', array('wp-element'), automattic_chatrix_version(), false );
 		wp_enqueue_script( $handle );
 		wp_localize_script( $handle, 'automattic_chatrix_block_config', $variables );
 	};
@@ -65,7 +65,7 @@ function init_javascript() {
 }
 
 function root_url(): string {
-	return plugins_url() . '/chatrix/build/frontend/block/';
+	return plugins_url() . '/chatrix/build';
 }
 
 function parse_block_json( string $block_json_path ): array {
