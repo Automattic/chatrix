@@ -5,7 +5,10 @@ export interface PopupProps extends ChatProps {
 }
 
 export function Popup(props: PopupProps) {
-    const [active, setActive] = useState(false);
+    // We set it to active if a loginToken is present in the query params.
+    // This will result in the client opening without the user clicking the start button, so that
+    // the SSO flow can be completed.
+    const [active, setActive] = useState(hasLoginToken());
     const chat = active ? <Chat {...props}/> : undefined;
 
     return (
@@ -21,4 +24,9 @@ export function Popup(props: PopupProps) {
             </div>
         </div>
     );
+}
+
+function hasLoginToken() {
+    const queryParams = new URLSearchParams(window.location.search);
+    return queryParams.has("loginToken");
 }
