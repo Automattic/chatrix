@@ -273,7 +273,7 @@ module.exports = function buildThemes(options) {
 
             const devScriptTag =
                 /<script type="module"> import "@theme\/.+"; <\/script>/;
-            if (id.endsWith("index.html")) {
+            if (id.endsWith("iframe.html")) {
                 const htmlWithoutDevScript = code.replace(devScriptTag, "");
                 return htmlWithoutDevScript;
             }

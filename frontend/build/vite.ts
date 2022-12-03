@@ -1,6 +1,5 @@
 import react from '@vitejs/plugin-react';
 import injectWebManifest from "hydrogen-web/scripts/build-plugins/manifest";
-import themeBuilder from "hydrogen-web/scripts/build-plugins/rollup-plugin-build-themes";
 import { createPlaceholderValues, injectServiceWorker } from "hydrogen-web/scripts/build-plugins/service-worker";
 import compileVariables from "hydrogen-web/scripts/postcss/css-compile-variables";
 import urlProcessor from "hydrogen-web/scripts/postcss/css-url-processor";
@@ -9,6 +8,7 @@ import { resolve } from "path";
 import flexbugsFixes from "postcss-flexbugs-fixes";
 import manifest from "../../package.json";
 import { buildColorizedSVG as replacer } from "../build/svg-builder";
+import themeBuilder from "./build-themes";
 import { derive } from "./color";
 
 const compiledVariables = new Map();
@@ -27,7 +27,7 @@ export function defaultConfig(mode: string, rootDir: string, targetName: string)
             outDir: resolve(__dirname, `../../build/frontend/${targetName}`),
             rollupOptions: {
                 input: {
-                    index: resolve(rootDir, "index.html"),
+                    iframe: resolve(rootDir, "iframe.html"),
                 },
                 output: {
                     assetFileNames: (asset) => {
@@ -71,7 +71,7 @@ export function defaultConfig(mode: string, rootDir: string, targetName: string)
                 findUnhashedFileNamesFromBundle,
                 {
                     // Placeholders to replace at end of the build by chunk name.
-                    index: {
+                    iframe: {
                         DEFINE_GLOBAL_HASH: definePlaceholders.DEFINE_GLOBAL_HASH,
                     },
                     sw: definePlaceholders,
@@ -82,7 +82,7 @@ export function defaultConfig(mode: string, rootDir: string, targetName: string)
 }
 
 function findUnhashedFileNamesFromBundle(bundle) {
-    const names = ["index.html"];
+    const names = ["iframe.html"];
     for (const fileName of Object.keys(bundle)) {
         if (/theme-.+\.json/.test(fileName)) {
             names.push(fileName);

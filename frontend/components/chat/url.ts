@@ -9,7 +9,7 @@ export class IframeUrl {
     private readonly url: URL;
 
     constructor(hostRoot: string, params: IframeParams) {
-        this.url = new URL("index.html?", hostRoot);
+        this.url = new URL("iframe.html?", hostRoot);
 
         for (let key in params) {
             if (!!params[key]) {
