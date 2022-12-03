@@ -22,7 +22,8 @@
           linear-gradient(180deg, #048bcf 0%, #007cba 100%);
 }
 
-.chatrix-component-chat {
+.chatrix-component-popup-chat-container {
+  display: none;
   position: fixed;
   right: 20px;
   bottom: 100px;
@@ -31,4 +32,8 @@
   height: 595px;
   width: 375px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 14px 64px -10px rgba(0, 0, 0, 0.2);
+
+  &.active {
+    display: block;
+  }
 }

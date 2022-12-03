@@ -10,7 +10,9 @@ export function Popup(props: PopupProps) {
 
     return (
         <div className={"chatrix-component-popup"}>
-            {chat}
+            <div className={`chatrix-component-popup-chat-container ${active ? "active" : ""}`}>
+                {chat}
+            </div>
             <div className={"chatrix-component-popup-start-button"}>
                 <button
                     className={`${active ? "active" : ""}`}
