@@ -125,11 +125,9 @@ function init_javascript() {
 			$handle    = 'chatrix-popup-parent';
 			$root_url  = root_url();
 			$variables = array(
-				'rootUrl'      => $root_url,
-				'iframeParams' => array(
-					'defaultHomeserver' => $config['config']['homeserver'],
-					'roomId'            => empty( $config['config']['room_id'] ) ? null : $config['config']['room_id'],
-				),
+				'rootUrl'           => $root_url,
+				'defaultHomeserver' => $config['config']['homeserver'],
+				'roomId'            => empty( $config['config']['room_id'] ) ? null : $config['config']['room_id'],
 			);
 
 			wp_register_script( $handle, $root_url . 'parent.iife.js', array(), automattic_chatrix_version(), false );

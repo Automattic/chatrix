@@ -6,11 +6,11 @@
 			container.id = "automattic-chatrix-container";
 			document.body.appendChild(container);
 
-			AutomatticChatrixPopup.loadPopup(
-				container.id,
-				config.rootUrl,
-				config.iframeParams
-			);
+			AutomatticChatrixPopup.init(container.id, {
+				hostRoot: config.rootUrl,
+				defaultHomeserver: config.defaultHomeserver,
+				roomId: config.roomId,
+			});
 		}
 	};
 })();
