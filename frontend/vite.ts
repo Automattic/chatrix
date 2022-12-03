@@ -60,16 +60,16 @@ export default defineConfig(({mode}) => {
             themeBuilder({
                 themeConfig: {
                     themes: [
-                        resolve(__dirname, "./styles/theme")
+                        resolve(__dirname, "./iframe/styles/theme")
                     ],
                     default: "chatrix",
                 },
                 compiledVariables,
             }),
             // Manifest must come before service worker so that the manifest and the icons it refers to are cached.
-            injectWebManifest(resolve(__dirname, "./assets/manifest.json")),
+            injectWebManifest(resolve(__dirname, "./iframe/assets/manifest.json")),
             injectServiceWorker(
-                resolve(__dirname, `./platform/sw.js`),
+                resolve(__dirname, `./iframe/platform/sw.js`),
                 findUnhashedFileNamesFromBundle,
                 {
                     // Placeholders to replace at end of the build by chunk name.

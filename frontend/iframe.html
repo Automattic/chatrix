@@ -7,7 +7,7 @@
 	<title>chatrix-popup</title>
 	<script type="module"> import "@theme/default"; </script>
 	<script type="module">
-		import { Main } from "./main";
+		import { Main } from "./iframe/main";
 		const main = new Main("root");
 		main.start().catch((error) => {
 			throw new Error("Failed to start app: " + error);
