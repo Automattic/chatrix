@@ -1,7 +1,7 @@
 import { useBlockProps } from "@wordpress/block-editor";
 import { ResizableBox } from "@wordpress/components";
 import { WPElement } from '@wordpress/element';
-import { Block, BlockProps, parseAttributes } from "../frontend/components/block";
+import { Block, BlockProps, parseAttributes } from "../components/block";
 import './editor.scss';
 import InspectorControls from "./inspector/InspectorControls";
 
