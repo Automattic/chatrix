@@ -8,19 +8,18 @@ import { resolve } from "path";
 import flexbugsFixes from "postcss-flexbugs-fixes";
 import { defineConfig } from "vite";
 import manifest from "../package.json";
-import themeBuilder from "./build/build-themes";
-import { derive } from "./build/color";
-import { buildColorizedSVG as replacer } from "./build/svg-builder";
+import themeBuilder from "./build-scripts/build-themes";
+import { derive } from "./build-scripts/color";
+import { buildColorizedSVG as replacer } from "./build-scripts/svg-builder";
 
 const compiledVariables = new Map();
 
 export default defineConfig(({mode}) => {
     const definePlaceholders = createPlaceholderValues(mode);
-    const rootDir = __dirname;
 
     return {
         base: "",
-        root: rootDir,
+        root: __dirname,
         envDir: __dirname,
         define: {
             DEFINE_VERSION: JSON.stringify(manifest.version),
@@ -30,7 +29,7 @@ export default defineConfig(({mode}) => {
             outDir: resolve(__dirname, `../build/iframe`),
             rollupOptions: {
                 input: {
-                    iframe: resolve(rootDir, "iframe.html"),
+                    iframe: resolve(__dirname, "iframe.html"),
                 },
                 output: {
                     assetFileNames: (asset) => {
