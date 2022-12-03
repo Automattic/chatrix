@@ -8,7 +8,10 @@ export function Popup(props: PopupProps) {
     // We set it to active if a loginToken is present in the query params.
     // This will result in the client opening without the user clicking the start button, so that
     // the SSO flow can be completed.
-    const [active, setActive] = useState(hasLoginToken());
+    // We also set it to active in development environments so the popup opens automatically.
+    const defaultActive = hasLoginToken() || import.meta.env.DEV;
+
+    const [active, setActive] = useState(defaultActive);
     const chat = active ? <Chat {...props}/> : undefined;
 
     return (
