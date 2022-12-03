@@ -40,7 +40,7 @@ function render( array $attributes ): string {
 		(function () {
 			const containerId = "<?php echo esc_attr( $container_id ); ?>";
 			const attributes = <?php echo wp_json_encode( $attributes ); ?>;
-			AutomatticChatrixBlock.init(containerId, { attributes });
+			AutomatticChatrixBlock.render(containerId, { attributes });
 		})();
 	</script>
 	<?php

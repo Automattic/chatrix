@@ -6,7 +6,7 @@
 			container.id = "automattic-chatrix-container";
 			document.body.appendChild(container);
 
-			AutomatticChatrixPopup.init(container.id, {
+			AutomatticChatrixPopup.render(container.id, {
 				hostRoot: config.rootUrl,
 				defaultHomeserver: config.defaultHomeserver,
 				roomId: config.roomId,

@@ -12,7 +12,7 @@ export function defaultParentConfig(rootDir: string, targetName: string) {
         build: {
             outDir: resolve(__dirname, `../../build/frontend/${targetName}`),
             lib: {
-                entry: resolve(__dirname, `../targets/${targetName}/parent.ts`),
+                entry: resolve(__dirname, `../components/${targetName}/render.ts`),
                 formats: ["iife"],
                 name: moduleName,
                 fileName: "parent"
