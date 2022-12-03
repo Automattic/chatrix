@@ -1,6 +1,6 @@
 import { useFocusableIframe } from "@wordpress/compose";
-import { IframeUrl } from "../../parent/iframe";
 import { iframeClass } from "../../parent/util";
+import { IframeUrl } from "./url";
 
 export interface ChatProps {
     focusable?: boolean,

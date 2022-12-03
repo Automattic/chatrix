@@ -1,4 +1,5 @@
-import { Iframe, IframeParams, IframeUrl } from "../../../parent/iframe";
+import { IframeParams, IframeUrl } from "../../../components/chat";
+import { Iframe } from "../../../parent/iframe";
 import { containerClass } from "../../../parent/util";
 import { StartButton } from "./button";
 
