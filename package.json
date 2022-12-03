@@ -27,6 +27,7 @@
     "fake-indexeddb": "^4.0.0",
     "postcss-css-variables": "^0.18.0",
     "postcss-flexbugs-fixes": "^5.0.2",
+    "rollup-plugin-external-globals": "^0.7.1",
     "typescript": "4.7.*",
     "vite": "^2.9.15",
     "vite-plugin-css-injected-by-js": "^2.1.1",

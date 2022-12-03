@@ -1,6 +1,7 @@
 import { resolve } from "path";
+import excludeGlobals from 'rollup-plugin-external-globals';
 import { defineConfig } from "vite";
-import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
+import injectCss from "vite-plugin-css-injected-by-js";
 
 export default defineConfig(() => {
     return {
@@ -18,7 +19,11 @@ export default defineConfig(() => {
             rollupOptions: {}
         },
         plugins: [
-            cssInjectedByJsPlugin(),
-        ]
+            injectCss(),
+            excludeGlobals({
+                'react': 'React',
+                'react-dom': 'ReactDOM',
+            }),
+        ],
     };
 });
