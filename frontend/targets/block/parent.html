@@ -17,7 +17,24 @@
         });
 	</script>
 	<style>
-        @import "parent.css";
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chatrix-component-block {
+            width: 600px;
+            height: 600px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 14px 64px -10px rgba(0, 0, 0, 0.2);
+        }
 	</style>
 </head>
 <body>
