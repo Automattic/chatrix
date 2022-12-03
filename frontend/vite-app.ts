@@ -10,10 +10,10 @@ export default defineConfig(() => {
         build: {
             outDir: resolve(__dirname, "../build/"),
             lib: {
-                entry: resolve(__dirname, `./index.ts`),
+                entry: resolve(__dirname, `./app.ts`),
                 formats: ["iife"],
                 name: "AutomatticChatrix",
-                fileName: "index"
+                fileName: "app"
             },
             rollupOptions: {}
         },

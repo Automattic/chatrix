@@ -55,7 +55,7 @@ function init_javascript() {
 			'rootUrl' => "$root_url/iframe/",
 		);
 
-		wp_register_script( $handle, $root_url . '/index.iife.js', array('wp-element'), automattic_chatrix_version(), false );
+		wp_register_script( $handle, $root_url . '/app.iife.js', array('wp-element'), automattic_chatrix_version(), false );
 		wp_enqueue_script( $handle );
 		wp_localize_script( $handle, 'automattic_chatrix_block_config', $variables );
 	};
