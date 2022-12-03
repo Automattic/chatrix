@@ -2,6 +2,8 @@
 
 namespace Automattic\Chatrix\Block;
 
+use function Automattic\Chatrix\root_url;
+
 function register() {
 	$block_path      = dirname( plugin_dir_path( __FILE__ ), 2 ) . '/build/block';
 	$block_json_path = "$block_path/block.json";
@@ -55,17 +57,13 @@ function init_javascript() {
 			'rootUrl' => "$root_url/iframe/",
 		);
 
-		wp_register_script( $handle, $root_url . '/app.iife.js', array('wp-element'), automattic_chatrix_version(), false );
-		wp_enqueue_script( $handle );
+		wp_enqueue_script( $handle, plugins_url( 'block.js', __FILE__ ), array( 'chatrix-app' ), automattic_chatrix_version(), false );
 		wp_localize_script( $handle, 'automattic_chatrix_block_config', $variables );
+		wp_enqueue_script( $handle );
 	};
 
 	add_action( 'wp_enqueue_scripts', $enqueue_script );
 	add_action( 'admin_enqueue_scripts', $enqueue_script );
-}
-
-function root_url(): string {
-	return plugins_url() . '/chatrix/build';
 }
 
 function parse_block_json( string $block_json_path ): array {

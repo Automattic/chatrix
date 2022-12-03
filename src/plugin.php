@@ -10,8 +10,24 @@ const LOCAL_STORAGE_KEY_PREFIX = 'chatrix';
 
 function main() {
 	init_frontend_session_management( LOCAL_STORAGE_KEY_PREFIX );
+	init_javascript();
 	register_block();
 	register_popup();
+}
+
+function init_javascript() {
+	add_action(
+		'wp_enqueue_scripts',
+		function () {
+			$handle   = 'chatrix-app';
+			$root_url = root_url();
+			wp_register_script( $handle, $root_url . '/app.iife.js', array('wp-element'), automattic_chatrix_version(), false );
+		}
+	);
+}
+
+function root_url(): string {
+	return plugins_url() . '/chatrix/build';
 }
 
 function get_local_storage_key( string $instance_id ): string {
