@@ -1,5 +1,4 @@
 import { useFocusableIframe } from "@wordpress/compose";
-import { iframeClass } from "../../parent/util";
 import { IframeUrl } from "./url";
 
 export interface ChatProps {
@@ -22,7 +21,6 @@ export function Chat(props: ChatProps) {
             <iframe
                 // @ts-ignore
                 ref={ref}
-                className={iframeClass()}
                 src={iframeUrl.toString()}
             ></iframe>
         </div>
