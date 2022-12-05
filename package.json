@@ -11,7 +11,7 @@
     "build:iframe": "yarn run init && vite build --config frontend/vite.ts --emptyOutDir",
     "build:block": "wp-scripts build --webpack-src-dir=frontend/block --output-path=build/block && cp ./frontend/block/block.json ./build/block/",
     "init": "mkdir -p build/.tmp",
-    "lint": "eslint frontend/ block/"
+    "lint": "eslint frontend/"
   },
   "devDependencies": {
     "@types/node": "^18.7.21",
