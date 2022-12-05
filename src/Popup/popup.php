@@ -3,7 +3,7 @@
 namespace Automattic\Chatrix\Popup;
 
 use function Automattic\Chatrix\Admin\Settings\get as get_chatrix_settings;
-use function Automattic\Chatrix\root_url;
+use const Automattic\Chatrix\SCRIPT_HANDLE_APP;
 
 function chatrix_config() {
 	return apply_filters( 'chatrix_config', array() );
@@ -124,15 +124,21 @@ function init_javascript() {
 			}
 
 			$handle    = 'chatrix-popup';
-			$root_url  = root_url();
-			$variables = array(
-				'rootUrl'           => "$root_url/iframe/",
-				'defaultHomeserver' => $config['config']['homeserver'],
-				'roomId'            => empty( $config['config']['room_id'] ) ? null : $config['config']['room_id'],
+			$json_data = wp_json_encode(
+				array(
+					'defaultHomeserver' => $config['config']['homeserver'],
+					'roomId'            => empty( $config['config']['room_id'] ) ? null : $config['config']['room_id'],
+				)
 			);
 
-			wp_enqueue_script( $handle, plugins_url( 'popup.js', __FILE__ ), array('chatrix-app'), automattic_chatrix_version(), false );
-			wp_localize_script( $handle, 'automattic_chatrix_popup_config', $variables );
+			wp_register_script(
+				$handle,
+				plugins_url( 'popup.js', __FILE__ ),
+				array( SCRIPT_HANDLE_APP ),
+				automattic_chatrix_version(),
+				true
+			);
+			wp_add_inline_script( $handle, "window.ChatrixPopupConfig = '$json_data'", 'before' );
 			wp_enqueue_script( $handle );
 		}
 	);

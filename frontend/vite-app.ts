@@ -13,7 +13,7 @@ export default defineConfig(() => {
             lib: {
                 entry: resolve(__dirname, `./app.ts`),
                 formats: ["iife"],
-                name: "AutomatticChatrix",
+                name: "Chatrix",
                 fileName: "app"
             },
             rollupOptions: {}

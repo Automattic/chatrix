@@ -8,8 +8,8 @@ export type IframeParams = {
 export class IframeUrl {
     private readonly url: URL;
 
-    constructor(hostRoot: string, params: IframeParams) {
-        this.url = new URL("iframe.html?", hostRoot);
+    constructor(iframeUrl: URL, params: IframeParams) {
+        this.url = iframeUrl;
 
         for (let key in params) {
             if (!!params[key]) {

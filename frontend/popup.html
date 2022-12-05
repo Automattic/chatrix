@@ -5,12 +5,14 @@
 	<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 	<title>Chatrix - Popup</title>
 	<script type="module">
-        import { render } from "./components/popup/render";
+        import { renderPopup } from "./app";
+
+        window.ChatrixConfig = {
+            iframeUrl: window.origin,
+        };
 
         const env = import.meta.env;
-
-        render("root", {
-            hostRoot: window.origin,
+        renderPopup("root", {
             defaultHomeserver: env.VITE_HOMESERVER,
             roomId: env.VITE_ROOM_ID,
         });

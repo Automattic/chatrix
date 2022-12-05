@@ -1,18 +1,13 @@
-import { Chat } from "../chat";
+import { Chat, ChatProps } from "../chat";
 import { parseAttributes } from "./attributes";
 
 export interface BlockProps {
     focusable?: boolean,
     attributes: object,
+    iframeUrl: URL,
 }
 
 export function Block(props: BlockProps) {
-    let rootUrl = window.origin;
-    const config = window.automattic_chatrix_block_config;
-    if (config && config.rootUrl) {
-        rootUrl = config.rootUrl;
-    }
-
     const attributes = parseAttributes(props.attributes);
 
     const style = {
@@ -23,9 +18,9 @@ export function Block(props: BlockProps) {
         borderColor: attributes.borderColor ?? '',
     };
 
-    const chatProps = {
+    const chatProps: ChatProps = {
         focusable: props.focusable,
-        hostRoot: rootUrl,
+        iframeUrl: props.iframeUrl,
         defaultHomeserver: attributes.defaultHomeserver,
         roomId: attributes.roomId,
     };

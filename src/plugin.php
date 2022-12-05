@@ -7,21 +7,41 @@ use function Automattic\Chatrix\Popup\register as register_popup;
 use function Automattic\Chatrix\Sessions\init as init_frontend_session_management;
 
 const LOCAL_STORAGE_KEY_PREFIX = 'chatrix';
+const SCRIPT_HANDLE_CONFIG     = 'chatrix-config';
+const SCRIPT_HANDLE_APP        = 'chatrix-app';
+const CONFIG_VARIABLE          = 'ChatrixConfig';
 
 function main() {
 	init_frontend_session_management( LOCAL_STORAGE_KEY_PREFIX );
-	init_javascript();
+	register_scripts();
 	register_block();
 	register_popup();
 }
 
-function init_javascript() {
+function register_scripts() {
 	add_action(
-		'wp_enqueue_scripts',
+		'init',
 		function () {
-			$handle   = 'chatrix-app';
-			$root_url = root_url();
-			wp_register_script( $handle, $root_url . '/app.iife.js', array('wp-element'), automattic_chatrix_version(), false );
+			$json_data = wp_json_encode(
+				array(
+					'rootUrl' => root_url() . '/iframe/',
+				)
+			);
+
+			// Enqueue script for global configuration.
+			wp_register_script( SCRIPT_HANDLE_CONFIG, '', array(), false, true );
+			wp_enqueue_script( SCRIPT_HANDLE_CONFIG );
+			wp_add_inline_script( SCRIPT_HANDLE_CONFIG, 'window.' . CONFIG_VARIABLE . " = $json_data;" );
+
+			// Note we don't enqueue the script yet. It will be enqueue whenever SCRIPT_HANDLE_APP
+			// is specified as a dependency of another script.
+			wp_register_script(
+				SCRIPT_HANDLE_APP,
+				root_url() . '/app.iife.js',
+				array( 'wp-element' ),
+				automattic_chatrix_version(),
+				true
+			);
 		}
 	);
 }
