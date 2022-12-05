@@ -29,7 +29,7 @@ function register_scripts() {
 			);
 
 			// Enqueue script for global configuration.
-			wp_register_script( SCRIPT_HANDLE_CONFIG, '', array(), false, true );
+			wp_register_script( SCRIPT_HANDLE_CONFIG, '', array(), automattic_chatrix_version(), true );
 			wp_enqueue_script( SCRIPT_HANDLE_CONFIG );
 			wp_add_inline_script( SCRIPT_HANDLE_CONFIG, 'window.' . CONFIG_VARIABLE . " = $json_data;" );
 
