@@ -2,9 +2,6 @@
 
 namespace Automattic\Chatrix\Block;
 
-use function Automattic\Chatrix\root_url;
-use const Automattic\Chatrix\SCRIPT_HANDLE_APP;
-
 function register() {
 	$block_path      = dirname( plugin_dir_path( __FILE__ ), 2 ) . '/build/block';
 	$block_json_path = "$block_path/block.json";
@@ -31,7 +28,7 @@ function register() {
 }
 
 function render( array $attributes ): string {
-	$handle       = 'chatrix-block';
+	$handle       = 'chatrix-block-config';
 	$container_id = 'wp-block-automattic-chatrix-container';
 
 	$json_data = wp_json_encode(
@@ -41,13 +38,7 @@ function render( array $attributes ): string {
 		)
 	);
 
-	wp_register_script(
-		$handle,
-		root_url() . '/block/view.js',
-		array( SCRIPT_HANDLE_APP ),
-		automattic_chatrix_version(),
-		true
-	);
+	wp_register_script( $handle, '', array(), automattic_chatrix_version(), true );
 	wp_add_inline_script( $handle, "window.ChatrixBlockConfig = $json_data;", 'before' );
 	wp_enqueue_script( $handle );
 
