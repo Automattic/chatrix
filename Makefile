@@ -7,8 +7,7 @@ node_modules: package.json yarn.lock
 	yarn install
 
 build/frontend: frontend
-	yarn build:popup
-	yarn build:block
+	yarn build
 
-build/block: block
-	yarn build:block-internal
+build/block: frontend/block
+	yarn build:block

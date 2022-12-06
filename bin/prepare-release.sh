@@ -39,7 +39,7 @@ else
 fi
 
 # Substitute version in all relevant files.
-for file in package.json composer.json block/block.json
+for file in package.json composer.json frontend/block/block.json
 do
   jq ".version = \"$VERSION\"" $file > $file.tmp
   mv $file.tmp $file

@@ -2,6 +2,8 @@
 
 namespace Automattic\Chatrix\Block;
 
+use const Automattic\Chatrix\SCRIPT_HANDLE_APP;
+
 function register() {
 	$block_path      = dirname( plugin_dir_path( __FILE__ ), 2 ) . '/build/block';
 	$block_json_path = "$block_path/block.json";
@@ -11,8 +13,6 @@ function register() {
 	if ( ! file_exists( $block_json_path ) ) {
 		return;
 	}
-
-	init_javascript();
 
 	add_action(
 		'init',
@@ -30,67 +30,35 @@ function register() {
 }
 
 function render( array $attributes ): string {
-	ob_start();
+	$handle       = 'chatrix-block';
 	$container_id = 'wp-block-automattic-chatrix-container';
 
-	$height        = $attributes['height'];
-	$border_width  = $attributes['borderWidth'];
-	$border_radius = $attributes['borderRadius'];
-
-	$style      = array(
-		'height'        => "{$height['value']}{$height['unit']}",
-		'border-width'  => "{$border_width['value']}{$border_width['unit']}",
-		'border-radius' => "{$border_radius['value']}{$border_radius['unit']}",
-		'border-style'  => "{$attributes['borderStyle']}",
-		'border-color'  => "{$attributes['borderColor']}",
-	);
-	$style_attr = '';
-	array_walk(
-		$style,
-		function ( $value, $key ) use ( &$style_attr ) {
-			$style_attr .= "$key: $value;";
-		}
+	$json_data = wp_json_encode(
+		array(
+			'containerId' => $container_id,
+			'attributes'  => $attributes,
+		)
 	);
 
+	wp_register_script(
+		$handle,
+		plugins_url( 'block.js', __FILE__ ),
+		array( SCRIPT_HANDLE_APP ),
+		automattic_chatrix_version(),
+		true
+	);
+	wp_add_inline_script( $handle, "window.ChatrixBlockConfig = $json_data;", 'before' );
+	wp_enqueue_script( $handle );
+
+	ob_start();
 	?>
-	<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>>
-		<div id="<?php echo esc_attr( $container_id ); ?>" style="<?php echo esc_attr( $style_attr ); ?>">
-			<?php // Iframe will be rendered here. ?>
-		</div>
-		<script>
-			(function () {
-				AutomatticChatrixBlock.loadIframe(
-					"<?php echo esc_attr( $container_id ); ?>",
-					"<?php echo esc_url( root_url() ); ?>",
-					<?php echo wp_json_encode( $attributes ); ?>
-				);
-			})();
-		</script>
+	<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?> id="<?php echo esc_attr( $container_id ); ?>">
+		<?php // Iframe will be rendered here. ?>
 	</div>
 	<?php
 	return ob_get_clean();
 }
 
-function init_javascript() {
-	$enqueue_script = function () {
-		$handle    = 'chatrix-block-parent';
-		$root_url  = root_url();
-		$variables = array(
-			'rootUrl' => $root_url,
-		);
-
-		wp_register_script( $handle, $root_url . 'parent.iife.js', array(), automattic_chatrix_version(), false );
-		wp_enqueue_script( $handle );
-		wp_localize_script( $handle, 'automattic_chatrix_block_config', $variables );
-	};
-
-	add_action( 'wp_enqueue_scripts', $enqueue_script );
-	add_action( 'admin_enqueue_scripts', $enqueue_script );
-}
-
-function root_url(): string {
-	return plugins_url() . '/chatrix/build/frontend/block/';
-}
 
 function parse_block_json( string $block_json_path ): array {
 	// phpcs discourages file_get_contents for remote URLs, and recommends using wp_remote_get().
@@ -129,7 +97,7 @@ function register_site_status_test( string $block_json_path ) {
 						),
 						'description' =>
 							'<p>' .
-							__( 'If a block.json file is not found under wp-content/plugins/chatrix/build/block/block.json, the Gutenberg block will not be available.', 'chatrix' ) .
+							__( 'If a block.json file is not found under wp-content/plugins/chatrix/build/block/block.json, the Chatrix block will not be available.', 'chatrix' ) .
 							'</p>',
 						'test'        => 'chatrix-block-json',
 					);

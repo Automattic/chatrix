@@ -4,18 +4,18 @@
 	<meta charset="UTF-8">
 	<meta content="IE=edge" http-equiv="X-UA-Compatible">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
-	<title>chatrix-block</title>
+	<title>Chatrix - Iframe</title>
 	<script type="module"> import "@theme/default"; </script>
 	<script type="module">
-		import { Main } from "../../main";
-		const main = new Main("chatrix-block");
+		import { Main } from "./iframe/main";
+		const main = new Main("root");
 		main.start().catch((error) => {
 			throw new Error("Failed to start app: " + error);
 		});
 	</script>
 </head>
 <body>
-<div id="chatrix-block"></div>
+<div id="root"></div>
 <dialog class="chatrix-update-confirm">
 	<div>
 		<form method="dialog">

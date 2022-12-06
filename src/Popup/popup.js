@@ -1,16 +1,17 @@
 (function() {
-	window.onload = () => {
-		const config = window.automattic_chatrix_popup_config;
-		if (config) {
-			const container = document.createElement("div");
-			container.id = "automattic-chatrix-container";
-			document.body.appendChild(container);
-
-			AutomatticChatrixPopup.loadPopup(
-				container.id,
-				config.rootUrl,
-				config.iframeParams
-			);
+	window.addEventListener('DOMContentLoaded', () => {
+		const config = window.ChatrixPopupConfig;
+		if (!config) {
+			throw "ChatrixPopupConfig is not defined";
 		}
-	};
+
+		const container = document.createElement("div");
+		container.id = "chatrix-popup-container";
+		document.body.appendChild(container);
+
+		Chatrix.renderPopup(container.id, {
+			defaultHomeserver: config.defaultHomeserver,
+			roomId: config.roomId,
+		});
+	});
 })();

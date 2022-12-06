@@ -1,20 +1,20 @@
-interface Attributes {
+export interface Attributes {
     defaultHomeserver?: string,
     roomId?: string,
-    height: Height,
-    borderWidth: BorderWidth,
-    borderRadius: BorderRadius,
-    borderStyle: string,
-    borderColor: string,
+    height?: Height,
+    borderWidth?: BorderWidth,
+    borderRadius?: BorderRadius,
+    borderStyle?: string,
+    borderColor?: string,
 }
 
 export function parseAttributes(attributes): Attributes {
     return {
         defaultHomeserver: attributes.defaultHomeserver ?? '',
         roomId: attributes.roomId ?? '',
-        height: new Height(attributes.height.value, attributes.height.unit),
-        borderWidth: new BorderWidth(attributes.borderWidth.value, attributes.borderWidth.unit),
-        borderRadius: new BorderRadius(attributes.borderRadius.value, attributes.borderRadius.unit),
+        height: attributes.height ? new Height(attributes.height.value, attributes.height.unit) : undefined,
+        borderWidth: attributes.borderWidth ? new BorderWidth(attributes.borderWidth.value, attributes.borderWidth.unit) : undefined,
+        borderRadius: attributes.borderRadius ? new BorderRadius(attributes.borderRadius.value, attributes.borderRadius.unit) : undefined,
         borderStyle: attributes.borderStyle,
         borderColor: attributes.borderColor,
     };

@@ -12,6 +12,5 @@
   },
   "include": [
     "frontend",
-    "block",
   ]
 }
