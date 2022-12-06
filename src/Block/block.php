@@ -2,6 +2,7 @@
 
 namespace Automattic\Chatrix\Block;
 
+use function Automattic\Chatrix\root_url;
 use const Automattic\Chatrix\SCRIPT_HANDLE_APP;
 
 function register() {
@@ -42,7 +43,7 @@ function render( array $attributes ): string {
 
 	wp_register_script(
 		$handle,
-		plugins_url( 'block.js', __FILE__ ),
+		root_url() . '/block/view.js',
 		array( SCRIPT_HANDLE_APP ),
 		automattic_chatrix_version(),
 		true
