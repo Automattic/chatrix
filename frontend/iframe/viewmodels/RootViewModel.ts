@@ -1,4 +1,5 @@
 import { ForcedLogoutViewModel } from "hydrogen-web/src/domain/ForcedLogoutViewModel";
+import { LoginViewModel } from "hydrogen-web/src/domain/login/LoginViewModel";
 import { LogoutViewModel } from "hydrogen-web/src/domain/LogoutViewModel";
 import { SegmentType } from "hydrogen-web/src/domain/navigation";
 import { SessionViewModel } from "hydrogen-web/src/domain/session/SessionViewModel";
@@ -7,7 +8,6 @@ import { SessionPickerViewModel } from "hydrogen-web/src/domain/SessionPickerVie
 import { Options as BaseOptions, ViewModel } from "hydrogen-web/src/domain/ViewModel";
 import { Client } from "hydrogen-web/src/matrix/Client.js";
 import { allSections, Section } from "../platform/Navigation";
-import { LoginViewModel } from "./LoginViewModel";
 
 type Options = {} & BaseOptions;
 
@@ -156,7 +156,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
 
     private _showLogin(loginToken: string | undefined) {
         this._setSection(() => {
-            this._loginViewModel = new LoginViewModel(this.childOptions({
+            const options = this.childOptions({
                 defaultHomeserver: this.platform.config.defaultHomeserver,
                 ready: client => {
                     // We don't want to load the session container again, but we do want the change offscreen to go
@@ -169,7 +169,9 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                     this.navigation.push("session", client.sessionId);
                 },
                 loginToken: loginToken,
-            }));
+            });
+
+            this._loginViewModel = new LoginViewModel(options);
         });
     }
 
