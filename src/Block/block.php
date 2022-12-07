@@ -42,6 +42,10 @@ function render( array $attributes ): string {
 	wp_add_inline_script( $handle, "window.ChatrixBlockConfig = $json_data;", 'before' );
 	wp_enqueue_script( $handle );
 
+	return render_markup( $container_id, $attributes );
+}
+
+function render_markup( string $container_id, array $attributes ): string {
 	ob_start();
 	?>
 	<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?> id="<?php echo esc_attr( $container_id ); ?>">
