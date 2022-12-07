@@ -1,7 +1,6 @@
-import { BlockProps as BaseBlockProps } from "./components/block";
-import { render as renderBlockInternal } from "./components/block/render";
-import { PopupProps as BasePopupProps } from "./components/popup";
-import { render as renderPopupInternal } from "./components/popup/render";
+import { createElement, render } from "@wordpress/element";
+import { Block, BlockProps as BaseBlockProps } from "./components/block";
+import { Popup, PopupProps as BasePopupProps } from "./components/popup";
 
 declare global {
     interface Window {
@@ -19,7 +18,8 @@ export function renderBlock(containerId: string, props: BlockProps) {
         iframeUrl: getIframeUrl(),
     };
 
-    return renderBlockInternal(containerId, blockProps);
+    const element = createElement(Block, blockProps);
+    render(element, document.getElementById(containerId));
 }
 
 export type PopupProps = Omit<BasePopupProps, "iframeUrl">;
@@ -30,7 +30,8 @@ export function renderPopup(containerId: string, props: PopupProps) {
         iframeUrl: getIframeUrl(),
     };
 
-    return renderPopupInternal(containerId, popupProps);
+    const element = createElement(Popup, popupProps);
+    render(element, document.getElementById(containerId));
 }
 
 export function getIframeUrl(): URL {
