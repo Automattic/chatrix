@@ -1,5 +1,5 @@
 import { createElement, render } from "@wordpress/element";
-import { Block, BlockProps as BaseBlockProps } from "./components/block";
+import { Block, BlockProps as BaseBlockProps, fromDataAttributes } from "./components/block";
 import { Popup, PopupProps as BasePopupProps } from "./components/popup";
 
 declare global {
@@ -16,16 +16,12 @@ export function renderAllBlocks(className: string) {
     window.addEventListener('DOMContentLoaded', () => {
         const elements = document.getElementsByClassName(className);
         Array.from(elements).forEach((element: HTMLDivElement) => {
-            const dataset = element.dataset;
-            if (!dataset.attributes) {
-                throw "No attributes field found on chatrix div.";
+            const dataElement = <HTMLSpanElement>element.getElementsByTagName("span")[0];
+            if (!dataElement) {
+                throw "Span data element not found";
             }
-
-            const props: BlockProps = {
-                attributes: JSON.parse(decodeURIComponent(dataset.attributes)),
-            };
-
-            renderBlock(element, props);
+            const attributes = fromDataAttributes(dataElement.dataset);
+            renderBlock(element, { attributes });
         });
     });
 }

@@ -11,7 +11,7 @@ export interface Attributes {
 }
 
 export function fromBlockAttributes(attributes): Attributes {
-    let parsedAttributes = {};
+    let parsedAttributes: Attributes = {};
 
     for (const key in attributes) {
         let value = attributes[key];
@@ -32,6 +32,20 @@ export function fromBlockAttributes(attributes): Attributes {
         }
 
         parsedAttributes[key] = value;
+    }
+
+    return parsedAttributes;
+}
+
+export function fromDataAttributes(dataset: DOMStringMap): Attributes {
+    let parsedAttributes: Attributes = {};
+
+    for (const key in metadata.attributes) {
+        if (key in dataset) {
+            parsedAttributes[key] = dataset[key];
+        } else {
+            parsedAttributes[key] = metadata.attributes[key].default;
+        }
     }
 
     return parsedAttributes;
