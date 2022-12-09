@@ -33,7 +33,7 @@ function register_scripts() {
 			wp_enqueue_script( SCRIPT_HANDLE_CONFIG );
 			wp_add_inline_script( SCRIPT_HANDLE_CONFIG, 'window.' . CONFIG_VARIABLE . " = $json_data;" );
 
-			// Note we don't enqueue the script yet. It will be enqueue whenever SCRIPT_HANDLE_APP
+			// Note we don't enqueue the script yet. It will be enqueued whenever SCRIPT_HANDLE_APP
 			// is specified as a dependency of another script.
 			wp_register_script(
 				SCRIPT_HANDLE_APP,

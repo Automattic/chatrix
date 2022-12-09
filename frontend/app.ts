@@ -24,14 +24,14 @@ export function renderBlock(container: HTMLDivElement, props: BlockProps) {
 
 export type PopupProps = Omit<BasePopupProps, "iframeUrl">;
 
-export function renderPopup(containerId: string, props: PopupProps) {
+export function renderPopup(container: HTMLDivElement, props: PopupProps) {
     const popupProps: BasePopupProps = {
         ...props,
         iframeUrl: getIframeUrl(),
     };
 
     const element = createElement(Popup, popupProps);
-    render(element, document.getElementById(containerId));
+    render(element, container);
 }
 
 export function getIframeUrl(): URL {

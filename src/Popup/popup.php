@@ -13,7 +13,31 @@ function register() {
 	register_default_instance();
 	define_config();
 	init_rest_api();
-	init_javascript();
+	register_scripts();
+	render();
+}
+
+function render() {
+	add_action(
+		'wp_footer',
+		function () {
+			$config = chatrix_config();
+			if ( empty( $config ) ) {
+				return;
+			}
+
+			$json_data = wp_json_encode(
+				array(
+					'defaultHomeserver' => $config['config']['homeserver'],
+					'roomId'            => empty( $config['config']['room_id'] ) ? null : $config['config']['room_id'],
+				)
+			);
+			?>
+			<div class="automattic-chatrix-popup" data-attributes="<?php echo esc_attr( urlencode( $json_data ) ); ?>">
+			</div>
+			<?php
+		}
+	);
 }
 
 /**
@@ -114,7 +138,8 @@ function init_rest_api() {
 	);
 }
 
-function init_javascript() {
+
+function register_scripts() {
 	add_action(
 		'wp_enqueue_scripts',
 		function () {
@@ -123,14 +148,7 @@ function init_javascript() {
 				return;
 			}
 
-			$handle    = 'chatrix-popup';
-			$json_data = wp_json_encode(
-				array(
-					'defaultHomeserver' => $config['config']['homeserver'],
-					'roomId'            => empty( $config['config']['room_id'] ) ? null : $config['config']['room_id'],
-				)
-			);
-
+			$handle = 'chatrix-popup';
 			wp_register_script(
 				$handle,
 				plugins_url( 'popup.js', __FILE__ ),
@@ -138,7 +156,6 @@ function init_javascript() {
 				automattic_chatrix_version(),
 				true
 			);
-			wp_add_inline_script( $handle, "window.ChatrixPopupConfig = '$json_data'", 'before' );
 			wp_enqueue_script( $handle );
 		}
 	);

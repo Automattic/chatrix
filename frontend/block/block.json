@@ -10,17 +10,14 @@
   "attributes": {
     "defaultHomeserver": {
       "type": "string",
-      "source": "attribute",
       "default": ""
     },
     "roomId": {
       "type": "string",
-      "source": "attribute",
       "default": ""
     },
     "height": {
       "type": "object",
-      "source": "attribute",
       "default": {
         "value": 600,
         "unit": "px"
@@ -28,7 +25,6 @@
     },
     "borderWidth": {
       "type": "object",
-      "source": "attribute",
       "default": {
         "value": 1,
         "unit": "px"
@@ -36,7 +32,6 @@
     },
     "borderRadius": {
       "type": "object",
-      "source": "attribute",
       "default": {
         "value": 10,
         "unit": "px"
@@ -44,12 +39,10 @@
     },
     "borderStyle": {
       "type": "string",
-      "source": "attribute",
       "default": "solid"
     },
     "borderColor": {
       "type": "string",
-      "source": "attribute",
       "default": "black"
     }
   },
