@@ -1,5 +1,5 @@
 import { useBlockProps } from "@wordpress/block-editor";
-import { asDataAttributes, fromBlockAttributes } from "../components/block/attributes";
+import { asDataAttributes, fromBlockAttributes } from "../components/block";
 
 interface Props {
     attributes: object,
