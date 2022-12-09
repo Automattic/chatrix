@@ -1,3 +1,5 @@
+import metadata from "../../block/block.json";
+
 export interface Attributes {
     defaultHomeserver?: string,
     roomId?: string,
@@ -18,6 +20,30 @@ export function parseAttributes(attributes): Attributes {
         borderStyle: attributes.borderStyle,
         borderColor: attributes.borderColor,
     };
+}
+
+export function asDataAttributes(attributes: Attributes): object {
+    let dataAttributes = {};
+
+    for (const key in attributes) {
+        const value = attributes[key];
+        if (!value) {
+            continue;
+        }
+
+        if (value === metadata.attributes[key].default) {
+            continue;
+        }
+
+        const dataKey = "data-" + camelCaseToHyphenatedCase(key);
+        dataAttributes[dataKey] = value;
+    }
+
+    return dataAttributes;
+}
+
+function camelCaseToHyphenatedCase(value: string) {
+    return value.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
 }
 
 export enum Unit {
