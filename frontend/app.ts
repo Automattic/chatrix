@@ -1,17 +1,37 @@
-import { BlockProps } from "./components/block";
+import { createElement, render } from "@wordpress/element";
+import { Block, BlockProps as BaseBlockProps } from "./components/block";
+import { Popup, PopupProps as BasePopupProps } from "./components/popup";
 
-import { render as renderBlockInternal } from "./components/block/render";
-import { PopupProps } from "./components/popup";
-import { render as renderPopupInternal } from "./components/popup/render";
-
-export function renderBlock(containerId: string, props: BlockProps) {
-    props.iframeUrl = getIframeUrl();
-    return renderBlockInternal(containerId, props);
+declare global {
+    interface Window {
+        ChatrixConfig: {
+            rootUrl: string;
+        };
+    }
 }
 
+export type BlockProps = Omit<BaseBlockProps, "iframeUrl">;
+
+export function renderBlock(containerId: string, props: BlockProps) {
+    const blockProps: BaseBlockProps = {
+        ...props,
+        iframeUrl: getIframeUrl(),
+    };
+
+    const element = createElement(Block, blockProps);
+    render(element, document.getElementById(containerId));
+}
+
+export type PopupProps = Omit<BasePopupProps, "iframeUrl">;
+
 export function renderPopup(containerId: string, props: PopupProps) {
-    props.iframeUrl = getIframeUrl();
-    return renderPopupInternal(containerId, props);
+    const popupProps: BasePopupProps = {
+        ...props,
+        iframeUrl: getIframeUrl(),
+    };
+
+    const element = createElement(Popup, popupProps);
+    render(element, document.getElementById(containerId));
 }
 
 export function getIframeUrl(): URL {
@@ -22,12 +42,4 @@ export function getIframeUrl(): URL {
     }
 
     return new URL("iframe.html", rootUrl);
-}
-
-declare global {
-    interface Window {
-        ChatrixConfig: {
-            rootUrl: string;
-        };
-    }
 }
