@@ -11,15 +11,30 @@ export interface Attributes {
 }
 
 export function parseAttributes(attributes): Attributes {
-    return {
-        defaultHomeserver: attributes.defaultHomeserver ?? '',
-        roomId: attributes.roomId ?? '',
-        height: attributes.height ? new Height(attributes.height.value, attributes.height.unit) : undefined,
-        borderWidth: attributes.borderWidth ? new BorderWidth(attributes.borderWidth.value, attributes.borderWidth.unit) : undefined,
-        borderRadius: attributes.borderRadius ? new BorderRadius(attributes.borderRadius.value, attributes.borderRadius.unit) : undefined,
-        borderStyle: attributes.borderStyle,
-        borderColor: attributes.borderColor,
-    };
+    let parsedAttributes = {};
+
+    for (const key in attributes) {
+        let value = attributes[key];
+        if (!value) {
+            continue;
+        }
+
+        if (key === "height") {
+            value = new Height(attributes.height.value, attributes.height.unit);
+        }
+
+        if (key === "borderWidth") {
+            value = new BorderWidth(attributes.borderWidth.value, attributes.borderWidth.unit);
+        }
+
+        if (key === "borderRadius") {
+            value = new BorderRadius(attributes.borderRadius.value, attributes.borderRadius.unit);
+        }
+
+        parsedAttributes[key] = value;
+    }
+
+    return parsedAttributes;
 }
 
 export function asDataAttributes(attributes: Attributes): object {
