@@ -1,5 +1,5 @@
 import { Chat, ChatProps } from "../chat";
-import { parseAttributes } from "./attributes";
+import { fromBlockAttributes } from "./attributes";
 
 export interface BlockProps {
     focusable?: boolean,
@@ -8,7 +8,7 @@ export interface BlockProps {
 }
 
 export function Block(props: BlockProps) {
-    const attributes = parseAttributes(props.attributes);
+    const attributes = fromBlockAttributes(props.attributes);
 
     const style = {
         height: attributes.height ? attributes.height.toString() : '',

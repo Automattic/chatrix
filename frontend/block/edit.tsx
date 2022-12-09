@@ -2,7 +2,7 @@ import { useBlockProps } from "@wordpress/block-editor";
 import { ResizableBox } from "@wordpress/components";
 import { WPElement } from '@wordpress/element';
 import { getIframeUrl } from "../app";
-import { Block, BlockProps, parseAttributes } from "../components/block";
+import { Block, BlockProps, fromBlockAttributes } from "../components/block";
 import './editor.scss';
 import InspectorControls from "./inspector/InspectorControls";
 
@@ -13,7 +13,7 @@ interface Props {
 
 export default function Edit(props: Props): WPElement {
     const { attributes, setAttributes } = props;
-    const parsedAttributes = parseAttributes(attributes);
+    const parsedAttributes = fromBlockAttributes(attributes);
 
     const blockProps: BlockProps = {
         focusable: true,

@@ -10,7 +10,7 @@ export interface Attributes {
     borderColor?: string,
 }
 
-export function parseAttributes(attributes): Attributes {
+export function fromBlockAttributes(attributes): Attributes {
     let parsedAttributes = {};
 
     for (const key in attributes) {
