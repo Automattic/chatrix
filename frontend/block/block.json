@@ -10,14 +10,23 @@
   "attributes": {
     "defaultHomeserver": {
       "type": "string",
+      "source": "attribute",
+      "attribute": "data-default-homeserver",
+      "selector": "span[data-default-homeserver]",
       "default": ""
     },
     "roomId": {
       "type": "string",
+      "source": "attribute",
+      "attribute": "data-room-id",
+      "selector": "span[data-room-id]",
       "default": ""
     },
     "height": {
       "type": "object",
+      "source": "attribute",
+      "attribute": "data-height",
+      "selector": "span[data-height]",
       "default": {
         "value": 600,
         "unit": "px"
@@ -25,6 +34,9 @@
     },
     "borderWidth": {
       "type": "object",
+      "source": "attribute",
+      "attribute": "data-border-width",
+      "selector": "span[data-border-width]",
       "default": {
         "value": 1,
         "unit": "px"
@@ -32,6 +44,9 @@
     },
     "borderRadius": {
       "type": "object",
+      "source": "attribute",
+      "attribute": "data-border-radius",
+      "selector": "span[data-border-radius]",
       "default": {
         "value": 10,
         "unit": "px"
@@ -39,10 +54,16 @@
     },
     "borderStyle": {
       "type": "string",
+      "source": "attribute",
+      "attribute": "data-border-style",
+      "selector": "span[data-border-style]",
       "default": "solid"
     },
     "borderColor": {
       "type": "string",
+      "source": "attribute",
+      "attribute": "data-border-color",
+      "selector": "span[data-border-color]",
       "default": "black"
     }
   },
