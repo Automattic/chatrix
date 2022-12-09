@@ -27,19 +27,26 @@
         }
 	</style>
 	<script type="module">
-        import { renderBlock, renderPopup } from "./app";
+        import { renderAllBlocks, renderPopup } from "./app";
 
         const env = import.meta.env;
         window.ChatrixConfig = {
             iframeUrl: window.origin,
         };
 
-        renderBlock(document.getElementById("root-block"), {
+        const blockProps = {
             attributes: {
                 defaultHomeserver: env.VITE_HOMESERVER,
                 roomId: env.VITE_ROOM_ID,
             }
-        });
+        };
+
+        const blockContainer = document.createElement("div")
+        blockContainer.className = "wp-block-automattic-chatrix";
+        blockContainer.dataset.attributes = encodeURIComponent(JSON.stringify(blockProps));
+        document.body.appendChild(blockContainer);
+
+        renderAllBlocks("wp-block-automattic-chatrix");
 
         renderPopup(document.getElementById("root-popup"), {
             defaultHomeserver: env.VITE_HOMESERVER,
@@ -48,7 +55,6 @@
 	</script>
 </head>
 <body>
-<div id="root-block"></div>
 <div id="root-popup"></div>
 </body>
 </html>
