@@ -1,29 +1,17 @@
 import { BlockProps, renderBlock } from "../app";
 
-declare global {
-    interface Window {
-        ChatrixBlockConfig: {
-            containerId: string,
-            attributes: object,
-        };
-    }
-}
-
 window.addEventListener('DOMContentLoaded', () => {
-    const config = window.ChatrixBlockConfig;
-    if (!config) {
-        throw "ChatrixBlockConfig is not defined";
-    }
+    const elements = document.getElementsByClassName("wp-block-automattic-chatrix");
+    Array.from(elements).forEach((element: HTMLDivElement) => {
+        const dataset = element.dataset;
+        if (!dataset.attributes) {
+            throw "No attributes field found on chatrix div.";
+        }
 
-    const containerId = config.containerId;
-    const container = document.getElementById(containerId);
-    if (!container) {
-        throw `element with id ${containerId} was not found`;
-    }
+        const props: BlockProps = {
+            attributes: JSON.parse(decodeURIComponent(dataset.attributes)),
+        };
 
-    const props: BlockProps = {
-        attributes: config.attributes,
-    };
-
-    renderBlock(containerId, props);
+        renderBlock(element, props);
+    });
 });

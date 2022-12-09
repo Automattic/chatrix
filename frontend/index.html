@@ -34,7 +34,7 @@
             iframeUrl: window.origin,
         };
 
-        renderBlock("root-block", {
+        renderBlock(document.getElementById("root-block"), {
             attributes: {
                 defaultHomeserver: env.VITE_HOMESERVER,
                 roomId: env.VITE_ROOM_ID,
