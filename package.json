@@ -35,6 +35,7 @@
     "xxhashjs": "^0.2.2"
   },
   "dependencies": {
+    "@wordpress/block-serialization-default-parser": "^4.22.0",
     "@wordpress/compose": "^5.17.0",
     "bs58": "^5.0.0",
     "hydrogen-web": "vector-im/hydrogen-web#v0.3.2",

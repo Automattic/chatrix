@@ -41,8 +41,14 @@ export function fromDataAttributes(dataset: DOMStringMap): Attributes {
     let parsedAttributes: Attributes = {};
 
     for (const key in metadata.attributes) {
+        const metaAttribute = metadata.attributes[key];
         if (key in dataset) {
-            parsedAttributes[key] = dataset[key];
+            const value = dataset[key];
+            if (value && metaAttribute.type === "object") {
+                parsedAttributes[key] = JSON.parse(value);
+            } else {
+                parsedAttributes[key] = value;
+            }
         } else {
             parsedAttributes[key] = metadata.attributes[key].default;
         }
@@ -54,18 +60,24 @@ export function fromDataAttributes(dataset: DOMStringMap): Attributes {
 export function asDataAttributes(attributes: Attributes): object {
     let dataAttributes = {};
 
-    for (const key in attributes) {
-        const value = attributes[key];
-        if (!value) {
+    for (const key in metadata.attributes) {
+        const metaAttribute = metadata.attributes[key];
+        const attribute = attributes[key];
+        if (!attribute) {
             continue;
         }
 
-        if (value === metadata.attributes[key].default) {
+        if (attribute === metaAttribute.default) {
             continue;
         }
 
         const dataKey = "data-" + camelCaseToHyphenatedCase(key);
-        dataAttributes[dataKey] = value;
+
+        if (metaAttribute.type === "object") {
+            dataAttributes[dataKey] = JSON.stringify(attribute);
+        } else {
+            dataAttributes[dataKey] = attribute;
+        }
     }
 
     return dataAttributes;
