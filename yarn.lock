@@ -5715,9 +5715,9 @@ human-signals@^2.1.0:
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-2.1.0.tgz#dc91fcba42e4d06e4abaed33b3e7a3c02f514ea0"
   integrity sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==
 
-hydrogen-web@vector-im/hydrogen-web#v0.3.4:
-  version "0.3.4"
-  resolved "https://codeload.github.com/vector-im/hydrogen-web/tar.gz/dbac61f78f45f135c4f9100a824c97fc7019bc7d"
+hydrogen-web@vector-im/hydrogen-web#v0.3.5:
+  version "0.3.5"
+  resolved "https://codeload.github.com/vector-im/hydrogen-web/tar.gz/308bbee5ede6f4d21cd69e2f9239aec4e667b379"
   dependencies:
     "@matrix-org/olm" "https://gitlab.matrix.org/api/v4/projects/27/packages/npm/@matrix-org/olm/-/@matrix-org/olm-3.2.8.tgz"
     another-json "^0.2.0"
