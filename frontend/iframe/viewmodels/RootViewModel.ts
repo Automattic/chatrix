@@ -132,13 +132,13 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 }
             }
         } else if (loginToken) {
-            this.urlCreator.normalizeUrl();
+            this.urlRouter.normalizeUrl();
             if (this.activeSection !== Section.Login) {
                 this._showLogin(loginToken);
             }
         } else {
             try {
-                if (!(shouldRestoreLastUrl && this.urlCreator.tryRestoreLastUrl())) {
+                if (!(shouldRestoreLastUrl && this.urlRouter.tryRestoreLastUrl())) {
                     const sessionInfos = await this.platform.sessionInfoStorage.getAll();
                     if (sessionInfos.length === 0) {
                         this.navigation.push(Section.Login);
