@@ -45,7 +45,7 @@ export class Main {
             logger: new NullLogger(),
             platform: this._platform,
             navigation: this._navigation,
-            urlCreator: this._router,
+            urlRouter: this._router,
         });
 
         const rootView = new RootView(this._rootViewModel);

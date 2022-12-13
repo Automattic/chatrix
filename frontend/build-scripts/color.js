@@ -35,5 +35,8 @@ export function derive(value, operation, argument, isDark) {
         case "lighter": {
             return offColor(value).lighten(argumentAsNumber / 100).hex();
         }
+        case "alpha": {
+            return offColor(value).rgba(argumentAsNumber / 100);
+        }
     }
 }
