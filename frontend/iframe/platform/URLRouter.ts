@@ -15,13 +15,8 @@ export class URLRouter extends BaseURLRouter<SegmentType> {
     }
 
     createSSOCallbackURL(): string {
-        // TODO: Remove the call to encodeURIComponent() once https://github.com/vector-im/hydrogen-web/pull/911 has been merged,
-        //       and a new release has been issued which contains that PR.
-        //       Note that package.json hardcodes hydrogen's version, so it will need to be updated so that the new
-        //       version is used.
-
         // The URL of the iframe's parent.
-        return encodeURIComponent(parent.location.href);
+        return parent.location.href;
     }
 
     normalizeUrl(): void {
