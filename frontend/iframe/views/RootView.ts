@@ -4,6 +4,7 @@ import { TemplateView } from "hydrogen-web/src/platform/web/ui/general/TemplateV
 import { LoginView } from "hydrogen-web/src/platform/web/ui/login/LoginView";
 import { SessionLoadView } from "hydrogen-web/src/platform/web/ui/login/SessionLoadView";
 import { SessionPickerView } from "hydrogen-web/src/platform/web/ui/login/SessionPickerView";
+import { UnknownRoomView } from "hydrogen-web/src/platform/web/ui/session/room/UnknownRoomView";
 import { LogoutView } from "hydrogen-web/src/platform/web/ui/LogoutView";
 import { SessionView } from "hydrogen-web/src/platform/web/ui/session/SessionView";
 import { Section } from "../platform/Navigation";
@@ -21,6 +22,7 @@ export class RootView extends TemplateView<RootViewModel> {
                 "single-room-mode": vm.singleRoomMode,
             },
         }, t.mapView(vm => vm.activeSection, (section: Section) => {
+            console.log('render root view', section);
                 switch (section) {
                     case Section.Login:
                         return new LoginView(vm.loginViewModel);
@@ -36,6 +38,8 @@ export class RootView extends TemplateView<RootViewModel> {
                         return new StaticView(t => t.p("Redirecting..."));
                     case Section.SessionLoading:
                         return new SessionLoadView(vm.sessionLoadViewModel);
+                    case Section.UnknownRoom:
+                        return new UnknownRoomView(vm.unknownRoomViewModel);
                     case Section.Error:
                         return new StaticView(t => {
                             return t.div({ className: "StatusView" }, [

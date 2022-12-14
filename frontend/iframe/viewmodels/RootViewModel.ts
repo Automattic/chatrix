@@ -5,6 +5,7 @@ import { SegmentType } from "hydrogen-web/src/domain/navigation";
 import { SessionViewModel } from "hydrogen-web/src/domain/session/SessionViewModel";
 import { SessionLoadViewModel } from "hydrogen-web/src/domain/SessionLoadViewModel";
 import { SessionPickerViewModel } from "hydrogen-web/src/domain/SessionPickerViewModel";
+import { UnknownRoomViewModel } from "hydrogen-web/src/domain/session/room/UnknownRoomViewModel";
 import { Options as BaseOptions, ViewModel } from "hydrogen-web/src/domain/ViewModel";
 import { Client } from "hydrogen-web/src/matrix/Client.js";
 import { allSections, Section } from "../platform/Navigation";
@@ -19,6 +20,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
     private _sessionPickerViewModel: SessionPickerViewModel | undefined;
     private _sessionLoadViewModel: SessionLoadViewModel | undefined;
     private _sessionViewModel: SessionViewModel | undefined;
+    private _unknownRoomViewModel: UnknownRoomViewModel | undefined;
     private _pendingClient: Client;
 
     constructor(options: Options) {
@@ -40,6 +42,8 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             return Section.SessionLoading;
         } else if (this._sessionViewModel) {
             return Section.Session;
+        } else if (this._unknownRoomViewModel) {
+            return Section.UnknownRoom;
         } else {
             return Section.Redirecting;
         }
@@ -67,6 +71,10 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
 
     public get sessionViewModel(): SessionViewModel | undefined {
         return this._sessionViewModel;
+    }
+
+    public get unknownRoomViewModel(): UnknownRoomViewModel | undefined {
+        return this._unknownRoomViewModel;
     }
 
     public get error(): Error | undefined {
@@ -135,6 +143,10 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             this.urlRouter.normalizeUrl();
             if (this.activeSection !== Section.Login) {
                 this._showLogin(loginToken);
+            }
+        } else if (this.platform.config.roomId) {
+            if (this.activeSection !== Section.UnknownRoom) {
+                await this._showUnknownRoom(this.platform.config.roomId);
             }
         } else {
             try {
@@ -215,6 +227,36 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         this._setSection(() => {
             this._sessionViewModel = new SessionViewModel(this.childOptions({ client }));
             this._sessionViewModel.start();
+        });
+    }
+
+    private async _showUnknownRoom(roomId: string) {
+        alert('show unknown room');
+
+        const client = new Client(this.platform);
+
+        let session;
+
+        // create a guest account if we don't have any sessions
+        let sessionInfos = await this.platform.sessionInfoStorage.getAll();
+        if ( sessionInfos.length === 0 ) {
+            await client.startGuestLogin('https://' + this.platform.config.defaultHomeserver); // @TODO
+            session = await this.platform.sessionInfoStorage.getAll()[0];
+        } else {
+            sessionInfos = await this.platform.sessionInfoStorage.getAll();
+            console.log('sessions',sessionInfos);
+            session = sessionInfos[0];
+            client.startWithExistingSession(session.id);
+        }
+
+        console.log('got session',session);
+
+        this._setSection(() => {
+            this._unknownRoomViewModel = new UnknownRoomViewModel(this.childOptions({
+                roomId,
+                session
+            }));
+            this._unknownRoomViewModel.join();
         });
     }
 
