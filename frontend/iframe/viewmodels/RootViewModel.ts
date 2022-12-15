@@ -231,25 +231,25 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
     }
 
     private async _showUnknownRoom(roomId: string) {
-        alert('show unknown room');
-
+        console.group('show unknown room');
         const client = new Client(this.platform);
-
-        let session;
+        let sessionInfos = await this.platform.sessionInfoStorage.getAll();
 
         // create a guest account if we don't have any sessions
-        let sessionInfos = await this.platform.sessionInfoStorage.getAll();
         if ( sessionInfos.length === 0 ) {
+            console.log('creating guest account');
             await client.startGuestLogin('https://' + this.platform.config.defaultHomeserver); // @TODO
-            session = await this.platform.sessionInfoStorage.getAll()[0];
-        } else {
             sessionInfos = await this.platform.sessionInfoStorage.getAll();
-            console.log('sessions',sessionInfos);
-            session = sessionInfos[0];
-            client.startWithExistingSession(session.id);
+        } else {
+            console.log('already have a session');
         }
 
-        console.log('got session',session);
+        console.log('got all these sessions',sessionInfos);
+        let session = sessionInfos[0];
+        console.log('starting client with session',session);
+        await client.startWithExistingSession(session.id);
+
+        console.log('setting section', roomId, session );
 
         this._setSection(() => {
             this._unknownRoomViewModel = new UnknownRoomViewModel(this.childOptions({
@@ -258,6 +258,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             }));
             this._unknownRoomViewModel.join();
         });
+        console.groupEnd();
     }
 
     private _setSection(setter: Function) {
