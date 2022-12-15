@@ -72,7 +72,7 @@ PR_BODY=$(cat <<-EOB
 [Commits since $LATEST_VERSION_TAG](https://github.com/Automattic/chatrix/compare/$LATEST_VERSION_TAG...$RELEASE_BRANCH)
 EOB
 )
-gh pr create --base main --label "Prepare Release" --title "Release $VERSION" --body "$PR_BODY" --assignee @me
+gh pr create --draft --base main --label "Prepare Release" --title "Release $VERSION" --body "$PR_BODY" --assignee @me
 
 echo "A Pull Request has been created for Release $VERSION (see URL above)."
 echo "The release will automatically be created once the Pull Request is merged."
