@@ -5,7 +5,7 @@
  * Author: Automattic
  * Author URI: https://automattic.com/
  * Plugin URI: https://github.com/Automattic/chatrix
- * Version: 0.3.9
+ * Version: 0.4.0
  */
 
 use function Automattic\Chatrix\Admin\main as adminMain;
@@ -22,7 +22,7 @@ function automattic_chatrix_version(): string {
 	}
 
 	// Do not edit this line, it's automatically set by bin/prepare-release.sh.
-	$version = '0.3.9';
+	$version = '0.4.0';
 
 	return $version;
 }

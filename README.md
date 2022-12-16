@@ -6,7 +6,7 @@
 - Tested up to: 6.1
 - Requires PHP: 7.4
 - License: [GPLv2](http://www.gnu.org/licenses/gpl-2.0.html)
-- Stable tag: 0.3.9
+- Stable tag: 0.4.0
 - GitHub Plugin URI: https://github.com/Automattic/chatrix
 
 Matrix client for WordPress.
@@ -50,3 +50,22 @@ add_filter( 'chatrix_instances', function ( array $default_instances ) {
 	);
 } );
 ~~~
+
+## Changelog
+### 0.4.0
+- Prevent data corruption when more than one Chatrix instance (block or Popup) is active, either in multiple browser tabs or windows, or in the same page [[#75](https://github.com/Automattic/chatrix/pull/75)]
+- Allow setting the height of the block from the block editor [[#135](https://github.com/Automattic/chatrix/pull/135)]
+- Allow styling the block's border from the block editor [[#139](https://github.com/Automattic/chatrix/pull/139)]
+- Styling and layout improvements and fixes in pre-session screens (session selection, login, logout) [[#134](https://github.com/Automattic/chatrix/pull/134)]
+- Reduce plugin size by 50%, from 12MB to 6MB [[#143](https://github.com/Automattic/chatrix/pull/143)]
+- Update to Hydrogen [0.3.5](https://github.com/vector-im/hydrogen-web/releases/tag/v0.3.5)
+    - Fix issue that prevented opening rooms with slashes in the room ID [[#451](https://github.com/vector-im/hydrogen-web/issues/451)]
+    - Improve date headers in room timeline [[#938](https://github.com/vector-im/hydrogen-web/pull/938)]
+    - Provide basic UI to join room [[#870](https://github.com/vector-im/hydrogen-web/pull/870)]
+    - Fix an error that can stop sync [[#885](https://github.com/vector-im/hydrogen-web/pull/885)]
+    - Fetch missing e2ee devices when verifying message sender [[#913](https://github.com/vector-im/hydrogen-web/pull/913)]
+    - Fix message verification not working in rooms where we haven't sent a message yet [[#920](https://github.com/vector-im/hydrogen-web/pull/920)]
+    - Various maintenance fixes
+
+### 0.3.9
+- Initial public release
