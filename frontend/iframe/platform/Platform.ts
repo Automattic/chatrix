@@ -8,11 +8,6 @@ import { ServiceWorkerHandler } from "./ServiceWorkerHandler";
 import { StorageFactory } from "./StorageFactory";
 
 export class Platform extends BasePlatform {
-    private settingsStorage: SettingsStorage;
-    private sessionInfoStorage: SessionInfoStorage;
-    private storageFactory: StorageFactory;
-    private _serviceWorkerHandler: ServiceWorkerHandler;
-
     constructor(options) {
         const assetPaths = structuredClone(options.assetPaths);
 
@@ -21,15 +16,18 @@ export class Platform extends BasePlatform {
         super(options);
 
         // Register our own service worker handler.
+        let serviceWorkerHandler;
         if (assetPaths.serviceWorker && "serviceWorker" in navigator) {
-            this._serviceWorkerHandler = new ServiceWorkerHandler();
-            this._serviceWorkerHandler.registerAndStart(assetPaths.serviceWorker);
+            serviceWorkerHandler = new ServiceWorkerHandler();
+            serviceWorkerHandler.registerAndStart(assetPaths.serviceWorker);
         }
 
-        this.settingsStorage = new SettingsStorage("chatrix_setting_v1_");
-        this.sessionInfoStorage = new SessionInfoStorage("chatrix_sessions_v1");
-        this.storageFactory = new StorageFactory(this._serviceWorkerHandler);
-        this.history = new History();
+        super.storageFactory = new StorageFactory(serviceWorkerHandler);
+        super._serviceWorkerHandler = serviceWorkerHandler;
+
+        super.settingsStorage = new SettingsStorage("chatrix_setting_v1_");
+        super.sessionInfoStorage = new SessionInfoStorage("chatrix_sessions_v1");
+        super.history = new History();
     }
 
     public get history(): History {
