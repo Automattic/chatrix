@@ -12,7 +12,7 @@ export class Platform extends BasePlatform {
         const assetPaths = structuredClone(options.assetPaths);
 
         // Unset serviceWorker path so that the base constructor doesn't register the service worker handler.
-        delete options.assetPaths.serviceWorker;
+        delete options.assetPaths?.serviceWorker;
         super(options);
 
         // Register our own service worker handler.
