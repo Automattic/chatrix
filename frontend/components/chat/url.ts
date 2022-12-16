@@ -24,10 +24,6 @@ export class IframeUrl {
         return this.url.toString();
     }
 
-    public hasLoginToken(): boolean {
-        return this.url.searchParams.has(LOGIN_TOKEN_PARAM_NAME);
-    }
-
     private applyLoginToken(): void {
         const paramName = LOGIN_TOKEN_PARAM_NAME;
         const queryParams = new URLSearchParams(window.location.search);
