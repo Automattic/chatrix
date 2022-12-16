@@ -1,6 +1,6 @@
 const LOGIN_TOKEN_PARAM_NAME = "loginToken";
 
-export type IframeParams = {
+type IframeParams = {
     defaultHomeserver?: string
     roomId?: string,
 }
