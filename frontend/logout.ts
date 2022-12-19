@@ -1,19 +1,20 @@
 window.addEventListener('DOMContentLoaded', () => {
-    let logoutPromises: Promise<Response>[] = [];
+    console.log("Logging out all chatrix sessions");
 
+    let logoutPromises: Promise<Response>[] = [];
     for (const [key, value] of Object.entries(localStorage)) {
         if (!key.startsWith('chatrix_sessions')) {
             continue;
         }
 
         let sessions = JSON.parse(value);
-        if (!sessions || sessions.length < 1) {
+        if (!Array.isArray(sessions)) {
             continue;
         }
 
-        for (const session in sessions) {
+        sessions.forEach(session => {
             logoutPromises.push(logoutSession(session));
-        }
+        });
     }
 
     // Once all sessions have been logged out, delete all chatrix data from local storage.
