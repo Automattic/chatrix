@@ -49,18 +49,3 @@ function register_scripts() {
 function root_url(): string {
 	return plugins_url() . '/chatrix/build';
 }
-
-function get_local_storage_key( string $instance_id ): string {
-	$current_user      = wp_get_current_user();
-	$local_storage_key = LOCAL_STORAGE_KEY_PREFIX;
-
-	if ( ! empty( $instance_id ) ) {
-		$local_storage_key .= '_' . $instance_id;
-	}
-
-	if ( 0 !== $current_user->ID ) {
-		$local_storage_key .= '_' . $current_user->user_login;
-	}
-
-	return $local_storage_key;
-}
