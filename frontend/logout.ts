@@ -24,7 +24,7 @@ async function logoutAndDeleteData() {
 
     // Delete from local storage.
     for (const [key,] of Object.entries(localStorage)) {
-        if (key.startsWith('chatrix')) {
+        if (key.startsWith('chatrix') || key.startsWith('hydrogen')) {
             localStorage.removeItem(key);
         }
     }
@@ -32,8 +32,9 @@ async function logoutAndDeleteData() {
     // Delete from indexedDB.
     const databases = await indexedDB.databases();
     for (const database of databases) {
-        if (database.name?.startsWith('chatrix')) {
-            await indexedDB.deleteDatabase(database.name);
+        const name = database.name ?? "";
+        if (name.startsWith('chatrix') || name.startsWith("hydrogen")) {
+            await indexedDB.deleteDatabase(name);
         }
     }
 }
