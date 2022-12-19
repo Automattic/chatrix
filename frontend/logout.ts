@@ -13,7 +13,7 @@ async function logoutAndDeleteData() {
     }
 
     // Logout all sessions.
-    let sessions = JSON.parse(localStorage.getItem(sessionsKey) ?? "[]");
+    const sessions = JSON.parse(localStorage.getItem(sessionsKey) ?? "[]");
     let logoutPromises: Promise<Response>[] = [];
     if (Array.isArray(sessions)) {
         sessions.forEach(session => logoutPromises.push(logoutSession(session)));
