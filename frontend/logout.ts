@@ -9,16 +9,16 @@ async function chatrixLogoutSession(session) {
 
 window.addEventListener('DOMContentLoaded', () => {
     for (const [key, value] of Object.entries(localStorage)) {
-        if (!key.startsWith('chatrix')) {
+        if (!key.startsWith('chatrix_sessions')) {
             continue;
         }
 
-        let parsed = JSON.parse(value);
-        if (!parsed || parsed.length < 1) {
+        let sessions = JSON.parse(value);
+        if (!sessions || sessions.length < 1) {
             continue;
         }
 
-        let session = parsed[0];
+        let session = sessions[0];
         this.chatrixLogoutSession(session).then(() => {
             localStorage.removeItem(key);
         }).catch((error) => {
