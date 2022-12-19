@@ -16,20 +16,18 @@ async function logoutAndDeleteData() {
     let sessions = JSON.parse(localStorage.getItem(sessionsKey) ?? "[]");
     let logoutPromises: Promise<Response>[] = [];
     if (Array.isArray(sessions)) {
-        sessions.forEach(session => {
-            logoutPromises.push(logoutSession(session));
-        });
+        sessions.forEach(session => logoutPromises.push(logoutSession(session)));
     }
 
-    // Once all sessions have been logged out, delete all chatrix data.
-    Promise.all(logoutPromises).finally(() => {
-        //  Delete from local storage.
-        for (const [key,] of Object.entries(localStorage)) {
-            if (key.startsWith('chatrix')) {
-                localStorage.removeItem(key);
-            }
+    // Wait for all sessions to have been logged out.
+    await Promise.all(logoutPromises);
+
+    // Delete from local storage.
+    for (const [key,] of Object.entries(localStorage)) {
+        if (key.startsWith('chatrix')) {
+            localStorage.removeItem(key);
         }
-    });
+    }
 }
 
 async function logoutSession(session) {
