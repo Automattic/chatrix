@@ -15,6 +15,15 @@ window.addEventListener('DOMContentLoaded', () => {
             logoutPromises.push(logoutSession(session));
         }
     }
+
+    // Once all sessions have been logged out, delete all chatrix data from local storage.
+    Promise.all(logoutPromises).finally(() => {
+        for (const [key,] of Object.entries(localStorage)) {
+            if (key.startsWith('chatrix')) {
+                localStorage.removeItem(key);
+            }
+        }
+    });
 });
 
 async function logoutSession(session) {
