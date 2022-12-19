@@ -2,7 +2,7 @@
 
 namespace Automattic\Chatrix\Sessions;
 
-function init() {
+function init_logout() {
 	// Log out user from Chatrix on non-logged in page load.
 	delete_sessions();
 }

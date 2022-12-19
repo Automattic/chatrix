@@ -4,14 +4,14 @@ namespace Automattic\Chatrix;
 
 use function Automattic\Chatrix\Block\register as register_block;
 use function Automattic\Chatrix\Popup\register as register_popup;
-use function Automattic\Chatrix\Sessions\init as init_frontend_session_management;
+use function Automattic\Chatrix\Sessions\init_logout;
 
 const SCRIPT_HANDLE_CONFIG     = 'chatrix-config';
 const SCRIPT_HANDLE_APP        = 'chatrix-app';
 const CONFIG_VARIABLE          = 'ChatrixConfig';
 
 function main() {
-	init_frontend_session_management();
+	init_logout();
 	register_scripts();
 	register_block();
 	register_popup();
