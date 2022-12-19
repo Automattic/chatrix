@@ -10,12 +10,11 @@ async function chatrixLogoutSession(session) {
 window.addEventListener('DOMContentLoaded', () => {
     console.log("logout called");
 
-    for (let i = 0; i < localStorage.length; i++) {
-        let key = localStorage.key(i);
+    for (const [key, value] of Object.entries(localStorage)) {
         if (!key.startsWith('chatrix')) {
             continue;
         }
-        let data = localStorage.getItem(key);
+        let data = value;
         if (!data) {
             continue;
         }
