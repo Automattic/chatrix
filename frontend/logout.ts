@@ -28,6 +28,14 @@ async function logoutAndDeleteData() {
             localStorage.removeItem(key);
         }
     }
+
+    // Delete from indexedDB.
+    const databases = await indexedDB.databases();
+    for (const database of databases) {
+        if (database.name?.startsWith('chatrix')) {
+            await indexedDB.deleteDatabase(database.name);
+        }
+    }
 }
 
 async function logoutSession(session) {
