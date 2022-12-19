@@ -14,11 +14,10 @@ window.addEventListener('DOMContentLoaded', () => {
         if (!key.startsWith('chatrix')) {
             continue;
         }
-        let data = value;
-        if (!data) {
+        if (!value) {
             continue;
         }
-        let parsed = JSON.parse(data);
+        let parsed = JSON.parse(value);
         if (!parsed || parsed.length < 1) {
             continue;
         }
