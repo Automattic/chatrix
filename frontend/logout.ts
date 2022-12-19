@@ -1,17 +1,18 @@
 window.addEventListener('DOMContentLoaded', () => {
     console.log("Logging out all chatrix sessions");
 
+    let sessionsKey = "";
+    for (const [key,] of Object.entries(localStorage)) {
+        if (key.startsWith('chatrix_sessions')) {
+            sessionsKey = key;
+            break;
+        }
+    }
+
+    let sessions = JSON.parse(localStorage.getItem(sessionsKey) ?? "");
+
     let logoutPromises: Promise<Response>[] = [];
-    for (const [key, value] of Object.entries(localStorage)) {
-        if (!key.startsWith('chatrix_sessions')) {
-            continue;
-        }
-
-        let sessions = JSON.parse(value);
-        if (!Array.isArray(sessions)) {
-            continue;
-        }
-
+    if (Array.isArray(sessions)) {
         sessions.forEach(session => {
             logoutPromises.push(logoutSession(session));
         });
