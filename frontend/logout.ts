@@ -1,4 +1,6 @@
 window.addEventListener('DOMContentLoaded', () => {
+    let logoutPromises: Promise<Response>[] = [];
+
     for (const [key, value] of Object.entries(localStorage)) {
         if (!key.startsWith('chatrix_sessions')) {
             continue;
@@ -9,10 +11,9 @@ window.addEventListener('DOMContentLoaded', () => {
             continue;
         }
 
-        let session = sessions[0];
-        void logoutSession(session).then(() => {
-            localStorage.removeItem(key);
-        });
+        for (const session in sessions) {
+            logoutPromises.push(logoutSession(session));
+        }
     }
 });
 
