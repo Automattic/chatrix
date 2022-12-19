@@ -1,6 +1,6 @@
 const LOGIN_TOKEN_PARAM_NAME = "loginToken";
 
-export type IframeParams = {
+type IframeParams = {
     defaultHomeserver?: string
     roomId?: string,
 }
@@ -22,10 +22,6 @@ export class IframeUrl {
 
     public toString(): string {
         return this.url.toString();
-    }
-
-    public hasLoginToken(): boolean {
-        return this.url.searchParams.has(LOGIN_TOKEN_PARAM_NAME);
     }
 
     private applyLoginToken(): void {

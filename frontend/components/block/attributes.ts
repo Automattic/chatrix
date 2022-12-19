@@ -1,4 +1,4 @@
-export interface Attributes {
+interface Attributes {
     defaultHomeserver?: string,
     roomId?: string,
     height?: Height,
@@ -20,7 +20,7 @@ export function parseAttributes(attributes): Attributes {
     };
 }
 
-export enum Unit {
+enum Unit {
     px = "px",
 }
 
@@ -51,13 +51,13 @@ class ValueWithUnit {
     }
 }
 
-export class Height extends ValueWithUnit {
+class Height extends ValueWithUnit {
     constructor(value: number, unit: Unit | string) {
         super(value, unit);
     }
 }
 
-export class BorderWidth extends ValueWithUnit {
+class BorderWidth extends ValueWithUnit {
     constructor(value: number, unit: Unit | string) {
         super(value, unit);
     }
@@ -67,7 +67,7 @@ export class BorderWidth extends ValueWithUnit {
     }
 }
 
-export class BorderRadius extends ValueWithUnit {
+class BorderRadius extends ValueWithUnit {
     constructor(value: number, unit: Unit | string) {
         super(value, unit);
     }
