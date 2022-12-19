@@ -1,6 +1,9 @@
 window.addEventListener('DOMContentLoaded', () => {
     console.log("Logging out all chatrix sessions");
+    logoutAndDeleteData().catch(error => console.log(error));
+});
 
+async function logoutAndDeleteData() {
     let sessionsKey = "";
     for (const [key,] of Object.entries(localStorage)) {
         if (key.startsWith('chatrix_sessions')) {
@@ -27,7 +30,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-});
+}
 
 async function logoutSession(session) {
     let promise = fetch(session.homeserver + '/_matrix/client/v3/logout', {
