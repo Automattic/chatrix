@@ -1,4 +1,12 @@
 window.addEventListener('DOMContentLoaded', () => {
+    const logoutCookieName = "chatrix-logout";
+    const cookies = document.cookie.split(';');
+    const hasLogoutCookie = cookies.some(item => item.trim().startsWith(`${logoutCookieName}=`));
+
+    if (!hasLogoutCookie) {
+        return;
+    }
+
     console.log("Logging out all chatrix sessions");
     logoutAndDeleteData().catch(error => console.log(error));
 });
