@@ -9,6 +9,7 @@ import { UnknownRoomViewModel } from "hydrogen-web/src/domain/session/room/Unkno
 import { Options as BaseOptions, ViewModel } from "hydrogen-web/src/domain/ViewModel";
 import { Client } from "hydrogen-web/src/matrix/Client.js";
 import { allSections, Section } from "../platform/Navigation";
+import {lookupHomeserver} from "hydrogen-web/src/matrix/well-known";
 
 type Options = {} & BaseOptions;
 
@@ -103,7 +104,9 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         const sessionId = this.navigation.path.get("session")?.value;
         const loginToken = this.navigation.path.get("sso")?.value;
 
-        if (isLogin) {
+        // Note: working under the assumption, single room mode is enabled with the room be peekable,
+        // so login doesn't have to be the first step in UX
+        if (!this.singleRoomMode && isLogin) {
             if (this.activeSection !== Section.Login) {
                 this._showLogin(undefined);
             }
@@ -120,7 +123,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 void this._showPicker();
             }
         } else if (sessionId) {
-            if (this.platform.config.roomId) {
+            if (this.singleRoomMode) {
                 this.navigation.push("room", this.platform.config.roomId);
             }
 
@@ -144,7 +147,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             if (this.activeSection !== Section.Login) {
                 this._showLogin(loginToken);
             }
-        } else if (this.platform.config.roomId) {
+        } else if (this.singleRoomMode) {
             if (this.activeSection !== Section.UnknownRoom) {
                 await this._showUnknownRoom(this.platform.config.roomId);
             }
@@ -231,33 +234,39 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
     }
 
     private async _showUnknownRoom(roomId: string) {
+        // @TODO remove console log calls
         console.group('show unknown room');
+        console.log(this.platform.config.defaultHomeserver,this.platform.config);
+
         const client = new Client(this.platform);
         let sessionInfos = await this.platform.sessionInfoStorage.getAll();
+        let chosenSession;
 
-        // create a guest account if we don't have any sessions
+        // create a guest account if we don't have any sessions (TODO: only if room is peek-able)
         if ( sessionInfos.length === 0 ) {
-            console.log('creating guest account');
-            await client.startGuestLogin('https://' + this.platform.config.defaultHomeserver); // @TODO
+            console.log('creating guest account on ' + this.platform.config.defaultHomeserver);
+            const request = this.platform.request;
+            const homeserver = await lookupHomeserver(this.platform.config.defaultHomeserver, request);
+            console.log('lookup homeserver [%s] => [%s]',this.platform.config.defaultHomeserver,homeserver);
+            await client.startGuestLogin(homeserver);
             sessionInfos = await this.platform.sessionInfoStorage.getAll();
+            chosenSession = sessionInfos[0];
         } else {
-            console.log('already have a session');
+            chosenSession = sessionInfos[0];
+            console.log('Found %d sessions, starting client with session:', sessionInfos.length, chosenSession);
+            await client.startWithExistingSession(chosenSession.id);
         }
-
-        console.log('got all these sessions',sessionInfos);
-        let session = sessionInfos[0];
-        console.log('starting client with session',session);
-        await client.startWithExistingSession(session.id);
-
-        console.log('setting section', roomId, session );
 
         this._setSection(() => {
             this._unknownRoomViewModel = new UnknownRoomViewModel(this.childOptions({
-                roomId,
-                session
+                roomIdOrAlias: roomId,
+                session: client.session,
             }));
             this._unknownRoomViewModel.join();
         });
+
+        this.navigation.push("session", chosenSession.id);
+
         console.groupEnd();
     }
 
