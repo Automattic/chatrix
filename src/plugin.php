@@ -6,10 +6,10 @@ use function Automattic\Chatrix\Block\register as register_block;
 use function Automattic\Chatrix\Popup\register as register_popup;
 use function Automattic\Chatrix\Sessions\init_logout;
 
-const SCRIPT_HANDLE_CONFIG     = 'chatrix-config';
-const SCRIPT_HANDLE_APP        = 'chatrix-app';
-const SCRIPT_HANDLE_LOGOUT     = 'chatrix-logout';
-const CONFIG_VARIABLE          = 'ChatrixConfig';
+const SCRIPT_HANDLE_CONFIG = 'chatrix-config';
+const SCRIPT_HANDLE_APP    = 'chatrix-app';
+const SCRIPT_HANDLE_LOGOUT = 'chatrix-logout';
+const CONFIG_VARIABLE      = 'ChatrixConfig';
 
 function main() {
 	init_logout();
