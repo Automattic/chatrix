@@ -8,12 +8,12 @@ import { viewClassForTile } from "hydrogen-web/src/platform/web/ui/session/room/
 import { InviteView } from "hydrogen-web/src/platform/web/ui/session/room/InviteView";
 import { LightboxView } from "hydrogen-web/src/platform/web/ui/session/room/LightboxView";
 import { RoomBeingCreatedView } from "hydrogen-web/src/platform/web/ui/session/room/RoomBeingCreatedView";
-import { RoomView } from "hydrogen-web/src/platform/web/ui/session/room/RoomView";
 import { UnknownRoomView } from "hydrogen-web/src/platform/web/ui/session/room/UnknownRoomView";
 import { RoomGridView } from "hydrogen-web/src/platform/web/ui/session/RoomGridView";
 import { SessionStatusView } from "hydrogen-web/src/platform/web/ui/session/SessionStatusView";
 import { SessionView as BaseSessionView } from "hydrogen-web/src/platform/web/ui/session/SessionView";
 import { SettingsView } from "hydrogen-web/src/platform/web/ui/session/settings/SettingsView";
+import { RoomView } from "./RoomView";
 
 export class SessionView extends BaseSessionView {
     constructor(value: SessionViewModel) {
