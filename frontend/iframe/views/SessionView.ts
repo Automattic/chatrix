@@ -1,4 +1,3 @@
-import { SessionViewModel } from "hydrogen-web/src/domain/session/SessionViewModel";
 import { StaticView } from "hydrogen-web/src/platform/web/ui/general/StaticView";
 import { CreateRoomView } from "hydrogen-web/src/platform/web/ui/session/CreateRoomView";
 import { JoinRoomView } from "hydrogen-web/src/platform/web/ui/session/JoinRoomView";
@@ -13,19 +12,20 @@ import { RoomGridView } from "hydrogen-web/src/platform/web/ui/session/RoomGridV
 import { SessionStatusView } from "hydrogen-web/src/platform/web/ui/session/SessionStatusView";
 import { SessionView as BaseSessionView } from "hydrogen-web/src/platform/web/ui/session/SessionView";
 import { SettingsView } from "hydrogen-web/src/platform/web/ui/session/settings/SettingsView";
+import { SessionViewModel } from "../viewmodels/SessionViewModel";
 import { RoomView } from "./RoomView";
 
 export class SessionView extends BaseSessionView {
-    constructor(value: SessionViewModel) {
+    constructor(value?: SessionViewModel) {
         super(value);
     }
 
-    render(t, vm) {
+    render(t, vm: SessionViewModel) {
         return t.div({
             className: {
                 "SessionView": true,
-                "middle-shown": vm => !!vm.activeMiddleViewModel,
-                "right-shown": vm => !!vm.rightPanelViewModel
+                "middle-shown": (vm: SessionViewModel) => !!vm.activeMiddleViewModel,
+                "right-shown": (vm: SessionViewModel) => !!vm.rightPanelViewModel,
             },
         }, [
             t.view(new SessionStatusView(vm.sessionStatusViewModel)),

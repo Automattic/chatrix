@@ -15,6 +15,43 @@ export class SessionViewModel extends BaseSessionViewModel {
         super.start();
     }
 
+    i18n(parts: TemplateStringsArray, ...expr: any[]): string {
+        return super.i18n(parts, expr);
+    }
+
+    get activeMiddleViewModel() {
+        return super.activeMiddleViewModel;
+    }
+
+    get roomGridViewModel() {
+        return super.roomGridViewModel;
+    }
+
+    get leftPanelViewModel() {
+        return super.leftPanelViewModel;
+    }
+
+    get sessionStatusViewModel() {
+        return super.sessionStatusViewModel;
+    }
+
+    get currentRoomViewModel() {
+        // @ts-ignore
+        return this._roomViewModelObservable?.get();
+    }
+
+    get rightPanelViewModel() {
+        return super.rightPanelViewModel;
+    }
+
+    get createRoomViewModel() {
+        return super.createRoomViewModel;
+    }
+
+    get joinRoomViewModel() {
+        return super.joinRoomViewModel;
+    }
+
     _updateSettings(settingsOpen) {
         if (this.settingsViewModel) {
             this.settingsViewModel = super.disposeTracked(super.settingsViewModel);
@@ -28,7 +65,7 @@ export class SessionViewModel extends BaseSessionViewModel {
         super.emitChange("activeMiddleViewModel");
     }
 
-    private get settingsViewModel(): SettingsViewModel {
+    get settingsViewModel(): SettingsViewModel {
         // @ts-ignore
         return this._settingsViewModel;
     }
