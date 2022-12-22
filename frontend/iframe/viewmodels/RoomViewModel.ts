@@ -1,4 +1,7 @@
+import { SegmentType } from "hydrogen-web/src/domain/navigation";
+import { Segment } from "hydrogen-web/src/domain/navigation/Navigation";
 import { RoomViewModel as BaseRoomViewModel } from "hydrogen-web/src/domain/session/room/RoomViewModel";
+import { URLRouter } from "../platform/URLRouter";
 
 export class RoomViewModel extends BaseRoomViewModel {
     constructor(options) {
@@ -7,6 +10,20 @@ export class RoomViewModel extends BaseRoomViewModel {
 
     async load() {
         super.load();
+    }
+
+    get urlRouter(): URLRouter {
+        return super.urlRouter;
+    }
+
+    get closeUrl() {
+        if (this.singleRoomMode) {
+            const path = this.navigation.path.with(new Segment<SegmentType>("session"));
+
+            return this.urlRouter.urlForPath(path);
+        }
+
+        return super.closeUrl;
     }
 
     get singleRoomMode(): boolean {
