@@ -12,7 +12,7 @@ export class RoomView extends BaseRoomView {
         if (super._optionsPopup && super._optionsPopup.isOpen) {
             super._optionsPopup.close();
         } else {
-            const vm = super.value;
+            const vm: RoomViewModel = super.value;
             const options: MenuOption[] = [];
             options.push(Menu.option(vm.i18n`Room details`, () => vm.openDetailsPanel()));
             if (vm.canLeave) {
@@ -23,6 +23,9 @@ export class RoomView extends BaseRoomView {
             }
             if (vm.canRejoin) {
                 options.push(Menu.option(vm.i18n`Rejoin room`, () => vm.rejoinRoom()));
+            }
+            if (vm.singleRoomMode) {
+                options.push(Menu.option(vm.i18n`Settings`, () => vm.navigation.push("settings")));
             }
             if (!options.length) {
                 return;

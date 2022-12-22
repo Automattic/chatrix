@@ -9,6 +9,10 @@ export class RoomViewModel extends BaseRoomViewModel {
         super.load();
     }
 
+    get singleRoomMode(): boolean {
+        return !!super.platform.config.roomId;
+    }
+
     get navigation() {
         return super.navigation;
     }
