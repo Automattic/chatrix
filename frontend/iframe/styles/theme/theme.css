@@ -17,6 +17,14 @@ body {
 .RootView.single-room-mode .SessionView .LeftPanel  {
     display: none;
 }
+.RootView.single-room-mode .RightPanelView {
+    grid-area: middle / right;
+}
+@media screen and (max-width: 800px) {
+    .RootView.single-room-mode .RightPanelView {
+        grid-area: middle;
+    }
+}
 
 /* Make the middle take all the grid when in single-room mode. */
 .RootView.single-room-mode .SessionView {
