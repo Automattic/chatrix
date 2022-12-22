@@ -26,9 +26,9 @@ body {
         320px   1fr;
 }
 
-/* Hide back button when in single-room mode. */
-.RootView.single-room-mode .RoomHeader .close-middle {
-    display: none !important;
+/* Always show the back button in single-room mode. */
+.RootView.single-room-mode .close-middle {
+    display: block;
 }
 
 /* Remove horizontal scrollbars in pre-session screen. */
