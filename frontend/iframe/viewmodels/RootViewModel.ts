@@ -112,7 +112,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 void this._showPicker();
             }
         } else if (sessionId) {
-            if (this.platform.config.roomId) {
+            if (this.singleRoomMode) {
                 this.navigation.push("room", this.platform.config.roomId);
             }
 
