@@ -8,7 +8,8 @@
   "scripts": {
     "start": "vite --config frontend/vite.ts",
     "start:block": "wp-scripts start --webpack-src-dir=frontend/block --output-path=build/block && cp ./frontend/block/block.json ./build/block/",
-    "build": "tsc && yarn run init && vite build --config frontend/vite-app.ts --emptyOutDir && yarn run build:iframe && yarn run build:block",
+    "build": "tsc && yarn run init && vite build --config frontend/vite-app.ts --emptyOutDir && yarn run build:logout && yarn run build:iframe && yarn run build:block",
+    "build:logout": "yarn run init && vite build --config frontend/vite-logout.ts",
     "build:iframe": "yarn run init && vite build --config frontend/vite.ts --emptyOutDir",
     "build:block": "wp-scripts build --webpack-src-dir=frontend/block --output-path=build/block && cp ./frontend/block/block.json ./build/block/",
     "init": "mkdir -p build/.tmp",

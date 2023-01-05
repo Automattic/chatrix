@@ -10,7 +10,7 @@
     },
     "files": [
       "src/plugin.php",
-      "src/Sessions/sessions.php",
+      "src/Sessions/logout.php",
       "src/Block/block.php",
       "src/Popup/popup.php",
       "src/Admin/admin.php",
