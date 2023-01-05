@@ -5,9 +5,9 @@ import { LoginView } from "hydrogen-web/src/platform/web/ui/login/LoginView";
 import { SessionLoadView } from "hydrogen-web/src/platform/web/ui/login/SessionLoadView";
 import { SessionPickerView } from "hydrogen-web/src/platform/web/ui/login/SessionPickerView";
 import { LogoutView } from "hydrogen-web/src/platform/web/ui/LogoutView";
-import { SessionView } from "hydrogen-web/src/platform/web/ui/session/SessionView";
 import { Section } from "../platform/Navigation";
 import { RootViewModel } from "../viewmodels/RootViewModel";
+import { SessionView } from "./SessionView";
 
 export class RootView extends TemplateView<RootViewModel> {
     constructor(value: RootViewModel) {

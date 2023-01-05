@@ -13,9 +13,30 @@ body {
     left: 0;
 }
 
-/* Hide back button when in single-room mode. */
-.RootView.single-room-mode .RoomHeader .close-middle {
-    display: none !important;
+/* Hide the left panel when in single-room mode. */
+.RootView.single-room-mode .SessionView .LeftPanel  {
+    display: none;
+}
+.RootView.single-room-mode .RightPanelView {
+    grid-area: middle / right;
+}
+@media screen and (max-width: 800px) {
+    .RootView.single-room-mode .RightPanelView {
+        grid-area: middle;
+    }
+}
+
+/* Make the middle take all the grid when in single-room mode. */
+.RootView.single-room-mode .SessionView {
+    grid-template:
+        "status status" auto
+        "middle middle" 1fr /
+        320px   1fr;
+}
+
+/* Always show the back button in single-room mode. */
+.RootView.single-room-mode .close-middle {
+    display: block;
 }
 
 /* Remove horizontal scrollbars in pre-session screen. */

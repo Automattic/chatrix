@@ -2,12 +2,12 @@ import { ForcedLogoutViewModel } from "hydrogen-web/src/domain/ForcedLogoutViewM
 import { LoginViewModel } from "hydrogen-web/src/domain/login/LoginViewModel";
 import { LogoutViewModel } from "hydrogen-web/src/domain/LogoutViewModel";
 import { SegmentType } from "hydrogen-web/src/domain/navigation";
-import { SessionViewModel } from "hydrogen-web/src/domain/session/SessionViewModel";
 import { SessionLoadViewModel } from "hydrogen-web/src/domain/SessionLoadViewModel";
 import { SessionPickerViewModel } from "hydrogen-web/src/domain/SessionPickerViewModel";
 import { Options as BaseOptions, ViewModel } from "hydrogen-web/src/domain/ViewModel";
 import { Client } from "hydrogen-web/src/matrix/Client.js";
 import { allSections, Section } from "../platform/Navigation";
+import { SessionViewModel } from "./SessionViewModel";
 
 type Options = {} & BaseOptions;
 
@@ -112,7 +112,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 void this._showPicker();
             }
         } else if (sessionId) {
-            if (this.platform.config.roomId) {
+            if (this.singleRoomMode) {
                 this.navigation.push("room", this.platform.config.roomId);
             }
 
