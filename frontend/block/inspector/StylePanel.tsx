@@ -14,8 +14,8 @@ export default function StylePanel({ attributes, setAttributes }): WPElement {
                     label={__("height", "chatrix")}
                     value={attributes.height.value}
                     unit={attributes.height.unit}
-                    onChange={(value) => {
-                        setAttributes({ height: { value: value, unit: "px" } });
+                    onChange={(value, unit) => {
+                        setAttributes({ height: { value: value, unit: unit } });
                     }}
                 />
             </PanelRow>
@@ -24,8 +24,8 @@ export default function StylePanel({ attributes, setAttributes }): WPElement {
                     label={__("border width", "chatrix")}
                     value={attributes.borderWidth.value}
                     unit={attributes.borderWidth.unit}
-                    onChange={(value) => {
-                        setAttributes({ borderWidth: { value: value, unit: "px" } });
+                    onChange={(value, unit) => {
+                        setAttributes({ borderWidth: { value: value, unit: unit } });
                     }}
                 />
             </PanelRow>
@@ -52,8 +52,8 @@ export default function StylePanel({ attributes, setAttributes }): WPElement {
                     label={__("border radius", "chatrix")}
                     value={attributes.borderRadius.value}
                     unit={attributes.borderRadius.unit}
-                    onChange={(value) => {
-                        setAttributes({ borderRadius: { value: value, unit: "px" } });
+                    onChange={(value, unit) => {
+                        setAttributes({ borderRadius: { value: value, unit: unit } });
                     }}
                 />
             </PanelRow>
