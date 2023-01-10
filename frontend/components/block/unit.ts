@@ -1,5 +1,8 @@
 export enum Unit {
     px = "px",
+    "%" = "%",
+    em = "em",
+    rem = "rem",
 }
 
 export class ValueWithUnit {
