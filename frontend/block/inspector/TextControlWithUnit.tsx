@@ -2,6 +2,7 @@ import { BaseControl } from "@wordpress/components";
 import { useInstanceId } from "@wordpress/compose";
 import { forwardRef, useState } from "@wordpress/element";
 import type { ChangeEvent, FormEvent, ForwardedRef } from 'react';
+import { Unit } from "../../components/block";
 
 interface Props {
     value: number
@@ -22,7 +23,7 @@ export default TextControlWithUnit;
 function UnforwardedTextControlWithUnit(props: Props, ref: ForwardedRef<HTMLInputElement>) {
     const instanceId = useInstanceId(TextControlWithUnit);
     const id = `inspector-text-control-${instanceId}`;
-    const units = ["px"];
+    const units = Object.values(Unit);
 
     const [state, setState] = useState<State>({
         value: props.value,
