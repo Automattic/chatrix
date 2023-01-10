@@ -1,6 +1,7 @@
 import { PanelBody, PanelRow, TextControl } from "@wordpress/components";
 import { WPElement } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { Unit } from "../../components/block";
 import TextControlWithUnit from "./TextControlWithUnit";
 
 export default function StylePanel({ attributes, setAttributes }): WPElement {
@@ -14,6 +15,7 @@ export default function StylePanel({ attributes, setAttributes }): WPElement {
                     label={__("height", "chatrix")}
                     value={attributes.height.value}
                     unit={attributes.height.unit}
+                    units={[Unit.px, Unit["%"], Unit.vh, Unit.vw, Unit.vmax, Unit.vmin]}
                     onChange={(value, unit) => {
                         setAttributes({ height: { value: value, unit: unit } });
                     }}
@@ -24,6 +26,7 @@ export default function StylePanel({ attributes, setAttributes }): WPElement {
                     label={__("border width", "chatrix")}
                     value={attributes.borderWidth.value}
                     unit={attributes.borderWidth.unit}
+                    units={[Unit.px]}
                     onChange={(value, unit) => {
                         setAttributes({ borderWidth: { value: value, unit: unit } });
                     }}
@@ -52,6 +55,7 @@ export default function StylePanel({ attributes, setAttributes }): WPElement {
                     label={__("border radius", "chatrix")}
                     value={attributes.borderRadius.value}
                     unit={attributes.borderRadius.unit}
+                    units={[Unit.px]}
                     onChange={(value, unit) => {
                         setAttributes({ borderRadius: { value: value, unit: unit } });
                     }}

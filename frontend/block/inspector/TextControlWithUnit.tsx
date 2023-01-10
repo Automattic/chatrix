@@ -7,6 +7,7 @@ import { Unit } from "../../components/block";
 interface Props {
     value: number
     unit: string
+    units: Unit[],
     onChange: (value: number, unit: string) => any
     label: string
     help?: string
@@ -23,7 +24,6 @@ export default TextControlWithUnit;
 function UnforwardedTextControlWithUnit(props: Props, ref: ForwardedRef<HTMLInputElement>) {
     const instanceId = useInstanceId(TextControlWithUnit);
     const id = `inspector-text-control-${instanceId}`;
-    const units = Object.values(Unit);
 
     const [state, setState] = useState<State>({
         value: props.value,
@@ -72,7 +72,7 @@ function UnforwardedTextControlWithUnit(props: Props, ref: ForwardedRef<HTMLInpu
                         ref={ref}
                     />
                     <select value={state.unit} onChange={onChangeUnit}>
-                        {units.map(unit => <option value={unit} key={unit}>{unit}</option>)}
+                        {props.units.map(unit => <option value={unit} key={unit}>{unit}</option>)}
                     </select>
                 </span>
             </BaseControl>
