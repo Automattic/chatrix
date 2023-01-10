@@ -26,7 +26,7 @@ export default function StylePanel({ attributes, setAttributes }): WPElement {
                     label={__("border width", "chatrix")}
                     value={attributes.borderWidth.value}
                     unit={attributes.borderWidth.unit}
-                    units={[Unit.px]}
+                    units={[Unit.px, Unit.em, Unit.rem]}
                     onChange={(value, unit) => {
                         setAttributes({ borderWidth: { value: value, unit: unit } });
                     }}
@@ -55,7 +55,7 @@ export default function StylePanel({ attributes, setAttributes }): WPElement {
                     label={__("border radius", "chatrix")}
                     value={attributes.borderRadius.value}
                     unit={attributes.borderRadius.unit}
-                    units={[Unit.px]}
+                    units={[Unit.px, Unit.em, Unit.rem]}
                     onChange={(value, unit) => {
                         setAttributes({ borderRadius: { value: value, unit: unit } });
                     }}

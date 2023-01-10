@@ -5,6 +5,8 @@ export enum Unit {
     vw = "vw",
     vmax = "vmax",
     vmin = "vmin",
+    em = "em",
+    rem = "rem",
 }
 
 export class ValueWithUnit {
