@@ -1,8 +1,10 @@
 export enum Unit {
     px = "px",
     "%" = "%",
-    em = "em",
-    rem = "rem",
+    vh = "vh",
+    vw = "vw",
+    vmax = "vmax",
+    vmin = "vmin",
 }
 
 export class ValueWithUnit {
