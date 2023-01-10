@@ -2,23 +2,19 @@ export enum Unit {
     px = "px",
 }
 
-function unitFromString(value: string): Unit | undefined {
-    switch (value) {
-        case Unit.px:
-            return Unit.px;
-    }
-    return undefined;
-}
-
 export class ValueWithUnit {
     protected readonly value: number;
     protected readonly unit?: Unit;
 
-    constructor(value: number, unit: Unit | string) {
-        this.value = value;
+    constructor(value: number | string, unit: Unit | string) {
+        if (typeof value === "string") {
+            this.value = +value;
+        } else {
+            this.value = value;
+        }
 
         if (typeof unit === "string") {
-            this.unit = unitFromString(unit);
+            this.unit = Unit[unit];
         } else {
             this.unit = unit;
         }
