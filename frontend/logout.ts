@@ -58,6 +58,12 @@ async function logoutSession(session) {
         headers: {
             'Authorization': 'Bearer ' + session.accessToken,
         },
+    }).then((response) => {
+        // Fetch considers 403 and 404 to be a success but to us, it's a failure.
+        if (!response.ok) {
+            throw response;
+        }
+        return response;
     });
 
     promise.catch(error => {
