@@ -53,10 +53,7 @@ function register_scripts() {
 					false
 				);
 
-				// Enqueue the logout script only if the logout cookie is set.
-				if ( isset( $_COOKIE[ LOGOUT_COOKIE_NAME ] ) ) {
-					wp_enqueue_script( SCRIPT_HANDLE_LOGOUT );
-				}
+				wp_enqueue_script( SCRIPT_HANDLE_LOGOUT );
 			}
 		}
 	);
