@@ -13,7 +13,7 @@ window.addEventListener('DOMContentLoaded', () => {
         // We can now expire the logout cookie.
         const now = (new Date).toUTCString();
         document.cookie = `${logoutCookieName}=false; expires=${now};path=/;`;
-    }).catch(error => console.log(error));
+    }).catch(error => console.error(error));
 });
 
 async function logoutAndDeleteData() {
@@ -67,7 +67,7 @@ async function logoutSession(session) {
     });
 
     promise.catch(error => {
-        console.log(`Failed to logout chatrix session. deviceId: ${session.deviceId}`, error);
+        console.error(`Failed to logout chatrix session. deviceId: ${session.deviceId}`);
     });
 
     return promise;
