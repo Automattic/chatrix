@@ -8,12 +8,12 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     console.log("Logging out all chatrix sessions");
-    logoutAndDeleteData().catch(error => console.log(error)).finally(() => {
+    logoutAndDeleteData().then(() => {
         // Logout has been done and data has been deleted.
         // We can now expire the logout cookie.
         const now = (new Date).toUTCString();
         document.cookie = `${logoutCookieName}=false; expires=${now};path=/;`;
-    });
+    }).catch(error => console.log(error));
 });
 
 async function logoutAndDeleteData() {
