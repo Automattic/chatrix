@@ -10,6 +10,7 @@ const SCRIPT_HANDLE_CONFIG = 'chatrix-config';
 const SCRIPT_HANDLE_APP    = 'chatrix-app';
 const SCRIPT_HANDLE_LOGOUT = 'chatrix-logout';
 const CONFIG_VARIABLE      = 'ChatrixConfig';
+const LOGOUT_COOKIE_NAME   = 'chatrix-logout';
 
 function main() {
 	init_logout();
@@ -51,6 +52,7 @@ function register_scripts() {
 					automattic_chatrix_version(),
 					false
 				);
+
 				wp_enqueue_script( SCRIPT_HANDLE_LOGOUT );
 			}
 		}

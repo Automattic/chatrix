@@ -8,7 +8,12 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     console.log("Logging out all chatrix sessions");
-    logoutAndDeleteData().catch(error => console.log(error));
+    logoutAndDeleteData().then(() => {
+        // Logout has been done and data has been deleted.
+        // We can now expire the logout cookie.
+        const now = (new Date).toUTCString();
+        document.cookie = `${logoutCookieName}=false; expires=${now};path=/;`;
+    }).catch(error => console.error(error));
 });
 
 async function logoutAndDeleteData() {
@@ -53,10 +58,16 @@ async function logoutSession(session) {
         headers: {
             'Authorization': 'Bearer ' + session.accessToken,
         },
+    }).then((response) => {
+        // Fetch considers 403 and 404 to be a success but to us, it's a failure.
+        if (!response.ok) {
+            throw response;
+        }
+        return response;
     });
 
     promise.catch(error => {
-        console.log(`Failed to logout chatrix session. deviceId: ${session.deviceId}`, error);
+        console.error(`Failed to logout chatrix session. deviceId: ${session.deviceId}`);
     });
 
     return promise;
