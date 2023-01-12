@@ -29,6 +29,9 @@ export class Main {
                 bugReportEndpointUrl: null,
                 ...ConfigFactory.fromQueryParams(),
             },
+            options: {
+                development: import.meta.env.DEV,
+            },
         });
 
         this._navigation = createNavigation();
