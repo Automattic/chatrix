@@ -24,29 +24,29 @@ export default function Edit(props: Props): WPElement {
     return (
         <>
             <InspectorControls attributes={attributes} setAttributes={setAttributes}/>
-            <div {...useBlockProps()}>
-                <ResizableBox
-                    size={{
-                        width: "100%",
-                        height: parsedAttributes.height ? parsedAttributes.height.toString() : "600px",
-                    }}
-                    enable={{
-                        top: false,
-                        right: false,
-                        bottom: true,
-                        left: false,
-                        topRight: false,
-                        bottomRight: false,
-                        bottomLeft: false,
-                        topLeft: false,
-                    }}
-                    onResizeStop={(_event, _direction, elt) => {
-                        setAttributes({ height: { value: elt.clientHeight, unit: "px" } });
-                    }}
-                >
+            <ResizableBox
+                size={{
+                    width: "100%",
+                    height: parsedAttributes.height ? parsedAttributes.height.toString() : "600px",
+                }}
+                enable={{
+                    top: false,
+                    right: false,
+                    bottom: true,
+                    left: false,
+                    topRight: false,
+                    bottomRight: false,
+                    bottomLeft: false,
+                    topLeft: false,
+                }}
+                onResizeStop={(_event, _direction, elt) => {
+                    setAttributes({ height: { value: elt.clientHeight, unit: "px" } });
+                }}
+            >
+                <div {...useBlockProps()}>
                     <Block {...blockProps}/>
-                </ResizableBox>
-            </div>
+                </div>
+            </ResizableBox>
         </>
     );
 }
