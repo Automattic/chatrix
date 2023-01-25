@@ -14,6 +14,9 @@ Matrix client for WordPress.
 ## Description
 Easily add a [Matrix](https://matrix.org) client to WordPress pages, either through the Block Editor, or as a _popup_.
 
+### Feedback welcome
+If you have any feedback or questions about Chatrix, please do talk to plugin maintainers at [#chatrix:matrix.org](https://matrix.to/#/#chatrix:matrix.org).
+
 ## Screenshots
 ![Block](.wporg/screenshot-1.png)
 ![Popup](.wporg/screenshot-2.png)
