@@ -18,8 +18,11 @@ Easily add a [Matrix](https://matrix.org) client to WordPress pages, either thro
 If you have any feedback or questions about Chatrix, please do talk to plugin maintainers at [#chatrix:matrix.org](https://matrix.to/#/#chatrix:matrix.org).
 
 ## Screenshots
-![Block](.wporg/screenshot-1.png)
-![Popup](.wporg/screenshot-2.png)
+![Block - Login](.wporg/screenshot-1.png)
+![Block - Room List](.wporg/screenshot-2.png)
+![Block - Timeline](.wporg/screenshot-3.png)
+![Popup - Settings](.wporg/screenshot-4.png)
+![Popup - Timeline](.wporg/screenshot-5.png)
 
 ## Frequently Asked Questions
 ### How can I install this plugin on my site?
