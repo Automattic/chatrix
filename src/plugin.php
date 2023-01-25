@@ -44,7 +44,7 @@ function register_scripts() {
 				true
 			);
 
-			if ( ! is_user_logged_in() ) {
+			if ( ! is_user_logged_in() && isset( $_COOKIE[ LOGOUT_COOKIE_NAME ] ) ) {
 				wp_register_script(
 					SCRIPT_HANDLE_LOGOUT,
 					root_url() . '/logout.iife.js',
