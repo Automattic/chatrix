@@ -6,7 +6,7 @@
 - Tested up to: 6.1
 - Requires PHP: 7.4
 - License: [GPLv2](http://www.gnu.org/licenses/gpl-2.0.html)
-- Stable tag: 0.4.0
+- Stable tag: 0.5.0
 - GitHub Plugin URI: https://github.com/Automattic/chatrix
 
 Matrix client for WordPress.
@@ -14,9 +14,15 @@ Matrix client for WordPress.
 ## Description
 Easily add a [Matrix](https://matrix.org) client to WordPress pages, either through the Block Editor, or as a _popup_.
 
+### Feedback welcome
+If you have any feedback or questions about Chatrix, please do talk to plugin maintainers at [#chatrix:matrix.org](https://matrix.to/#/#chatrix:matrix.org).
+
 ## Screenshots
-![Block](.wporg/screenshot-1.png)
-![Popup](.wporg/screenshot-2.png)
+![Block - Login](.wporg/screenshot-1.png)
+![Block - Room List](.wporg/screenshot-2.png)
+![Block - Timeline](.wporg/screenshot-3.png)
+![Popup - Settings](.wporg/screenshot-4.png)
+![Popup - Timeline](.wporg/screenshot-5.png)
 
 ## Frequently Asked Questions
 ### How can I install this plugin on my site?
@@ -52,6 +58,17 @@ add_filter( 'chatrix_instances', function ( array $default_instances ) {
 ~~~
 
 ## Changelog
+
+### 0.5.0
+- Logout and delete data when user logs out of WordPress [[#150](https://github.com/Automattic/chatrix/pull/150), [#153](https://github.com/Automattic/chatrix/pull/153)]
+- Improvements to single room mode [[#151](https://github.com/Automattic/chatrix/pull/151)]
+  - Add a Settings entry to the options menu of the room
+  - Closing the Settings screen navigates to configured `roomId`
+  - Closing the Room (timeline) screen navigates to session picker
+  - Hide the left panel completely
+- Fix issue that caused Chatrix to not load in certain conditions [[#160](https://github.com/Automattic/chatrix/pull/160)]
+- Allow setting a unit for certain styling options (previously was always `px`) [[#154](https://github.com/Automattic/chatrix/pull/154)]
+
 ### 0.4.0
 - Prevent data corruption when more than one Chatrix instance (block or Popup) is active, either in multiple browser tabs or windows, or in the same page [[#75](https://github.com/Automattic/chatrix/pull/75)]
 - Allow setting the height of the block from the block editor [[#135](https://github.com/Automattic/chatrix/pull/135)]
