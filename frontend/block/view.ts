@@ -9,7 +9,7 @@ declare global {
     }
 }
 
-window.addEventListener('load', () => {
+window.addEventListener('DOMContentLoaded', () => {
     const config = window.ChatrixBlockConfig;
     if (!config) {
         throw "ChatrixBlockConfig is not defined";
