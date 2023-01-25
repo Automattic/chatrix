@@ -19,9 +19,7 @@ export function renderBlock(containerId: string, props: BlockProps) {
     };
 
     const element = createElement(Block, blockProps);
-    setTimeout( function() {
-        render(element, document.getElementById(containerId));
-    }, 1 );
+    render(element, document.getElementById(containerId));
 }
 
 export type PopupProps = Omit<BasePopupProps, "iframeUrl">;

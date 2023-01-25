@@ -25,5 +25,6 @@ window.addEventListener('DOMContentLoaded', () => {
         attributes: config.attributes,
     };
 
-    renderBlock(containerId, props);
+    // See https://github.com/Automattic/chatrix/issues/161 for why we use a timeout here.
+    setTimeout( () => renderBlock(containerId, props), 1 );
 });
