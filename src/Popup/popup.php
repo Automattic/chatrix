@@ -138,7 +138,7 @@ function init_javascript() {
 				automattic_chatrix_version(),
 				true
 			);
-			wp_add_inline_script( $handle, "window.ChatrixPopupConfig = '$json_data'", 'before' );
+			wp_add_inline_script( $handle, "window.ChatrixPopupConfig = $json_data", 'before' );
 			wp_enqueue_script( $handle );
 		}
 	);
