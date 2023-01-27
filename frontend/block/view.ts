@@ -34,7 +34,7 @@ async function renderAllBlocks() {
         attributes: config.attributes,
     };
 
-    renderBlock(containerId, props);
+    renderBlock(document.getElementById(containerId), props);
 }
 
 async function introduceDelayInMilliseconds(delay: number) {

@@ -34,14 +34,14 @@
             iframeUrl: window.origin,
         };
 
-        renderBlock("root-block", {
+        renderBlock(document.getElementById("root-block"), {
             attributes: {
                 defaultHomeserver: env.VITE_HOMESERVER,
                 roomId: env.VITE_ROOM_ID,
             }
         });
 
-        renderPopup("root-popup", {
+        renderPopup(document.getElementById("root-popup"), {
             defaultHomeserver: env.VITE_HOMESERVER,
             roomId: env.VITE_ROOM_ID,
         });

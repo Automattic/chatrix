@@ -9,7 +9,7 @@
 		container.id = "chatrix-popup-container";
 		document.body.appendChild(container);
 
-		Chatrix.renderPopup(container.id, {
+		Chatrix.renderPopup(container, {
 			defaultHomeserver: config.defaultHomeserver,
 			roomId: config.roomId,
 		});
