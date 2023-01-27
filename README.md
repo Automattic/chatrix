@@ -60,7 +60,7 @@ add_filter( 'chatrix_instances', function ( array $default_instances ) {
 ## Changelog
 
 ### 0.5.1
-- Fix issue that cause popup configuration to be ignored [[#173](https://github.com/Automattic/chatrix/pull/173)] 
+- Fix issue that caused popup configuration to be ignored [[#173](https://github.com/Automattic/chatrix/pull/173)]
 
 ### 0.5.0
 - Logout and delete data when user logs out of WordPress [[#150](https://github.com/Automattic/chatrix/pull/150), [#153](https://github.com/Automattic/chatrix/pull/153)]
