@@ -10,6 +10,12 @@ declare global {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+    renderAllBlocks().catch(error => {
+        console.error(error);
+    });
+});
+
+async function renderAllBlocks() {
     const config = window.ChatrixBlockConfig;
     if (!config) {
         throw "ChatrixBlockConfig is not defined";
@@ -27,4 +33,4 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // See https://github.com/Automattic/chatrix/issues/161 for why we use a timeout here.
     setTimeout( () => renderBlock(containerId, props), 1 );
-});
+}
