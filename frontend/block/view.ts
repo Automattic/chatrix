@@ -16,6 +16,9 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 async function renderAllBlocks() {
+    // See https://github.com/Automattic/chatrix/issues/161 for why we introduce a delay here.
+    await introduceDelayInMilliseconds(1);
+
     const config = window.ChatrixBlockConfig;
     if (!config) {
         throw "ChatrixBlockConfig is not defined";
@@ -31,6 +34,9 @@ async function renderAllBlocks() {
         attributes: config.attributes,
     };
 
-    // See https://github.com/Automattic/chatrix/issues/161 for why we use a timeout here.
-    setTimeout( () => renderBlock(containerId, props), 1 );
+    renderBlock(containerId, props);
+}
+
+async function introduceDelayInMilliseconds(delay: number) {
+    return new Promise(resolve => setTimeout(resolve, delay));
 }
