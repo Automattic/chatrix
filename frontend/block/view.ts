@@ -24,17 +24,17 @@ async function renderAllBlocks() {
         throw "ChatrixBlockConfig is not defined";
     }
 
-    const containerId = config.containerId;
-    const container = document.getElementById(containerId);
-    if (!container) {
-        throw `element with id ${containerId} was not found`;
-    }
-
     const props: BlockProps = {
         attributes: config.attributes,
     };
 
-    renderBlock(document.getElementById(containerId), props);
+    const containers = <HTMLCollectionOf<HTMLElement>>document.getElementsByClassName('wp-block-automattic-chatrix');
+    for (const container of containers) {
+        renderBlock(container, props);
+
+        // TODO: Support multiple blocks on the same page.
+        break;
+    }
 }
 
 async function introduceDelayInMilliseconds(delay: number) {
