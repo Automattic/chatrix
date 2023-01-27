@@ -6,7 +6,7 @@
 - Tested up to: 6.1
 - Requires PHP: 7.4
 - License: [GPLv2](http://www.gnu.org/licenses/gpl-2.0.html)
-- Stable tag: 0.5.0
+- Stable tag: 0.5.1
 - GitHub Plugin URI: https://github.com/Automattic/chatrix
 
 Matrix client for WordPress.
@@ -58,6 +58,9 @@ add_filter( 'chatrix_instances', function ( array $default_instances ) {
 ~~~
 
 ## Changelog
+
+### 0.5.1
+- Fix issue that cause popup configuration to be ignored [[#173](https://github.com/Automattic/chatrix/pull/173)] 
 
 ### 0.5.0
 - Logout and delete data when user logs out of WordPress [[#150](https://github.com/Automattic/chatrix/pull/150), [#153](https://github.com/Automattic/chatrix/pull/153)]
