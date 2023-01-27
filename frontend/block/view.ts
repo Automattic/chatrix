@@ -3,7 +3,6 @@ import { BlockProps, renderBlock } from "../app";
 declare global {
     interface Window {
         ChatrixBlockConfig: {
-            containerId: string,
             attributes: object,
         };
     }

@@ -28,13 +28,10 @@ function register() {
 }
 
 function render( array $attributes ): string {
-	$handle       = 'chatrix-block-config';
-	$container_id = 'wp-block-automattic-chatrix-container';
-
+	$handle    = 'chatrix-block-config';
 	$json_data = wp_json_encode(
 		array(
-			'containerId' => $container_id,
-			'attributes'  => $attributes,
+			'attributes' => $attributes,
 		)
 	);
 
@@ -44,7 +41,7 @@ function render( array $attributes ): string {
 
 	ob_start();
 	?>
-	<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?> id="<?php echo esc_attr( $container_id ); ?>">
+	<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>>
 		<?php // Iframe will be rendered here. ?>
 	</div>
 	<?php
