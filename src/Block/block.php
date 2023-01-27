@@ -28,26 +28,21 @@ function register() {
 }
 
 function render( array $attributes ): string {
-	$handle    = 'chatrix-block-config';
 	$json_data = wp_json_encode(
 		array(
 			'attributes' => $attributes,
 		)
 	);
 
-	wp_register_script( $handle, '', array(), automattic_chatrix_version(), true );
-	wp_add_inline_script( $handle, "window.ChatrixBlockConfig = $json_data;", 'before' );
-	wp_enqueue_script( $handle );
-
 	ob_start();
 	?>
 	<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>>
-		<?php // Iframe will be rendered here. ?>
+		<?php // The following element will be replaced by the <Block> component. ?>
+		<span style="display: none;" data-chatrix-block-config="<?php echo rawurlencode( $json_data ); ?>"></span>
 	</div>
 	<?php
 	return ob_get_clean();
 }
-
 
 function parse_block_json( string $block_json_path ): array {
 	// phpcs discourages file_get_contents for remote URLs, and recommends using wp_remote_get().
