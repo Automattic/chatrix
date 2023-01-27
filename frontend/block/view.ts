@@ -18,9 +18,6 @@ async function renderAllBlocks() {
         };
 
         renderBlock(container, props);
-
-        // TODO: Support multiple blocks on the same page.
-        break;
     }
 }
 
