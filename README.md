@@ -57,6 +57,9 @@ add_filter( 'chatrix_instances', function ( array $default_instances ) {
 } );
 ~~~
 
+### How can I configure WordPress user accounts to register and login on Matrix homeserver?
+The plugin will respect the login methods configured on the Matrix homeserver. You can configure [Open ID Connect (OIDC) login on Synapse](https://matrix-org.github.io/synapse/latest/openid.html). In order to make your WordPress install an OpenID Connect Server/Provider, you can use [OpenID Connect Server plugin](https://wordpress.org/plugins/openid-connect-server/).
+
 ## Changelog
 
 ### 0.5.1
