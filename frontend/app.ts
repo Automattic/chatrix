@@ -12,11 +12,7 @@ declare global {
 
 export type BlockProps = Omit<BaseBlockProps, "iframeUrl">;
 
-export function renderBlock(containerElement: HTMLElement | null, props: BlockProps) {
-    if (!containerElement) {
-        return;
-    }
-
+export function renderBlock(containerElement: HTMLElement, props: BlockProps) {
     const blockProps: BaseBlockProps = {
         ...props,
         iframeUrl: getIframeUrl(),
@@ -28,11 +24,7 @@ export function renderBlock(containerElement: HTMLElement | null, props: BlockPr
 
 export type PopupProps = Omit<BasePopupProps, "iframeUrl">;
 
-export function renderPopup(containerElement: HTMLElement | null, props: PopupProps) {
-    if (!containerElement) {
-        return;
-    }
-
+export function renderPopup(containerElement: HTMLElement, props: PopupProps) {
     const popupProps: BasePopupProps = {
         ...props,
         iframeUrl: getIframeUrl(),
