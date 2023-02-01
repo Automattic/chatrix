@@ -36,9 +36,8 @@ function render( array $attributes ): string {
 
 	ob_start();
 	?>
-	<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>>
-		<?php // The following element will be replaced by the <Block> component. ?>
-		<span style="display: none;" data-chatrix-block-config="<?php echo rawurlencode( $json_data ); ?>"></span>
+	<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?> data-chatrix-block-config="<?php echo rawurlencode( $json_data ); ?>">
+		<?php // The <Block> component will be rendered here. ?>
 	</div>
 	<?php
 	return ob_get_clean();
