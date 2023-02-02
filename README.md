@@ -59,6 +59,7 @@ add_filter( 'chatrix_instances', function ( array $default_instances ) {
 
 ### How can I configure WordPress user accounts to register and login on Matrix homeserver?
 The plugin will respect the login methods configured on the Matrix homeserver. For example, if the homeserver has both password and SSO login enabled, both options will be available to the user.
+
 In light of the [plan for Matrix to replace their user management with Open ID Connect (OIDC)](https://areweoidcyet.com/), we recommend to use a Single-Sign On (SSO) flow by configuring [Open ID Connect login on Synapse](https://matrix-org.github.io/synapse/latest/openid.html) and use the [OpenID Connect Server WordPress plugin](https://wordpress.org/plugins/openid-connect-server/).
 
 The flow will then be as follows: When logging into your homeserver, it will redirect you to your own WordPress login page and ask you to authorize the login by the click of a button, and then relay your information to the homeserver. You'll be redirected back to your WordPress page and Chatrix will receive the login information and you can start chatting.
