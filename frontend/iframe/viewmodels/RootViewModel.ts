@@ -115,7 +115,13 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             }
         } else if (sessionId) {
             if (this.singleRoomMode && this.platform.config.roomId) {
-                await this.navigateToRoom(sessionId, this.platform.config.roomId);
+                try {
+                    await this.navigateToRoom(sessionId, this.platform.config.roomId);
+                } catch (error) {
+                    console.error(error);
+                    // Something went wrong when navigating to the room.
+                    // We swallow the error and fallback to non-single-room mode.
+                }
             }
 
             if (!this._sessionViewModel || this._sessionViewModel.id !== sessionId) {
