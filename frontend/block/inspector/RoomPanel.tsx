@@ -10,7 +10,7 @@ export default function RoomPanel({ attributes, setAttributes }): WPElement {
         >
             <PanelRow>
                 <TextControl
-                    label={__("Room id (optional)", "chatrix")}
+                    label={__("Room id or alias (optional)", "chatrix")}
                     value={attributes.roomId}
                     onChange={(value) => setAttributes({ roomId: value })}
                     help={<RoomIdHelp/>}
@@ -23,11 +23,10 @@ export default function RoomPanel({ attributes, setAttributes }): WPElement {
 function RoomIdHelp() {
     return (
         <>
-            <span>{__("When a room id is specified, the client will be in single-room mode.", "chatrix")}</span><br/><br/>
+            <span>{__("When a room id or room alias is specified, the client will be in single-room mode.", "chatrix")}</span><br/><br/>
             <span>{__("In this mode, the client opens directly in that room, with the user not having access to the screen that shows the list of rooms.", "chatrix")}</span><br/><br/>
             <span>{__("The room must be public, so that the user can join without requiring an invitation.", "chatrix")}</span><br/><br/>
-            <span>{__("The room id must be the room's actual id, it must not be an alias.", "chatrix")}</span><br/><br/>
-            <span>{__("Example: !abc123:example.com", "chatrix")}</span><br/>
+            <span>{__("Example: #foo:example.com", "chatrix")}</span><br/>
         </>
     );
 }
