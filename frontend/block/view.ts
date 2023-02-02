@@ -22,7 +22,7 @@ async function renderAllBlocks() {
 }
 
 /**
- * The container element has a single <span> child that contains the config as a data-attribute.
+ * The container element has a data-attribute that contains the config as encoded data.
  * This function parses that data-attribute into an object.
  */
 function getConfigFromDataAttribute(container: HTMLElement): BlockConfig {
