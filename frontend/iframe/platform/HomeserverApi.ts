@@ -16,6 +16,11 @@ export class HomeserverApi extends BaseHomeserverApi{
     }
 
     async resolveRoomAlias(idOrAlias: string): Promise<string> {
+        // If idOrAlias is an id, there's nothing for us to do.
+        if (idOrAlias.startsWith("!")) {
+            return idOrAlias;
+        }
+
         // @ts-ignore
         const url = this._url("/directory/room/" + encodeURIComponent(idOrAlias));
 
