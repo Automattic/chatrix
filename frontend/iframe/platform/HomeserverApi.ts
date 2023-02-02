@@ -14,4 +14,15 @@ export class HomeserverApi extends BaseHomeserverApi{
             reconnector: null,
         });
     }
+
+    async resolveRoomAlias(idOrAlias: string): Promise<string> {
+        // @ts-ignore
+        const url = this._url("/directory/room/" + encodeURIComponent(idOrAlias));
+
+        // @ts-ignore
+        const request = this._unauthedRequest("GET", url);
+
+        const data = await request.response();
+        return data["room_id"];
+    }
 }
