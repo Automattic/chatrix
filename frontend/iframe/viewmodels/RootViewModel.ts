@@ -6,6 +6,7 @@ import { SessionLoadViewModel } from "hydrogen-web/src/domain/SessionLoadViewMod
 import { SessionPickerViewModel } from "hydrogen-web/src/domain/SessionPickerViewModel";
 import { Options as BaseOptions, ViewModel } from "hydrogen-web/src/domain/ViewModel";
 import { Client } from "hydrogen-web/src/matrix/Client.js";
+import { HomeserverApi } from "../platform/HomeserverApi";
 import { allSections, Section } from "../platform/Navigation";
 import { Platform } from "../platform/Platform";
 import { SessionViewModel } from "./SessionViewModel";
@@ -156,7 +157,18 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
     }
 
     private async navigateToRoom(sessionId: string, roomIdOrAlias: string) {
-        this.navigation.push("room", roomIdOrAlias);
+        const sessionInfo = await this.platform.sessionInfoStorage.get(sessionId);
+        if (!sessionInfo) {
+            throw new Error(`Could not find session for id ${sessionId}`);
+        }
+
+        const homeserverApi = new HomeserverApi({
+            homeserver: sessionInfo.homeserver,
+            request: this.platform.request
+        });
+
+        const roomId = await homeserverApi.resolveRoomAlias(roomIdOrAlias);
+        this.navigation.push("room", roomId);
     }
 
     private _showLogin(loginToken: string | undefined) {
