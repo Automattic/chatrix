@@ -7,6 +7,7 @@ import { SessionPickerViewModel } from "hydrogen-web/src/domain/SessionPickerVie
 import { Options as BaseOptions, ViewModel } from "hydrogen-web/src/domain/ViewModel";
 import { Client } from "hydrogen-web/src/matrix/Client.js";
 import { allSections, Section } from "../platform/Navigation";
+import { Platform } from "../platform/Platform";
 import { SessionViewModel } from "./SessionViewModel";
 
 type Options = {} & BaseOptions;
@@ -240,5 +241,9 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         this._forcedLogoutViewModel && this.track(this._forcedLogoutViewModel);
         this._sessionViewModel && this.track(this._sessionViewModel);
         this.emitChange("activeSection");
+    }
+
+    public get platform(): Platform {
+        return super.platform;
     }
 }
