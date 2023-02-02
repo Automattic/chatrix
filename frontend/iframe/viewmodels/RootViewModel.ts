@@ -112,8 +112,8 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 void this._showPicker();
             }
         } else if (sessionId) {
-            if (this.singleRoomMode) {
-                this.navigation.push("room", this.platform.config.roomId);
+            if (this.singleRoomMode && this.platform.config.roomId) {
+                await this.navigateToRoom(sessionId, this.platform.config.roomId);
             }
 
             if (!this._sessionViewModel || this._sessionViewModel.id !== sessionId) {
@@ -152,6 +152,10 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 this._setSection(() => this._error = err);
             }
         }
+    }
+
+    private async navigateToRoom(sessionId: string, roomIdOrAlias: string) {
+        this.navigation.push("room", roomIdOrAlias);
     }
 
     private _showLogin(loginToken: string | undefined) {
