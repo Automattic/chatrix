@@ -12,26 +12,26 @@ declare global {
 
 export type BlockProps = Omit<BaseBlockProps, "iframeUrl">;
 
-export function renderBlock(containerId: string, props: BlockProps) {
+export function renderBlock(containerElement: HTMLElement, props: BlockProps) {
     const blockProps: BaseBlockProps = {
         ...props,
         iframeUrl: getIframeUrl(),
     };
 
     const element = createElement(Block, blockProps);
-    render(element, document.getElementById(containerId));
+    render(element, containerElement);
 }
 
 export type PopupProps = Omit<BasePopupProps, "iframeUrl">;
 
-export function renderPopup(containerId: string, props: PopupProps) {
+export function renderPopup(containerElement: HTMLElement, props: PopupProps) {
     const popupProps: BasePopupProps = {
         ...props,
         iframeUrl: getIframeUrl(),
     };
 
     const element = createElement(Popup, popupProps);
-    render(element, document.getElementById(containerId));
+    render(element, containerElement);
 }
 
 export function getIframeUrl(): URL {
