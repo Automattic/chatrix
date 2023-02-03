@@ -246,7 +246,10 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
 
     private _showSession(client: Client) {
         this._setSection(() => {
-            this._sessionViewModel = new SessionViewModel(this.childOptions({ client }));
+            this._sessionViewModel = new SessionViewModel(this.childOptions({
+                client,
+                singleRoomId: this._resolvedSingleRoomId,
+            }));
             this._sessionViewModel.start();
         });
     }
