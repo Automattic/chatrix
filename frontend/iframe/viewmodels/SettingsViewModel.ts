@@ -4,8 +4,11 @@ import { SettingsViewModel as BaseSettingsViewModel } from "hydrogen-web/src/dom
 import { URLRouter } from "../platform/URLRouter";
 
 export class SettingsViewModel extends BaseSettingsViewModel {
+    private readonly _singleRoomId: string | undefined;
+
     constructor(options) {
         super(options);
+        this._singleRoomId = options.singleRoomId;
     }
 
     async load() {
@@ -22,8 +25,7 @@ export class SettingsViewModel extends BaseSettingsViewModel {
 
     get closeUrl() {
         if (this.singleRoomMode) {
-            const roomId = super.platform.config.roomId;
-            const path = this.navigation.path.with(new Segment<SegmentType>("room", roomId));
+            const path = this.navigation.path.with(new Segment<SegmentType>("room", this._singleRoomId));
 
             return this.urlRouter.urlForPath(path);
         }
@@ -32,6 +34,6 @@ export class SettingsViewModel extends BaseSettingsViewModel {
     }
 
     get singleRoomMode(): boolean {
-        return !!super.platform.config.roomId;
+        return !!this._singleRoomId;
     }
 }

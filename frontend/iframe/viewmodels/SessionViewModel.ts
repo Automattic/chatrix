@@ -62,6 +62,7 @@ export class SessionViewModel extends BaseSessionViewModel {
         if (settingsOpen) {
             this.settingsViewModel = super.track(new SettingsViewModel(super.childOptions({
                 client: this.client,
+                singleRoomId: this._singleRoomId,
             })));
             void this.settingsViewModel.load();
         }
