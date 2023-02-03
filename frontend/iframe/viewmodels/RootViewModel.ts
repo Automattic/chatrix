@@ -22,9 +22,12 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
     private _sessionLoadViewModel: SessionLoadViewModel | undefined;
     private _sessionViewModel: SessionViewModel | undefined;
     private _pendingClient: Client;
+    private readonly _singleRoomIdOrAlias: string | undefined;
+    private _resolvedSingleRoomId: string | undefined;
 
     constructor(options: Options) {
         super(options);
+        this._singleRoomIdOrAlias = this.platform.config.roomId;
     }
 
     public get activeSection(): Section {
@@ -76,7 +79,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
     }
 
     public get singleRoomMode(): boolean {
-        return !!this.platform.config.roomId;
+        return !!this._resolvedSingleRoomId;
     }
 
     public async start() {
@@ -114,14 +117,22 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 void this._showPicker();
             }
         } else if (sessionId) {
-            if (this.singleRoomMode && this.platform.config.roomId) {
+            if (this._singleRoomIdOrAlias && !this._resolvedSingleRoomId) {
+                // We're in single-room mode but haven't resolved the room alias yet.
                 try {
-                    await this.navigateToRoom(sessionId, this.platform.config.roomId);
+                    this._resolvedSingleRoomId = await this.resolveRoomAlias(sessionId, this._singleRoomIdOrAlias);
                 } catch (error) {
-                    console.error(error);
                     // Something went wrong when navigating to the room.
                     // We swallow the error and fallback to non-single-room mode.
+                    console.warn(error);
+                    this._resolvedSingleRoomId = undefined;
+                    this.emitChange("singleRoomMode");
                 }
+            }
+
+            if (this._resolvedSingleRoomId) {
+                this.emitChange("singleRoomMode");
+                this.navigation.push("room", this._resolvedSingleRoomId);
             }
 
             if (!this._sessionViewModel || this._sessionViewModel.id !== sessionId) {
@@ -162,7 +173,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         }
     }
 
-    private async navigateToRoom(sessionId: string, roomIdOrAlias: string) {
+    private async resolveRoomAlias(sessionId: string, roomIdOrAlias: string): Promise<string> {
         const sessionInfo = await this.platform.sessionInfoStorage.get(sessionId);
         if (!sessionInfo) {
             throw new Error(`Could not find session for id ${sessionId}`);
@@ -173,8 +184,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             request: this.platform.request
         });
 
-        const roomId = await homeserverApi.resolveRoomAlias(roomIdOrAlias);
-        this.navigation.push("room", roomId);
+        return await homeserverApi.resolveRoomAlias(roomIdOrAlias);
     }
 
     private _showLogin(loginToken: string | undefined) {
