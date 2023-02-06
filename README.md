@@ -3,8 +3,8 @@
 - Contributors: automattic, akirk, ashfame, psrpinto
 - Tags: matrix, chat
 - Requires at least: 6.0
-- Tested up to: 6.1
-- Requires PHP: 7.4
+- Tested up to: 6.1.1
+- Requires PHP: 8.0
 - License: [GPLv2](http://www.gnu.org/licenses/gpl-2.0.html)
 - Stable tag: 0.5.1
 - GitHub Plugin URI: https://github.com/Automattic/chatrix
