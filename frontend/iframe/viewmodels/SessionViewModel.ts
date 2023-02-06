@@ -3,7 +3,7 @@ import { RoomViewModel } from "./RoomViewModel";
 import { SettingsViewModel } from "./SettingsViewModel";
 
 export class SessionViewModel extends BaseSessionViewModel {
-    private readonly _singleRoomId: boolean;
+    private readonly _singleRoomId: string | undefined;
 
     constructor(options) {
         super(options);
