@@ -6,7 +6,9 @@ import { SessionLoadViewModel } from "hydrogen-web/src/domain/SessionLoadViewMod
 import { SessionPickerViewModel } from "hydrogen-web/src/domain/SessionPickerViewModel";
 import { Options as BaseOptions, ViewModel } from "hydrogen-web/src/domain/ViewModel";
 import { Client } from "hydrogen-web/src/matrix/Client.js";
+import { HomeserverApi } from "../platform/HomeserverApi";
 import { allSections, Section } from "../platform/Navigation";
+import { Platform } from "../platform/Platform";
 import { SessionViewModel } from "./SessionViewModel";
 
 type Options = {} & BaseOptions;
@@ -20,9 +22,12 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
     private _sessionLoadViewModel: SessionLoadViewModel | undefined;
     private _sessionViewModel: SessionViewModel | undefined;
     private _pendingClient: Client;
+    private readonly _singleRoomIdOrAlias: string | undefined;
+    private _resolvedSingleRoomId: string | undefined;
 
     constructor(options: Options) {
         super(options);
+        this._singleRoomIdOrAlias = this.platform.config.roomId;
     }
 
     public get activeSection(): Section {
@@ -74,7 +79,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
     }
 
     public get singleRoomMode(): boolean {
-        return !!this.platform.config.roomId;
+        return !!this._resolvedSingleRoomId;
     }
 
     public async start() {
@@ -112,8 +117,22 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 void this._showPicker();
             }
         } else if (sessionId) {
-            if (this.singleRoomMode) {
-                this.navigation.push("room", this.platform.config.roomId);
+            if (this._singleRoomIdOrAlias && !this._resolvedSingleRoomId) {
+                // We're in single-room mode but haven't resolved the room alias yet.
+                try {
+                    this._resolvedSingleRoomId = await this.resolveRoomAlias(sessionId, this._singleRoomIdOrAlias);
+                } catch (error) {
+                    // Something went wrong when navigating to the room.
+                    // We swallow the error and fallback to non-single-room mode.
+                    console.warn(error);
+                    this._resolvedSingleRoomId = undefined;
+                    this.emitChange("singleRoomMode");
+                }
+            }
+
+            if (this._resolvedSingleRoomId) {
+                this.emitChange("singleRoomMode");
+                this.navigation.push("room", this._resolvedSingleRoomId);
             }
 
             if (!this._sessionViewModel || this._sessionViewModel.id !== sessionId) {
@@ -152,6 +171,20 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 this._setSection(() => this._error = err);
             }
         }
+    }
+
+    private async resolveRoomAlias(sessionId: string, roomIdOrAlias: string): Promise<string> {
+        const sessionInfo = await this.platform.sessionInfoStorage.get(sessionId);
+        if (!sessionInfo) {
+            throw new Error(`Could not find session for id ${sessionId}`);
+        }
+
+        const homeserverApi = new HomeserverApi({
+            homeserver: sessionInfo.homeserver,
+            request: this.platform.request
+        });
+
+        return await homeserverApi.resolveRoomAlias(roomIdOrAlias);
     }
 
     private _showLogin(loginToken: string | undefined) {
@@ -213,7 +246,10 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
 
     private _showSession(client: Client) {
         this._setSection(() => {
-            this._sessionViewModel = new SessionViewModel(this.childOptions({ client }));
+            this._sessionViewModel = new SessionViewModel(this.childOptions({
+                client,
+                singleRoomId: this._resolvedSingleRoomId,
+            }));
             this._sessionViewModel.start();
         });
     }
@@ -236,5 +272,9 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         this._forcedLogoutViewModel && this.track(this._forcedLogoutViewModel);
         this._sessionViewModel && this.track(this._sessionViewModel);
         this.emitChange("activeSection");
+    }
+
+    public get platform(): Platform {
+        return super.platform;
     }
 }

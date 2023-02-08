@@ -4,8 +4,10 @@ import { RoomViewModel as BaseRoomViewModel } from "hydrogen-web/src/domain/sess
 import { URLRouter } from "../platform/URLRouter";
 
 export class RoomViewModel extends BaseRoomViewModel {
+    private readonly _singleRoomMode: boolean;
     constructor(options) {
         super(options);
+        this._singleRoomMode = options.singleRoomMode;
     }
 
     async load() {
@@ -27,7 +29,7 @@ export class RoomViewModel extends BaseRoomViewModel {
     }
 
     get singleRoomMode(): boolean {
-        return !!super.platform.config.roomId;
+        return this._singleRoomMode;
     }
 
     get navigation() {

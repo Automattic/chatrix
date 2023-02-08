@@ -3,8 +3,11 @@ import { RoomViewModel } from "./RoomViewModel";
 import { SettingsViewModel } from "./SettingsViewModel";
 
 export class SessionViewModel extends BaseSessionViewModel {
+    private readonly _singleRoomId: string | undefined;
+
     constructor(options) {
         super(options);
+        this._singleRoomId = options.singleRoomId;
     }
 
     get id() {
@@ -59,6 +62,7 @@ export class SessionViewModel extends BaseSessionViewModel {
         if (settingsOpen) {
             this.settingsViewModel = super.track(new SettingsViewModel(super.childOptions({
                 client: this.client,
+                singleRoomId: this._singleRoomId,
             })));
             void this.settingsViewModel.load();
         }
@@ -87,7 +91,10 @@ export class SessionViewModel extends BaseSessionViewModel {
     _createRoomViewModelInstance(roomId) {
         const room = this.client.session.rooms.get(roomId);
         if (room) {
-            const roomVM = new RoomViewModel(super.childOptions({room}));
+            const roomVM = new RoomViewModel(super.childOptions({
+                room,
+                singleRoomMode: this._singleRoomId !== undefined
+            }));
             void roomVM.load();
             return roomVM;
         }

@@ -1,4 +1,5 @@
 import { SessionInfoStorage } from "hydrogen-web/src/matrix/sessioninfo/localstorage/SessionInfoStorage";
+import { RequestFunction } from "hydrogen-web/src/platform/types/types";
 import { SettingsStorage } from "hydrogen-web/src/platform/web/dom/SettingsStorage";
 import { Platform as BasePlatform } from "hydrogen-web/src/platform/web/Platform";
 import { IConfig } from "../config/IConfig";
@@ -48,6 +49,22 @@ export class Platform extends BasePlatform {
 
     get config(): IConfig {
         return super.config;
+    }
+
+    get sessionInfoStorage(): SessionInfoStorage {
+        return super.sessionInfoStorage;
+    }
+
+    set sessionInfoStorage(sessionInfoStorage: SessionInfoStorage) {
+        super.sessionInfoStorage = sessionInfoStorage;
+    }
+
+    get request(): RequestFunction {
+        return super.request;
+    }
+
+    set request(request: RequestFunction) {
+        super.request = request;
     }
 
     openUrl(url) {
