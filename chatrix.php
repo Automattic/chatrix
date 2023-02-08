@@ -15,6 +15,8 @@ if ( ! function_exists( 'Automattic\Chatrix\main' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
 }
 
+require __DIR__ . '/php8-polyfill.php';
+
 function automattic_chatrix_version(): string {
 	if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
 		// So that assets aren't cached in development environments.

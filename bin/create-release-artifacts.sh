@@ -31,6 +31,7 @@ PATHS_TO_INCLUDE=(
 "build"
 "src"
 "chatrix.php"
+"php8-polyfill.php"
 "LICENSE"
 "README.md"
 )
