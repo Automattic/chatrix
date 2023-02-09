@@ -88,10 +88,21 @@ function sanitize_value( $field_name, $value, $original_value ) {
 			$value = $original_value;
 		}
 
-		if ( ! wp_http_validate_url( $value ) ) {
+		// set a default scheme if none is supplied, otherwise esc_url_raw() doesn't like it.
+		$scheme_added = false;
+		if ( is_null( wp_parse_url( $value, PHP_URL_SCHEME ) ) ) {
+			$value        = 'https://' . $value;
+			$scheme_added = true;
+		}
+
+		if ( esc_url_raw( $value ) !== $value ) {
 			// translators: %s is the value the user entered.
 			add_error( 'homeserver-invalid', sprintf( __( '<tt>%s</tt> is not a valid homeserver URL.' ), $value ) );
 			$value = $original_value;
+		}
+
+		if ( $scheme_added ) {
+			$value = substr( $value, 8 );
 		}
 	}
 
