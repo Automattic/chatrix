@@ -95,7 +95,7 @@ function sanitize_value( $field_name, $value, $original_value ) {
 			$scheme_added = true;
 		}
 
-		if ( esc_url_raw( $value ) !== $value ) {
+		if ( sanitize_url( $value ) !== $value ) {
 			// translators: %s is the value the user entered.
 			add_error( 'homeserver-invalid', sprintf( __( '<tt>%s</tt> is not a valid homeserver URL.' ), $original_value ) );
 			$value = $original_value;
