@@ -6,7 +6,7 @@
 - Tested up to: 6.1
 - Requires PHP: 7.4
 - License: [GPLv2](http://www.gnu.org/licenses/gpl-2.0.html)
-- Stable tag: 0.5.1
+- Stable tag: 0.6.0
 - GitHub Plugin URI: https://github.com/Automattic/chatrix
 
 Matrix client for WordPress.
@@ -67,6 +67,13 @@ The flow will then be as follows: When logging into your homeserver, it will red
 Later, when Matrix makes the switch to OIDC, you are already prepared and can continue to use this setup.
 
 ## Changelog
+
+### 0.6.0
+
+- Support for multiple blocks on the same page [[#175](https://github.com/Automattic/chatrix/pull/175)]
+- Support room alias in configuration [[#179](https://github.com/Automattic/chatrix/pull/179)]
+- Fixed a bug where port wasn't allowed in homeserver in configuration [[#184](https://github.com/Automattic/chatrix/pull/184)]
+- Provide a filter to choose to not load the logout script if required [[#165](https://github.com/Automattic/chatrix/pull/165)]
 
 ### 0.5.1
 - Fix issue that caused popup configuration to be ignored [[#173](https://github.com/Automattic/chatrix/pull/173)]
