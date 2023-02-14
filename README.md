@@ -68,6 +68,13 @@ Later, when Matrix makes the switch to OIDC, you are already prepared and can co
 
 ## Changelog
 
+### 0.6.0
+
+- Support for multiple blocks on the same page [[#175](https://github.com/Automattic/chatrix/pull/175)]
+- Support room alias in configuration [[#179](https://github.com/Automattic/chatrix/pull/179)]
+- Fixed a bug where port wasn't allowed in homeserver in configuration [[#184](https://github.com/Automattic/chatrix/pull/184)]
+- Provide a filter to choose to not load the logout script if required [[#165](https://github.com/Automattic/chatrix/pull/165)]
+
 ### 0.5.1
 - Fix issue that caused popup configuration to be ignored [[#173](https://github.com/Automattic/chatrix/pull/173)]
 
