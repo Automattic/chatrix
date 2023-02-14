@@ -44,7 +44,10 @@ function register_scripts() {
 				true
 			);
 
-			if ( ! is_user_logged_in() && ( defined( 'WP_CACHE' ) || isset( $_COOKIE[ LOGOUT_COOKIE_NAME ] ) ) ) {
+			// filter 'chatrix_load_logout_script' exists to limit when logout script is loaded.
+			// possible optimisation to limit only when the logout cookie is set but can only do so when no page caching is involved for the page
+			// add_filter( 'chatrix_load_logout_script', function() { return isset( $_COOKIE[ \Automattic\Chatrix\LOGOUT_COOKIE_NAME ] ); } );
+			if ( ! is_user_logged_in() && apply_filters( 'chatrix_load_logout_script', true ) ) {
 				wp_register_script(
 					SCRIPT_HANDLE_LOGOUT,
 					root_url() . '/logout.iife.js',
