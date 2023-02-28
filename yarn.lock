@@ -5715,9 +5715,9 @@ human-signals@^2.1.0:
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-2.1.0.tgz#dc91fcba42e4d06e4abaed33b3e7a3c02f514ea0"
   integrity sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==
 
-hydrogen-web@vector-im/hydrogen-web#v0.3.5:
-  version "0.3.5"
-  resolved "https://codeload.github.com/vector-im/hydrogen-web/tar.gz/308bbee5ede6f4d21cd69e2f9239aec4e667b379"
+hydrogen-web@vector-im/hydrogen-web#v0.3.8:
+  version "0.3.8"
+  resolved "https://codeload.github.com/vector-im/hydrogen-web/tar.gz/8c74e54f9d644a6de47b4a7927396911510df80e"
   dependencies:
     "@matrix-org/olm" "https://gitlab.matrix.org/api/v4/projects/27/packages/npm/@matrix-org/olm/-/@matrix-org/olm-3.2.8.tgz"
     another-json "^0.2.0"
@@ -6659,7 +6659,7 @@ json2php@^0.0.5:
   resolved "https://registry.yarnpkg.com/json2php/-/json2php-0.0.5.tgz#334e9f020f1fdec26cda739c10cd8fe67fe518b7"
   integrity sha512-jWpsGAYlQDKOjJcyq3rYaxcZ+5YMhZIKHKTjdIKJPI9zLSX+yRWHSSwtV8hvIg7YMhbKkgPO669Ve2ZgFK5C7w==
 
-json5@2.2.*, json5@^1.0.1, json5@^2.1.2, json5@^2.2.1:
+json5@^1.0.1, json5@^2.1.2, json5@^2.2.*, json5@^2.2.1:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/json5/-/json5-2.2.3.tgz#78cd6f1a19bdc12b73db5ad0c61efd66c1e29283"
   integrity sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==

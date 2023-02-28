@@ -51,6 +51,14 @@ export class Platform extends BasePlatform {
         return super.config;
     }
 
+    get settingsStorage(): SettingsStorage {
+        return super.settingsStorage;
+    }
+
+    set settingsStorage(settingsStorage: SettingsStorage) {
+        super.settingsStorage = settingsStorage;
+    }
+
     get sessionInfoStorage(): SessionInfoStorage {
         return super.sessionInfoStorage;
     }

@@ -7,6 +7,7 @@ import { Platform } from "./platform/Platform";
 import { URLRouter } from "./platform/URLRouter";
 import { RootViewModel } from "./viewmodels/RootViewModel";
 import { RootView } from "./views/RootView";
+import {FeatureSet} from "hydrogen-web/src/features";
 
 export class Main {
     private readonly _platform: Platform;
@@ -43,12 +44,14 @@ export class Main {
     public async start() {
         await this._platform.init();
         this._platform.setNavigation(this._navigation);
+        const features = await FeatureSet.load(this._platform.settingsStorage);
 
         this._rootViewModel = new RootViewModel({
             logger: new NullLogger(),
             platform: this._platform,
             navigation: this._navigation,
             urlRouter: this._router,
+            features: features,
         });
 
         const rootView = new RootView(this._rootViewModel);

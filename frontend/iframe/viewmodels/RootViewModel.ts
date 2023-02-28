@@ -232,7 +232,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
     }
 
     private _showSessionLoader(sessionId: string) {
-        const client = new Client(this.platform);
+        const client = new Client(this.platform, this.features);
         client.startWithExistingSession(sessionId);
 
         this._setSection(() => {
