@@ -8,6 +8,7 @@ import { Options as BaseOptions, ViewModel } from "hydrogen-web/src/domain/ViewM
 import { Client } from "hydrogen-web/src/matrix/Client.js";
 import { HomeServerApi } from "hydrogen-web/src/matrix/net/HomeServerApi";
 import { allSections, Section } from "../platform/Navigation";
+import { lookupHomeserver } from "hydrogen-web/src/matrix/well-known";
 import { Platform } from "../platform/Platform";
 import { SessionViewModel } from "./SessionViewModel";
 
@@ -120,7 +121,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             if (this._singleRoomIdOrAlias && !this._resolvedSingleRoomId) {
                 // We're in single-room mode but haven't resolved the room alias yet.
                 try {
-                    this._resolvedSingleRoomId = await this.resolveRoomAlias(sessionId, this._singleRoomIdOrAlias);
+                    this._resolvedSingleRoomId = await this.resolveRoomAlias(this._singleRoomIdOrAlias, sessionId);
                 } catch (error) {
                     // Something went wrong when navigating to the room.
                     // We swallow the error and fallback to non-single-room mode.
@@ -173,20 +174,29 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         }
     }
 
-    private async resolveRoomAlias(sessionId: string, roomIdOrAlias: string): Promise<string> {
-        const sessionInfo = await this.platform.sessionInfoStorage.get(sessionId);
-        if (!sessionInfo) {
-            throw new Error(`Could not find session for id ${sessionId}`);
-        }
-
+    private async resolveRoomAlias(roomIdOrAlias: string, sessionId?: string): Promise<string> {
         if (roomIdOrAlias.startsWith('!')) {
             return roomIdOrAlias;
         }
 
+        let sessionInfo;
+        if (sessionId) {
+            sessionInfo = await this.platform.sessionInfoStorage.get(sessionId);
+        }
+        let homeserver: string;
+        let accessToken: string;
+        if (sessionInfo) {
+            homeserver = sessionInfo.homeserver;
+            accessToken = sessionInfo.accessToken;
+        } else {
+            homeserver = await lookupHomeserver(roomIdOrAlias.split(':')[1], this.platform.request);
+            accessToken = '';
+        }
+
         const homeserverApi = new HomeServerApi({
-            homeserver: sessionInfo.homeserver,
+            homeserver: homeserver,
             request: this.platform.request,
-            accessToken: sessionInfo.accessToken,
+            accessToken: accessToken,
             reconnector: this.platform.reconnector,
         });
 
