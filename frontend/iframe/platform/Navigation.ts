@@ -9,6 +9,7 @@ export enum Section {
     SessionLoading = "loading",
     Session = "session",
     Error = "error",
+    UnknownRoom = "unknown-room",
     Redirecting = "redirecting",
 }
 
