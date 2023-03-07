@@ -109,6 +109,17 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         const sessionId = this.navigation.path.get("session")?.value;
         const loginToken = this.navigation.path.get("sso")?.value;
 
+        if (this._singleRoomIdOrAlias && !this._resolvedSingleRoomId) {
+            try {
+                this._resolvedSingleRoomId = await this.resolveRoomAlias(this._singleRoomIdOrAlias);
+            } catch (error) {
+                // Something went wrong when navigating to the room.
+                // We swallow the error and fallback to non-single-room mode.
+                console.warn(error);
+                this._resolvedSingleRoomId = undefined;
+            }
+        }
+
         if (isLogin) {
             if (this.activeSection !== Section.Login) {
                 this._showLogin(undefined);
@@ -126,21 +137,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 void this._showPicker();
             }
         } else if (sessionId) {
-            if (this._singleRoomIdOrAlias && !this._resolvedSingleRoomId) {
-                // We're in single-room mode but haven't resolved the room alias yet.
-                try {
-                    this._resolvedSingleRoomId = await this.resolveRoomAlias(this._singleRoomIdOrAlias, sessionId);
-                } catch (error) {
-                    // Something went wrong when navigating to the room.
-                    // We swallow the error and fallback to non-single-room mode.
-                    console.warn(error);
-                    this._resolvedSingleRoomId = undefined;
-                    this.emitChange("singleRoomMode");
-                }
-            }
-
             if (this._resolvedSingleRoomId) {
-                this.emitChange("singleRoomMode");
                 this.navigation.push("room", this._resolvedSingleRoomId);
             }
 
@@ -169,22 +166,11 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 if (!(shouldRestoreLastUrl && this.urlRouter.tryRestoreLastUrl())) {
                     const sessionInfos = await this.platform.sessionInfoStorage.getAll();
                     if (sessionInfos.length === 0) {
-                        if (this._singleRoomIdOrAlias) {
-                            // No active session but we're in single-room mode.
-                            if (!this._resolvedSingleRoomId) {
-                                try {
-                                    this._resolvedSingleRoomId = await this.resolveRoomAlias(this._singleRoomIdOrAlias);
-                                } catch (error) {
-                                    console.warn(error);
-                                }
-                            }
-
-                            if (this._resolvedSingleRoomId) {
-                                await this._showUnknownRoom(this._resolvedSingleRoomId);
-                            }
-                        } else {
-                            this.navigation.push(Section.Login);
+                        if (this._resolvedSingleRoomId) {
+                            await this._showUnknownRoom(this._resolvedSingleRoomId);
+                            return;
                         }
+                        this.navigation.push(Section.Login);
                     } else if (sessionInfos.length === 1) {
                         this.navigation.push(Section.Session, sessionInfos[0].id);
                     } else {
@@ -331,8 +317,6 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             chosenSession = sessionInfos[0];
             await client.startWithExistingSession(chosenSession.id);
         }
-        console.info('chosenSession',chosenSession);
-        // @TODO need to stop/prevent sync for guest account (when creating a new one or reusing an existing one)
 
         this._setSection(() => {
             this._unknownRoomViewModel = new UnknownRoomViewModel(this.childOptions({
