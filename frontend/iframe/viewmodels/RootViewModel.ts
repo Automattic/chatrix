@@ -79,7 +79,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
     }
 
     public get singleRoomMode(): boolean {
-        return !!this._resolvedSingleRoomId;
+        return !!this._singleRoomIdOrAlias;
     }
 
     public async start() {
@@ -157,7 +157,8 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             }
         } else {
             try {
-                if (!(shouldRestoreLastUrl && this.urlRouter.tryRestoreLastUrl())) {
+                // don't even try to restore last url when in single room mode
+                if (this.singleRoomMode || !(shouldRestoreLastUrl && this.urlRouter.tryRestoreLastUrl())) {
                     const sessionInfos = await this.platform.sessionInfoStorage.getAll();
                     if (sessionInfos.length === 0) {
                         this.navigation.push(Section.Login);
