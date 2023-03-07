@@ -165,27 +165,26 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 this._showLogin(loginToken);
             }
         } else {
-            if (this._singleRoomIdOrAlias) {
-                // No active session but we're in single-room mode.
-                if (!this._resolvedSingleRoomId) {
-                    try {
-                        this._resolvedSingleRoomId = await this.resolveRoomAlias(this._singleRoomIdOrAlias);
-                    } catch (error) {
-                        console.warn(error);
-                    }
-                }
-
-                if (this._resolvedSingleRoomId) {
-                    await this._showUnknownRoom(this._resolvedSingleRoomId);
-                    return;
-                }
-            }
-
             try {
                 if (!(shouldRestoreLastUrl && this.urlRouter.tryRestoreLastUrl())) {
                     const sessionInfos = await this.platform.sessionInfoStorage.getAll();
                     if (sessionInfos.length === 0) {
-                        this.navigation.push(Section.Login);
+                        if (this._singleRoomIdOrAlias) {
+                            // No active session but we're in single-room mode.
+                            if (!this._resolvedSingleRoomId) {
+                                try {
+                                    this._resolvedSingleRoomId = await this.resolveRoomAlias(this._singleRoomIdOrAlias);
+                                } catch (error) {
+                                    console.warn(error);
+                                }
+                            }
+
+                            if (this._resolvedSingleRoomId) {
+                                await this._showUnknownRoom(this._resolvedSingleRoomId);
+                            }
+                        } else {
+                            this.navigation.push(Section.Login);
+                        }
                     } else if (sessionInfos.length === 1) {
                         this.navigation.push(Section.Session, sessionInfos[0].id);
                     } else {
