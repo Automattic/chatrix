@@ -179,6 +179,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                     }
                 }
             } catch (err) {
+                console.error(err);
                 this._setSection(() => this._error = err);
             }
         }
