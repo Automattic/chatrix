@@ -313,22 +313,19 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         if (sessionInfos.length === 0) {
             const homeserver = await lookupHomeserver(roomId.split(':')[1], this.platform.request);
             await client.doGuestLogin(homeserver);
-            sessionInfos = await this.platform.sessionInfoStorage.getAll();
-            chosenSession = sessionInfos[0];
         } else {
-            chosenSession = sessionInfos[0];
             await client.startWithExistingSession(chosenSession.id);
         }
 
         this._setSection(() => {
             this._unknownRoomViewModel = new UnknownRoomViewModel(this.childOptions({
                 roomIdOrAlias: roomId,
-                session: chosenSession,
-                isWorldReadablePromise: this.isWorldReadableRoom(roomId, chosenSession.id),
+                session: client.session,
+                isWorldReadablePromise: this.isWorldReadableRoom(roomId, client.sessionId),
             }));
         });
 
-        this.navigation.push("session", chosenSession.id);
+        this.navigation.push("session", client.sessionId);
     }
 
     private _setSection(setter: Function) {
