@@ -4,6 +4,7 @@ import { LogoutViewModel } from "hydrogen-web/src/domain/LogoutViewModel";
 import { SegmentType } from "hydrogen-web/src/domain/navigation";
 import { SessionLoadViewModel } from "hydrogen-web/src/domain/SessionLoadViewModel";
 import { SessionPickerViewModel } from "hydrogen-web/src/domain/SessionPickerViewModel";
+import { UnknownRoomViewModel } from "hydrogen-web/src/domain/session/room/UnknownRoomViewModel";
 import { Options as BaseOptions, ViewModel } from "hydrogen-web/src/domain/ViewModel";
 import { Client } from "hydrogen-web/src/matrix/Client.js";
 import { HomeServerApi } from "hydrogen-web/src/matrix/net/HomeServerApi";
@@ -22,6 +23,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
     private _sessionPickerViewModel: SessionPickerViewModel | undefined;
     private _sessionLoadViewModel: SessionLoadViewModel | undefined;
     private _sessionViewModel: SessionViewModel | undefined;
+    private _unknownRoomViewModel: UnknownRoomViewModel | undefined;
     private _pendingClient: Client;
     private readonly _singleRoomIdOrAlias: string | undefined;
     private _resolvedSingleRoomId: string | undefined;
@@ -46,6 +48,8 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             return Section.SessionLoading;
         } else if (this._sessionViewModel) {
             return Section.Session;
+        } else if (this._unknownRoomViewModel) {
+            return Section.UnknownRoom;
         } else {
             return Section.Redirecting;
         }
@@ -69,6 +73,10 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
 
     public get sessionLoadViewModel(): SessionLoadViewModel | undefined {
         return this._sessionLoadViewModel;
+    }
+
+    public get unknownRoomViewModel(): UnknownRoomViewModel | undefined {
+        return this._unknownRoomViewModel;
     }
 
     public get sessionViewModel(): SessionViewModel | undefined {
@@ -101,6 +109,17 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         const sessionId = this.navigation.path.get("session")?.value;
         const loginToken = this.navigation.path.get("sso")?.value;
 
+        if (this._singleRoomIdOrAlias && !this._resolvedSingleRoomId) {
+            try {
+                this._resolvedSingleRoomId = await this.resolveRoomAlias(this._singleRoomIdOrAlias);
+            } catch (error) {
+                // Something went wrong when navigating to the room.
+                // We swallow the error and fallback to non-single-room mode.
+                console.warn(error);
+                this._resolvedSingleRoomId = undefined;
+            }
+        }
+
         if (isLogin) {
             if (this.activeSection !== Section.Login) {
                 this._showLogin(undefined);
@@ -118,21 +137,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 void this._showPicker();
             }
         } else if (sessionId) {
-            if (this._singleRoomIdOrAlias && !this._resolvedSingleRoomId) {
-                // We're in single-room mode but haven't resolved the room alias yet.
-                try {
-                    this._resolvedSingleRoomId = await this.resolveRoomAlias(this._singleRoomIdOrAlias, sessionId);
-                } catch (error) {
-                    // Something went wrong when navigating to the room.
-                    // We swallow the error and fallback to non-single-room mode.
-                    console.warn(error);
-                    this._resolvedSingleRoomId = undefined;
-                    this.emitChange("singleRoomMode");
-                }
-            }
-
             if (this._resolvedSingleRoomId) {
-                this.emitChange("singleRoomMode");
                 this.navigation.push("room", this._resolvedSingleRoomId);
             }
 
@@ -162,6 +167,10 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 if (this.singleRoomMode || !(shouldRestoreLastUrl && this.urlRouter.tryRestoreLastUrl())) {
                     const sessionInfos = await this.platform.sessionInfoStorage.getAll();
                     if (sessionInfos.length === 0) {
+                        if (this._resolvedSingleRoomId) {
+                            await this._showUnknownRoom(this._resolvedSingleRoomId);
+                            return;
+                        }
                         this.navigation.push(Section.Login);
                     } else if (sessionInfos.length === 1) {
                         this.navigation.push(Section.Session, sessionInfos[0].id);
@@ -170,6 +179,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                     }
                 }
             } catch (err) {
+                console.error(err);
                 this._setSection(() => this._error = err);
             }
         }
@@ -203,6 +213,29 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
 
         let response = await homeserverApi.resolveRoomAlias(roomIdOrAlias).response();
         return response.room_id;
+    }
+
+    private async isWorldReadableRoom(roomId: string, sessionId: string): Promise<boolean> {
+        const sessionInfo = await this.platform.sessionInfoStorage.get(sessionId);
+        if (!sessionInfo) {
+            console.error(`Could not find session for id ${sessionId}`);
+            return false;
+        }
+
+        const homeserver = await lookupHomeserver(roomId.split(':')[1], this.platform.request);
+        const homeserverApi = new HomeServerApi({
+            homeserver: homeserver,
+            request: this.platform.request,
+            accessToken: sessionInfo.accessToken,
+            reconnector: this.platform.reconnector,
+        });
+
+        return homeserverApi.state(roomId, 'm.room.history_visibility', '').response().then(
+            response => response.history_visibility === 'world_readable'
+        ).catch(err => {
+            console.error(err);
+            return false;
+        });
     }
 
     private _showLogin(loginToken: string | undefined) {
@@ -270,6 +303,29 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             }));
             this._sessionViewModel.start();
         });
+    }
+
+    private async _showUnknownRoom(roomId: string) {
+        const client = new Client(this.platform);
+        let chosenSession;
+
+        let sessionInfos = await this.platform.sessionInfoStorage.getAll();
+        if (sessionInfos.length === 0) {
+            const homeserver = await lookupHomeserver(roomId.split(':')[1], this.platform.request);
+            await client.doGuestLogin(homeserver);
+        } else {
+            await client.startWithExistingSession(chosenSession.id);
+        }
+
+        this._setSection(() => {
+            this._unknownRoomViewModel = new UnknownRoomViewModel(this.childOptions({
+                roomIdOrAlias: roomId,
+                session: client.session,
+                isWorldReadablePromise: this.isWorldReadableRoom(roomId, client.sessionId),
+            }));
+        });
+
+        this.navigation.push("session", client.sessionId);
     }
 
     private _setSection(setter: Function) {
