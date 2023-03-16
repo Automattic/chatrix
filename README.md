@@ -68,6 +68,11 @@ Later, when Matrix makes the switch to OIDC, you are already prepared and can co
 
 ## Changelog
 
+### 0.7.0
+
+- Implement Room Previews (Peeking) functionality [[#199](https://github.com/Automattic/chatrix/pull/199)]
+- Disable restoration to last screen when in Single room mode [[#196](https://github.com/Automattic/chatrix/pull/196)]
+
 ### 0.6.0
 
 - Support for multiple blocks on the same page [[#175](https://github.com/Automattic/chatrix/pull/175)]
