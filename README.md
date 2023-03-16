@@ -72,7 +72,7 @@ Later, when Matrix makes the switch to OIDC, you are already prepared and can co
 
 - Implement Room Previews (Peeking) functionality [[#199](https://github.com/Automattic/chatrix/pull/199)]
 - Disable restoration to last screen when in Single room mode [[#196](https://github.com/Automattic/chatrix/pull/196)]
-- Switch to our Hydrogen's fork as dependency which includes un-merged upstream contributions
+- Switch to our Hydrogen's fork (ahead of v0.3.8) as dependency which includes un-merged upstream contributions
   - Fix query params in SSO
   - Allow create room screen to be closed on smaller width screens
   - Ensure Service worker is started before anything else
