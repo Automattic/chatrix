@@ -14,6 +14,7 @@ import { SessionView as BaseSessionView } from "hydrogen-web/src/platform/web/ui
 import { SettingsView } from "hydrogen-web/src/platform/web/ui/session/settings/SettingsView";
 import { SessionViewModel } from "../viewmodels/SessionViewModel";
 import { RoomView } from "./RoomView";
+import { WorldReadableRoomView } from "hydrogen-web/src/platform/web/ui/session/room/WorldReadableRoomView";
 
 export class SessionView extends BaseSessionView {
     constructor(value?: SessionViewModel) {
@@ -46,6 +47,8 @@ export class SessionView extends BaseSessionView {
                         return new RoomView(vm.currentRoomViewModel, viewClassForTile);
                     } else if (vm.currentRoomViewModel.kind === "roomBeingCreated") {
                         return new RoomBeingCreatedView(vm.currentRoomViewModel);
+                    } else if (vm.currentRoomViewModel.kind === "preview") {
+                        return new WorldReadableRoomView(vm.currentRoomViewModel);
                     } else {
                         return new UnknownRoomView(vm.currentRoomViewModel);
                     }

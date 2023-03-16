@@ -51,6 +51,10 @@ export class Platform extends BasePlatform {
         return super.config;
     }
 
+    get reconnector(): any {
+        return super.reconnector;
+    }
+
     get settingsStorage(): SettingsStorage {
         return super.settingsStorage;
     }
