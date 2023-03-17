@@ -6,7 +6,7 @@
 - Tested up to: 6.1
 - Requires PHP: 7.4
 - License: [GPLv2](http://www.gnu.org/licenses/gpl-2.0.html)
-- Stable tag: 0.6.0
+- Stable tag: 0.7.0
 - GitHub Plugin URI: https://github.com/Automattic/chatrix
 
 Matrix client for WordPress.
@@ -67,6 +67,18 @@ The flow will then be as follows: When logging into your homeserver, it will red
 Later, when Matrix makes the switch to OIDC, you are already prepared and can continue to use this setup.
 
 ## Changelog
+
+### 0.7.0
+
+- Implement Room Previews (Peeking) functionality [[#199](https://github.com/Automattic/chatrix/pull/199)]
+- Disable restoration to last screen when in Single room mode [[#196](https://github.com/Automattic/chatrix/pull/196)]
+- Switch to our Hydrogen's fork (ahead of v0.3.8) as dependency which includes un-merged upstream contributions
+  - Fix query params in SSO
+  - Allow create room screen to be closed on smaller width screens
+  - Ensure Service worker is started before anything else
+  - Fix bug in normalization of homeserver
+  - Room Previews (Peeking) support
+  - Fix loading of messages & timelines in some cases
 
 ### 0.6.0
 
