@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Chatrix
  * Description: Embed the Chatrix Matrix client into WordPress pages.
- * Author: Automattic
- * Author URI: https://automattic.com/
+ * Author: WordPress.Org Community
+ * Author URI: https://wordpress.org/
  * Plugin URI: https://github.com/Automattic/chatrix
  * Version: 0.7.0
  */
