@@ -68,6 +68,11 @@ Later, when Matrix makes the switch to OIDC, you are already prepared and can co
 
 ## Changelog
 
+### 0.7.1
+
+- Fix button text from 'Login' to 'Log In'
+- Meta changes for WP.org plugins repo
+
 ### 0.7.0
 
 - Implement Room Previews (Peeking) functionality [[#199](https://github.com/Automattic/chatrix/pull/199)]
