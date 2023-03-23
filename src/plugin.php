@@ -64,5 +64,5 @@ function register_scripts() {
 }
 
 function root_url(): string {
-	return plugins_url() . '/chatrix/build';
+	return plugins_url( 'build/', dirname(__FILE__ ) );
 }
