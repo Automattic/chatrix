@@ -8,6 +8,7 @@
 		const container = document.createElement("div");
 		container.id = "chatrix-popup-container";
 		document.body.appendChild(container);
+        container.style.zIndex = 1;
 
 		Chatrix.renderPopup(container, {
 			defaultHomeserver: config.defaultHomeserver,
