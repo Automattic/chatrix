@@ -82,7 +82,12 @@ function register_site_status_test( string $block_json_path ) {
 						),
 						'description' =>
 							'<p>' .
-							sprintf( __( 'If a block.json file is not found under %s, the Chatrix block will not be available.', 'chatrix' ), '<code>' . $relative_path . '</code>' ) .
+							sprintf(
+								/* translators: %1$s is the file name, %2$s is the file path */
+								__( 'If a %1$s file is not found under %2$s, the Chatrix block will not be available.', 'chatrix' ),
+								'<code>block.json</code>',
+								'<code>' . $relative_path . '</code>'
+							) .
 							'</p>',
 						'test'        => 'chatrix-block-json',
 					);
