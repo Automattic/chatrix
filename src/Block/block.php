@@ -65,12 +65,14 @@ function register_site_status_test( string $block_json_path ) {
 		$badge  = 'red';
 	}
 
+	$relative_path = str_replace( ABSPATH, '', $block_json_path );
+
 	add_filter(
 		'site_status_tests',
-		function ( array $tests ) use ( $label, $status, $badge ) {
+		function ( array $tests ) use ( $label, $status, $badge, $relative_path ) {
 			$tests['direct']['chatrix-block-json'] = array(
 				'label' => __( 'The block.json file exists', 'chatrix' ),
-				'test'  => function () use ( $label, $status, $badge ) {
+				'test'  => function () use ( $label, $status, $badge, $relative_path ) {
 					return array(
 						'label'       => wp_kses_post( $label ),
 						'status'      => $status,
@@ -80,7 +82,7 @@ function register_site_status_test( string $block_json_path ) {
 						),
 						'description' =>
 							'<p>' .
-							__( 'If a block.json file is not found under wp-content/plugins/chatrix/build/block/block.json, the Chatrix block will not be available.', 'chatrix' ) .
+							sprintf( __( 'If a block.json file is not found under %s, the Chatrix block will not be available.', 'chatrix' ), '<code>' . $relative_path . '</code>' ) .
 							'</p>',
 						'test'        => 'chatrix-block-json',
 					);
