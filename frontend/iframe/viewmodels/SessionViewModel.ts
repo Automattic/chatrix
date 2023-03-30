@@ -1,5 +1,6 @@
 import { SessionViewModel as BaseSessionViewModel } from "hydrogen-web/src/domain/session/SessionViewModel";
 import { RoomViewModel } from "./RoomViewModel";
+import { UnknownRoomViewModel } from "./UnknownRoomVideoModel";
 import { SettingsViewModel } from "./SettingsViewModel";
 
 export class SessionViewModel extends BaseSessionViewModel {
@@ -109,5 +110,15 @@ export class SessionViewModel extends BaseSessionViewModel {
             return roomVM;
         }
         return null;
+    }
+
+    async _createUnknownRoomViewModel(roomIdOrAlias, isWorldReadablePromise) {
+        return new UnknownRoomViewModel(super.childOptions({
+            roomIdOrAlias,
+            session: this.client.session,
+            isWorldReadablePromise: isWorldReadablePromise,
+            guestJoinAllowed: false,
+            singleRoomId: this._singleRoomId,
+        }));
     }
 }
