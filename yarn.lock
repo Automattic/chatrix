@@ -5720,9 +5720,9 @@ human-signals@^2.1.0:
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-2.1.0.tgz#dc91fcba42e4d06e4abaed33b3e7a3c02f514ea0"
   integrity sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==
 
-hydrogen-web@Automattic/hydrogen-web#chatrix-0.7.1:
+hydrogen-web@Automattic/hydrogen-web#e1f235bda075d06b1f475f4d5dfa3bb3bf07ad0b:
   version "0.3.8"
-  resolved "https://codeload.github.com/Automattic/hydrogen-web/tar.gz/061341d494e0f29bf22b988ff4b1d089be1e76b7"
+  resolved "https://codeload.github.com/Automattic/hydrogen-web/tar.gz/e1f235bda075d06b1f475f4d5dfa3bb3bf07ad0b"
   dependencies:
     "@matrix-org/olm" "https://gitlab.matrix.org/api/v4/projects/27/packages/npm/@matrix-org/olm/-/@matrix-org/olm-3.2.8.tgz"
     another-json "^0.2.0"
