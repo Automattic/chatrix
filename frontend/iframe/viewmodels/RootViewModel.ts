@@ -2,14 +2,14 @@ import { ForcedLogoutViewModel } from "hydrogen-web/src/domain/ForcedLogoutViewM
 import { LoginViewModel } from "hydrogen-web/src/domain/login/LoginViewModel";
 import { LogoutViewModel } from "hydrogen-web/src/domain/LogoutViewModel";
 import { SegmentType } from "hydrogen-web/src/domain/navigation";
+import { UnknownRoomViewModel } from "hydrogen-web/src/domain/session/room/UnknownRoomViewModel";
 import { SessionLoadViewModel } from "hydrogen-web/src/domain/SessionLoadViewModel";
 import { SessionPickerViewModel } from "hydrogen-web/src/domain/SessionPickerViewModel";
-import { UnknownRoomViewModel } from "hydrogen-web/src/domain/session/room/UnknownRoomViewModel";
 import { Options as BaseOptions, ViewModel } from "hydrogen-web/src/domain/ViewModel";
 import { Client } from "hydrogen-web/src/matrix/Client.js";
 import { HomeServerApi } from "hydrogen-web/src/matrix/net/HomeServerApi";
-import { allSections, Section } from "../platform/Navigation";
 import { lookupHomeserver } from "hydrogen-web/src/matrix/well-known";
+import { allSections, Section } from "../platform/Navigation";
 import { Platform } from "../platform/Platform";
 import { SessionViewModel } from "./SessionViewModel";
 
