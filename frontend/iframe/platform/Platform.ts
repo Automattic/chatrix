@@ -41,7 +41,7 @@ export class Platform extends BasePlatform {
     }
 
     async init() {
-        super.init();
+        return super.init();
     }
 
     get config(): IConfig {
