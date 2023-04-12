@@ -153,7 +153,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                         this._pendingClient.dispose();
                         this._pendingClient = null;
                     }
-                    this._showSessionLoader(sessionId);
+                    await this._showSessionLoader(sessionId);
                 }
             }
         } else if (loginToken) {
@@ -282,9 +282,9 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         }
     }
 
-    private _showSessionLoader(sessionId: string) {
+    private async _showSessionLoader(sessionId: string) {
         const client = new Client(this.platform, this.features);
-        client.startWithExistingSession(sessionId);
+        await client.startWithExistingSession(sessionId);
 
         this._setSection(() => {
             this._sessionLoadViewModel = new SessionLoadViewModel(this.childOptions({
