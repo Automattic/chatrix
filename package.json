@@ -38,7 +38,7 @@
   "dependencies": {
     "@wordpress/compose": "^5.17.0",
     "bs58": "^5.0.0",
-    "hydrogen-web": "Automattic/hydrogen-web#e1f235bda075d06b1f475f4d5dfa3bb3bf07ad0b",
+    "hydrogen-web": "Automattic/hydrogen-web#chatrix-0.8.0",
     "node-html-parser": "^4.0.0"
   },
   "resolutions": {
