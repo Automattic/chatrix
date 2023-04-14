@@ -68,6 +68,13 @@ Later, when Matrix makes the switch to OIDC, you are already prepared and can co
 
 ## Changelog
 
+### 0.8.0
+
+- Fix issue when chatrix plugin is not installed in the default location [[#205](https://github.com/Automattic/chatrix/pull/205)]
+- Fix issue with z-index of the popup [[#207](https://github.com/Automattic/chatrix/pull/207)]
+- Fix issue that prevented navigating away from the *unknown room* screen [[#213](https://github.com/Automattic/chatrix/pull/213)]
+- Allow multiple blocks on the same page or on different browser tabs (behind feature flag, still unstable) [[#214](https://github.com/Automattic/chatrix/pull/214)]
+
 ### 0.7.1
 
 - Fix button text from 'Login' to 'Log In'
