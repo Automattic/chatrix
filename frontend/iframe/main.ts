@@ -1,4 +1,5 @@
 import { parseUrlPath, stringifyPath } from "hydrogen-web/src/domain/navigation";
+import { FeatureSet } from "hydrogen-web/src/features";
 import { NullLogger } from "hydrogen-web/src/logging/NullLogger";
 import assetPaths from "./assets";
 import { ConfigFactory } from "./config/ConfigFactory";
@@ -7,7 +8,6 @@ import { Platform } from "./platform/Platform";
 import { URLRouter } from "./platform/URLRouter";
 import { RootViewModel } from "./viewmodels/RootViewModel";
 import { RootView } from "./views/RootView";
-import {FeatureSet} from "hydrogen-web/src/features";
 
 export class Main {
     private readonly _platform: Platform;

@@ -6,7 +6,6 @@ import { IConfig } from "../config/IConfig";
 import { History } from "./History";
 import { Navigation } from "./Navigation";
 import { ServiceWorkerHandler } from "./ServiceWorkerHandler";
-import { StorageFactory } from "./StorageFactory";
 
 export class Platform extends BasePlatform {
     constructor(options) {
@@ -23,9 +22,7 @@ export class Platform extends BasePlatform {
             serviceWorkerHandler.registerAndStart(assetPaths.serviceWorker);
         }
 
-        super.storageFactory = new StorageFactory(serviceWorkerHandler);
         super._serviceWorkerHandler = serviceWorkerHandler;
-
         super.settingsStorage = new SettingsStorage("chatrix_setting_v1_");
         super.sessionInfoStorage = new SessionInfoStorage("chatrix_sessions_v1");
         super.history = new History();
@@ -44,7 +41,7 @@ export class Platform extends BasePlatform {
     }
 
     async init() {
-        super.init();
+        return super.init();
     }
 
     get config(): IConfig {

@@ -42,7 +42,7 @@ export default defineConfig(({mode}) => {
             },
             target: "esnext",
             assetsInlineLimit: 0,
-            manifest: true,
+            manifest: false,
             emptyOutDir: true,
         },
         css: {

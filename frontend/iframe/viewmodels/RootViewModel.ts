@@ -2,14 +2,14 @@ import { ForcedLogoutViewModel } from "hydrogen-web/src/domain/ForcedLogoutViewM
 import { LoginViewModel } from "hydrogen-web/src/domain/login/LoginViewModel";
 import { LogoutViewModel } from "hydrogen-web/src/domain/LogoutViewModel";
 import { SegmentType } from "hydrogen-web/src/domain/navigation";
+import { UnknownRoomViewModel } from "hydrogen-web/src/domain/session/room/UnknownRoomViewModel";
 import { SessionLoadViewModel } from "hydrogen-web/src/domain/SessionLoadViewModel";
 import { SessionPickerViewModel } from "hydrogen-web/src/domain/SessionPickerViewModel";
-import { UnknownRoomViewModel } from "hydrogen-web/src/domain/session/room/UnknownRoomViewModel";
 import { Options as BaseOptions, ViewModel } from "hydrogen-web/src/domain/ViewModel";
 import { Client } from "hydrogen-web/src/matrix/Client.js";
 import { HomeServerApi } from "hydrogen-web/src/matrix/net/HomeServerApi";
-import { allSections, Section } from "../platform/Navigation";
 import { lookupHomeserver } from "hydrogen-web/src/matrix/well-known";
+import { allSections, Section } from "../platform/Navigation";
 import { Platform } from "../platform/Platform";
 import { SessionViewModel } from "./SessionViewModel";
 
@@ -153,7 +153,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                         this._pendingClient.dispose();
                         this._pendingClient = null;
                     }
-                    this._showSessionLoader(sessionId);
+                    await this._showSessionLoader(sessionId);
                 }
             }
         } else if (loginToken) {
@@ -282,9 +282,9 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         }
     }
 
-    private _showSessionLoader(sessionId: string) {
+    private async _showSessionLoader(sessionId: string) {
         const client = new Client(this.platform, this.features);
-        client.startWithExistingSession(sessionId);
+        await client.startWithExistingSession(sessionId);
 
         this._setSection(() => {
             this._sessionLoadViewModel = new SessionLoadViewModel(this.childOptions({
