@@ -9,11 +9,17 @@ export interface ChatProps {
 }
 
 export function Chat(props: ChatProps) {
-    const ref = props.focusable ? useFocusableIframe() : undefined;
+    const {
+        focusable,
+        iframeUrl,
+        defaultHomeserver,
+        roomId
+    } = props;
 
-    const iframeUrl = new IframeUrl(props.iframeUrl, {
-        defaultHomeserver: props.defaultHomeserver,
-        roomId: props.roomId,
+    const ref = focusable ? useFocusableIframe() : undefined;
+    const url = new IframeUrl(iframeUrl, {
+        defaultHomeserver,
+        roomId,
     });
 
     return (
@@ -21,7 +27,7 @@ export function Chat(props: ChatProps) {
             <iframe
                 // @ts-ignore
                 ref={ref}
-                src={iframeUrl.toString()}
+                src={url.toString()}
             ></iframe>
         </div>
     );

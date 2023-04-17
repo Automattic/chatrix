@@ -8,21 +8,30 @@ export interface BlockProps {
 }
 
 export function Block(props: BlockProps) {
-    const { attributes } = props;
+    const { focusable, iframeUrl } = props;
+    const {
+        defaultHomeserver,
+        roomId,
+        height,
+        borderWidth,
+        borderRadius,
+        borderStyle,
+        borderColor,
+    } = props.attributes;
 
     const style = {
-        height: attributes.height ? attributes.height.toString() : '',
-        borderWidth: attributes.borderWidth ? attributes.borderWidth.toString() : 0,
-        borderRadius: attributes.borderRadius ? attributes.borderRadius.toString() : "",
-        borderStyle: attributes.borderStyle ?? '',
-        borderColor: attributes.borderColor ?? '',
+        height: height ? height.toString() : '',
+        borderWidth: borderWidth ? borderWidth.toString() : 0,
+        borderRadius: borderRadius ? borderRadius.toString() : "",
+        borderStyle: borderStyle ?? '',
+        borderColor: borderColor ?? '',
     };
 
     const chatProps: ChatProps = {
-        focusable: props.focusable,
-        iframeUrl: props.iframeUrl,
-        defaultHomeserver: attributes.defaultHomeserver,
-        roomId: attributes.roomId,
+        focusable,
+        iframeUrl,
+        defaultHomeserver,
+        roomId,
     };
 
     return (
