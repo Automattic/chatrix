@@ -17,7 +17,7 @@ export default function Edit(props: Props): WPElement {
 
     const blockProps: BlockProps = {
         focusable: true,
-        attributes,
+        attributes: parsedAttributes,
         iframeUrl: getIframeUrl(),
     };
 

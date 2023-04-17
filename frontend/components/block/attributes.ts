@@ -1,6 +1,6 @@
 import { Unit, ValueWithUnit } from "./unit";
 
-interface Attributes {
+export interface BlockAttributes {
     defaultHomeserver?: string,
     roomId?: string,
     height?: Height,
@@ -10,7 +10,7 @@ interface Attributes {
     borderColor?: string,
 }
 
-export function parseAttributes(attributes): Attributes {
+export function parseAttributes(attributes): BlockAttributes {
     return {
         defaultHomeserver: attributes.defaultHomeserver ?? '',
         roomId: attributes.roomId ?? '',

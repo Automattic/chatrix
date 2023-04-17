@@ -1,4 +1,5 @@
 import { BlockProps, renderBlock } from "../app";
+import { parseAttributes } from "../components/block";
 
 window.addEventListener('DOMContentLoaded', () => {
     renderAllBlocks().catch(error => {
@@ -14,7 +15,7 @@ async function renderAllBlocks() {
     for (const container of containers) {
         const config = getConfigFromDataAttribute(container);
         const props: BlockProps = {
-            attributes: config.attributes,
+            attributes: parseAttributes(config.attributes),
         };
 
         renderBlock(container, props);

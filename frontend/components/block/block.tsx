@@ -1,14 +1,14 @@
 import { Chat, ChatProps } from "../chat";
-import { parseAttributes } from "./attributes";
+import { BlockAttributes } from "./attributes";
 
 export interface BlockProps {
     focusable?: boolean,
-    attributes: object,
+    attributes: BlockAttributes,
     iframeUrl: URL,
 }
 
 export function Block(props: BlockProps) {
-    const attributes = parseAttributes(props.attributes);
+    const { attributes } = props;
 
     const style = {
         height: attributes.height ? attributes.height.toString() : '',
