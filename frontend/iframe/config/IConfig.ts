@@ -1,5 +1,11 @@
 export interface IConfig {
     /**
+     * Unique identifier for this instance of the client.
+     * When multiple clients are embedded on the same page, this is used to distinguish them.
+     */
+    uuid: string;
+
+    /**
      * The default homeserver used by Hydrogen; autofilled in the login UI.
      * eg: https://matrix.org
      */
