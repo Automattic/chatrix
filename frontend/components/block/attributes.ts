@@ -23,11 +23,6 @@ export function parseAttributes(attributes): BlockAttributes {
         borderColor,
     } = attributes;
 
-    if (!uuid) {
-        // In earlier versions of the block, uuid was not an attribute, so it can be undefined.
-        console.warn('Chatrix block is missing the uuid attribute. Re-save the page to fix this.');
-    }
-
     return {
         uuid,
         defaultHomeserver: defaultHomeserver ?? '',
