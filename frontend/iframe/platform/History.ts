@@ -37,6 +37,6 @@ export class History extends BaseHistory {
     }
 
     private get urlHashKey(): string {
-        return `chatrix_last_url_hash_${this._instanceId}`;
+        return `chatrix_${this._instanceId}_last_url_hash`;
     }
 }
