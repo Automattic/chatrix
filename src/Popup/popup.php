@@ -5,10 +5,6 @@ namespace Automattic\Chatrix\Popup;
 use function Automattic\Chatrix\Admin\Settings\get as get_chatrix_settings;
 use const Automattic\Chatrix\SCRIPT_HANDLE_APP;
 
-function chatrix_config() {
-	return apply_filters( 'chatrix_config', array() );
-}
-
 function register() {
 	register_default_instance();
 	define_config();
@@ -117,7 +113,7 @@ function init_javascript() {
 	add_action(
 		'wp_enqueue_scripts',
 		function () {
-			$config = chatrix_config();
+			$config = apply_filters( 'chatrix_config', array() );
 			if ( empty( $config ) ) {
 				return;
 			}
