@@ -11,6 +11,7 @@
 		container.style.zIndex = 1;
 
 		Chatrix.renderPopup(container, {
+			instanceId: config.instanceId,
 			defaultHomeserver: config.defaultHomeserver,
 			roomId: config.roomId,
 		});

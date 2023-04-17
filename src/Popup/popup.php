@@ -62,7 +62,8 @@ function define_config() {
 			$instances = apply_filters( 'chatrix_instances', array() );
 
 			foreach ( $instances as $instance_id => $instance ) {
-				$instance_config = array(
+				$instance['instance_id'] = $instance_id;
+				$instance_config         = array(
 					'url'         => rest_url( "chatrix/config/$instance_id" ),
 					'config'      => $instance,
 					'instance_id' => $instance_id,
@@ -121,6 +122,7 @@ function init_javascript() {
 			$handle    = 'chatrix-popup';
 			$json_data = wp_json_encode(
 				array(
+					'instanceId'        => 'popup_' . $config['instance_id'],
 					'defaultHomeserver' => $config['config']['homeserver'],
 					'roomId'            => empty( $config['config']['room_id'] ) ? null : $config['config']['room_id'],
 				)
