@@ -1,6 +1,7 @@
 import { Unit, ValueWithUnit } from "./unit";
 
 export interface BlockAttributes {
+    uuid: string,
     defaultHomeserver?: string,
     roomId?: string,
     height?: Height,
@@ -12,6 +13,7 @@ export interface BlockAttributes {
 
 export function parseAttributes(attributes): BlockAttributes {
     const {
+        uuid,
         defaultHomeserver,
         roomId,
         height,
@@ -21,7 +23,13 @@ export function parseAttributes(attributes): BlockAttributes {
         borderColor,
     } = attributes;
 
+    if (!uuid) {
+        // In earlier versions of the block, uuid was not an attribute, so it can be undefined.
+        console.warn('Chatrix block is missing the uuid attribute. Re-save the page to fix this.');
+    }
+
     return {
+        uuid,
         defaultHomeserver: defaultHomeserver ?? '',
         roomId: roomId ?? '',
         height: height ? new Height(height.value, height.unit) : undefined,

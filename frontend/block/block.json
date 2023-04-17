@@ -8,6 +8,10 @@
   "icon": "format-chat",
   "description": "Matrix client",
   "attributes": {
+    "uuid": {
+      "type": "string",
+      "default": ""
+    },
     "defaultHomeserver": {
       "type": "string",
       "default": ""
