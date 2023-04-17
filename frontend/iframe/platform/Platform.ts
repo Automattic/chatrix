@@ -25,7 +25,7 @@ export class Platform extends BasePlatform {
         super._serviceWorkerHandler = serviceWorkerHandler;
         super.settingsStorage = new SettingsStorage("chatrix_setting_v1_");
         super.sessionInfoStorage = new SessionInfoStorage("chatrix_sessions_v1");
-        super.history = new History(this.config.uuid);
+        super.history = new History(this.config.instanceId);
     }
 
     public get history(): History {

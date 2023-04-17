@@ -1,12 +1,12 @@
 import { History as BaseHistory } from "hydrogen-web/src/platform/web/dom/History";
 
 export class History extends BaseHistory {
-    private _uuid: string;
+    private readonly _instanceId: string;
     private _lastSessionHash: string | null | undefined;
 
-    constructor(uuid: string) {
+    constructor(instanceId: string) {
         super();
-        this._uuid = uuid;
+        this._instanceId = instanceId;
     }
 
     get() {
@@ -37,6 +37,6 @@ export class History extends BaseHistory {
     }
 
     private get urlHashKey(): string {
-        return `chatrix_last_url_hash_${this._uuid}`;
+        return `chatrix_last_url_hash_${this._instanceId}`;
     }
 }

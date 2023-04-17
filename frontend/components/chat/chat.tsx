@@ -4,7 +4,7 @@ import { IframeUrl } from "./url";
 export interface ChatProps {
     focusable?: boolean,
     iframeUrl: URL,
-    uuid: string,
+    instanceId: string,
     defaultHomeserver?: string,
     roomId?: string,
 }
@@ -13,14 +13,14 @@ export function Chat(props: ChatProps) {
     const {
         focusable,
         iframeUrl,
-        uuid,
+        instanceId,
         defaultHomeserver,
         roomId
     } = props;
 
     const ref = focusable ? useFocusableIframe() : undefined;
     const url = new IframeUrl(iframeUrl, {
-        uuid,
+        instanceId,
         defaultHomeserver,
         roomId,
     });

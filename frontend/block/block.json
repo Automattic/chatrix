@@ -8,7 +8,7 @@
   "icon": "format-chat",
   "description": "Matrix client",
   "attributes": {
-    "uuid": {
+    "instanceId": {
       "type": "string",
       "default": ""
     },

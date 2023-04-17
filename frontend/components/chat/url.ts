@@ -1,7 +1,7 @@
 const LOGIN_TOKEN_PARAM_NAME = "loginToken";
 
 type IframeParams = {
-    uuid: string,
+    instanceId: string,
     defaultHomeserver?: string
     roomId?: string,
 }

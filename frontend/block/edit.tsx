@@ -11,24 +11,24 @@ interface Props {
     setAttributes: Function,
 }
 
-let uuids: string[] = [];
+let instanceIds: string[] = [];
 
 export default function Edit(props: Props): WPElement {
     const { attributes, setAttributes } = props;
 
-    // Set uuid if it's not set, or if it already exists on the page (which happens when the block is duplicated).
+    // Set instanceId if it's not set, or if it already exists on the page (which happens when the block is duplicated).
     useEffect(() => {
         // @ts-ignore
-        let { uuid } = attributes;
-        const hasUuid = uuid && uuid !== "";
-        const isUuidDuplicated = hasUuid && uuids.includes(uuid);
+        let { instanceId } = attributes;
+        const hasInstanceId = instanceId && instanceId !== "";
+        const isInstanceIdDuplicated = hasInstanceId && instanceIds.includes(instanceId);
 
-        if (!hasUuid || isUuidDuplicated) {
-            uuid = (Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)).toString();
-            setAttributes({ uuid });
+        if (!hasInstanceId || isInstanceIdDuplicated) {
+            instanceId = (Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)).toString();
+            setAttributes({ instanceId });
         }
 
-        uuids.push(uuid);
+        instanceIds.push(instanceId);
     }, []);
 
     const parsedAttributes = parseAttributes(attributes);

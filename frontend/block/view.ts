@@ -19,9 +19,9 @@ async function renderAllBlocks() {
             attributes: attributes,
         };
 
-        if (!attributes.uuid) {
-            // In earlier versions of the block, there was no uuid attribute, so it can be undefined.
-            console.warn('Chatrix block is missing the uuid attribute. Re-save the page to fix this.');
+        if (!attributes.instanceId) {
+            // In earlier versions of the block, there was no instanceId attribute, so it can be undefined.
+            console.warn('Chatrix block is missing the instanceId attribute. Re-save the page to fix this.');
         }
 
         renderBlock(container, props);

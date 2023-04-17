@@ -1,7 +1,7 @@
 import { Unit, ValueWithUnit } from "./unit";
 
 export interface BlockAttributes {
-    uuid: string,
+    instanceId: string,
     defaultHomeserver?: string,
     roomId?: string,
     height?: Height,
@@ -13,7 +13,7 @@ export interface BlockAttributes {
 
 export function parseAttributes(attributes): BlockAttributes {
     const {
-        uuid,
+        instanceId,
         defaultHomeserver,
         roomId,
         height,
@@ -24,7 +24,7 @@ export function parseAttributes(attributes): BlockAttributes {
     } = attributes;
 
     return {
-        uuid,
+        instanceId,
         defaultHomeserver: defaultHomeserver ?? '',
         roomId: roomId ?? '',
         height: height ? new Height(height.value, height.unit) : undefined,

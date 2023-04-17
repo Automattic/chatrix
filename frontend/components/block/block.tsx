@@ -10,7 +10,7 @@ export interface BlockProps {
 export function Block(props: BlockProps) {
     const { focusable, iframeUrl } = props;
     const {
-        uuid,
+        instanceId,
         defaultHomeserver,
         roomId,
         height,
@@ -31,7 +31,7 @@ export function Block(props: BlockProps) {
     const chatProps: ChatProps = {
         focusable,
         iframeUrl,
-        uuid,
+        instanceId,
         defaultHomeserver,
         roomId,
     };
