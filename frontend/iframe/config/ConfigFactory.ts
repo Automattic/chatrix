@@ -12,6 +12,7 @@ export class ConfigFactory {
         };
 
         return {
+            instanceId: getQueryParam("instanceId") ?? "",
             defaultHomeserver: getQueryParam("defaultHomeserver") ?? "",
             roomId: getQueryParam("roomId") ?? "",
             themeManifests: [

@@ -1,4 +1,5 @@
 import { BlockProps, renderBlock } from "../app";
+import { parseAttributes } from "../components/block";
 
 window.addEventListener('DOMContentLoaded', () => {
     renderAllBlocks().catch(error => {
@@ -13,9 +14,15 @@ async function renderAllBlocks() {
     const containers = <HTMLCollectionOf<HTMLElement>>document.getElementsByClassName('wp-block-automattic-chatrix');
     for (const container of containers) {
         const config = getConfigFromDataAttribute(container);
+        const attributes = parseAttributes(config.attributes);
         const props: BlockProps = {
-            attributes: config.attributes,
+            attributes: attributes,
         };
+
+        if (!attributes.instanceId) {
+            // In earlier versions of the block, there was no instanceId attribute, so it can be undefined.
+            console.warn('Chatrix block is missing the instanceId attribute. Re-save the page to fix this.');
+        }
 
         renderBlock(container, props);
     }

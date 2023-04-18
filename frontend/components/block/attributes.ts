@@ -1,6 +1,7 @@
 import { Unit, ValueWithUnit } from "./unit";
 
-interface Attributes {
+export interface BlockAttributes {
+    instanceId: string,
     defaultHomeserver?: string,
     roomId?: string,
     height?: Height,
@@ -10,15 +11,27 @@ interface Attributes {
     borderColor?: string,
 }
 
-export function parseAttributes(attributes): Attributes {
+export function parseAttributes(attributes): BlockAttributes {
+    const {
+        instanceId,
+        defaultHomeserver,
+        roomId,
+        height,
+        borderWidth,
+        borderRadius,
+        borderStyle,
+        borderColor,
+    } = attributes;
+
     return {
-        defaultHomeserver: attributes.defaultHomeserver ?? '',
-        roomId: attributes.roomId ?? '',
-        height: attributes.height ? new Height(attributes.height.value, attributes.height.unit) : undefined,
-        borderWidth: attributes.borderWidth ? new BorderWidth(attributes.borderWidth.value, attributes.borderWidth.unit) : undefined,
-        borderRadius: attributes.borderRadius ? new BorderRadius(attributes.borderRadius.value, attributes.borderRadius.unit) : undefined,
-        borderStyle: attributes.borderStyle,
-        borderColor: attributes.borderColor,
+        instanceId,
+        defaultHomeserver: defaultHomeserver ?? '',
+        roomId: roomId ?? '',
+        height: height ? new Height(height.value, height.unit) : undefined,
+        borderWidth: borderWidth ? new BorderWidth(borderWidth.value, borderWidth.unit) : undefined,
+        borderRadius: borderRadius ? new BorderRadius(borderRadius.value, borderRadius.unit) : undefined,
+        borderStyle,
+        borderColor,
     };
 }
 

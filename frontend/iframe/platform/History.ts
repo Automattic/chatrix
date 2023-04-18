@@ -1,10 +1,12 @@
 import { History as BaseHistory } from "hydrogen-web/src/platform/web/dom/History";
 
 export class History extends BaseHistory {
+    private readonly _instanceId: string;
     private _lastSessionHash: string | null | undefined;
 
-    constructor() {
+    constructor(instanceId: string) {
         super();
+        this._instanceId = instanceId;
     }
 
     get() {
@@ -21,16 +23,20 @@ export class History extends BaseHistory {
     }
 
     onSubscribeFirst() {
-        this._lastSessionHash = window.localStorage?.getItem("chatrix_last_url_hash");
+        this._lastSessionHash = window.localStorage?.getItem(this.urlHashKey);
         // @ts-ignore
         window.addEventListener('hashchange', this);
     }
 
     _storeHash(hash) {
-        window.localStorage?.setItem("chatrix_last_url_hash", hash);
+        window.localStorage?.setItem(this.urlHashKey, hash);
     }
 
     replaceUrlSilently(url) {
         super.replaceUrlSilently(url);
+    }
+
+    private get urlHashKey(): string {
+        return `chatrix_${this._instanceId}_last_url_hash`;
     }
 }

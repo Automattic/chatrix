@@ -5,10 +5,6 @@ namespace Automattic\Chatrix\Popup;
 use function Automattic\Chatrix\Admin\Settings\get as get_chatrix_settings;
 use const Automattic\Chatrix\SCRIPT_HANDLE_APP;
 
-function chatrix_config() {
-	return apply_filters( 'chatrix_config', array() );
-}
-
 function register() {
 	register_default_instance();
 	define_config();
@@ -35,10 +31,9 @@ function register_default_instance() {
 
 			return array(
 				'default' => array(
-					'homeserver'    => $settings['homeserver'],
-					'room_id'       => $settings['room'],
-					'login_methods' => array( 'password', 'sso' ), // TODO: don't hardcode login methods.
-					'pages'         => 'all' === $settings['show_on'] ? 'all' : $settings['pages'],
+					'homeserver' => $settings['homeserver'],
+					'room_id'    => $settings['room'],
+					'pages'      => 'all' === $settings['show_on'] ? 'all' : $settings['pages'],
 				),
 			);
 		}
@@ -67,7 +62,8 @@ function define_config() {
 			$instances = apply_filters( 'chatrix_instances', array() );
 
 			foreach ( $instances as $instance_id => $instance ) {
-				$instance_config = array(
+				$instance['instance_id'] = $instance_id;
+				$instance_config         = array(
 					'url'         => rest_url( "chatrix/config/$instance_id" ),
 					'config'      => $instance,
 					'instance_id' => $instance_id,
@@ -118,7 +114,7 @@ function init_javascript() {
 	add_action(
 		'wp_enqueue_scripts',
 		function () {
-			$config = chatrix_config();
+			$config = apply_filters( 'chatrix_config', array() );
 			if ( empty( $config ) ) {
 				return;
 			}
@@ -126,6 +122,7 @@ function init_javascript() {
 			$handle    = 'chatrix-popup';
 			$json_data = wp_json_encode(
 				array(
+					'instanceId'        => 'popup_' . $config['instance_id'],
 					'defaultHomeserver' => $config['config']['homeserver'],
 					'roomId'            => empty( $config['config']['room_id'] ) ? null : $config['config']['room_id'],
 				)

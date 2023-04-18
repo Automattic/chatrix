@@ -8,6 +8,10 @@
   "icon": "format-chat",
   "description": "Matrix client",
   "attributes": {
+    "instanceId": {
+      "type": "string",
+      "default": ""
+    },
     "defaultHomeserver": {
       "type": "string",
       "default": ""

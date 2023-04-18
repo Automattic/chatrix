@@ -1,28 +1,39 @@
 import { Chat, ChatProps } from "../chat";
-import { parseAttributes } from "./attributes";
+import { BlockAttributes } from "./attributes";
 
 export interface BlockProps {
     focusable?: boolean,
-    attributes: object,
+    attributes: BlockAttributes,
     iframeUrl: URL,
 }
 
 export function Block(props: BlockProps) {
-    const attributes = parseAttributes(props.attributes);
+    const { focusable, iframeUrl } = props;
+    const {
+        instanceId,
+        defaultHomeserver,
+        roomId,
+        height,
+        borderWidth,
+        borderRadius,
+        borderStyle,
+        borderColor,
+    } = props.attributes;
 
     const style = {
-        height: attributes.height ? attributes.height.toString() : '',
-        borderWidth: attributes.borderWidth ? attributes.borderWidth.toString() : 0,
-        borderRadius: attributes.borderRadius ? attributes.borderRadius.toString() : "",
-        borderStyle: attributes.borderStyle ?? '',
-        borderColor: attributes.borderColor ?? '',
+        height: height ? height.toString() : '',
+        borderWidth: borderWidth ? borderWidth.toString() : 0,
+        borderRadius: borderRadius ? borderRadius.toString() : "",
+        borderStyle: borderStyle ?? '',
+        borderColor: borderColor ?? '',
     };
 
     const chatProps: ChatProps = {
-        focusable: props.focusable,
-        iframeUrl: props.iframeUrl,
-        defaultHomeserver: attributes.defaultHomeserver,
-        roomId: attributes.roomId,
+        focusable,
+        iframeUrl,
+        instanceId,
+        defaultHomeserver,
+        roomId,
     };
 
     return (
