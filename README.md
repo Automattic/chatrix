@@ -68,6 +68,10 @@ Later, when Matrix makes the switch to OIDC, you are already prepared and can co
 
 ## Changelog
 
+### 0.8.1
+
+- Correctly remember last url when multiple blocks are on the same page [[#217](https://github.com/Automattic/chatrix/pull/217)]
+
 ### 0.8.0
 
 - Fix issue when chatrix plugin is not installed in the default location [[#205](https://github.com/Automattic/chatrix/pull/205)]
