@@ -6,7 +6,7 @@
 - Tested up to: 6.2
 - Requires PHP: 7.4
 - License: [GPLv2](http://www.gnu.org/licenses/gpl-2.0.html)
-- Stable tag: 0.8.0
+- Stable tag: 0.8.1
 - GitHub Plugin URI: https://github.com/Automattic/chatrix
 
 Matrix client for WordPress.
@@ -67,6 +67,10 @@ The flow will then be as follows: When logging into your homeserver, it will red
 Later, when Matrix makes the switch to OIDC, you are already prepared and can continue to use this setup.
 
 ## Changelog
+
+### 0.8.1
+
+- Correctly remember last url when multiple blocks are on the same page [[#217](https://github.com/Automattic/chatrix/pull/217)]
 
 ### 0.8.0
 
