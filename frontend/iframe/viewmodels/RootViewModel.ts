@@ -163,20 +163,22 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             }
         } else {
             try {
-                // don't even try to restore last url when in single room mode
-                if (this.singleRoomMode || !(shouldRestoreLastUrl && this.urlRouter.tryRestoreLastUrl())) {
-                    const sessionInfos = await this.platform.sessionInfoStorage.getAll();
-                    if (sessionInfos.length === 0) {
-                        if (this._resolvedSingleRoomId) {
-                            await this._showUnknownRoom(this._resolvedSingleRoomId);
-                            return;
-                        }
-                        this.navigation.push(Section.Login);
-                    } else if (sessionInfos.length === 1) {
-                        this.navigation.push(Section.Session, sessionInfos[0].id);
-                    } else {
-                        this.navigation.push(Section.Session);
+                if (!this._resolvedSingleRoomId && shouldRestoreLastUrl && this.urlRouter.tryRestoreLastUrl()) {
+                    // Restored last URL, nothing else to do.
+                    return;
+                }
+
+                const sessionInfos = await this.platform.sessionInfoStorage.getAll();
+                if (sessionInfos.length === 0) {
+                    if (this._resolvedSingleRoomId) {
+                        await this._showUnknownRoom(this._resolvedSingleRoomId);
+                        return;
                     }
+                    this.navigation.push(Section.Login);
+                } else if (sessionInfos.length === 1) {
+                    this.navigation.push(Section.Session, sessionInfos[0].id);
+                } else {
+                    this.navigation.push(Section.Session);
                 }
             } catch (err) {
                 console.error(err);
