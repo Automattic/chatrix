@@ -163,7 +163,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             }
         } else {
             try {
-                if (!this._resolvedSingleRoomId && shouldRestoreLastUrl && this.urlRouter.tryRestoreLastUrl()) {
+                if (shouldRestoreLastUrl && this.urlRouter.tryRestoreLastUrl()) {
                     // Restored last URL, nothing else to do.
                     return;
                 }
