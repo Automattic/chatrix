@@ -188,6 +188,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
 
         // We were not able to restore the last URL.
         // So we send the user to the screen that makes most sense, according to how many sessions they have.
+
         // Go to Login or, when in single-room mode, try registering guest user.
         if (sessionInfos.length === 0) {
             if (!this._resolvedSingleRoomId) {
