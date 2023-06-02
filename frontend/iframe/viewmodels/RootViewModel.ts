@@ -190,16 +190,19 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 return;
             }
 
-            // Check if homeserver has guest registration enabled.
-            // If not, go to Login.
-            // TODO
+            // Attempt to log in as guest. If it fails, go to Login.
+            const homeserver = await lookupHomeserver(this._resolvedSingleRoomId.split(':')[1], this.platform.request);
+            const client = new Client(this.platform);
 
-            // Check if room is world-readable.
-            // If not, go to Login.
-            // TODO: register guest user.
+            await client.doGuestLogin(homeserver);
+            if (client.loadError) {
+                console.warn("Failed to login as guest. Guest registration is probably disabled on the homeserver", client.loadError);
+                this.navigation.push(Section.Login);
+                return;
+            }
 
-            await this._showUnknownRoom(this._resolvedSingleRoomId);
-            return;
+            this._pendingClient = client;
+            this.navigation.push(Section.Session, client.sessionId);
         }
 
         // Open session.
