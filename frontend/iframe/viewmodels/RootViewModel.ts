@@ -237,29 +237,6 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         return response.room_id;
     }
 
-    private async isWorldReadableRoom(roomId: string, sessionId: string): Promise<boolean> {
-        const sessionInfo = await this.platform.sessionInfoStorage.get(sessionId);
-        if (!sessionInfo) {
-            console.error(`Could not find session for id ${sessionId}`);
-            return false;
-        }
-
-        const homeserver = await lookupHomeserver(roomId.split(':')[1], this.platform.request);
-        const homeserverApi = new HomeServerApi({
-            homeserver: homeserver,
-            request: this.platform.request,
-            accessToken: sessionInfo.accessToken,
-            reconnector: this.platform.reconnector,
-        });
-
-        return homeserverApi.state(roomId, 'm.room.history_visibility', '').response().then(
-            response => response.history_visibility === 'world_readable'
-        ).catch(err => {
-            console.error(err);
-            return false;
-        });
-    }
-
     private _showLogin(loginToken: string | undefined) {
         this._setSection(() => {
             const options = this.childOptions({
@@ -325,29 +302,6 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             }));
             this._sessionViewModel.start();
         });
-    }
-
-    private async _showUnknownRoom(roomId: string) {
-        const client = new Client(this.platform);
-        let chosenSession;
-
-        let sessionInfos = await this.platform.sessionInfoStorage.getAll();
-        if (sessionInfos.length === 0) {
-            const homeserver = await lookupHomeserver(roomId.split(':')[1], this.platform.request);
-            await client.doGuestLogin(homeserver);
-        } else {
-            await client.startWithExistingSession(chosenSession.id);
-        }
-
-        this._setSection(() => {
-            this._unknownRoomViewModel = new UnknownRoomViewModel(this.childOptions({
-                roomIdOrAlias: roomId,
-                session: client.session,
-                isWorldReadablePromise: this.isWorldReadableRoom(roomId, client.sessionId),
-            }));
-        });
-
-        this.navigation.push("session", client.sessionId);
     }
 
     private _setSection(setter: Function) {
