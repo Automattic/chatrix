@@ -163,41 +163,44 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             }
         } else {
             try {
-                if (shouldRestoreLastUrl && this.urlRouter.tryRestoreLastUrl()) {
-                    // Restored last URL.
-                    // By the time we get here, _applyNavigation() has run for the restored URL, so we have nothing else
-                    // to do here.
-                    return;
-                }
-
-                // We were not able to restore the last URL.
-                // So we send the user to the screen that makes most sense, according to how many sessions they have.
-
-                const sessionInfos = await this.platform.sessionInfoStorage.getAll();
-
-                // Send to login or, when in single-room mode, try registering guest user.
-                if (sessionInfos.length === 0) {
-                    if (this._resolvedSingleRoomId) {
-                        await this._showUnknownRoom(this._resolvedSingleRoomId);
-                    } else {
-                        this.navigation.push(Section.Login);
-                    }
-                    return;
-                }
-
-                // Open session.
-                if (sessionInfos.length === 1) {
-                    this.navigation.push(Section.Session, sessionInfos[0].id);
-                    return;
-                }
-
-                // Open session picker.
-                this.navigation.push(Section.Session);
+                await this._showInitialScreen(shouldRestoreLastUrl);
             } catch (err) {
                 console.error(err);
                 this._setSection(() => this._error = err);
             }
         }
+    }
+
+    private async _showInitialScreen(shouldRestoreLastUrl: boolean) {
+        if (shouldRestoreLastUrl && this.urlRouter.tryRestoreLastUrl()) {
+            // Restored last URL.
+            // By the time we get here, _applyNavigation() has run for the restored URL, so we have nothing else
+            // to do here.
+            return;
+        }
+
+        // We were not able to restore the last URL.
+        // So we send the user to the screen that makes most sense, according to how many sessions they have.
+        const sessionInfos = await this.platform.sessionInfoStorage.getAll();
+
+        // Send to login or, when in single-room mode, try registering guest user.
+        if (sessionInfos.length === 0) {
+            if (this._resolvedSingleRoomId) {
+                await this._showUnknownRoom(this._resolvedSingleRoomId);
+            } else {
+                this.navigation.push(Section.Login);
+            }
+            return;
+        }
+
+        // Open session.
+        if (sessionInfos.length === 1) {
+            this.navigation.push(Section.Session, sessionInfos[0].id);
+            return;
+        }
+
+        // Open session picker.
+        this.navigation.push(Section.Session);
     }
 
     private async resolveRoomAlias(roomIdOrAlias: string, sessionId?: string): Promise<string> {
