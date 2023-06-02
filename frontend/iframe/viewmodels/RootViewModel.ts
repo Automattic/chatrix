@@ -179,9 +179,9 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 if (sessionInfos.length === 0) {
                     if (this._resolvedSingleRoomId) {
                         await this._showUnknownRoom(this._resolvedSingleRoomId);
-                        return;
+                    } else {
+                        this.navigation.push(Section.Login);
                     }
-                    this.navigation.push(Section.Login);
                     return;
                 }
 
