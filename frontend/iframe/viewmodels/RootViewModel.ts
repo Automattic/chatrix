@@ -180,11 +180,15 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                         return;
                     }
                     this.navigation.push(Section.Login);
-                } else if (sessionInfos.length === 1) {
-                    this.navigation.push(Section.Session, sessionInfos[0].id);
-                } else {
-                    this.navigation.push(Section.Session);
+                    return;
                 }
+
+                if (sessionInfos.length === 1) {
+                    this.navigation.push(Section.Session, sessionInfos[0].id);
+                    return;
+                }
+
+                this.navigation.push(Section.Session);
             } catch (err) {
                 console.error(err);
                 this._setSection(() => this._error = err);
