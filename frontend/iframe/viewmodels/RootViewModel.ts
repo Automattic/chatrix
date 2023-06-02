@@ -208,6 +208,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
 
             this._pendingClient = client;
             this.navigation.push(Section.Session, client.sessionId);
+            return;
         }
 
         // Open session.
