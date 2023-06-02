@@ -174,8 +174,8 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
     private async _showInitialScreen(shouldRestoreLastUrl: boolean) {
         const sessionInfos = await this.platform.sessionInfoStorage.getAll();
 
-        // If we're in single-room mode, and we only have a single session, navigate directly to the configured room.
-        if (this._resolvedSingleRoomId && sessionInfos.length === 1) {
+        // If we're in single-room mode, and we have at most one session, navigate directly to the configured room.
+        if (this._resolvedSingleRoomId && sessionInfos.length <= 1) {
             shouldRestoreLastUrl = false;
         }
 
