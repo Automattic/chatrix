@@ -164,9 +164,14 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         } else {
             try {
                 if (shouldRestoreLastUrl && this.urlRouter.tryRestoreLastUrl()) {
-                    // Restored last URL, nothing else to do.
+                    // Restored last URL.
+                    // By the time we get here, _applyNavigation() has run for the restored URL, so we have nothing else
+                    // to do here.
                     return;
                 }
+
+                // We were not able to restore the last URL.
+                // So we send the user to the screen that makes most sense, according to how many sessions they have.
 
                 const sessionInfos = await this.platform.sessionInfoStorage.getAll();
                 if (sessionInfos.length === 0) {
