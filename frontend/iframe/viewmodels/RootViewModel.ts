@@ -113,7 +113,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             try {
                 this._resolvedSingleRoomId = await this.resolveRoomAlias(this._singleRoomIdOrAlias);
             } catch (error) {
-                // Something went wrong when navigating to the room.
+                // Something went wrong when resolving the room alias.
                 // We swallow the error and fallback to non-single-room mode.
                 console.warn(error);
                 this._resolvedSingleRoomId = undefined;
@@ -183,12 +183,20 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         // So we send the user to the screen that makes most sense, according to how many sessions they have.
         const sessionInfos = await this.platform.sessionInfoStorage.getAll();
 
-        // Send to login or, when in single-room mode, try registering guest user.
+        // Go to Login or, when in single-room mode, try registering guest user.
         if (sessionInfos.length === 0) {
             if (!this._resolvedSingleRoomId) {
                 this.navigation.push(Section.Login);
                 return;
             }
+
+            // Check if homeserver has guest registration enabled.
+            // If not, go to Login.
+            // TODO
+
+            // Check if room is world-readable.
+            // If not, go to Login.
+            // TODO: register guest user.
 
             await this._showUnknownRoom(this._resolvedSingleRoomId);
             return;
