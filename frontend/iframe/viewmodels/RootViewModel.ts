@@ -212,29 +212,16 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         this.navigation.push(Section.Session);
     }
 
-    private async resolveRoomAlias(roomIdOrAlias: string, sessionId?: string): Promise<string> {
+    private async resolveRoomAlias(roomIdOrAlias: string): Promise<string> {
         if (roomIdOrAlias.startsWith('!')) {
             return roomIdOrAlias;
         }
 
-        let sessionInfo;
-        if (sessionId) {
-            sessionInfo = await this.platform.sessionInfoStorage.get(sessionId);
-        }
-        let homeserver: string;
-        let accessToken: string;
-        if (sessionInfo) {
-            homeserver = sessionInfo.homeserver;
-            accessToken = sessionInfo.accessToken;
-        } else {
-            homeserver = await lookupHomeserver(roomIdOrAlias.split(':')[1], this.platform.request);
-            accessToken = '';
-        }
-
+        const homeserver = await lookupHomeserver(roomIdOrAlias.split(':')[1], this.platform.request);
         const homeserverApi = new HomeServerApi({
             homeserver: homeserver,
             request: this.platform.request,
-            accessToken: accessToken,
+            accessToken: "",
             reconnector: this.platform.reconnector,
         });
 
