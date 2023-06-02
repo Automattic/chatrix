@@ -185,11 +185,12 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
 
         // Send to login or, when in single-room mode, try registering guest user.
         if (sessionInfos.length === 0) {
-            if (this._resolvedSingleRoomId) {
-                await this._showUnknownRoom(this._resolvedSingleRoomId);
-            } else {
+            if (!this._resolvedSingleRoomId) {
                 this.navigation.push(Section.Login);
+                return;
             }
+
+            await this._showUnknownRoom(this._resolvedSingleRoomId);
             return;
         }
 
