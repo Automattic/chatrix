@@ -26,7 +26,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
     private _unknownRoomViewModel: UnknownRoomViewModel | undefined;
     private _pendingClient: Client;
     private readonly _singleRoomIdOrAlias: string | undefined;
-    private _resolvedSingleRoomId: string | undefined;
+    private _resolvedSingleRoomId: string | null | undefined = undefined;
 
     constructor(options: Options) {
         super(options);
@@ -329,19 +329,19 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         this.emitChange("activeSection");
     }
 
-    private async getSingleRoomId(): Promise<string|undefined> {
+    private async getSingleRoomId(): Promise<string|null> {
         if (!this._singleRoomIdOrAlias || this._singleRoomIdOrAlias === "") {
-            return undefined;
+            return null;
         }
 
-        if (!this._resolvedSingleRoomId) {
+        if (this._resolvedSingleRoomId === undefined) {
             try {
                 this._resolvedSingleRoomId = await this.resolveRoomAlias(this._singleRoomIdOrAlias);
             } catch (error) {
                 // Something went wrong when resolving the room alias.
                 // We swallow the error and fallback to non-single-room mode.
                 console.warn(error);
-                this._resolvedSingleRoomId = undefined;
+                this._resolvedSingleRoomId = null;
             }
         }
 
