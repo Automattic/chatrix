@@ -109,17 +109,6 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         const sessionId = this.navigation.path.get("session")?.value;
         const loginToken = this.navigation.path.get("sso")?.value;
 
-        if (this._singleRoomIdOrAlias && !this._resolvedSingleRoomId) {
-            try {
-                this._resolvedSingleRoomId = await this.resolveRoomAlias(this._singleRoomIdOrAlias);
-            } catch (error) {
-                // Something went wrong when resolving the room alias.
-                // We swallow the error and fallback to non-single-room mode.
-                console.warn(error);
-                this._resolvedSingleRoomId = undefined;
-            }
-        }
-
         if (isLogin) {
             if (this.activeSection !== Section.Login) {
                 this._showLogin(undefined);
@@ -137,8 +126,9 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 void this._showPicker();
             }
         } else if (sessionId) {
-            if (this._resolvedSingleRoomId) {
-                this.navigation.push("room", this._resolvedSingleRoomId);
+            const singleRoomId = await this.getSingleRoomId();
+            if (singleRoomId) {
+                this.navigation.push("room", singleRoomId);
             }
 
             if (!this._sessionViewModel || this._sessionViewModel.id !== sessionId) {
@@ -146,7 +136,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 if (this._pendingClient && this._pendingClient.sessionId === sessionId) {
                     const client = this._pendingClient;
                     this._pendingClient = null;
-                    this._showSession(client);
+                    await this._showSession(client);
                 } else {
                     // This should never happen, but we want to be sure not to leak it.
                     if (this._pendingClient) {
@@ -173,8 +163,9 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
 
     private async _showInitialScreen(shouldRestoreLastUrl: boolean) {
         const sessionInfos = await this.platform.sessionInfoStorage.getAll();
+        const singleRoomId = await this.getSingleRoomId();
 
-        if (shouldRestoreLastUrl && this._resolvedSingleRoomId) {
+        if (shouldRestoreLastUrl && singleRoomId) {
             // Do not restore last URL to Login if we're in single-room mode.
             // We do this so that we can try guest login when appropriate.
             const willShowLogin = this.platform.history.getLastSessionUrl() === "#/login";
@@ -202,13 +193,13 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
 
         // Go to Login or, when in single-room mode, try registering guest user.
         if (sessionInfos.length === 0) {
-            if (!this._resolvedSingleRoomId) {
+            if (!singleRoomId) {
                 this.navigation.push(Section.Login);
                 return;
             }
 
             // Attempt to log in as guest. If it fails, go to Login.
-            const homeserver = await lookupHomeserver(this._resolvedSingleRoomId.split(':')[1], this.platform.request);
+            const homeserver = await lookupHomeserver(singleRoomId.split(':')[1], this.platform.request);
             const client = new Client(this.platform);
 
             await client.doGuestLogin(homeserver);
@@ -307,11 +298,12 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         });
     }
 
-    private _showSession(client: Client) {
+    private async _showSession(client: Client) {
+        const singleRoomId = await this.getSingleRoomId();
         this._setSection(() => {
             this._sessionViewModel = new SessionViewModel(this.childOptions({
                 client,
-                singleRoomId: this._resolvedSingleRoomId,
+                singleRoomId,
             }));
             this._sessionViewModel.start();
         });
@@ -335,6 +327,25 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         this._forcedLogoutViewModel && this.track(this._forcedLogoutViewModel);
         this._sessionViewModel && this.track(this._sessionViewModel);
         this.emitChange("activeSection");
+    }
+
+    private async getSingleRoomId(): Promise<string|undefined> {
+        if (!this._singleRoomIdOrAlias || this._singleRoomIdOrAlias === "") {
+            return undefined;
+        }
+
+        if (!this._resolvedSingleRoomId) {
+            try {
+                this._resolvedSingleRoomId = await this.resolveRoomAlias(this._singleRoomIdOrAlias);
+            } catch (error) {
+                // Something went wrong when resolving the room alias.
+                // We swallow the error and fallback to non-single-room mode.
+                console.warn(error);
+                this._resolvedSingleRoomId = undefined;
+            }
+        }
+
+        return this._resolvedSingleRoomId;
     }
 
     public get platform(): Platform {
