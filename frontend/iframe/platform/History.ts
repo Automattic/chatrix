@@ -36,6 +36,10 @@ export class History extends BaseHistory {
         super.replaceUrlSilently(url);
     }
 
+    getLastSessionUrl() {
+        return super.getLastSessionUrl();
+    }
+
     private get urlHashKey(): string {
         return `chatrix_${this._instanceId}_last_url_hash`;
     }

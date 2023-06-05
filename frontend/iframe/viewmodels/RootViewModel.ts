@@ -172,15 +172,24 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
     }
 
     private async _showInitialScreen(shouldRestoreLastUrl: boolean) {
+        if (shouldRestoreLastUrl && this._resolvedSingleRoomId) {
+            // Do not restore last URL to Login if we're in single-room mode.
+            // We do this so that we can try guest login when appropriate.
+            const willShowLogin = this.platform.history.getLastSessionUrl() === "#/login";
+            if (willShowLogin) {
+                shouldRestoreLastUrl = false;
+            }
+        }
+
         if (shouldRestoreLastUrl && this.urlRouter.tryRestoreLastUrl()) {
             // Restored last URL.
             // By the time we get here, _applyNavigation() has run for the restored URL, so we have nothing else
-            // to do here.
+            // to do.
             return;
         }
 
         // We were not able to restore the last URL.
-        // So we send the user to the screen that makes most sense, according to how many sessions they have.
+        // So we send the user to the screen that makes the most sense, according to how many sessions they have.
         const sessionInfos = await this.platform.sessionInfoStorage.getAll();
 
         // Go to Login or, when in single-room mode, try registering guest user.
