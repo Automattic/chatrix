@@ -173,10 +173,11 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 shouldRestoreLastUrl = false;
             }
 
-            // Do not restore last URL to session picker if we're in single-room mode and there are no sessions.
-            // We do this so that we can try guest login in that scenario.
+            // Do not restore last URL to session picker if we're in single-room mode and there are zero or one sessions.
+            // We do this so that we can try guest login when there are no sessions, or in the case where there is one
+            // session, use that session.
             const willShowSessionPicker = this.platform.history.getLastSessionUrl() === "#/session";
-            if (shouldRestoreLastUrl && willShowSessionPicker && sessionInfos.length === 0) {
+            if (shouldRestoreLastUrl && willShowSessionPicker && sessionInfos.length <= 1) {
                 shouldRestoreLastUrl = false;
             }
         }
