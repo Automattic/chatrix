@@ -68,6 +68,10 @@ Later, when Matrix makes the switch to OIDC, you are already prepared and can co
 
 ## Changelog
 
+### 0.8.2
+
+- Fix issues with single-room mode and guest login [[#222](https://github.com/Automattic/chatrix/pull/222)]
+
 ### 0.8.1
 
 - Correctly remember last url when multiple blocks are on the same page [[#217](https://github.com/Automattic/chatrix/pull/217)]
