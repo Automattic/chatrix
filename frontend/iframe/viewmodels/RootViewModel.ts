@@ -26,7 +26,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
     private _unknownRoomViewModel: UnknownRoomViewModel | undefined;
     private _pendingClient: Client;
     private readonly _singleRoomIdOrAlias: string | undefined;
-    private _resolvedSingleRoomId: string | undefined;
+    private _resolvedSingleRoomId: string | null | undefined = undefined;
 
     constructor(options: Options) {
         super(options);
@@ -109,17 +109,6 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         const sessionId = this.navigation.path.get("session")?.value;
         const loginToken = this.navigation.path.get("sso")?.value;
 
-        if (this._singleRoomIdOrAlias && !this._resolvedSingleRoomId) {
-            try {
-                this._resolvedSingleRoomId = await this.resolveRoomAlias(this._singleRoomIdOrAlias);
-            } catch (error) {
-                // Something went wrong when navigating to the room.
-                // We swallow the error and fallback to non-single-room mode.
-                console.warn(error);
-                this._resolvedSingleRoomId = undefined;
-            }
-        }
-
         if (isLogin) {
             if (this.activeSection !== Section.Login) {
                 this._showLogin(undefined);
@@ -137,8 +126,9 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 void this._showPicker();
             }
         } else if (sessionId) {
-            if (this._resolvedSingleRoomId) {
-                this.navigation.push("room", this._resolvedSingleRoomId);
+            const singleRoomId = await this.getSingleRoomId();
+            if (singleRoomId) {
+                this.navigation.push("room", singleRoomId);
             }
 
             if (!this._sessionViewModel || this._sessionViewModel.id !== sessionId) {
@@ -146,7 +136,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
                 if (this._pendingClient && this._pendingClient.sessionId === sessionId) {
                     const client = this._pendingClient;
                     this._pendingClient = null;
-                    this._showSession(client);
+                    await this._showSession(client);
                 } else {
                     // This should never happen, but we want to be sure not to leak it.
                     if (this._pendingClient) {
@@ -163,21 +153,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             }
         } else {
             try {
-                // don't even try to restore last url when in single room mode
-                if (this.singleRoomMode || !(shouldRestoreLastUrl && this.urlRouter.tryRestoreLastUrl())) {
-                    const sessionInfos = await this.platform.sessionInfoStorage.getAll();
-                    if (sessionInfos.length === 0) {
-                        if (this._resolvedSingleRoomId) {
-                            await this._showUnknownRoom(this._resolvedSingleRoomId);
-                            return;
-                        }
-                        this.navigation.push(Section.Login);
-                    } else if (sessionInfos.length === 1) {
-                        this.navigation.push(Section.Session, sessionInfos[0].id);
-                    } else {
-                        this.navigation.push(Section.Session);
-                    }
-                }
+                await this._showInitialScreen(shouldRestoreLastUrl);
             } catch (err) {
                 console.error(err);
                 this._setSection(() => this._error = err);
@@ -185,57 +161,85 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         }
     }
 
-    private async resolveRoomAlias(roomIdOrAlias: string, sessionId?: string): Promise<string> {
+    private async _showInitialScreen(shouldRestoreLastUrl: boolean) {
+        const sessionInfos = await this.platform.sessionInfoStorage.getAll();
+        const singleRoomId = await this.getSingleRoomId();
+
+        if (shouldRestoreLastUrl && singleRoomId) {
+            // Do not restore last URL to Login if we're in single-room mode.
+            // We do this so that we can try guest login when appropriate.
+            const willShowLogin = this.platform.history.getLastSessionUrl() === "#/login";
+            if (willShowLogin) {
+                shouldRestoreLastUrl = false;
+            }
+
+            // Do not restore last URL to session picker if we're in single-room mode and there are zero or one sessions.
+            // We do this so that we can try guest login when there are no sessions, or in the case where there is one
+            // session, use that session.
+            const willShowSessionPicker = this.platform.history.getLastSessionUrl() === "#/session";
+            if (shouldRestoreLastUrl && willShowSessionPicker && sessionInfos.length <= 1) {
+                shouldRestoreLastUrl = false;
+            }
+        }
+
+        if (shouldRestoreLastUrl && this.urlRouter.tryRestoreLastUrl()) {
+            // Restored last URL.
+            // By the time we get here, _applyNavigation() has run for the restored URL, so we have nothing else
+            // to do.
+            return;
+        }
+
+        // We were not able to restore the last URL.
+        // So we send the user to the screen that makes the most sense, according to how many sessions they have.
+
+        // Go to Login or, when in single-room mode, try registering guest user.
+        if (sessionInfos.length === 0) {
+            if (!singleRoomId) {
+                this.navigation.push(Section.Login);
+                return;
+            }
+
+            // Attempt to log in as guest. If it fails, go to Login.
+            const homeserver = await lookupHomeserver(singleRoomId.split(':')[1], this.platform.request);
+            const client = new Client(this.platform);
+
+            await client.doGuestLogin(homeserver);
+            if (client.loadError) {
+                console.warn("Failed to login as guest. Guest registration is probably disabled on the homeserver", client.loadError);
+                this.navigation.push(Section.Login);
+                return;
+            }
+
+            this._pendingClient = client;
+            this.navigation.push(Section.Session, client.sessionId);
+            return;
+        }
+
+        // Open session.
+        if (sessionInfos.length === 1) {
+            this.navigation.push(Section.Session, sessionInfos[0].id);
+            return;
+        }
+
+        // Open session picker.
+        this.navigation.push(Section.Session);
+    }
+
+    private async resolveRoomAlias(roomIdOrAlias: string): Promise<string> {
         if (roomIdOrAlias.startsWith('!')) {
             return roomIdOrAlias;
         }
 
-        let sessionInfo;
-        if (sessionId) {
-            sessionInfo = await this.platform.sessionInfoStorage.get(sessionId);
-        }
-        let homeserver: string;
-        let accessToken: string;
-        if (sessionInfo) {
-            homeserver = sessionInfo.homeserver;
-            accessToken = sessionInfo.accessToken;
-        } else {
-            homeserver = await lookupHomeserver(roomIdOrAlias.split(':')[1], this.platform.request);
-            accessToken = '';
-        }
-
+        const homeserver = await lookupHomeserver(roomIdOrAlias.split(':')[1], this.platform.request);
         const homeserverApi = new HomeServerApi({
             homeserver: homeserver,
             request: this.platform.request,
-            accessToken: accessToken,
+            accessToken: "",
             reconnector: this.platform.reconnector,
         });
 
         let response = await homeserverApi.resolveRoomAlias(roomIdOrAlias).response();
         return response.room_id;
-    }
-
-    private async isWorldReadableRoom(roomId: string, sessionId: string): Promise<boolean> {
-        const sessionInfo = await this.platform.sessionInfoStorage.get(sessionId);
-        if (!sessionInfo) {
-            console.error(`Could not find session for id ${sessionId}`);
-            return false;
-        }
-
-        const homeserver = await lookupHomeserver(roomId.split(':')[1], this.platform.request);
-        const homeserverApi = new HomeServerApi({
-            homeserver: homeserver,
-            request: this.platform.request,
-            accessToken: sessionInfo.accessToken,
-            reconnector: this.platform.reconnector,
-        });
-
-        return homeserverApi.state(roomId, 'm.room.history_visibility', '').response().then(
-            response => response.history_visibility === 'world_readable'
-        ).catch(err => {
-            console.error(err);
-            return false;
-        });
     }
 
     private _showLogin(loginToken: string | undefined) {
@@ -295,37 +299,15 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         });
     }
 
-    private _showSession(client: Client) {
+    private async _showSession(client: Client) {
+        const singleRoomId = await this.getSingleRoomId();
         this._setSection(() => {
             this._sessionViewModel = new SessionViewModel(this.childOptions({
                 client,
-                singleRoomId: this._resolvedSingleRoomId,
+                singleRoomId,
             }));
             this._sessionViewModel.start();
         });
-    }
-
-    private async _showUnknownRoom(roomId: string) {
-        const client = new Client(this.platform);
-        let chosenSession;
-
-        let sessionInfos = await this.platform.sessionInfoStorage.getAll();
-        if (sessionInfos.length === 0) {
-            const homeserver = await lookupHomeserver(roomId.split(':')[1], this.platform.request);
-            await client.doGuestLogin(homeserver);
-        } else {
-            await client.startWithExistingSession(chosenSession.id);
-        }
-
-        this._setSection(() => {
-            this._unknownRoomViewModel = new UnknownRoomViewModel(this.childOptions({
-                roomIdOrAlias: roomId,
-                session: client.session,
-                isWorldReadablePromise: this.isWorldReadableRoom(roomId, client.sessionId),
-            }));
-        });
-
-        this.navigation.push("session", client.sessionId);
     }
 
     private _setSection(setter: Function) {
@@ -346,6 +328,25 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         this._forcedLogoutViewModel && this.track(this._forcedLogoutViewModel);
         this._sessionViewModel && this.track(this._sessionViewModel);
         this.emitChange("activeSection");
+    }
+
+    private async getSingleRoomId(): Promise<string|null> {
+        if (!this._singleRoomIdOrAlias || this._singleRoomIdOrAlias === "") {
+            return null;
+        }
+
+        if (this._resolvedSingleRoomId === undefined) {
+            try {
+                this._resolvedSingleRoomId = await this.resolveRoomAlias(this._singleRoomIdOrAlias);
+            } catch (error) {
+                // Something went wrong when resolving the room alias.
+                // We swallow the error and fallback to non-single-room mode.
+                console.warn(error);
+                this._resolvedSingleRoomId = null;
+            }
+        }
+
+        return this._resolvedSingleRoomId;
     }
 
     public get platform(): Platform {
