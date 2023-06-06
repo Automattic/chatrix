@@ -6,7 +6,7 @@
 - Tested up to: 6.2
 - Requires PHP: 7.4
 - License: [GPLv2](http://www.gnu.org/licenses/gpl-2.0.html)
-- Stable tag: 0.8.1
+- Stable tag: 0.8.2
 - GitHub Plugin URI: https://github.com/Automattic/chatrix
 
 Matrix client for WordPress.
@@ -67,6 +67,10 @@ The flow will then be as follows: When logging into your homeserver, it will red
 Later, when Matrix makes the switch to OIDC, you are already prepared and can continue to use this setup.
 
 ## Changelog
+
+### 0.8.2
+
+- Fix issues with single-room mode and guest login [[#222](https://github.com/Automattic/chatrix/pull/222)]
 
 ### 0.8.1
 
