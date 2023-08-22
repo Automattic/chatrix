@@ -1,6 +1,6 @@
 {
   "name": "chatrix",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "Embedded Matrix client for WordPress",
   "repository": "git@github.com:Automattic/chatrix.git",
   "author": "Automattic",
@@ -38,7 +38,7 @@
   "dependencies": {
     "@wordpress/compose": "^5.17.0",
     "bs58": "^5.0.0",
-    "hydrogen-web": "Automattic/hydrogen-web#chatrix-0.8.0",
+    "hydrogen-web": "Automattic/hydrogen-web#chatrix-0.8.3",
     "node-html-parser": "^4.0.0"
   },
   "resolutions": {
