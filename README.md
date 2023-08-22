@@ -68,6 +68,10 @@ Later, when Matrix makes the switch to OIDC, you are already prepared and can co
 
 ## Changelog
 
+### 0.8.3
+
+- Improve the view for rooms that are you not a member of (Upgraded our Hydrogen's fork to [latest](https://github.com/Automattic/hydrogen-web/compare/chatrix-0.8.0...Automattic:hydrogen-web:chatrix-0.8.3))
+
 ### 0.8.2
 
 - Fix issues with single-room mode and guest login [[#222](https://github.com/Automattic/chatrix/pull/222)]
