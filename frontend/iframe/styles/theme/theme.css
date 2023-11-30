@@ -44,6 +44,11 @@ body {
     display: none !important;
 }
 
+/* Don't show the back button in the login screen. */
+.LoginView_back {
+    display: none !important;
+}
+
 /* Remove horizontal scrollbars in pre-session screen. */
 @media screen and (min-width: 600px) {
     .PreSessionScreen {
