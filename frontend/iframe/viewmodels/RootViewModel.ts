@@ -177,7 +177,9 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             }
         }
 
-        let shouldRestoreLastUrl = true;
+        // Only restore last url if there is already a session.
+        // This will result in the user being sent to login screen.
+        let shouldRestoreLastUrl = sessionInfos.length > 1;
 
         // We never want to show the session picker, even if it was the last url.
         const willShowSessionPicker = this.platform.history.getLastSessionUrl() === "#/session";
