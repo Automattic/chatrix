@@ -195,20 +195,12 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         // We were not able to restore the last URL.
         // So we send the user to the screen that makes the most sense, according to how many sessions they have.
 
-        // Go to Login when there are no sessions.
-        if (sessionInfos.length === 0) {
-            this.navigation.push(Section.Login);
-            return;
-        }
-
-        // Open session.
         if (sessionInfos.length === 1) {
             this.navigation.push(Section.Session, sessionInfos[0].id);
             return;
         }
 
-        // Open session picker.
-        this.navigation.push(Section.Session);
+        this.navigation.push(Section.Login);
     }
 
     private async resolveRoomAlias(roomIdOrAlias: string): Promise<string> {
