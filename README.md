@@ -6,7 +6,7 @@
 - Tested up to: 6.2
 - Requires PHP: 7.4
 - License: [GPLv2](http://www.gnu.org/licenses/gpl-2.0.html)
-- Stable tag: 0.8.3
+- Stable tag: 0.9.0
 - GitHub Plugin URI: https://github.com/Automattic/chatrix
 
 Matrix client for WordPress.
@@ -67,6 +67,10 @@ The flow will then be as follows: When logging into your homeserver, it will red
 Later, when Matrix makes the switch to OIDC, you are already prepared and can continue to use this setup.
 
 ## Changelog
+
+### 0.9.0
+
+- Chatrix is now a single-session client. The session picker is no longer displayed [[#239](https://github.com/Automattic/chatrix/pull/239)]. This fixes [#236](https://github.com/Automattic/chatrix/issues/236) [#224](https://github.com/Automattic/chatrix/issues/224) [#200](https://github.com/Automattic/chatrix/issues/200).
 
 ### 0.8.3
 
