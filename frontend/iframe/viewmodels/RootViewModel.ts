@@ -162,7 +162,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
     }
 
     private async _showInitialScreen() {
-        const sessionInfos = await this.platform.sessionInfoStorage.getAll();
+        let sessionInfos = await this.platform.sessionInfoStorage.getAll();
         const singleRoomId = await this.getSingleRoomId();
 
         // In previous versions, it was possible to have multiple sessions open.
@@ -170,6 +170,11 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         if (sessionInfos.length > 1) {
             for (let i = 0; i < sessionInfos.length - 1; i++) {
                 await this.platform.sessionInfoStorage.delete(sessionInfos[i].id);
+            }
+
+            sessionInfos = await this.platform.sessionInfoStorage.getAll();
+            if (sessionInfos.length > 1) {
+                console.error("Expected to have a single session, but multiple sessions were found.");
             }
         }
 
