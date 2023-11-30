@@ -193,27 +193,12 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         // We were not able to restore the last URL.
         // So we send the user to the screen that makes the most sense, according to how many sessions they have.
 
-        // Go to Login or, when in single-room mode, try registering guest user.
+        // Go to Login or, when in single-room mode.
         if (sessionInfos.length === 0) {
             if (!singleRoomId) {
                 this.navigation.push(Section.Login);
                 return;
             }
-
-            // Attempt to log in as guest. If it fails, go to Login.
-            const homeserver = await lookupHomeserver(singleRoomId.split(':')[1], this.platform.request);
-            const client = new Client(this.platform);
-
-            await client.doGuestLogin(homeserver);
-            if (client.loadError) {
-                console.warn("Failed to login as guest. Guest registration is probably disabled on the homeserver", client.loadError);
-                this.navigation.push(Section.Login);
-                return;
-            }
-
-            this._pendingClient = client;
-            this.navigation.push(Section.Session, client.sessionId);
-            return;
         }
 
         // Open session.
