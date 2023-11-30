@@ -35,7 +35,7 @@ body {
 }
 
 /* Don't show the back button when in a Room, when in single-room mode. */
-.RootView.single-room-mode .close-middle {
+.RootView.single-room-mode .RoomHeader .close-middle {
     display: none !important;
 }
 
