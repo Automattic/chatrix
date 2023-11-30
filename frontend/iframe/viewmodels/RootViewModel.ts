@@ -106,8 +106,15 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         const isLogin = this.navigation.path.get("login");
         const logoutSessionId = this.navigation.path.get("logout")?.value;
         const isForcedLogout = this.navigation.path.get("forced")?.value;
-        const sessionId = this.navigation.path.get("session")?.value;
         const loginToken = this.navigation.path.get("sso")?.value;
+
+        let sessionId = this.navigation.path.get("session")?.value;
+        if (sessionId === true) {
+            // When logging out, we end up here (sessionId = true).
+            // Since user is now logged out and as there can only be a single session,
+            // we want to show the login screen directly.
+            sessionId = null;
+        }
 
         if (isLogin) {
             if (this.activeSection !== Section.Login) {
@@ -120,10 +127,6 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         } else if (logoutSessionId) {
             if (this.activeSection !== Section.Logout) {
                 this._showLogout(logoutSessionId);
-            }
-        } else if (sessionId === true) {
-            if (this.activeSection !== Section.SessionPicker) {
-                void this._showPicker();
             }
         } else if (sessionId) {
             const singleRoomId = await this.getSingleRoomId();
