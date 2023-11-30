@@ -194,11 +194,9 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         // So we send the user to the screen that makes the most sense, according to how many sessions they have.
 
         // Go to Login or, when in single-room mode.
-        if (sessionInfos.length === 0) {
-            if (!singleRoomId) {
-                this.navigation.push(Section.Login);
-                return;
-            }
+        if (sessionInfos.length === 0 && !singleRoomId) {
+            this.navigation.push(Section.Login);
+            return;
         }
 
         // Open session.
