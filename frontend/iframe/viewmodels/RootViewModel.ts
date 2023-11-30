@@ -163,7 +163,6 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
 
     private async _showInitialScreen() {
         let sessionInfos = await this.platform.sessionInfoStorage.getAll();
-        const singleRoomId = await this.getSingleRoomId();
 
         // In previous versions, it was possible to have multiple sessions open.
         // When we have multiple sessions, we want to log out all of them except one.
