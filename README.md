@@ -68,6 +68,10 @@ Later, when Matrix makes the switch to OIDC, you are already prepared and can co
 
 ## Changelog
 
+### 0.9.0
+
+- Chatrix is now a single-session client. The session picker is no longer displayed [[#239](https://github.com/Automattic/chatrix/pull/239)]. This fixes [#236](https://github.com/Automattic/chatrix/issues/236) [#224](https://github.com/Automattic/chatrix/issues/224) [#200](https://github.com/Automattic/chatrix/issues/200).
+
 ### 0.8.3
 
 - Improve the view for rooms that are you not a member of (Upgraded our Hydrogen's fork to [latest](https://github.com/Automattic/hydrogen-web/compare/chatrix-0.8.0...Automattic:hydrogen-web:chatrix-0.8.3))
