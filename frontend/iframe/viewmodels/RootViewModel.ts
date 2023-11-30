@@ -165,6 +165,14 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         const sessionInfos = await this.platform.sessionInfoStorage.getAll();
         const singleRoomId = await this.getSingleRoomId();
 
+        // In previous versions, it was possible to have multiple sessions open.
+        // When we have multiple sessions, we want to log out all of them except one.
+        if (sessionInfos.length > 1) {
+            for (let i = 0; i < sessionInfos.length - 1; i++) {
+                await this.platform.sessionInfoStorage.delete(sessionInfos[i].id);
+            }
+        }
+
         let shouldRestoreLastUrl = true;
         if (singleRoomId) {
             // Do not restore last URL to Login if we're in single-room mode.
