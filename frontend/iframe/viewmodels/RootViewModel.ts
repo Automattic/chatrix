@@ -183,16 +183,15 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
 
         if (shouldRestoreLastUrl && this.urlRouter.tryRestoreLastUrl()) {
             // Restored last URL.
-            // By the time we get here, _applyNavigation() has run for the restored URL, so we have nothing else
-            // to do.
+            // By the time we get here, _applyNavigation() has run for the restored URL, so we have nothing else to do.
             return;
         }
 
         // We were not able to restore the last URL.
         // So we send the user to the screen that makes the most sense, according to how many sessions they have.
 
-        // Go to Login or, when in single-room mode.
-        if (sessionInfos.length === 0 && !singleRoomId) {
+        // Go to Login when there are no sessions.
+        if (sessionInfos.length === 0) {
             this.navigation.push(Section.Login);
             return;
         }
