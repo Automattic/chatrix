@@ -106,8 +106,15 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         const isLogin = this.navigation.path.get("login");
         const logoutSessionId = this.navigation.path.get("logout")?.value;
         const isForcedLogout = this.navigation.path.get("forced")?.value;
-        const sessionId = this.navigation.path.get("session")?.value;
         const loginToken = this.navigation.path.get("sso")?.value;
+
+        let sessionId = this.navigation.path.get("session")?.value;
+        if (sessionId === true) {
+            // When logging out, we end up here (sessionId = true).
+            // Since user is now logged out and as there can only be a single session,
+            // we want to show the login screen directly.
+            sessionId = null;
+        }
 
         if (isLogin) {
             if (this.activeSection !== Section.Login) {
@@ -120,10 +127,6 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         } else if (logoutSessionId) {
             if (this.activeSection !== Section.Logout) {
                 this._showLogout(logoutSessionId);
-            }
-        } else if (sessionId === true) {
-            if (this.activeSection !== Section.SessionPicker) {
-                void this._showPicker();
             }
         } else if (sessionId) {
             const singleRoomId = await this.getSingleRoomId();
@@ -153,7 +156,7 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
             }
         } else {
             try {
-                await this._showInitialScreen(shouldRestoreLastUrl);
+                await this._showInitialScreen();
             } catch (err) {
                 console.error(err);
                 this._setSection(() => this._error = err);
@@ -161,68 +164,47 @@ export class RootViewModel extends ViewModel<SegmentType, Options> {
         }
     }
 
-    private async _showInitialScreen(shouldRestoreLastUrl: boolean) {
-        const sessionInfos = await this.platform.sessionInfoStorage.getAll();
-        const singleRoomId = await this.getSingleRoomId();
+    private async _showInitialScreen() {
+        let sessionInfos = await this.platform.sessionInfoStorage.getAll();
 
-        if (shouldRestoreLastUrl && singleRoomId) {
-            // Do not restore last URL to Login if we're in single-room mode.
-            // We do this so that we can try guest login when appropriate.
-            const willShowLogin = this.platform.history.getLastSessionUrl() === "#/login";
-            if (willShowLogin) {
-                shouldRestoreLastUrl = false;
+        // In previous versions, it was possible to have multiple sessions open.
+        // When we have multiple sessions, we want to log out all of them except one.
+        if (sessionInfos.length > 1) {
+            for (let i = 0; i < sessionInfos.length - 1; i++) {
+                await this.platform.sessionInfoStorage.delete(sessionInfos[i].id);
             }
 
-            // Do not restore last URL to session picker if we're in single-room mode and there are zero or one sessions.
-            // We do this so that we can try guest login when there are no sessions, or in the case where there is one
-            // session, use that session.
-            const willShowSessionPicker = this.platform.history.getLastSessionUrl() === "#/session";
-            if (shouldRestoreLastUrl && willShowSessionPicker && sessionInfos.length <= 1) {
-                shouldRestoreLastUrl = false;
+            sessionInfos = await this.platform.sessionInfoStorage.getAll();
+            if (sessionInfos.length > 1) {
+                console.error("Expected to have a single session, but multiple sessions were found.");
             }
+        }
+
+        // Only restore last url if there is already a session.
+        // This will result in the user being sent to login screen.
+        let shouldRestoreLastUrl = sessionInfos.length > 1;
+
+        // We never want to show the session picker, even if it was the last url.
+        const willShowSessionPicker = this.platform.history.getLastSessionUrl() === "#/session";
+        if (willShowSessionPicker) {
+            shouldRestoreLastUrl = false;
         }
 
         if (shouldRestoreLastUrl && this.urlRouter.tryRestoreLastUrl()) {
             // Restored last URL.
-            // By the time we get here, _applyNavigation() has run for the restored URL, so we have nothing else
-            // to do.
+            // By the time we get here, _applyNavigation() has run for the restored URL, so we have nothing else to do.
             return;
         }
 
         // We were not able to restore the last URL.
         // So we send the user to the screen that makes the most sense, according to how many sessions they have.
 
-        // Go to Login or, when in single-room mode, try registering guest user.
-        if (sessionInfos.length === 0) {
-            if (!singleRoomId) {
-                this.navigation.push(Section.Login);
-                return;
-            }
-
-            // Attempt to log in as guest. If it fails, go to Login.
-            const homeserver = await lookupHomeserver(singleRoomId.split(':')[1], this.platform.request);
-            const client = new Client(this.platform);
-
-            await client.doGuestLogin(homeserver);
-            if (client.loadError) {
-                console.warn("Failed to login as guest. Guest registration is probably disabled on the homeserver", client.loadError);
-                this.navigation.push(Section.Login);
-                return;
-            }
-
-            this._pendingClient = client;
-            this.navigation.push(Section.Session, client.sessionId);
-            return;
-        }
-
-        // Open session.
         if (sessionInfos.length === 1) {
             this.navigation.push(Section.Session, sessionInfos[0].id);
             return;
         }
 
-        // Open session picker.
-        this.navigation.push(Section.Session);
+        this.navigation.push(Section.Login);
     }
 
     private async resolveRoomAlias(roomIdOrAlias: string): Promise<string> {

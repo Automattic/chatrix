@@ -34,9 +34,19 @@ body {
         320px   1fr;
 }
 
-/* Always show the back button in single-room mode. */
-.RootView.single-room-mode .close-middle {
-    display: block;
+/* Don't show the back button when in a Room, when in single-room mode. */
+.RootView.single-room-mode .RoomHeader .close-middle {
+    display: none !important;
+}
+
+/* Don't show the back button in room list. */
+.LeftPanel .close-session {
+    display: none !important;
+}
+
+/* Don't show the back button in the login screen. */
+.LoginView_back {
+    display: none !important;
 }
 
 /* Remove horizontal scrollbars in pre-session screen. */
