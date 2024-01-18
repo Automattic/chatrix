@@ -7,6 +7,7 @@ export interface ChatProps {
     instanceId: string,
     defaultHomeserver?: string,
     roomId?: string,
+    enableServiceWorker?: boolean,
 }
 
 export function Chat(props: ChatProps) {
@@ -15,7 +16,8 @@ export function Chat(props: ChatProps) {
         iframeUrl,
         instanceId,
         defaultHomeserver,
-        roomId
+        roomId,
+        enableServiceWorker,
     } = props;
 
     const ref = focusable ? useFocusableIframe() : undefined;
@@ -23,6 +25,7 @@ export function Chat(props: ChatProps) {
         instanceId,
         defaultHomeserver,
         roomId,
+        enableServiceWorker,
     });
 
     return (
