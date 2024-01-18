@@ -15,9 +15,15 @@ export class IframeUrl {
 
         for (let key in params) {
             let value = params[key];
+
             if (typeof value === 'boolean') {
                 value = value ? "true" : "false";
             }
+
+            if (!value) {
+                continue;
+            }
+
             this.url.searchParams.append(key, value);
         }
 
