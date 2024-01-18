@@ -38,4 +38,13 @@ export interface IConfig {
      * Example: !abc123:example.com
      */
     roomId?: string;
+
+    /**
+     * Set to false to disable service worker.
+     * Note that the service worker is required to make Hydrogen work correctly across multiple browser tabs.
+     * You should not disable the service worker in environments where multiple browser tabs are a possibility.
+     *
+     * Defaults to true.
+     */
+    enableServiceWorker?: boolean
 }

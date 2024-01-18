@@ -11,10 +11,21 @@ export class ConfigFactory {
             return param;
         };
 
+        let enableServiceWorker = true;
+        const enableServiceWorkerParam = getQueryParam("enableServiceWorker");
+        if (enableServiceWorkerParam) {
+            if (enableServiceWorkerParam === "true") {
+                enableServiceWorker = true;
+            } else if (enableServiceWorkerParam === "false") {
+                enableServiceWorker = false;
+            }
+        }
+
         return {
             instanceId: getQueryParam("instanceId") ?? "",
             defaultHomeserver: getQueryParam("defaultHomeserver") ?? "",
             roomId: getQueryParam("roomId") ?? "",
+            enableServiceWorker,
             themeManifests: [
                 new URL("assets/theme-chatrix.json", import.meta.url).href,
             ],
