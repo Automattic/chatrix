@@ -1,5 +1,5 @@
 {
-  "landingPage": "/sample-page/",
+  "landingPage": "/chatrix-regular-mode/",
   "preferredVersions": {
     "php": "8.0",
     "wp": "latest"
