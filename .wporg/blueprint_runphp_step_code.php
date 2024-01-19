@@ -2,7 +2,7 @@
 
 require_once 'wordpress/wp-load.php';
 
-$chatrix_block_simple = '<!-- wp:paragraph --> <p>Below you can see "Chatrix" block in action. You can add it anywhere using either <code>/chatrix</code> or by looking up chatrix when choosing which block to insert.</p> <!-- /wp:paragraph --> <!-- wp:automattic/chatrix {"enableServiceWorker":false,"instanceId":"2530674218113325","defaultHomeserver":"matrix.org"} /--> <!-- wp:paragraph --> <p>Chatrix can also run in <a href="/">single room mode</a>.</p> <!-- /wp:paragraph -->';
+$chatrix_block_simple = '<!-- wp:paragraph --> <p>Below you can see "Chatrix" block in action. You can add it anywhere using either <code>/chatrix</code> or by looking up chatrix when choosing which block to insert.</p> <!-- /wp:paragraph --> <!-- wp:automattic/chatrix {"enableServiceWorker":false,"instanceId":"2530674218113325","defaultHomeserver":"matrix.org"} /--> <!-- wp:paragraph --> <p>Chatrix can also run in <a href="/chatrix-single-room-mode/">single room mode</a>.</p> <!-- /wp:paragraph -->';
 
 $chatrix_block_2col = <<<CHATRIXBLOCK2COLUMNS
 <!-- wp:paragraph -->
@@ -14,8 +14,11 @@ $chatrix_block_2col = <<<CHATRIXBLOCK2COLUMNS
 <!-- wp:column {"width":"33.33%"} -->
 <div class="wp-block-column" style="flex-basis:33.33%">
 <!-- wp:paragraph -->
-<p>Edit this page to specify what room should Chatrix run in as, single-room mode. By default it loads up <pre>#matrix:matrix.org</pre></p>
+<p><a href="/wp-admin/post.php?post=3&action=edit">Edit this page</a> to specify what room should Chatrix run in as, single-room mode. By default, it loads up:</p>
 <!-- /wp:paragraph -->
+<!-- wp:preformatted -->
+<pre class="wp-block-preformatted">#matrix:matrix.org</pre>
+<!-- /wp:preformatted -->
 <!-- wp:paragraph -->
 <p>You would need to select Chatrix block to reveal its settings on the right side panel.</p>
 <!-- /wp:paragraph -->
