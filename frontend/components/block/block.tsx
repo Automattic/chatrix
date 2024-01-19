@@ -13,6 +13,7 @@ export function Block(props: BlockProps) {
         instanceId,
         defaultHomeserver,
         roomId,
+        enableServiceWorker,
         height,
         borderWidth,
         borderRadius,
@@ -34,6 +35,7 @@ export function Block(props: BlockProps) {
         instanceId,
         defaultHomeserver,
         roomId,
+        enableServiceWorker,
     };
 
     return (

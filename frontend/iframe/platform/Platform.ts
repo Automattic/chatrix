@@ -17,7 +17,7 @@ export class Platform extends BasePlatform {
 
         // Register our own service worker handler.
         let serviceWorkerHandler;
-        if (assetPaths.serviceWorker && "serviceWorker" in navigator) {
+        if (options.config.enableServiceWorker && assetPaths.serviceWorker && "serviceWorker" in navigator) {
             serviceWorkerHandler = new ServiceWorkerHandler();
             serviceWorkerHandler.registerAndStart(assetPaths.serviceWorker);
         }

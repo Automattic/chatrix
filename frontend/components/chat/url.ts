@@ -4,6 +4,7 @@ type IframeParams = {
     instanceId: string,
     defaultHomeserver?: string
     roomId?: string,
+    enableServiceWorker?: boolean,
 }
 
 export class IframeUrl {
@@ -13,9 +14,17 @@ export class IframeUrl {
         this.url = iframeUrl;
 
         for (let key in params) {
-            if (!!params[key]) {
-                this.url.searchParams.append(key, params[key]);
+            let value = params[key];
+
+            if (typeof value === 'boolean') {
+                value = value ? "true" : "false";
             }
+
+            if (!value) {
+                continue;
+            }
+
+            this.url.searchParams.append(key, value);
         }
 
         this.applyLoginToken();
