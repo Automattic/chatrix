@@ -21,7 +21,7 @@ function main() {
 
 function register_scripts() {
 	add_action(
-		'init',
+		'wp_enqueue_scripts',
 		function () {
 			$json_data = wp_json_encode(
 				array(
