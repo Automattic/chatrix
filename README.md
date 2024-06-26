@@ -68,6 +68,10 @@ Later, when Matrix makes the switch to OIDC, you are already prepared and can co
 
 ## Changelog
 
+### 0.9.1
+- We now don't enqueue scripts in embeds [#249](https://github.com/Automattic/chatrix/pull/249)
+- It is now possible to disable service worker at runtime [#243](https://github.com/Automattic/chatrix/pull/243)
+
 ### 0.9.0
 
 - Chatrix is now a single-session client. The session picker is no longer displayed [[#239](https://github.com/Automattic/chatrix/pull/239)]. This fixes [#236](https://github.com/Automattic/chatrix/issues/236) [#224](https://github.com/Automattic/chatrix/issues/224) [#200](https://github.com/Automattic/chatrix/issues/200).
