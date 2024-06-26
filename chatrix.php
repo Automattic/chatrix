@@ -5,7 +5,7 @@
  * Author: WordPress.Org Community
  * Author URI: https://wordpress.org/
  * Plugin URI: https://github.com/Automattic/chatrix
- * Version: 0.9.0
+ * Version: 0.9.1
  */
 
 use function Automattic\Chatrix\Admin\main as adminMain;
@@ -22,7 +22,7 @@ function automattic_chatrix_version(): string {
 	}
 
 	// Do not edit this line, it's automatically set by bin/prepare-release.sh.
-	$version = '0.9.0';
+	$version = '0.9.1';
 
 	return $version;
 }
