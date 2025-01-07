@@ -39,6 +39,9 @@ jobs:
         # what will be uploaded to SVN.
         run: ./bin/create-release-artifacts.sh ${{ inputs.version }}
 
+      - name: Install Subversion
+        run: sudo apt-get install subversion -y
+
       - name: Deploy to plugin directory
         uses: 10up/action-wordpress-plugin-deploy@stable
         with:
