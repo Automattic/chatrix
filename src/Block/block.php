@@ -6,15 +6,15 @@ function register() {
 	$block_path      = dirname( plugin_dir_path( __FILE__ ), 2 ) . '/build/block';
 	$block_json_path = "$block_path/block.json";
 
-	register_site_status_test( $block_json_path );
-
-	if ( ! file_exists( $block_json_path ) ) {
-		return;
-	}
-
 	add_action(
 		'init',
 		function () use ( $block_json_path ) {
+			register_site_status_test( $block_json_path );
+
+			if ( ! file_exists( $block_json_path ) ) {
+				return;
+			}
+
 			$metadata = parse_block_json( $block_json_path );
 			register_block_type(
 				$block_json_path,
