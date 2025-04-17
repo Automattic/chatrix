@@ -68,6 +68,9 @@ Later, when Matrix makes the switch to OIDC, you are already prepared and can co
 
 ## Changelog
 
+### 0.9.2
+- Fix Chatrix iframe not loading in Gutenberg editor [#256](https://github.com/Automattic/chatrix/pull/256)
+
 ### 0.9.1
 - We now don't enqueue scripts in embeds [#249](https://github.com/Automattic/chatrix/pull/249)
 - It is now possible to disable service worker at runtime [#243](https://github.com/Automattic/chatrix/pull/243)
