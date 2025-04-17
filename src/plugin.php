@@ -20,19 +20,36 @@ function main() {
 }
 
 function register_scripts() {
+	// Common configuration data for both admin and frontend.
+	$json_data = wp_json_encode(
+		array(
+			'rootUrl' => root_url() . '/iframe/',
+		)
+	);
+
+	// Helper function to register and enqueue the configuration script.
+	$register_config_script = function() use ( $json_data ) {
+		// Enqueue script for global configuration.
+		wp_register_script( SCRIPT_HANDLE_CONFIG, '', array(), automattic_chatrix_version(), true );
+		wp_enqueue_script( SCRIPT_HANDLE_CONFIG );
+		wp_add_inline_script( SCRIPT_HANDLE_CONFIG, 'window.' . CONFIG_VARIABLE . " = $json_data;" );
+	};
+
+	// Admin scripts - needed for Gutenberg editor.
+	add_action(
+		'admin_enqueue_scripts',
+		function () use ( $register_config_script ) {
+			// Register and enqueue configuration script in admin area.
+			$register_config_script();
+		}
+	);
+
+	// Frontend scripts.
 	add_action(
 		'wp_enqueue_scripts',
-		function () {
-			$json_data = wp_json_encode(
-				array(
-					'rootUrl' => root_url() . '/iframe/',
-				)
-			);
-
-			// Enqueue script for global configuration.
-			wp_register_script( SCRIPT_HANDLE_CONFIG, '', array(), automattic_chatrix_version(), true );
-			wp_enqueue_script( SCRIPT_HANDLE_CONFIG );
-			wp_add_inline_script( SCRIPT_HANDLE_CONFIG, 'window.' . CONFIG_VARIABLE . " = $json_data;" );
+		function () use ( $register_config_script ) {
+			// Register and enqueue configuration script.
+			$register_config_script();
 
 			// Note we don't enqueue the SCRIPT_HANDLE_APP script yet. It will be enqueued whenever SCRIPT_HANDLE_APP
 			// is specified as a dependency of another script.
