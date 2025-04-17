@@ -6,7 +6,7 @@
 - Tested up to: 6.8
 - Requires PHP: 7.4
 - License: [GPLv2](http://www.gnu.org/licenses/gpl-2.0.html)
-- Stable tag: 0.9.1
+- Stable tag: 0.9.2
 - GitHub Plugin URI: https://github.com/Automattic/chatrix
 
 Matrix client for WordPress.
@@ -67,6 +67,9 @@ The flow will then be as follows: When logging into your homeserver, it will red
 Later, when Matrix makes the switch to OIDC, you are already prepared and can continue to use this setup.
 
 ## Changelog
+
+### 0.9.2
+- Fix Chatrix iframe not loading in Gutenberg editor [#256](https://github.com/Automattic/chatrix/pull/256)
 
 ### 0.9.1
 - We now don't enqueue scripts in embeds [#249](https://github.com/Automattic/chatrix/pull/249)
