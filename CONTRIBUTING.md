@@ -73,7 +73,11 @@ You should push a commit with the new Changelog entry to the release branch, and
 Once you're satisfied with the release, you can merge the PR. The PR will be merged into the `main` branch, and a GitHub Action will be triggered which will create a **draft** release on GitHub.
 
 ### Publish the release
-Copy the Changelog entry from the PR description (or `README.md`) into the release description, then publish the release. Publishing the release will trigger a GitHub Action which will publish the release to the WordPress Plugin Directory.
+Copy the Changelog entry from the PR description (or `README.md`) into the release description,
+then publish the release.
+Publishing the release will trigger a GitHub Action which will push the release to the WordPress Plugin Directory.
+Check your email for the link or head over to [https://wordpress.org/plugins/developers/releases/](https://wordpress.org/plugins/developers/releases/)
+to confirm the release.
 
 Go to the [plugin directory page](https://wordpress.org/plugins/chatrix/) and make sure the new version is available. This might take up to a few minutes.
 
