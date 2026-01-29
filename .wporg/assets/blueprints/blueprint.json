@@ -1,0 +1,34 @@
+{
+  "landingPage": "/chatrix-regular-mode/",
+  "preferredVersions": {
+    "php": "8.0",
+    "wp": "latest"
+  },
+  "steps": [
+    {
+      "step": "login",
+      "username": "admin",
+      "password": "password"
+    },
+    {
+      "step": "setSiteOptions",
+      "options": {
+        "permalink_structure": "/%year%/%monthnum%/%day%/%postname%/"
+      }
+    },
+    {
+      "step": "installPlugin",
+      "pluginZipFile": {
+        "resource": "wordpress.org/plugins",
+        "slug": "chatrix"
+      }
+    },
+    {
+      "step": "runPHP",
+      "code": "<?php\n\nrequire_once 'wordpress/wp-load.php';\n\n$chatrix_block_simple = '<!-- wp:paragraph --> <p>Below you can see \"Chatrix\" block in action. You can add it anywhere using either <code>/chatrix</code> or by looking up chatrix when choosing which block to insert.</p> <!-- /wp:paragraph --> <!-- wp:automattic/chatrix {\"enableServiceWorker\":false,\"instanceId\":\"2530674218113325\",\"defaultHomeserver\":\"matrix.org\"} /--> <!-- wp:paragraph --> <p>Chatrix can also run in <a href=\"/chatrix-single-room-mode/\">single room mode</a>.</p> <!-- /wp:paragraph -->';\n\n$chatrix_block_2col = <<<CHATRIXBLOCK2COLUMNS\n<!-- wp:paragraph -->\n<p>Below you can see “Chatrix” block in action. You can add it anywhere using either&nbsp;<code>/chatrix</code>&nbsp;or by looking up chatrix when choosing which block to insert.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:columns -->\n<div class=\"wp-block-columns\">\n<!-- wp:column {\"width\":\"33.33%\"} -->\n<div class=\"wp-block-column\" style=\"flex-basis:33.33%\">\n<!-- wp:paragraph -->\n<p><a href=\"/wp-admin/post.php?post=3&action=edit\">Edit this page</a> to specify what room should Chatrix run in as, single-room mode. By default, it loads up:</p>\n<!-- /wp:paragraph -->\n<!-- wp:preformatted -->\n<pre class=\"wp-block-preformatted\">#matrix:matrix.org</pre>\n<!-- /wp:preformatted -->\n<!-- wp:paragraph -->\n<p>You would need to select Chatrix block to reveal its settings on the right side panel.</p>\n<!-- /wp:paragraph -->\n</div>\n<!-- /wp:column -->\n<!-- wp:column {\"width\":\"66.66%\"} -->\n<div class=\"wp-block-column\" style=\"flex-basis:66.66%\">\n<!-- wp:automattic/chatrix {\"enableServiceWorker\":false,\"instanceId\":\"4986644425212020\",\"roomId\":\"#matrix:matrix.org\",\"defaultHomeserver\":\"matrix.org\"} /-->\n</div>\n<!-- /wp:column -->\n</div>\n<!-- /wp:columns -->\nCHATRIXBLOCK2COLUMNS;\n\n$sample_page_post_id = 2;\n\nwp_update_post( array(\n    'ID' => $sample_page_post_id,\n    'post_title' => 'Chatrix [Regular]',\n    'post_name' => 'chatrix-regular-mode',\n    'post_content' => $chatrix_block_simple\n) );\n\nwp_insert_post( array(\n    'ID' => 3,\n    'post_title' => 'Chatrix [Single Room Mode]',\n    'post_name' => 'chatrix-single-room-mode',\n    'post_type' => 'page',\n    'post_status' => 'publish',\n    'post_content' => $chatrix_block_2col\n) );\n\nwp_insert_post( array(\n    'ID' => 4,\n    'post_title' => 'Chatrix [Popup]',\n    'post_name' => 'chatrix-in-popup-mode',\n    'post_type' => 'page',\n    'post_status' => 'publish',\n    'post_content' => '<!-- wp:paragraph --> <p>On this page, you can see the popup widget at the bottom right of your screen. Click on it to show Chatrix.</p> <!-- /wp:paragraph -->'\n) );\n\nupdate_option( 'chatrix_settings', array(\n    'homeserver' => 'matrix.org',\n    'room' => '#matrix:matrix.org',\n    'show_on' => 'specific',\n    'pages' => array(\n        0 => '4'\n    )\n) );",
+      "progress": {
+        "caption": "Setting Chatrix instances"
+      }
+    }
+  ]
+}
