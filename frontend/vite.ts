@@ -1,6 +1,5 @@
 import react from '@vitejs/plugin-react';
 import injectWebManifest from "hydrogen-web/scripts/build-plugins/manifest";
-import { createPlaceholderValues, injectServiceWorker } from "hydrogen-web/scripts/build-plugins/service-worker";
 import compileVariables from "hydrogen-web/scripts/postcss/css-compile-variables";
 import urlProcessor from "hydrogen-web/scripts/postcss/css-url-processor";
 import urlVariables from "hydrogen-web/scripts/postcss/css-url-to-variables";
@@ -10,6 +9,7 @@ import { defineConfig } from "vite";
 import manifest from "../package.json";
 import themeBuilder from "./build-scripts/build-themes";
 import { derive } from "./build-scripts/color";
+import { injectServiceWorker } from "./build-scripts/service-worker-plugin";
 import { buildColorizedSVG as replacer } from "./build-scripts/svg-builder";
 
 const compiledVariables = new Map();
@@ -21,6 +21,12 @@ export default defineConfig(({mode}) => {
         base: "",
         root: __dirname,
         envDir: __dirname,
+        resolve: {
+            alias: {
+                "fake-indexeddb/lib/FDBFactory.js": "fake-indexeddb/lib/FDBFactory",
+                "fake-indexeddb/lib/FDBKeyRange.js": "fake-indexeddb/lib/FDBKeyRange",
+            },
+        },
         define: {
             DEFINE_VERSION: JSON.stringify(manifest.version),
             ...definePlaceholders,
@@ -91,4 +97,21 @@ function findUnhashedFileNamesFromBundle(bundle) {
         }
     }
     return names;
+}
+
+function createPlaceholderValues(mode) {
+    return {
+        DEFINE_GLOBAL_HASH: definePlaceholderValue(mode, "DEFINE_GLOBAL_HASH", null),
+        DEFINE_UNHASHED_PRECACHED_ASSETS: definePlaceholderValue(mode, "UNHASHED_PRECACHED_ASSETS", []),
+        DEFINE_HASHED_PRECACHED_ASSETS: definePlaceholderValue(mode, "HASHED_PRECACHED_ASSETS", []),
+        DEFINE_HASHED_CACHED_ON_REQUEST_ASSETS: definePlaceholderValue(mode, "HASHED_CACHED_ON_REQUEST_ASSETS", []),
+    };
+}
+
+function definePlaceholderValue(mode, name, devValue) {
+    if (mode === "production") {
+        return JSON.stringify(`__CHATRIX_${name}__`);
+    }
+
+    return JSON.stringify(devValue);
 }

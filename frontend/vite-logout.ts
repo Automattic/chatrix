@@ -10,7 +10,7 @@ export default defineConfig(() => {
             outDir: resolve(__dirname, "../build/"),
             lib: {
                 entry: resolve(__dirname, `./logout.ts`),
-                formats: ["iife"],
+                formats: ["iife" as const],
                 name: "ChatrixLogout",
                 fileName: "logout"
             },
