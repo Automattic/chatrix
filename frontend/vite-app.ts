@@ -12,7 +12,7 @@ export default defineConfig(() => {
             outDir: resolve(__dirname, "../build/"),
             lib: {
                 entry: resolve(__dirname, `./app.ts`),
-                formats: ["iife"],
+                formats: ["iife" as const],
                 name: "Chatrix",
                 fileName: "app"
             },
