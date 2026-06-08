@@ -22,7 +22,7 @@ jobs:
         with:
           fetch-depth: 2
 
-      - uses: salsify/action-detect-and-tag-new-version@v2
+      - uses: salsify/action-detect-and-tag-new-version@b1778166f13188a9d478e2d1198f993011ba9864 # v2.0.3
         id: check-version
         with:
           version-command: jq '.version' package.json
