@@ -18,7 +18,7 @@ jobs:
       version: ${{ steps.output.outputs.version }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6.0.2
         with:
           fetch-depth: 2
 
