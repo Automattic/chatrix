@@ -31,7 +31,7 @@
     "postcss-flexbugs-fixes": "^5.0.2",
     "rollup-plugin-external-globals": "^0.13.0",
     "typescript": "4.7.4",
-    "vite": "^6.4.2",
+    "vite": "^6.4.3",
     "vite-plugin-css-injected-by-js": "^3.5.2",
     "xxhashjs": "^0.2.2"
   },
